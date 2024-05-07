@@ -68,6 +68,7 @@ flutter:
     - assets/img/pop.png
     - assets/img/ticketTestingimage.png
     - assets/img/adidas.png
+    - assets/img/iphone.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

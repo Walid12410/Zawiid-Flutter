@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
 import 'EndedTab/EndedPage.dart';
 import 'UpComingTab/UpComingPage.dart';
 
@@ -22,15 +21,15 @@ class _MainPageState extends State<MainPage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-
+      backgroundColor: tdWhite,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: screenHeight * 0.02,),
+            SizedBox(height: screenHeight * 0.02),
             Padding(
-              padding: const EdgeInsets.only(left: 20,right: 30),
+              padding: const EdgeInsets.only(left: 20, right: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -46,9 +45,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _pageController.animateToPage(0,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                      _handlePageTap(0);
                     },
                     child: Text(
                       'Upcoming',
@@ -61,9 +58,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _pageController.animateToPage(1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                      _handlePageTap(1);
                     },
                     child: Text(
                       'Ended',
@@ -78,16 +73,17 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.02,),
+            SizedBox(height: screenHeight * 0.02),
             Expanded(
               child: PageView(
                 controller: _pageController,
+                physics:const NeverScrollableScrollPhysics(), // Disable scrolling by finger
                 onPageChanged: (page) {
                   setState(() {
                     _currentPage = page.toInt();
                   });
                 },
-                children: [
+                children: const [
                   UpComingTab(),
                   EndedTab(),
                 ],
@@ -98,7 +94,15 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+  void _handlePageTap(int page) {
+    _pageController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+    setState(() {
+      _currentPage = page;
+    });
+  }
 }
-
-
-

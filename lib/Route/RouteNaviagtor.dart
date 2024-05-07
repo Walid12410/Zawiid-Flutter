@@ -123,7 +123,7 @@ class AppNavigation {
         name: "SignUp",
         builder: (context, state) => SignUp(
           key: state.pageKey,
-        ), ),
+        ),),
     ],
   );
 }
