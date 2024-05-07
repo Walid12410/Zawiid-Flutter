@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:zawiid/Color&Icons/color.dart';
+
+import 'EndedTab/EndedPage.dart';
+import 'UpComingTab/UpComingPage.dart';
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  final PageController _pageController = PageController(initialPage: 0);
+  int _currentPage = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: screenHeight * 0.02,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).go('/home');
+                    },
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(0,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease);
+                    },
+                    child: Text(
+                      'Upcoming',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: _currentPage == 0 ? FontWeight.bold : FontWeight.normal,
+                        color: _currentPage == 0 ? Colors.black : Colors.grey,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(1,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease);
+                    },
+                    child: Text(
+                      'Ended',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: _currentPage == 1 ? FontWeight.bold : FontWeight.normal,
+                        color: _currentPage == 1 ? Colors.black : Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(),
+                ],
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.02,),
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    _currentPage = page.toInt();
+                  });
+                },
+                children: [
+                  UpComingTab(),
+                  EndedTab(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
