@@ -8,14 +8,17 @@ class TermsAndPrivacySignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text.rich(
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Text.rich(
       TextSpan(
         text: 'By creating an account, you agree to our ',
         style: TextStyle(
-          fontSize: 14,
+          fontSize: screenWidth * 0.03,
           color: tdGrey,
         ),
-        children: <TextSpan>[
+        children: const <TextSpan>[
           TextSpan(
             text: 'Terms of Service',
             style: TextStyle(

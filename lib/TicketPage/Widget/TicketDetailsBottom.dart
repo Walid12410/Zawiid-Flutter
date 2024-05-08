@@ -31,10 +31,10 @@ class TicketDetailsBottom extends StatelessWidget {
             ),
           ],
         ),
-        child: const Center(
+        child:  Center(
           child: Text(
             'Details',
-            style: TextStyle(fontSize: 20, color: tdBlack),
+            style: TextStyle(fontSize: screenWidth * 0.04, color: tdBlack),
           ),
         ),
       ),

@@ -28,12 +28,12 @@ class TicketDetails extends StatelessWidget {
                 SizedBox(
                   width: screenWidth * 0.03,
                 ),
-                const Text(
+                Text(
                   'SAMSUNG',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: tdBlack,
-                    fontSize: 25,
+                    fontSize: screenWidth * 0.06,
                   ),
                 ),
                 GestureDetector(
@@ -48,26 +48,26 @@ class TicketDetails extends StatelessWidget {
             ),
           ),
           SizedBox(height: screenHeight * 0.02),
-          const Text(
+          Text(
             'iPhone 12 ProMax 256GB',
-            style: TextStyle(fontSize: 15, color: tdGrey),
+            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
           ),
-          const Text(
+          Text(
             'Black Color',
-            style: TextStyle(fontSize: 15, color: tdGrey),
+            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
           ),
           SizedBox(height: screenHeight * 0.02),
-          const Text(
+          Text(
             'Black Color',
-            style: TextStyle(fontSize: 15, color: tdGrey),
+            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
           ),
-          const Text(
+          Text(
             'No Scratches',
-            style: TextStyle(fontSize: 15, color: tdGrey),
+            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
           ),
-          const Text(
+          Text(
             '1 Month Gurantee',
-            style: TextStyle(fontSize: 15, color: tdGrey),
+            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
           ),
         ],
       ),

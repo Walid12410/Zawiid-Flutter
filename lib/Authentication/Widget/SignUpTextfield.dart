@@ -23,14 +23,18 @@ class TextFieldWidgetSignUp extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                style: const TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: screenWidth * 0.034),
                 decoration: InputDecoration(
                   labelText: 'EMAIL/PHONE NUMBER',
-                  labelStyle: const TextStyle(fontSize: 15, color: tdGrey),
+                  labelStyle:
+                      TextStyle(fontSize: screenWidth * 0.034, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  20),
-                    child: SvgPicture.asset('assets/svg/001-mail.svg',
-                      width: screenWidth * 0.02,height: screenHeight *0.02,),
+                    padding: const EdgeInsets.only(right: 20),
+                    child: SvgPicture.asset(
+                      'assets/svg/001-mail.svg',
+                      width: screenWidth * 0.02,
+                      height: screenHeight * 0.02,
+                    ),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -41,14 +45,18 @@ class TextFieldWidgetSignUp extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 obscureText: true,
-                style: const TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: screenWidth * 0.034),
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
-                  labelStyle: const TextStyle(fontSize: 15, color: tdGrey),
+                  labelStyle:
+                      TextStyle(fontSize: screenWidth * 0.034, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  20),
-                    child: SvgPicture.asset('assets/svg/002-password.svg',
-                      width: screenWidth * 0.02,height: screenHeight * 0.02,),
+                    padding: const EdgeInsets.only(right: 20),
+                    child: SvgPicture.asset(
+                      'assets/svg/002-password.svg',
+                      width: screenWidth * 0.02,
+                      height: screenHeight * 0.02,
+                    ),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,

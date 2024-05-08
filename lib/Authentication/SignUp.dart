@@ -50,11 +50,11 @@ class _SignUpState extends State<SignUp>{
                             ],
                           ),
                           SizedBox(height: screenHeight * 0.02),
-                          const Text(
+                           Text(
                             'Sign Up',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 25,
+                              fontSize: screenWidth * 0.06,
                               color: tdWhite,
                             ),
                           ),
@@ -62,9 +62,9 @@ class _SignUpState extends State<SignUp>{
                             onTap: () {
                               context.push(context.namedLocation('SignIn'));
                             },
-                            child: const Text(
+                            child:  Text(
                               'Log In',
-                              style: TextStyle(fontSize: 25, color: tdGrey),
+                              style: TextStyle(fontSize: screenWidth * 0.06, color: tdGrey),
                             ),
                           ),
                           SizedBox(height: screenHeight * 0.02),

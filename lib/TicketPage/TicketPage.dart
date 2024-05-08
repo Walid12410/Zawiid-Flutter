@@ -42,7 +42,7 @@ class _TicketMainState extends State<TicketMain> {
               SizedBox(
                 height: screenHeight * 0.02,
               ),
-              TicketBackArrow(screenWidth: screenWidth),
+              TicketBackArrow(screenWidth: screenWidth,screenHeight: screenHeight,),
 
               SizedBox(
                 height: screenHeight * 0.03,
@@ -54,7 +54,7 @@ class _TicketMainState extends State<TicketMain> {
                     screenHeight: screenHeight,
                     onTap: toggleVisibility),
               if (_showDetails) ...[
-                const TicketDetailsText(),
+                TicketDetailsText(screenHeight: screenHeight,screenWidth: screenWidth,),
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),

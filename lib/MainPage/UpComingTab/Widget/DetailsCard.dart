@@ -30,23 +30,23 @@ class DetailsUpComing extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          const Text(
+           Text(
             'iPhone 14 ProMax / 256GB Black Color',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: screenWidth * 0.04,
                 color: tdBlack),
           ),
           SizedBox(height: screenHeight * 0.02,),
-          const Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('30th April. 10.00PM',style: TextStyle(fontSize: 15,color: tdGrey),),
-              Text(' Today',style: TextStyle(fontSize: 15,color: tdGreen),)
+              Text('30th April. 10.00PM',style: TextStyle(fontSize: screenWidth * 0.034,color: tdGrey),),
+              Text(' Today',style: TextStyle(fontSize: screenWidth * 0.034,color: tdGreen),)
             ],
           ),
-          const Text('Starting Price: 50KD',style: TextStyle(fontSize: 15,color: tdGrey),),
+          Text('Starting Price: 50KD',style: TextStyle(fontSize: screenWidth * 0.034,color: tdGrey),),
           SizedBox(height: screenHeight * 0.02),
           Container(
             width: screenWidth * 0.65,
@@ -55,8 +55,8 @@ class DetailsUpComing extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: tdBlack)
             ),
-            child: const Center(
-              child: Text('Zawiiidddd',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: tdBlack),),
+            child:  Center(
+              child: Text('Zawiiidddd',style: TextStyle(fontSize: screenWidth * 0.033,fontWeight: FontWeight.bold,color: tdBlack),),
             ),
           ),
           CountdownTimerScreen(endTime: endTime),

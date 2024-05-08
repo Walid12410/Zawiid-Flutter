@@ -26,11 +26,11 @@ class SignUpButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(''),
-                const Text(
+                SizedBox(width: screenWidth * 0.05,),
+                 Text(
                   'SIGN UP',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: screenWidth * 0.034,
                       fontWeight: FontWeight.bold,
                       color: tdBlack),
                 ),
@@ -40,9 +40,9 @@ class SignUpButton extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: tdBlack,
                         borderRadius: BorderRadius.circular(20)),
-                    child: const Icon(
+                    child:  Icon(
                       Icons.arrow_forward_ios,
-                      size: 20,
+                      size: screenWidth * 0.05,
                       color: tdGreen,
                     )
                 ),

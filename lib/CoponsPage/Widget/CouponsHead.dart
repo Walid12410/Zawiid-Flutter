@@ -7,9 +7,11 @@ class CouponsHead extends StatelessWidget {
   const CouponsHead({
     super.key,
     required this.screenWidth,
+    required this.screenHeight
   });
 
   final double screenWidth;
+  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class CouponsHead extends StatelessWidget {
               GoRouter.of(context).go("/home");
             },
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: screenWidth * 0.07,
+              height: screenHeight * 0.03,
               child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
             ),
           ),

@@ -4,12 +4,17 @@ import 'package:zawiid/Color&Icons/color.dart';
 class TicketDetailsText extends StatelessWidget {
   const TicketDetailsText({
     super.key,
+    required this.screenWidth,
+    required this.screenHeight
   });
+
+  final double screenWidth;
+  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(15.0),
+    return  Padding(
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -17,7 +22,7 @@ class TicketDetailsText extends StatelessWidget {
           Text(
             'Buy a 1\$ ticket and enter ',
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: screenWidth * 0.037,
               color: tdGrey,
             ),
           ),
@@ -29,7 +34,7 @@ class TicketDetailsText extends StatelessWidget {
                 child: Text(
                   'A withdrawal on a ',
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: screenWidth * 0.037,
                     color: tdGrey,
                   ),
                 ),
@@ -38,7 +43,7 @@ class TicketDetailsText extends StatelessWidget {
                 'WASHING-MACHINE!',
                 style: TextStyle(
                   color: tdGrey,
-                  fontSize: 18.0,
+                  fontSize: screenWidth * 0.037,
                   fontWeight: FontWeight.bold,
                 ),
               ),

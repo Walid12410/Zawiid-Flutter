@@ -24,6 +24,9 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: tdWhite,
         body: SizedBox(
@@ -71,28 +74,28 @@ class _NavBarState extends State<NavBar> {
                       _goBranch(selectedIndex);
                     },
                     currentIndex: selectedIndex,
-                    items: const [
+                    items:  [
                       BottomNavigationBarItem(
-                        icon: Icon(MyFlutterApp.home, color: tdIconColor),
+                        icon: Icon(MyFlutterApp.home, color: tdIconColor,size: screenWidth * 0.06),
                         label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyFlutterApp.ticket,
-                            color: tdIconColor, size: 40),
+                            color: tdIconColor, size: screenWidth * 0.1),
                         label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyFlutterApp.group_168,
-                            color: tdBlack, size: 40),
+                            color: tdBlack, size: screenWidth * 0.1),
                         label: '',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(MyFlutterApp.profile, color: tdIconColor),
+                        icon: Icon(MyFlutterApp.profile, color: tdIconColor,size: screenWidth * 0.06,),
                         label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.percent_outlined,
-                            color: tdIconColor, size: 30),
+                            color: tdIconColor, size: screenWidth * 0.07),
                         label: '',
                       ),
                     ],

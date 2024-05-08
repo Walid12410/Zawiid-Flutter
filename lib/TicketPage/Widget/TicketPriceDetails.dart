@@ -27,8 +27,8 @@ class TicketPriceDetails extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
-        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 20),),
+      child:  Center(
+        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: screenWidth * 0.045),),
       ),
     );
   }
