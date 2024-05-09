@@ -6,3 +6,4 @@ const Color tdGrey = Color.fromRGBO(81, 92, 111, 1);
 const Color tdGreen =  Color.fromRGBO(95, 251, 53, 1.0);
 const Color tdWhiteNav = Color.fromRGBO(234, 234, 234, 0.8470588235294118);
 const Color tdIconColor = Color.fromRGBO(81, 92, 111, 1);
+const Color tdBlue = Color.fromRGBO(78, 154, 232, 1);

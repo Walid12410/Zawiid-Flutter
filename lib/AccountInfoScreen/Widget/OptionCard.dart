@@ -41,7 +41,7 @@ class OptionsCard extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                GoRouter.of(context).go('/TermsOfServices');
+                GoRouter.of(context).go('/CustomerPage');
               },
               child: ListTile(
                 leading: Icon(icon1),

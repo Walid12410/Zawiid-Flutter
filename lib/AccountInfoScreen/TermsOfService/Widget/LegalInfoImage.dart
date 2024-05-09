@@ -15,7 +15,7 @@ class LegalInformationImage extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: screenHeight * 0.9,
-          child: Image.asset('assets/img/TermsofService.png',fit: BoxFit.fill,),
+          child: Image.asset('assets/img/PrivacyAndTermsImage/TermsofService.png',fit: BoxFit.fill,),
         )
     );
   }

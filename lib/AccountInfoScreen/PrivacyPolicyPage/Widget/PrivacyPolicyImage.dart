@@ -15,7 +15,7 @@ class PrivacyPolicyImage extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: screenHeight * 0.9,
-          child: Image.asset('assets/img/PrivacyAndPolicy.png',fit: BoxFit.fill,),
+          child: Image.asset('assets/img/PrivacyAndTermsImage/PrivacyAndPolicy.png',fit: BoxFit.fill,),
         )
     );
   }

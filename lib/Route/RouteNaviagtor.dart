@@ -8,6 +8,7 @@ import 'package:zawiid/HomePage/Homepage.dart';
 import 'package:zawiid/MainPage/MainPage.dart';
 import 'package:zawiid/TicketPage/TicketPage.dart';
 
+import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
 import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
 import '../AccountInfoScreen/Profile.dart';
 import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
@@ -140,6 +141,14 @@ class AppNavigation {
           path: '/TermsOfServices',
           name: 'TermsOfServices',
           builder: (context,state)=> TermsOfServices(
+            key: state.pageKey,
+          )
+      ),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/CustomerPage',
+          name: 'CustomerPage',
+          builder: (context,state)=> CustomerPage(
             key: state.pageKey,
           )
       )

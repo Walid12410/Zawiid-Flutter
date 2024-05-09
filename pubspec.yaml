@@ -70,8 +70,12 @@ flutter:
     - assets/img/adidas.png
     - assets/img/iphone.png
     - assets/img/User.png
-    - assets/img/PrivacyAndPolicy.png
-    - assets/img/TermsofService.png
+    - assets/img/PrivacyAndTermsImage/PrivacyAndPolicy.png
+    - assets/img/PrivacyAndTermsImage/TermsofService.png
+    - assets/img/CustomerService/Group.png
+    - assets/img/CustomerService/mail.png
+    - assets/img/CustomerService/speech.png
+    - assets/img/CustomerService/CustomerServices.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
