@@ -6,8 +6,11 @@ import 'package:zawiid/BottomNavigationBar/NavBar.dart';
 import 'package:zawiid/CoponsPage/Copons.dart';
 import 'package:zawiid/HomePage/Homepage.dart';
 import 'package:zawiid/MainPage/MainPage.dart';
-import 'package:zawiid/ProfilePage/Profile.dart';
 import 'package:zawiid/TicketPage/TicketPage.dart';
+
+import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
+import '../AccountInfoScreen/Profile.dart';
+import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 
 
 class AppNavigation {
@@ -124,6 +127,22 @@ class AppNavigation {
         builder: (context, state) => SignUp(
           key: state.pageKey,
         ),),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/PrivacyPage',
+        name: 'PrivacyPage',
+        builder: (context,state)=> PolicyPrivacy(
+          key: state.pageKey,
+        )
+      ),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/TermsOfServices',
+          name: 'TermsOfServices',
+          builder: (context,state)=> TermsOfServices(
+            key: state.pageKey,
+          )
+      )
     ],
   );
 }

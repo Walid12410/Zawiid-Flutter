@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -39,7 +40,9 @@ class OptionsCard extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).go('/TermsOfServices');
+              },
               child: ListTile(
                 leading: Icon(icon1),
                 title: Text(
