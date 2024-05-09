@@ -23,7 +23,7 @@ class CustomerServiceHeading extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go('/home');
+              GoRouter.of(context).go('/profile');
             },
             child: SizedBox(
               width: screenWidth * 0.07,

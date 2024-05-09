@@ -151,7 +151,7 @@ class AppNavigation {
           builder: (context,state)=> CustomerPage(
             key: state.pageKey,
           )
-      )
+      ),
     ],
   );
 }

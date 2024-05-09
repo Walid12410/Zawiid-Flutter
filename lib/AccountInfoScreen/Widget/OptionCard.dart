@@ -10,7 +10,10 @@ class OptionsCard extends StatelessWidget {
     required this.icon1,
     required this.text1,
     required this.icon2,
-    required this.text2});
+    required this.text2,
+    required this.onTap1,
+    required this.onTap2
+  });
 
   final double screenHeight;
   final double screenWidth;
@@ -18,7 +21,8 @@ class OptionsCard extends StatelessWidget {
   final IconData icon2;
   final String text1;
   final String text2;
-
+  final VoidCallback onTap1;
+  final VoidCallback onTap2;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,9 +44,7 @@ class OptionsCard extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () {
-                GoRouter.of(context).go('/CustomerPage');
-              },
+              onTap: onTap1,
               child: ListTile(
                 leading: Icon(icon1),
                 title: Text(
@@ -75,7 +77,7 @@ class OptionsCard extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: onTap2,
               child: ListTile(
                 leading: Icon(icon2),
                 title: Text(

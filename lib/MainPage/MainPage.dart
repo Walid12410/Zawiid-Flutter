@@ -38,8 +38,8 @@ class _MainPageState extends State<MainPage> {
                       GoRouter.of(context).go('/home');
                     },
                     child: SizedBox(
-                      width: 30,
-                      height: 30,
+                      width: screenWidth * 0.06,
+                      height:screenHeight * 0.032,
                       child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
                     ),
                   ),

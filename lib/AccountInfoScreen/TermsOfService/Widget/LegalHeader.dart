@@ -23,7 +23,7 @@ class LegalHeader extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go('/home');
+              GoRouter.of(context).go('/profile');
             },
             child: SizedBox(
               width: screenWidth * 0.07,
@@ -35,7 +35,7 @@ class LegalHeader extends StatelessWidget {
             ),
           ),
           SizedBox(
-              width: screenWidth * 0.3,
+              width: screenWidth * 0.4,
               height: screenHeight * 0.1,
               child: Center(child: Text('Legal Information',style: TextStyle(fontSize: screenWidth * 0.04,fontWeight: FontWeight.bold,color: tdBlack),))),
           const SizedBox(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/LogOut.dart';
 import 'Widget/OptionCard.dart';
@@ -45,21 +46,42 @@ class _ProfileMainState extends State<ProfileMain> {
                     icon1: Icons.shopping_bag_outlined,
                     text1: 'All My Orders',
                     icon2: Icons.headset,
-                    text2: 'Customer Support'),
+                    text2: 'Customer Support',
+                    onTap1: (){
+                      context.push(context.namedLocation('CustomerPage'));
+                    },
+                  onTap2: (){
+                    context.push(context.namedLocation('CustomerPage'));
+                  },
+                ),
                 OptionsCard(
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
                     icon1: Icons.location_on_sharp,
                     text1: 'Shipping Address',
                     icon2: Icons.translate,
-                    text2: 'Language'),
+                    text2: 'Language',
+                  onTap1: (){
+                    context.push(context.namedLocation('CustomerPage'));
+                  },
+                  onTap2: (){
+                    context.push(context.namedLocation('CustomerPage'));
+                  },
+                ),
                 OptionsCard(
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
                     icon1: Icons.privacy_tip_outlined,
                     text1: 'Privacy Policy',
                     icon2: Icons.event_note_outlined,
-                    text2: 'Legal information'),
+                    text2: 'Legal information',
+                  onTap1: (){
+                    context.push(context.namedLocation('PrivacyPage'));
+                  },
+                  onTap2: (){
+                    context.push(context.namedLocation('TermsOfServices'));
+                  },
+                ),
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),

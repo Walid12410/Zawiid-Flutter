@@ -28,7 +28,7 @@ class CouponsHead extends StatelessWidget {
             },
             child: SizedBox(
               width: screenWidth * 0.07,
-              height: screenHeight * 0.03,
+              height: screenHeight * 0.09,
               child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
             ),
           ),
