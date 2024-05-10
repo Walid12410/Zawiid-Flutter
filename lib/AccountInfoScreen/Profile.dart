@@ -48,7 +48,7 @@ class _ProfileMainState extends State<ProfileMain> {
                     icon2: Icons.headset,
                     text2: 'Customer Support',
                     onTap1: (){
-                      context.push(context.namedLocation('CustomerPage'));
+                      context.goNamed("OrderView");
                     },
                   onTap2: (){
                     context.push(context.namedLocation('CustomerPage'));

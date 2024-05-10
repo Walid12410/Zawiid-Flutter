@@ -7,6 +7,7 @@ import 'package:zawiid/BottomNavigationBar/NavBar.dart';
 import 'package:zawiid/CoponsPage/Copons.dart';
 import 'package:zawiid/HomePage/Homepage.dart';
 import 'package:zawiid/MainPage/MainPage.dart';
+import 'package:zawiid/OrderView/OrderView.dart';
 import 'package:zawiid/TicketPage/TicketPage.dart';
 
 import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
@@ -105,6 +106,17 @@ class AppNavigation {
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
                       child: const AddressView(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'OrderView',
+                    name: 'OrderView',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const OrderView(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                           FadeTransition(opacity: animation, child: child),
