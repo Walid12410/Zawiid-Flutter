@@ -15,32 +15,34 @@ class PrivacyHeadPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 30,right: 60),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
+    return  Row(
+      children: [
+        SizedBox(
+          width: screenWidth * 0.05,
+        ),
+        Flexible(
+          flex: 1,
+          child: GestureDetector(
             onTap: () {
-              GoRouter.of(context).go('/profile');
+              GoRouter.of(context).go("/profile");
             },
             child: SizedBox(
               width: screenWidth * 0.07,
               height: screenHeight * 0.09,
-              child: Image.asset(
-                'assets/img/pop.png',
-                fit: BoxFit.contain,
-              ),
+              child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
             ),
           ),
-          SizedBox(
-              width: screenWidth * 0.3,
-              height: screenHeight * 0.1,
-              child: Center(child: Text('Privacy Policy',style: TextStyle(fontSize: screenWidth * 0.04,fontWeight: FontWeight.bold,color: tdBlack),))),
-          const SizedBox(),
-        ],
-      ),
+        ),
+        const Expanded(
+          flex: 4,
+          child: Text(
+            'Privacy Policy',
+            style: TextStyle(
+                color: tdBlack, fontWeight: FontWeight.bold, fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 }

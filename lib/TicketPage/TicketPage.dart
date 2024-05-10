@@ -40,7 +40,7 @@ class _TicketMainState extends State<TicketMain> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: screenHeight * 0.02,
+                height: screenHeight * 0.01,
               ),
               TicketBackArrow(screenWidth: screenWidth,screenHeight: screenHeight,),
 

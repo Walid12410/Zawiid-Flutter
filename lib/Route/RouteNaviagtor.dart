@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zawiid/AddressPage/AdressView.dart';
 import 'package:zawiid/Authentication/SignIn.dart';
 import 'package:zawiid/Authentication/SignUp.dart';
 import 'package:zawiid/BottomNavigationBar/NavBar.dart';
@@ -97,6 +98,19 @@ class AppNavigation {
                 name: "Profile",
                 builder: (BuildContext context, GoRouterState state) =>
                 const ProfileMain(),
+                routes: [
+                  GoRoute(
+                    path: 'AddressView',
+                    name: 'AddressView',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const AddressView(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

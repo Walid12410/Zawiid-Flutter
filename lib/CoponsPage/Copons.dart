@@ -24,7 +24,7 @@ class _CouponsMainState extends State<CouponsMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: screenHeight * 0.02),
+              SizedBox(height: screenHeight * 0.01),
               CouponsHead(screenWidth: screenWidth,screenHeight: screenHeight,),
               SizedBox(height: screenHeight * 0.05),
               CouponCard(screenHeight: screenHeight),

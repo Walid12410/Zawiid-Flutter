@@ -62,7 +62,7 @@ class _ProfileMainState extends State<ProfileMain> {
                     icon2: Icons.translate,
                     text2: 'Language',
                   onTap1: (){
-                    context.push(context.namedLocation('CustomerPage'));
+                    context.goNamed("AddressView");
                   },
                   onTap2: (){
                     context.push(context.namedLocation('CustomerPage'));
