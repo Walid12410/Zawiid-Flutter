@@ -38,6 +38,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   device_preview: ^1.1.0
   go_router: ^14.0.2
+  badges: ^3.1.2
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,16 @@ flutter:
     - assets/img/CustomerService/mail.png
     - assets/img/CustomerService/speech.png
     - assets/img/CustomerService/CustomerServices.png
+    - assets/svg-profile/Group.svg
+    - assets/svg-profile/icon.svg
+    - assets/svg-profile/icons.svg
+    - assets/svg-profile/language.svg
+    - assets/svg-profile/Path.svg
+    - assets/svg-profile/shipping.svg
+    - assets/svg-profile/whatsapp.svg
+    - assets/svg/cart.png
+    - assets/svg/notification.png
+    - assets/img/camera.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

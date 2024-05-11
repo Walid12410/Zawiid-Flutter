@@ -43,9 +43,9 @@ class _ProfileMainState extends State<ProfileMain> {
                 OptionsCard(
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
-                    icon1: Icons.shopping_bag_outlined,
+                    icon1: 'assets/svg-profile/icons.svg',
                     text1: 'All My Orders',
-                    icon2: Icons.headset,
+                    icon2: 'assets/svg-profile/icon.svg',
                     text2: 'Customer Support',
                     onTap1: (){
                       context.goNamed("OrderView");
@@ -53,13 +53,14 @@ class _ProfileMainState extends State<ProfileMain> {
                   onTap2: (){
                     context.push(context.namedLocation('CustomerPage'));
                   },
+                  isWhatsapp: true,
                 ),
                 OptionsCard(
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
-                    icon1: Icons.location_on_sharp,
+                    icon1: 'assets/svg-profile/shipping.svg',
                     text1: 'Shipping Address',
-                    icon2: Icons.translate,
+                    icon2: 'assets/svg-profile/language.svg',
                     text2: 'Language',
                   onTap1: (){
                     context.goNamed("AddressView");
@@ -67,13 +68,14 @@ class _ProfileMainState extends State<ProfileMain> {
                   onTap2: (){
                     context.push(context.namedLocation('CustomerPage'));
                   },
+                  isWhatsapp: false,
                 ),
                 OptionsCard(
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
-                    icon1: Icons.privacy_tip_outlined,
+                    icon1: 'assets/svg-profile/Group.svg',
                     text1: 'Privacy Policy',
-                    icon2: Icons.event_note_outlined,
+                    icon2: 'assets/svg-profile/Path.svg',
                     text2: 'Legal information',
                   onTap1: (){
                     context.push(context.namedLocation('PrivacyPage'));
@@ -81,6 +83,7 @@ class _ProfileMainState extends State<ProfileMain> {
                   onTap2: (){
                     context.push(context.namedLocation('TermsOfServices'));
                   },
+                  isWhatsapp: false,
                 ),
                 SizedBox(
                   height: screenHeight * 0.01,

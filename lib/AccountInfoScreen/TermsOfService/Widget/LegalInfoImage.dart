@@ -14,7 +14,6 @@ class LegalInformationImage extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12,right: 12),
         child: SizedBox(
           width: double.infinity,
-          height: screenHeight * 0.9,
           child: Image.asset('assets/img/PrivacyAndTermsImage/TermsofService.png',fit: BoxFit.fill,),
         )
     );
