@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
             Expanded(
               child: PageView(
                 controller: _pageController,
-                physics:const NeverScrollableScrollPhysics(), // Disable scrolling by finger
+                physics:const NeverScrollableScrollPhysics(),
                 onPageChanged: (page) {
                   setState(() {
                     _currentPage = page.toInt();

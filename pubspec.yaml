@@ -88,6 +88,8 @@ flutter:
     - assets/svg/cart.png
     - assets/svg/notification.png
     - assets/img/camera.png
+    - assets/svg/buy.svg
+    - assets/img/sddefault.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
