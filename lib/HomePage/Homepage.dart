@@ -5,6 +5,7 @@ import 'package:zawiid/Authentication/SignIn.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:badges/badges.dart' as badges;
 
+import 'TabBar/tabbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,18 +14,22 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -78,57 +83,26 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: screenHeight * 0.01, // Adjust the height as needed
               ),
-              DefaultTabController(
-                length: 3,
-                child: Column(
-                  children: [
-                    TabBar(
-                      isScrollable: false,
-                      indicatorColor: Colors.black,
-                      unselectedLabelColor: Colors.grey,
-                      labelColor: Colors.black,
-                      tabs: [
-                        Tab(
-                          child: Text(
-                            'Featured',
-                            style: TextStyle(fontSize: screenWidth * 0.05),
-                          ),
-                        ),
-                        Tab(
-                          child: Text(
-                            'On Sale',
-                            style: TextStyle(fontSize: screenWidth * 0.05),
-                          ),
-                        ),
-                        Tab(
-                          child: Text(
-                            'Top Rated',
-                            style: TextStyle(fontSize: screenWidth * 0.05),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenHeight * 0.01),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SizedBox(
-                          height: constraints.maxHeight, // Set the height of the TabBarView to the maximum height available
-                          child: TabBarView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              FeaturedPageView(scrollController: _scrollController),
-                              OnSalePageView(),
-                              TopRatedPageView(),
-                            ],
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
+              CustomTabBarView(
+                tabController: _tabController,
+                tabViews: [
+                  FeaturedPageView(scrollController: _scrollController),
+                  OnSalePageView(scrollController: _scrollController,),
+                  TopRatedPageView(scrollController: _scrollController,) // Third tab with the stateful page
+                ],
               ),
               SizedBox(height: screenHeight * 0.01),
-              Image.asset('assets/img/sddefault.png'),
+              Padding(
+                padding:  EdgeInsets.all(screenWidth * 0.02),
+                child: Container(
+                    width: double.infinity,
+                    height: screenHeight * 0.15,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    child: Image.asset('assets/img/sddefault.png',
+                    fit: BoxFit.fill,)),
+              ),
             ],
           ),
         ),
@@ -156,28 +130,39 @@ class FeaturedPageView extends StatelessWidget {
     ];
 
     return Scaffold(
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FeaturedTab(screenWidth: screenWidth, screenHeight: screenHeight, names: names),
-                FeaturedTab(screenWidth: screenWidth, screenHeight: screenHeight, names: names),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FeaturedTab(screenWidth: screenWidth, screenHeight: screenHeight, names: names),
-                FeaturedTab(screenWidth: screenWidth, screenHeight: screenHeight, names: names),
-              ],
-            ),
-          ],
-        ),
-      )
-    );
+        body: SingleChildScrollView(
+      controller: scrollController,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FeaturedTab(
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  names: names),
+              FeaturedTab(
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  names: names),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FeaturedTab(
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  names: names),
+              FeaturedTab(
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  names: names),
+            ],
+          ),
+        ],
+      ),
+    ));
   }
 }
 
@@ -196,7 +181,7 @@ class FeaturedTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all(screenWidth * 0.02),
+      padding: EdgeInsets.all(screenWidth * 0.02),
       child: Container(
         width: screenWidth * 0.45,
         decoration: BoxDecoration(
@@ -277,22 +262,114 @@ class FeaturedTab extends StatelessWidget {
   }
 }
 
-
 class TopRatedPageView extends StatelessWidget {
-  const TopRatedPageView({super.key});
+  const TopRatedPageView({super.key,required this.scrollController});
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+
+    final List<String> names = [
+      'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
+      'Iphone 16 Pro Max, 159GB RAM SADASDASDASD',
+      'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
+      'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
+    ];
+
+    return Scaffold(
+        body: SingleChildScrollView(
+          controller: scrollController,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
-
 class OnSalePageView extends StatelessWidget {
-  const OnSalePageView({super.key});
+  const OnSalePageView({super.key,required this.scrollController});
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    final List<String> names = [
+      'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
+      'Iphone 16 Pro Max, 159GB RAM SADASDASDASD',
+      'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
+      'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
+    ];
+
+    return Scaffold(
+        body: SingleChildScrollView(
+          controller: scrollController,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                  FeaturedTab(
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      names: names),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
 
