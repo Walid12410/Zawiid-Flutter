@@ -42,9 +42,8 @@ class _NavBarState extends State<NavBar> {
             ),
             child: Padding(
               padding: EdgeInsets.only(
-                top: 8,
-                right: 8,
-                left: 8,
+                right: 8 + mediaQuery.viewPadding.right,
+                left: 8 + mediaQuery.viewPadding.left,
                 bottom: 8 + mediaQuery.viewPadding.bottom,
               ),
               child: DecoratedBox(
@@ -54,9 +53,9 @@ class _NavBarState extends State<NavBar> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
-                      blurRadius: 20,
+                      blurRadius: 4,
                       spreadRadius: 0.0,
-                      offset: const Offset(5.0, 5.0),
+                      offset: const Offset(0, 0),
                     ),
                   ],
                 ),
@@ -67,6 +66,8 @@ class _NavBarState extends State<NavBar> {
                     backgroundColor: tdWhite,
                     showSelectedLabels: false,
                     showUnselectedLabels: false,
+                    selectedLabelStyle: const TextStyle(fontSize: 0),
+                    unselectedLabelStyle: const TextStyle(fontSize: 0),
                     onTap: (index) {
                       setState(() {
                         selectedIndex = index;
@@ -86,7 +87,7 @@ class _NavBarState extends State<NavBar> {
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyFlutterApp.group_168,
-                            color: tdBlack, size: screenWidth * 0.1),
+                            color: tdBlack, size: screenWidth * 0.12),
                         label: '',
                       ),
                       BottomNavigationBarItem(

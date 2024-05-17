@@ -39,7 +39,8 @@ dependencies:
   device_preview: ^1.1.0
   go_router: ^14.0.2
   badges: ^3.1.2
-  carousel_slider: ^4.2.1
+  floating_bottom_navigation_bar: ^1.5.2
+
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,7 @@ flutter:
     - assets/img/camera.png
     - assets/svg/buy.svg
     - assets/img/sddefault.png
+    - assets/svg/search.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
