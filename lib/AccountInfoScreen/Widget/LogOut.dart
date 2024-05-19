@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class LogoutWidget extends StatelessWidget {
@@ -14,7 +15,9 @@ class LogoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        GoRouter.of(context).goNamed('SignIn');
+      },
       child: Container(
         width: screenWidth * 0.26,
         height: screenHeight * 0.035,
