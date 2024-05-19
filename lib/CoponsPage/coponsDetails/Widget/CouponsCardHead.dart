@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../Color&Icons/color.dart';
+import '../../../Color&Icons/color.dart';
 
-class CouponsHead extends StatelessWidget {
-  const CouponsHead({
+
+class CouponsCardHead extends StatelessWidget {
+  const CouponsCardHead({
     super.key,
     required this.screenWidth,
-    required this.screenHeight
+    required this.screenHeight,
   });
 
   final double screenWidth;
@@ -15,6 +16,9 @@ class CouponsHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Row(
       children: [
         SizedBox(
@@ -24,7 +28,7 @@ class CouponsHead extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: () {
-              GoRouter.of(context).go("/home");
+              GoRouter.of(context).go("/coupons");
             },
             child: SizedBox(
               width: screenWidth * 0.07,

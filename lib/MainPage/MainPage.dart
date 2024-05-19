@@ -27,9 +27,9 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: screenHeight * 0.02),
+            SizedBox(height: screenHeight * 0.01),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 30),
+              padding:  EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.08),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.02),
+            SizedBox(height: screenHeight * 0.01),
             Expanded(
               child: PageView(
                 controller: _pageController,

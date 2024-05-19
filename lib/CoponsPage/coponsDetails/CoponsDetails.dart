@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-import 'package:zawiid/CoponsPage/Widget/CouponsHead.dart';
+
+import 'Widget/CouponsCardHead.dart';
 
 class CouponsDetails extends StatefulWidget {
   const CouponsDetails({super.key});
@@ -24,6 +25,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: screenHeight * 0.01),
               CouponsCardHead(screenWidth: screenWidth, screenHeight: screenHeight),
               TitleAndDescription(
                   screenWidth: screenWidth, screenHeight: screenHeight),
@@ -64,49 +66,6 @@ class _CouponsDetailsState extends State<CouponsDetails> {
   }
 }
 
-class CouponsCardHead extends StatelessWidget {
-  const CouponsCardHead({
-    super.key,
-    required this.screenWidth,
-    required this.screenHeight,
-  });
-
-  final double screenWidth;
-  final double screenHeight;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: screenWidth * 0.05,
-        ),
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              GoRouter.of(context).go("/coupons");
-            },
-            child: SizedBox(
-              width: screenWidth * 0.07,
-              height: screenHeight * 0.09,
-              child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
-            ),
-          ),
-        ),
-        const Expanded(
-          flex: 4,
-          child: Text(
-            'Coupons',
-            style: TextStyle(
-                color: tdBlack, fontWeight: FontWeight.bold, fontSize: 20),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class CouponsCardDetails extends StatelessWidget {
   const CouponsCardDetails({
