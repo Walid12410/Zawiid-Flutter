@@ -39,6 +39,7 @@ class CustomNavigationBar extends StatelessWidget {
           ),
         ),
         Container(
+          height: screenHeight * 0.045,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(50),
@@ -104,11 +105,11 @@ class CustomNavigationBar extends StatelessWidget {
                             width: screenWidth * 0.03,
                           ),
                           SizedBox(
-                            height: screenHeight *0.045,
+                              height: screenHeight *0.2,
                               width: screenWidth * 0.1,
                               child: Center(
                                   child: SvgPicture.asset('assets/svg/search.svg',
-                                    fit: BoxFit.contain,))),
+                                    fit: BoxFit.cover,))),
                         ],
                       ),
                     ),

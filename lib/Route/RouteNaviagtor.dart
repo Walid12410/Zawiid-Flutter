@@ -15,6 +15,7 @@ import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
 import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
 import '../AccountInfoScreen/Profile.dart';
 import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
+import '../Item/ItemDetails.dart';
 
 
 class AppNavigation {
@@ -54,19 +55,19 @@ class AppNavigation {
                 name: "Home",
                 builder: (BuildContext context, GoRouterState state) =>
                 const HomePage(),
-                // routes: [
-                //   GoRoute(
-                //     path: 'subHome',
-                //     name: 'subHome',
-                //     pageBuilder: (context, state) => CustomTransitionPage<void>(
-                //       key: state.pageKey,
-                //       child: const SubHomeView(),
-                //       transitionsBuilder:
-                //           (context, animation, secondaryAnimation, child) =>
-                //           FadeTransition(opacity: animation, child: child),
-                //     ),
-                //   ),
-                // ],
+                routes: [
+                  GoRoute(
+                    path: 'itemDetails',
+                    name: 'itemDetails',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const ItemDetails(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
