@@ -16,6 +16,7 @@ import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
 import '../AccountInfoScreen/Profile.dart';
 import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 import '../Item/ItemDetails.dart';
+import '../SearchPage/Search.dart';
 
 
 class AppNavigation {
@@ -67,6 +68,18 @@ class AppNavigation {
                           FadeTransition(opacity: animation, child: child),
                     ),
                   ),
+                  GoRoute(
+                    path: 'SearchPage',
+                    name: 'SearchPage',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const SearchPage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+
                 ],
               ),
             ],

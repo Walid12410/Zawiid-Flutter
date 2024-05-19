@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../Color&Icons/color.dart';
 
-class CustomNavigationBar extends StatelessWidget {
-  const CustomNavigationBar({
+class SearchBarText extends StatelessWidget {
+  const SearchBarText({
     super.key,
     required this.screenWidth,
-    required this.screenHeight
-  });
+    required this.screenHeight,
+    required FocusNode focusNode,
+  }) : _focusNode = focusNode;
 
   final double screenWidth;
   final double screenHeight;
+  final FocusNode _focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -46,37 +47,24 @@ class CustomNavigationBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
-                  GoRouter.of(context).goNamed('SearchPage');
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      bottomLeft: Radius.circular(50),
-                    ),
+              Container(
+                width: screenWidth * 0.38,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    bottomLeft: Radius.circular(50),
                   ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: screenWidth * 0.06,
-                        ),
-                        Center(
-                          child: Text(
-                            'Search for products',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.025, color: tdGrey),
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenWidth * 0.09,
-                        ),
-                      ],
-                    ),
+                ),
+                child: TextField(
+                  focusNode: _focusNode,
+                  decoration: InputDecoration(
+                    hintText: 'Search for products',
+                    hintStyle: TextStyle(fontSize: screenWidth * 0.025, color: tdGrey),
+                    border: InputBorder.none,
+
+                    contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06,
+                        vertical: screenHeight * 0.016),
                   ),
                 ),
               ),
