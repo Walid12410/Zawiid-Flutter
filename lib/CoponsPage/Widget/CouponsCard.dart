@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class CouponCard extends StatelessWidget {
@@ -14,7 +15,9 @@ class CouponCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: (){},
+        onTap: (){
+          context.push(context.namedLocation('CouponsDetails'));
+        },
         child: Container(
           width: double.infinity,
           height: screenHeight * 0.2,

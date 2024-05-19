@@ -5,6 +5,7 @@ import 'package:zawiid/Authentication/SignIn.dart';
 import 'package:zawiid/Authentication/SignUp.dart';
 import 'package:zawiid/BottomNavigationBar/NavBar.dart';
 import 'package:zawiid/CoponsPage/Copons.dart';
+import 'package:zawiid/CoponsPage/coponsDetails/CoponsDetails.dart';
 import 'package:zawiid/HomePage/Homepage.dart';
 import 'package:zawiid/MainPage/MainPage.dart';
 import 'package:zawiid/OrderView/OrderView.dart';
@@ -134,6 +135,20 @@ class AppNavigation {
                 name: "Coupons",
                 builder: (BuildContext context, GoRouterState state) =>
                 const CouponsMain(),
+                routes: [
+                  GoRoute(
+                    path: 'CouponsDetails',
+                    name: 'CouponsDetails',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const CouponsDetails(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+                ],
+
               ),
             ],
           ),

@@ -40,6 +40,7 @@ dependencies:
   go_router: ^14.0.2
   badges: ^3.1.2
   floating_bottom_navigation_bar: ^1.5.2
+  readmore: ^3.0.0
 
 
 dev_dependencies:
