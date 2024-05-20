@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/src/route.dart';
 import '../Color&Icons/color.dart';
 import '../Color&Icons/my_flutter_app_icons.dart';
@@ -24,8 +25,6 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         backgroundColor: tdWhite,
@@ -44,12 +43,12 @@ class _NavBarState extends State<NavBar> {
               padding: EdgeInsets.only(
                 right: 8 + mediaQuery.viewPadding.right,
                 left: 8 + mediaQuery.viewPadding.left,
-                bottom: 10 + mediaQuery.viewPadding.bottom,
+                bottom: 12 + mediaQuery.viewPadding.bottom,
               ),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: tdWhite,
-                  borderRadius: BorderRadius.circular(100.0),
+                  borderRadius: BorderRadius.circular(100.0).w,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),
@@ -59,7 +58,7 @@ class _NavBarState extends State<NavBar> {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(100).w,
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
                     backgroundColor: tdWhite,
@@ -76,26 +75,26 @@ class _NavBarState extends State<NavBar> {
                     currentIndex: selectedIndex,
                     items:  [
                       BottomNavigationBarItem(
-                        icon: Icon(MyFlutterApp.home, color: tdIconColor,size: screenWidth * 0.06),
+                        icon: Icon(MyFlutterApp.home, color: tdIconColor,size: 20.w),
                         label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyFlutterApp.ticket,
-                            color: tdIconColor, size: screenWidth * 0.1),
+                            color: tdIconColor, size: 33.w),
                         label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyFlutterApp.group_168,
-                            color: tdBlack, size: screenWidth * 0.12),
+                            color: tdBlack, size: 40.w),
                         label: '',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(MyFlutterApp.profile, color: tdIconColor,size: screenWidth * 0.06,),
+                        icon: Icon(MyFlutterApp.profile, color: tdIconColor,size: 22.w,),
                         label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.percent_outlined,
-                            color: tdIconColor, size: screenWidth * 0.07),
+                            color: tdIconColor, size: 25.w),
                         label: '',
                       ),
                     ],

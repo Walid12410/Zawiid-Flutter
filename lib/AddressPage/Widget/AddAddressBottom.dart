@@ -6,10 +6,7 @@ import '../../Color&Icons/color.dart';
 class AddAddressBottom extends StatelessWidget {
   const AddAddressBottom({
     super.key,
-    required this.screenWidth,
   });
-
-  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {

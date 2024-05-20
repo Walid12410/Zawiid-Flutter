@@ -23,11 +23,12 @@ class _AddressViewState extends State<AddressView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                AddressViewHeading(),
+                const AddressViewHeading(),
                 SizedBox(height: screenHeight * 0.01),
-                AddAddressBottom(screenWidth: screenWidth),
-                AddressDetails(screenWidth: screenWidth, screenHeight: screenHeight),
-                AddressDetails(screenWidth: screenWidth, screenHeight: screenHeight)
+                const AddAddressBottom(),
+                const AddressDetails(),
+                const AddressDetails(),
+                const AddressDetails(),
 
           ],
         ),

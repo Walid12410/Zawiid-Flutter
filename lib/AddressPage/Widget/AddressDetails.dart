@@ -6,12 +6,8 @@ import '../../Color&Icons/color.dart';
 class AddressDetails extends StatelessWidget {
   const AddressDetails({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
 
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
