@@ -41,8 +41,8 @@ class _SignInState extends State<SignIn> {
                               Flexible(
                                 child: Image.asset(
                                   'assets/log/LOGO-icon---Black.png',
-                                  width: 200.w,
-                                  height: 130.h,
+                                  width: double.infinity,
+                                  height: 160.h,
                                   fit: BoxFit.contain,
                                 ),
                               )
