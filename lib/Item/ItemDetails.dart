@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Widget/ItemBottoms.dart';
 import 'Widget/ItemDetail.dart';
 import 'Widget/ItemHead.dart';
@@ -24,30 +25,30 @@ class _ItemDetailsState extends State<ItemDetails> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ItemDetailsHead(screenWidth: screenWidth, screenHeight: screenHeight),
+              ItemDetailsHead(),
               Padding(
-                padding:  EdgeInsets.all(screenWidth * 0.03),
+                padding:const EdgeInsets.all(8).w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                       child: SizedBox(
-                          width: screenWidth * 0.7,
-                          height: screenHeight * 0.4,
+                          width: 250.w,
+                          height: 300.h,
                           child: Image.asset('assets/img/iphone.png',fit: BoxFit.fill,)),
                     ),
-                    SizedBox(height: screenHeight * 0.01,),
-                    ItemTitle(screenWidth: screenWidth),
-                    SizedBox(height: screenHeight * 0.02),
-                    ItemPrice(screenWidth: screenWidth),
-                    SizedBox(height: screenHeight * 0.02,),
-                    ItemBottoms(screenWidth: screenWidth, screenHeight: screenHeight),
-                    SizedBox(height: screenHeight * 0.02,),
-                    ItemDetail(screenWidth: screenWidth, screenHeight: screenHeight),
-                    SizedBox(height: screenHeight * 0.02,),
-                    ItemShipping(screenWidth: screenWidth, screenHeight: screenHeight),
-                    SizedBox(height: screenHeight * 0.04),
+                    SizedBox(height: 10.h,),
+                    const ItemTitle(),
+                    SizedBox(height: 10.h,),
+                    const ItemPrice(),
+                    SizedBox(height: 10.h,),
+                    const ItemBottoms(),
+                    SizedBox(height: 10.h,),
+                    const ItemDetail(),
+                    SizedBox(height: 10.h,),
+                    const ItemShipping(),
+                    SizedBox(height: 10.h,),
                   ],
                 ),
               )

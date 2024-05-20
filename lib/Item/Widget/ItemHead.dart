@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -6,17 +7,13 @@ import '../../Color&Icons/color.dart';
 class ItemDetailsHead extends StatelessWidget {
   const ItemDetailsHead({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
 
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(right: screenWidth * 0.04,left: screenWidth * 0.05),
+      padding:const EdgeInsets.only(right: 15,left: 12,top: 15).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -25,8 +22,8 @@ class ItemDetailsHead extends StatelessWidget {
               GoRouter.of(context).go("/home");
             },
             child: SizedBox(
-              width: screenWidth * 0.07,
-              height: screenHeight * 0.09,
+              width: 20.w,
+              height: 18.h,
               child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
             ),
           ),
@@ -35,15 +32,15 @@ class ItemDetailsHead extends StatelessWidget {
               //notification bottom
             },
             child: badges.Badge(
-              badgeContent: const Text(
+              badgeContent:  Text(
                 '3',
-                style: TextStyle(color: tdWhite),
+                style: TextStyle(color: tdWhite,fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
               position: badges.BadgePosition.bottomEnd(),
               child: Image.asset(
                 'assets/svg/cart.png',
-                width: screenWidth * 0.07,
+                width: 25.w,
                 fit: BoxFit.fill,
                 color: tdBlack,
               ),

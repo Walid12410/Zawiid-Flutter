@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/AddAddressBottom.dart';
 import 'Widget/AddressDetails.dart';
@@ -14,8 +15,6 @@ class AddressView extends StatefulWidget {
 class _AddressViewState extends State<AddressView> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -24,12 +23,11 @@ class _AddressViewState extends State<AddressView> {
             child: Column(
               children: [
                 const AddressViewHeading(),
-                SizedBox(height: screenHeight * 0.01),
+                SizedBox(height: 5.h),
                 const AddAddressBottom(),
                 const AddressDetails(),
                 const AddressDetails(),
                 const AddressDetails(),
-
           ],
         ),
       )),

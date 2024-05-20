@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Color&Icons/color.dart';
 
 class ItemShipping extends StatelessWidget {
   const ItemShipping({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
 
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -18,30 +15,17 @@ class ItemShipping extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Shipping',style: TextStyle(fontSize: screenWidth * 0.05,fontWeight: FontWeight.bold,color: tdBlack),),
-        SizedBox(height: screenHeight * 0.02,),
-        Text('Scheduled delivery (Free)',style: TextStyle(fontSize: screenWidth * 0.05,fontWeight: FontWeight.bold,color: tdBlack),),
-        SizedBox(height: screenHeight * 0.01,),
-        Text('Free Next-Day delivery',style: TextStyle(fontSize: screenWidth * 0.033,color: tdBlack),),
-        SizedBox(height: screenHeight * 0.01,),
-        Row(
-          children: [
-            Text('1-Hour Express Delivery Available',style: TextStyle(fontSize: screenWidth * 0.05,fontWeight: FontWeight.bold,color: tdBlack),),
-            SizedBox(width: screenWidth * 0.01,),
-            Text('(+1.500 KD)',style: TextStyle(fontSize: screenWidth * 0.020,color: tdGrey),),
-
-          ],
-        ),
-        SizedBox(height: screenHeight * 0.01,),
-        Text('Order now and get it within 1 hour',style: TextStyle(fontSize: screenWidth * 0.033,color: tdBlack),),
-        SizedBox(height: screenHeight * 0.01,),
-        Row(
-          children: [
-            Text('3-Hour Express Delivery Available',style: TextStyle(fontSize: screenWidth * 0.05,fontWeight: FontWeight.bold,color: tdBlack),),
-            SizedBox(width: screenWidth * 0.01,),
-            Text('(+1.000 KD)',style: TextStyle(fontSize: screenWidth * 0.020,color: tdGrey),),
-          ],
-        ),
+        Text('Shipping',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        SizedBox(height: 10.h),
+        Text('Scheduled delivery (Free)',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        SizedBox(height: 5.h,),
+        Text('Free Next-Day delivery',style: TextStyle(fontSize: 15.sp,color: tdBlack),),
+        SizedBox(height: 5.h),
+        Text('1-Hour Express Delivery Available',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        SizedBox(height: 5.sp),
+        Text('Order now and get it within 1 hour',style: TextStyle(fontSize: 15.sp,color: tdBlack),),
+        SizedBox(height: 5.sp,),
+        Text('3-Hour Express Delivery Available',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
       ],
     );
   }
