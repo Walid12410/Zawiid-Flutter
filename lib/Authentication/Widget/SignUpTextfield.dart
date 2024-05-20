@@ -26,13 +26,13 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'EMAIL/PHONE NUMBER',
                   labelStyle:
-                      TextStyle(fontSize: 15.sp, color: tdGrey),
+                      TextStyle(fontSize: 11.sp, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right: 15).w,
+                    padding: const EdgeInsets.only(right: 20).w,
                     child: SvgPicture.asset(
                       'assets/svg/001-mail.svg',
-                      width: 10.w,
-                      height: 10.h,
+                      width: 5.w,
+                      height: 5.h,
                     ),
                   ),
                   border: InputBorder.none,
@@ -48,13 +48,13 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
                   labelStyle:
-                      TextStyle(fontSize: 15.sp, color: tdGrey),
+                      TextStyle(fontSize: 11.sp, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right: 15).w,
+                    padding: const EdgeInsets.only(right: 20).w,
                     child: SvgPicture.asset(
                       'assets/svg/002-password.svg',
-                      width: 10.w,
-                      height: 10.h,
+                      width: 5.w,
+                      height: 5.h,
                     ),
                   ),
                   border: InputBorder.none,

@@ -16,20 +16,20 @@ class SignInTextFieldWidget extends StatelessWidget {
         color: tdWhite,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(5).w,
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(5).w,
               child: TextFormField(
-                style:  TextStyle(fontSize: 15.w),
+                style:  TextStyle(fontSize: 10.sp),
                 decoration: InputDecoration(
                   labelText: 'EMAIL',
-                  labelStyle:  TextStyle(fontSize: 15.sp, color: tdGrey),
+                  labelStyle:  TextStyle(fontSize: 11.sp, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  15).w,
+                    padding: const EdgeInsets.only(right:  20).w,
                     child: SvgPicture.asset('assets/svg/001-mail.svg',
-                      width: 10.w,height: 10.h,),
+                      width: 5.w,height: 5.h,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -43,11 +43,11 @@ class SignInTextFieldWidget extends StatelessWidget {
                 style:  TextStyle(fontSize: 15.sp),
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
-                  labelStyle:  TextStyle(fontSize: 15.sp, color: tdGrey),
+                  labelStyle:  TextStyle(fontSize: 11.sp, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  15).w,
+                    padding: const EdgeInsets.only(right:  20).w,
                     child: SvgPicture.asset('assets/svg/002-password.svg',
-                    width: 10.w,height: 10.h,),
+                    width: 5.w,height: 5.h,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
