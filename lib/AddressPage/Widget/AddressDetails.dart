@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -15,12 +16,12 @@ class AddressDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5).w,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: tdWhite,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10).w,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -34,7 +35,7 @@ class AddressDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(12).w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,38 +45,38 @@ class AddressDetails extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: tdBlack,
-                        fontSize: screenWidth * 0.05),
+                        fontSize: 15.sp),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: 5.h,
                   ),
                   Text(
                     'PO Box 81731 J Hawally, Salwa',
                     style: TextStyle(
-                        color: tdBlack, fontSize: screenWidth * 0.033),
+                        color: tdBlack, fontSize: 12.sp),
                   ),
                   Text(
                     'Block 4',
                     style: TextStyle(
-                        color: tdBlack, fontSize: screenWidth * 0.033),
+                        color: tdBlack, fontSize: 12.sp),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: 5.h,
                   ),
                   Text(
                     '+965 60378430',
                     style: TextStyle(
-                        fontSize: screenWidth * 0.033, color: tdBlack),
+                        fontSize: 12.sp, color: tdBlack),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: 5.h,
                   ),
                 ],
               ),
             ),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5).w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -86,7 +87,7 @@ class AddressDetails extends StatelessWidget {
                       child: Text(
                         'Use as default',
                         style: TextStyle(
-                            fontSize: screenWidth * 0.04,
+                            fontSize: 15.h,
                             color: tdBlack,
                             fontWeight: FontWeight.bold),
                       )),
@@ -97,7 +98,7 @@ class AddressDetails extends StatelessWidget {
                       child: Text(
                         'Delete',
                         style: TextStyle(
-                            fontSize: screenWidth * 0.04,
+                            fontSize: 15.sp,
                             color: tdGrey),
                       ))
                 ],

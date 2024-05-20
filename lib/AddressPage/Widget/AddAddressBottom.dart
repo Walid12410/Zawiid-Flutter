@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -13,21 +14,21 @@ class AddAddressBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 30),
+      padding: const EdgeInsets.only(right: 20).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Icon(
             Icons.add_circle_outline,
-            size: screenWidth * 0.05,
+            size: 15.w,
           ),
           Text(
             'ADD ADDRESS',
             style: TextStyle(
-                fontSize: screenWidth * 0.030,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
-                color: tdBlack),
+                color: tdGrey),
           )
         ],
       ),

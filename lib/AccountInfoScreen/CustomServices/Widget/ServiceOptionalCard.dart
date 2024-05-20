@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Color&Icons/color.dart';
 
 class ServiceOptionCard extends StatelessWidget {
   const ServiceOptionCard({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
   });
-
-  final double screenHeight;
-  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             decoration: BoxDecoration(
               color: tdWhite,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
@@ -32,32 +28,32 @@ class ServiceOptionCard extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(12).w,
               child: Column(
                 children: [
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: 5.h),
                   SizedBox(
-                    height: screenHeight * 0.08,
-                    width: screenWidth * 0.3,
+                    height: 52.h,
+                    width: 71.w,
                     child: Image.asset(
                       'assets/img/CustomerService/mail.png',
                       fit: BoxFit.contain,
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: 5.h),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
-                      width: screenWidth * 0.36,
-                      height: screenHeight * 0.05,
+                      width: 140.w,
+                      height: 35.h,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20).w,
                           color: tdWhiteNav),
                       child: Center(
                         child: Text(
                           'Email Us',
                           style: TextStyle(
-                              fontSize: screenWidth * 0.045,
+                              fontSize: 20.sp,
                               color: tdBlack,
                               fontWeight: FontWeight.bold),
                         ),
@@ -71,7 +67,7 @@ class ServiceOptionCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: tdWhite,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
@@ -81,24 +77,24 @@ class ServiceOptionCard extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(12).w,
               child: Column(
                 children: [
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: 5.h),
                   SizedBox(
-                    height: screenHeight * 0.08,
-                    width: screenWidth * 0.3,
+                    height: 54.h,
+                    width: 74.w,
                     child: Image.asset(
                       'assets/img/CustomerService/speech.png',
                       fit: BoxFit.contain,
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: 5.sp),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
-                      width: screenWidth * 0.36,
-                      height: screenHeight * 0.05,
+                      width: 140.w,
+                      height: 35.h,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: tdWhiteNav),
@@ -106,7 +102,7 @@ class ServiceOptionCard extends StatelessWidget {
                         child: Text(
                           'Chat Now',
                           style: TextStyle(
-                              fontSize: screenWidth * 0.045,
+                              fontSize: 20.sp,
                               color: tdBlack,
                               fontWeight: FontWeight.bold),
                         ),

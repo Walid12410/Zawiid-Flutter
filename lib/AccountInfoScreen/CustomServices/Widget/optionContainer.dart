@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Color&Icons/color.dart';
 import 'ServiceCall.dart';
@@ -7,49 +8,42 @@ import 'ServiceOptionalCard.dart';
 class OptionContainer extends StatelessWidget {
   const OptionContainer({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
   });
-
-  final double screenHeight;
-  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration:  BoxDecoration(
         color: tdWhite,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft:const Radius.circular(30).w,
+          topRight:const Radius.circular(30).w,
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(5.0).w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: screenHeight * 0.03,
+              height: 50.sp,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0).w,
               child: Text(
                 'We’re here to help you at every step. Please look Through the options below and select what you’re looking for.',
                 style: TextStyle(
                     color: tdBlack,
-                    fontSize: screenWidth * 0.046),
+                    fontSize: 16.sp),
                 textAlign: TextAlign.center,
               ),
             ),
             SizedBox(
-              height: screenHeight * 0.02,
+              height: 50.sp,
             ),
-            ServiceOptionCard(
-                screenHeight: screenHeight,
-                screenWidth: screenWidth),
-            ServiceCallUs(screenHeight: screenHeight, screenWidth: screenWidth)
+            const ServiceOptionCard(),
+            const ServiceCallUs()
           ],
         ),
       ),

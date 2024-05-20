@@ -21,15 +21,13 @@ class _AddressViewState extends State<AddressView> {
       backgroundColor: tdWhite,
       body: SafeArea(
           child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: screenHeight * 0.01),
-            AddressViewHeading(
-                screenWidth: screenWidth, screenHeight: screenHeight),
-            SizedBox(height: screenHeight * 0.01),
-            AddAddressBottom(screenWidth: screenWidth),
-            AddressDetails(screenWidth: screenWidth, screenHeight: screenHeight),
-            AddressDetails(screenWidth: screenWidth, screenHeight: screenHeight)
+            child: Column(
+              children: [
+                AddressViewHeading(),
+                SizedBox(height: screenHeight * 0.01),
+                AddAddressBottom(screenWidth: screenWidth),
+                AddressDetails(screenWidth: screenWidth, screenHeight: screenHeight),
+                AddressDetails(screenWidth: screenWidth, screenHeight: screenHeight)
 
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
@@ -16,8 +17,6 @@ class PolicyPrivacy extends StatefulWidget {
 class _PolicyPrivacyState extends State<PolicyPrivacy> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -26,9 +25,9 @@ class _PolicyPrivacyState extends State<PolicyPrivacy> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PrivacyHeadPage(screenWidth: screenWidth, screenHeight: screenHeight),
-              SizedBox(height: screenHeight * 0.01,),
-              PrivacyPolicyImage(screenHeight: screenHeight)
+              const PrivacyHeadPage(),
+              SizedBox(height: 5.h),
+              const PrivacyPolicyImage()
             ],
           ),
         ),

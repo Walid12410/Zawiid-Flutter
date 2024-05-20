@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zawiid/Color&Icons/color.dart';
 
 class TimeContainer extends StatelessWidget {
   final String label;
@@ -9,38 +11,39 @@ class TimeContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Column(
       children: [
-        Container(
-          width: screenWidth * 0.10,
-          height: screenHeight * 0.05,
-          margin:const EdgeInsets.all(8.0),
-          padding:const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset:const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              '$value',
-              style:  TextStyle(fontSize: screenWidth * 0.04),
+        Padding(
+          padding: const EdgeInsets.all(8).w,
+          child: Container(
+            width: 35.w,
+            height: 30.h,
+            margin:const EdgeInsets.all(5).w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5).w,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset:const Offset(0, 3),
+                ),
+              ],
             ),
+            child: Center(
+              child: Text(
+                  '$value',
+                  style:  TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdGrey),
+                ),
+            ),
+
           ),
         ),
         Text(
           label,
-          style: TextStyle(fontSize: screenWidth * 0.03 ),
+          style: TextStyle(fontSize: 7.sp,color: tdGrey ),
         ),
       ],
     );

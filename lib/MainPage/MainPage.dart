@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'EndedTab/EndedPage.dart';
@@ -27,9 +28,9 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: screenHeight * 0.01),
+            SizedBox(height: 5.h),
             Padding(
-              padding:  EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.08),
+              padding:  const EdgeInsets.only(left: 20, right: 40).w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -38,8 +39,8 @@ class _MainPageState extends State<MainPage> {
                       GoRouter.of(context).go('/home');
                     },
                     child: SizedBox(
-                      width: screenWidth * 0.06,
-                      height:screenHeight * 0.032,
+                      width: 20.w,
+                      height: 18.h,
                       child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
                     ),
                   ),
@@ -50,7 +51,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text(
                       'Upcoming',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04,
+                        fontSize: 15.sp,
                         fontWeight: _currentPage == 0 ? FontWeight.bold : FontWeight.normal,
                         color: _currentPage == 0 ? Colors.black : Colors.grey,
                       ),
@@ -63,7 +64,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text(
                       'Ended',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04,
+                        fontSize: 15.sp,
                         fontWeight: _currentPage == 1 ? FontWeight.bold : FontWeight.normal,
                         color: _currentPage == 1 ? Colors.black : Colors.grey,
                       ),
@@ -73,7 +74,7 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.01),
+            SizedBox(height: 2.h),
             Expanded(
               child: PageView(
                 controller: _pageController,

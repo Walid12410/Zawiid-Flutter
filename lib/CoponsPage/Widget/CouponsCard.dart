@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
@@ -20,7 +21,7 @@ class CouponCard extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          height: screenHeight * 0.2,
+          height: 150.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: tdWhite,
@@ -35,8 +36,8 @@ class CouponCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-                width: double.infinity,
-                height: screenHeight * 0.18,
+                width: 131.w,
+                height: 130.h,
                 child: Image.asset('assets/img/adidas.png', fit: BoxFit.contain)),
           ),
         ),

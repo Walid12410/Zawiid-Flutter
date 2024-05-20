@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
@@ -19,17 +20,17 @@ class LogoutWidget extends StatelessWidget {
         GoRouter.of(context).goNamed('SignIn');
       },
       child: Container(
-        width: screenWidth * 0.26,
-        height: screenHeight * 0.035,
+        width: 100.w,
+        height: 25.h,
         decoration: BoxDecoration(
             border: Border.all(color: tdGrey),
-            borderRadius: BorderRadius.circular(15)),
+            borderRadius: BorderRadius.circular(15).w),
         child: Center(
           child: Text(
             'LOG OUT',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.027,
+                fontSize: 12.sp,
                 color: tdGrey),
           ),
         ),

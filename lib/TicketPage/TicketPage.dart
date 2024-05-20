@@ -53,7 +53,10 @@ class _TicketMainState extends State<TicketMain> {
                 const TicketPriceDetails()
               ],
               if (!_showDetails)
-                TicketDetails(onTap: toggleVisibility,)
+                TicketDetails(onTap: toggleVisibility,),
+              SizedBox(
+                height: 15.h,
+              )
             ],
           ),
         ),

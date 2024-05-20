@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/CouponsCardDetails.dart';
 import 'Widget/CouponsCardHead.dart';
@@ -24,7 +25,6 @@ class _CouponsDetailsState extends State<CouponsDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: screenHeight * 0.01),
               CouponsCardHead(screenWidth: screenWidth, screenHeight: screenHeight),
               TitleAndDescription(
                   screenWidth: screenWidth, screenHeight: screenHeight),
@@ -43,15 +43,15 @@ class _CouponsDetailsState extends State<CouponsDetails> {
                     ],
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(screenWidth * 0.01),
+                    padding:const EdgeInsets.all(5).w,
                     child: Column(
                       children: [
-                        CouponsCardDetails(screenWidth: screenWidth, screenHeight: screenHeight),
-                        SizedBox(height: screenHeight * 0.04),
-                        CouponsCardDetails(screenWidth: screenWidth, screenHeight: screenHeight),
-                        SizedBox(height: screenHeight * 0.04),
-                        CouponsCardDetails(screenWidth: screenWidth, screenHeight: screenHeight),
-                        SizedBox(height: screenHeight * 0.04),
+                        const CouponsCardDetails(),
+                        SizedBox(height: 10.h),
+                        const CouponsCardDetails(),
+                        SizedBox(height: 10.h),
+                        const CouponsCardDetails(),
+                        SizedBox(height: 10.h),
                       ],
                     ),
                   ),

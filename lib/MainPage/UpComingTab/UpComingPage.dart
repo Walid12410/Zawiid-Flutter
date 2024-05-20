@@ -12,8 +12,6 @@ class UpComingTab extends StatefulWidget {
 class _UpComingTabState extends State<UpComingTab> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     DateTime endTime = DateTime.now().add(const Duration(hours: 1, minutes: 30));
 
     return Scaffold(
@@ -22,10 +20,10 @@ class _UpComingTabState extends State<UpComingTab> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              DetailsUpComing(screenHeight: screenHeight, screenWidth: screenWidth, endTime: endTime),
-              DetailsUpComing(screenHeight: screenHeight, screenWidth: screenWidth, endTime: endTime),
-              DetailsUpComing(screenHeight: screenHeight, screenWidth: screenWidth, endTime: endTime),
-              DetailsUpComing(screenHeight: screenHeight, screenWidth: screenWidth, endTime: endTime),
+              DetailsUpComing( endTime: endTime),
+              DetailsUpComing( endTime: endTime),
+              DetailsUpComing(endTime: endTime),
+              DetailsUpComing(endTime: endTime),
             ],
           ),
         ),

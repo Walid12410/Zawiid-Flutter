@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,11 +31,11 @@ class OptionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0).w,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20).w,
           color: tdWhite,
           boxShadow: [
             BoxShadow(
@@ -55,27 +56,27 @@ class OptionsCard extends StatelessWidget {
                   text1,
                   style: TextStyle(
                       color: tdGrey,
-                      fontSize: screenWidth * 0.034,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold),
                 ),
                 trailing: Container(
-                  width: screenWidth * 0.06,
-                  height: screenWidth * 0.06,
+                  width: 22.w,
+                  height: 20.h,
                   decoration: BoxDecoration(
                     color: tdWhiteNav,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20).w,
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios,
-                    size: screenWidth * 0.033,
+                    size: 15.w,
                     color: tdGrey,
                   ),
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 50, right: 20),
-              child: Divider(
+            Padding(
+              padding: const EdgeInsets.only(left: 35, right: 20).w,
+              child: const Divider(
                 color: tdGrey,
                 thickness: 0.2,
               ),
@@ -88,13 +89,13 @@ class OptionsCard extends StatelessWidget {
                     text2,
                     style: TextStyle(
                         color: tdGrey,
-                        fontSize: screenWidth * 0.034,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.bold),
                   ),
                   trailing: isWhatsapp
                       ? SizedBox(
-                          width: screenWidth * 0.06,
-                          height: screenWidth * 0.09,
+                          width: 25.w,
+                          height: 25.h,
                           child: SvgPicture.asset(
                             'assets/svg-profile/whatsapp.svg',
                             color: tdGreen,
@@ -102,15 +103,15 @@ class OptionsCard extends StatelessWidget {
                           ),
                         )
                       : Container(
-                          width: screenWidth * 0.06,
-                          height: screenWidth * 0.06,
+                    width: 22.w,
+                    height: 20.h,
                           decoration: BoxDecoration(
                             color: tdWhiteNav,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20).w,
                           ),
                           child: Icon(
                             Icons.arrow_forward_ios,
-                            size: screenWidth * 0.033,
+                            size: 15.w,
                             color: tdGrey,
                           ),
                         )),

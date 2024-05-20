@@ -19,7 +19,7 @@ class OrderViewHeader extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go("/home");
+              GoRouter.of(context).go("/Profile");
             },
             child: SizedBox(
               width: 20.w,

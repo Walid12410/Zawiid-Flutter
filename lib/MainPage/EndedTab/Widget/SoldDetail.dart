@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Color&Icons/color.dart';
 
 class SoldDetails extends StatelessWidget {
   const SoldDetails({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
   });
 
-  final double screenHeight;
-  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0).w,
       child: Column(
         children: [
           SizedBox(
             width: double.infinity,
-            height: screenHeight * 0.4,
+            height: 250.h,
             child: Image.asset(
               'assets/img/iphone.png',
               fit: BoxFit.contain,
@@ -30,37 +27,42 @@ class SoldDetails extends StatelessWidget {
             'iPhone 14 ProMax / 256GB Black Color',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.04,
+                fontSize: 15.sp,
                 color: tdBlack),
+            textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: screenHeight * 0.02,
+            height: 10.h,
           ),
           Text(
             '30th April. 10.00PM',
-            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
+            style: TextStyle(fontSize: 10.sp, color: tdGrey),
+          ),
+          SizedBox(
+            height: 2.h,
           ),
           Text(
             'SOLD AT: 1550KD',
-            style: TextStyle(fontSize: screenWidth * 0.033, color: tdGrey),
+            style: TextStyle(fontSize: 10.sp, color: tdGrey),
           ),
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: 10.h),
           Container(
-            width: screenWidth * 0.65,
-            height: screenHeight * 0.04,
+            width: 220.w,
+            height: 20.h,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20).w,
                 border: Border.all(color: tdBlack)),
             child: Center(
               child: Text(
                 'SOLD',
                 style: TextStyle(
-                    fontSize: screenWidth * 0.033,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
                     color: tdBlack),
               ),
             ),
           ),
+          SizedBox(height: 2.h,),
         ],
       ),
     );

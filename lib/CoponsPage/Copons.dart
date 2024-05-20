@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../Color&Icons/color.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Widget/CouponsCard.dart';
 import 'Widget/CouponsHead.dart';
 
@@ -24,9 +22,8 @@ class _CouponsMainState extends State<CouponsMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: screenHeight * 0.01),
-              CouponsHead(screenWidth: screenWidth,screenHeight: screenHeight,),
-              SizedBox(height: screenHeight * 0.05),
+              const CouponsHead(),
+              SizedBox(height: 15.h),
               CouponCard(screenHeight: screenHeight),
               CouponCard(screenHeight: screenHeight),
               CouponCard(screenHeight: screenHeight),

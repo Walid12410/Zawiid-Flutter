@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Color&Icons/color.dart';
 import '../../WatchDown/WatchCount.dart';
 
 class DetailsUpComing extends StatelessWidget {
   const DetailsUpComing({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
     required this.endTime,
   });
 
-  final double screenHeight;
-  final double screenWidth;
   final DateTime endTime;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0).w,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
             width: double.infinity,
-            height: screenHeight * 0.4,
+            height: 250.h,
             child: Image.asset(
               'assets/img/iphone.png',
               fit: BoxFit.contain,
@@ -34,31 +31,33 @@ class DetailsUpComing extends StatelessWidget {
             'iPhone 14 ProMax / 256GB Black Color',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.04,
+                fontSize: 15.sp,
                 color: tdBlack),
+             textAlign: TextAlign.center,
           ),
-          SizedBox(height: screenHeight * 0.02,),
+          SizedBox(height: 10.h),
            Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('30th April. 10.00PM',style: TextStyle(fontSize: screenWidth * 0.034,color: tdGrey),),
-              Text(' Today',style: TextStyle(fontSize: screenWidth * 0.034,color: tdGreen),)
+              Text('30th April. 10.00PM',style: TextStyle(fontSize: 10.sp,color: tdGrey),),
+              Text(' Today',style: TextStyle(fontSize: 10.sp,color: tdGreen),)
             ],
           ),
-          Text('Starting Price: 50KD',style: TextStyle(fontSize: screenWidth * 0.034,color: tdGrey),),
-          SizedBox(height: screenHeight * 0.02),
+          Text('Starting Price: 50KD',style: TextStyle(fontSize: 10.sp,color: tdGrey),),
+          SizedBox(height: 10.h),
           Container(
-            width: screenWidth * 0.65,
-            height: screenHeight * 0.04,
+            width: 220.w,
+            height: 20.h,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20).w,
                 border: Border.all(color: tdBlack)
             ),
             child:  Center(
-              child: Text('Zawiiidddd',style: TextStyle(fontSize: screenWidth * 0.033,fontWeight: FontWeight.bold,color: tdBlack),),
+              child: Text('Zawiiidddd',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),),
             ),
           ),
+          SizedBox(height: 2.h,),
           CountdownTimerScreen(endTime: endTime),
         ],
       ),

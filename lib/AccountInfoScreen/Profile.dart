@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/LogOut.dart';
@@ -24,16 +25,15 @@ class _ProfileMainState extends State<ProfileMain> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(8).w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: screenHeight * 0.01),
-                ProfileHeadPage(
-                    screenWidth: screenWidth, screenHeight: screenHeight),
+                SizedBox(height: 5.h),
+                ProfileHeadPage(),
                 SizedBox(
-                  height: screenHeight * 0.06,
+                  height: 40.h,
                 ),
                 UserProfileCard(
                     screenHeight: screenHeight, screenWidth: screenWidth),
