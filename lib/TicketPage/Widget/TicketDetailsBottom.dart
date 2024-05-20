@@ -15,7 +15,7 @@ class TicketDetailsBottom extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 110.w,
+        width: 120.w,
         height: 25.h,
         decoration: BoxDecoration(
           color: tdWhite,
@@ -31,7 +31,7 @@ class TicketDetailsBottom extends StatelessWidget {
         child:  Center(
           child: Text(
             'Details',
-            style: TextStyle(fontSize: 12.sp, color: tdBlack),
+            style: TextStyle(fontSize: 15.sp, color: tdBlack),
           ),
         ),
       ),

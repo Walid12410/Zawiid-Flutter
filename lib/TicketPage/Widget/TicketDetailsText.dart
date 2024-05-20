@@ -17,7 +17,7 @@ class TicketDetailsText extends StatelessWidget {
           Text(
             'Buy a 1\$ ticket and enter ',
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 15.sp,
               color: tdGrey,
             ),
           ),
@@ -29,7 +29,7 @@ class TicketDetailsText extends StatelessWidget {
                 child: Text(
                   'A withdrawal on a ',
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 15.sp,
                     color: tdGrey,
                   ),
                 ),
@@ -38,7 +38,7 @@ class TicketDetailsText extends StatelessWidget {
                 'WASHING-MACHINE!',
                 style: TextStyle(
                   color: tdGrey,
-                  fontSize: 12.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

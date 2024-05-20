@@ -5,13 +5,9 @@ import 'package:zawiid/Color&Icons/color.dart';
 class TicketDetails extends StatelessWidget {
   const TicketDetails({
     Key? key,
-    required this.screenHeight,
-    required this.screenWidth,
     required this.onTap,
   }) : super(key: key);
 
-  final double screenWidth;
-  final double screenHeight;
   final VoidCallback onTap;
 
   @override
@@ -58,7 +54,7 @@ class TicketDetails extends StatelessWidget {
             'Black Color',
             style: TextStyle(fontSize: 12.sp, color: tdGrey),
           ),
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: 10.h),
           Text(
             'Black Color',
             style: TextStyle(fontSize: 12.sp, color: tdGrey),

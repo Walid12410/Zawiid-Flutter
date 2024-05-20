@@ -29,8 +29,6 @@ class _TicketMainState extends State<TicketMain> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -42,28 +40,20 @@ class _TicketMainState extends State<TicketMain> {
             children: [
               const TicketBackArrow(),
               const TicketImage(),
+              if(_showDetails)
+                SizedBox(height: 40.h,),
               if (_showDetailsBottom)
-                TicketDetailsBottom(onTap: toggleVisibility),
-              _showDetailsBottom || _showDetails ? Container() : SizedBox(
-                height: 25.h,
-              ),
+              TicketDetailsBottom(onTap: toggleVisibility),
               if (_showDetails) ...[
-                SizedBox(
-                  height: 10.h,
-                ),
+                SizedBox(height: 10.h,),
                 const TicketDetailsText(),
                 SizedBox(
                   height: 15.h,
                 ),
-                TicketPriceDetails(
-                    screenWidth: screenWidth, screenHeight: screenHeight)
+                const TicketPriceDetails()
               ],
               if (!_showDetails)
-                TicketDetails(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                  onTap: toggleVisibility,
-                )
+                TicketDetails(onTap: toggleVisibility,)
             ],
           ),
         ),

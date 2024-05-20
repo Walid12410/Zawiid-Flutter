@@ -32,7 +32,7 @@ class TicketBackArrow extends StatelessWidget {
             child: Text(
               'Ticket',
               style: TextStyle(
-                  color: tdBlack, fontWeight: FontWeight.bold, fontSize: 12.sp)
+                  color: tdBlack, fontWeight: FontWeight.bold, fontSize: 15.sp)
             ),
           ),
           SizedBox(width: 20.w,)

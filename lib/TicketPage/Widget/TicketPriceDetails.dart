@@ -5,21 +5,17 @@ import 'package:zawiid/Color&Icons/color.dart';
 class TicketPriceDetails extends StatelessWidget {
   const TicketPriceDetails({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
 
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200.w,
-      height: 35.h,
+      width: 238.w,
+      height: 41.h,
       decoration: BoxDecoration(
         color: tdWhite,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(50).w,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -29,7 +25,7 @@ class TicketPriceDetails extends StatelessWidget {
         ],
       ),
       child:  Center(
-        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 15.sp,fontWeight: FontWeight.bold),),
+        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 17.sp,fontWeight: FontWeight.bold),),
       ),
     );
   }
