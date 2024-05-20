@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/ShowDetails.dart';
 import 'Widget/TicketBackArrow.dart';
@@ -39,24 +40,20 @@ class _TicketMainState extends State<TicketMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: screenHeight * 0.01,
-              ),
-              TicketBackArrow(screenWidth: screenWidth,screenHeight: screenHeight,),
-
-              SizedBox(
-                height: screenHeight * 0.03,
-              ),
-              TicketImage(screenHeight: screenHeight),
+              const TicketBackArrow(),
+              const TicketImage(),
               if (_showDetailsBottom)
-                TicketDetailsBottom(
-                    screenWidth: screenWidth,
-                    screenHeight: screenHeight,
-                    onTap: toggleVisibility),
+                TicketDetailsBottom(onTap: toggleVisibility),
+              _showDetailsBottom || _showDetails ? Container() : SizedBox(
+                height: 25.h,
+              ),
               if (_showDetails) ...[
-                TicketDetailsText(screenHeight: screenHeight,screenWidth: screenWidth,),
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: 10.h,
+                ),
+                const TicketDetailsText(),
+                SizedBox(
+                  height: 15.h,
                 ),
                 TicketPriceDetails(
                     screenWidth: screenWidth, screenHeight: screenHeight)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class TicketPriceDetails extends StatelessWidget {
@@ -14,11 +15,11 @@ class TicketPriceDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth * 0.7,
-      height: screenHeight * 0.05,
+      width: 200.w,
+      height: 35.h,
       decoration: BoxDecoration(
         color: tdWhite,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -28,7 +29,7 @@ class TicketPriceDetails extends StatelessWidget {
         ],
       ),
       child:  Center(
-        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: screenWidth * 0.045),),
+        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 15.sp,fontWeight: FontWeight.bold),),
       ),
     );
   }

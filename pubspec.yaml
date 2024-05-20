@@ -41,6 +41,7 @@ dependencies:
   badges: ^3.1.2
   floating_bottom_navigation_bar: ^1.5.2
   readmore: ^3.0.0
+  flutter_screenutil: ^5.9.1
 
 
 dev_dependencies:

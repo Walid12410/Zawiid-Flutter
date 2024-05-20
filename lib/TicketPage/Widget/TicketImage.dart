@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class TicketImage extends StatelessWidget {
   const TicketImage({
     super.key,
-    required this.screenHeight,
   });
 
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class TicketImage extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: Container(
         width: double.infinity,
-        height: screenHeight * 0.48,
+        height: 300.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           image: const DecorationImage(

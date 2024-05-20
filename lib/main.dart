@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Authentication/SignUp.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:zawiid/BottomNavigationBar/NavBar.dart';
@@ -27,11 +28,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp.router(
-      builder: DevicePreview.appBuilder,
-      title: 'Zawiid',
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppNavigation.router,
+    return  ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp.router(
+       // builder: DevicePreview.appBuilder,
+        title: 'Zawiid',
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppNavigation.router,
+      ),
     );
   }
 }

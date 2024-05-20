@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
@@ -7,41 +8,36 @@ import '../../Color&Icons/color.dart';
 class TicketBackArrow extends StatelessWidget {
   const TicketBackArrow({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight
   });
-
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-         SizedBox(width: screenWidth * 0.05,),
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
+    return Padding(
+      padding: const EdgeInsets.all(20).w,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
             onTap: () {
               GoRouter.of(context).go("/home");
             },
             child: SizedBox(
-              width: screenWidth * 0.07,
-              height: screenHeight * 0.09,
+              width: 20.w,
+              height: 18.h,
               child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
             ),
           ),
-        ),
-         Expanded(
-          flex: 4,
-          child: Text(
-            'Ticket',
-            style: TextStyle(
-                color: tdBlack, fontWeight: FontWeight.bold, fontSize: screenWidth * 0.05),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.only(top: 10).w,
+            child: Text(
+              'Ticket',
+              style: TextStyle(
+                  color: tdBlack, fontWeight: FontWeight.bold, fontSize: 12.sp)
+            ),
           ),
-        ),
-      ],
+          SizedBox(width: 20.w,)
+        ],
+      ),
     );
   }
 }

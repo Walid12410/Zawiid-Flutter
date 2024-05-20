@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/SearchBar.dart';
 import 'Widget/SearchHistoryCard.dart';
@@ -28,8 +29,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -39,38 +38,39 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               Center(
                 child: SizedBox(
-                  width: screenWidth * 0.3,
-                  height: screenHeight * 0.1,
+                  width: 100.w,
+                  height: 50.h,
                   child: Image.asset(
                     'assets/log/LOGO-icon---Black.png',
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              SearchBarText(screenWidth: screenWidth, screenHeight: screenHeight, focusNode: _focusNode),
-              SizedBox(height: screenHeight * 0.03),
+              SizedBox(height: 20.h),
+              SearchBarText(focusNode: _focusNode),
+              SizedBox(height: 25.h),
               Padding(
-                padding: EdgeInsets.only(left: screenWidth * 0.04,right: screenWidth * 0.04),
+                padding: const EdgeInsets.only(left: 12,right: 8).w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  Text('RECENTLY VIEWED',style: TextStyle(fontSize: screenWidth * 0.033,color: tdGrey,fontWeight: FontWeight.bold),),
+                  Text('RECENTLY VIEWED',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),),
                     GestureDetector(
                         onTap: (){
                           //Clear History
                         },
-                        child: Text('CLEAR',style: TextStyle(fontWeight: FontWeight.bold,fontSize: screenWidth * 0.033,color: tdBlack),))
+                        child: Text('CLEAR',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp,color: tdBlack),))
                   ],
                 ),
               ),
-              SizedBox(height: screenHeight * 0.01),
-              SingleChildScrollView(
+              SizedBox(height: 5.h),
+              const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      SearchHistoryCard(screenWidth: screenWidth, screenHeight: screenHeight),
-                      SearchHistoryCard(screenWidth: screenWidth, screenHeight: screenHeight),
-                      SearchHistoryCard(screenWidth: screenWidth, screenHeight: screenHeight),
+                      SearchHistoryCard(),
+                      SearchHistoryCard(),
+                      SearchHistoryCard(),
                     ],
                   ),
                 ),

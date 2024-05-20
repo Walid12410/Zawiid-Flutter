@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Color&Icons/color.dart';
 
 class TicketDetailsBottom extends StatelessWidget {
   const TicketDetailsBottom({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
     required this.onTap,
   });
 
-  final double screenWidth;
-  final double screenHeight;
   final VoidCallback onTap;
 
   @override
@@ -18,8 +15,8 @@ class TicketDetailsBottom extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: screenWidth * 0.4,
-        height: screenHeight * 0.04,
+        width: 110.w,
+        height: 25.h,
         decoration: BoxDecoration(
           color: tdWhite,
           borderRadius: BorderRadius.circular(20),
@@ -34,7 +31,7 @@ class TicketDetailsBottom extends StatelessWidget {
         child:  Center(
           child: Text(
             'Details',
-            style: TextStyle(fontSize: screenWidth * 0.04, color: tdBlack),
+            style: TextStyle(fontSize: 12.sp, color: tdBlack),
           ),
         ),
       ),
