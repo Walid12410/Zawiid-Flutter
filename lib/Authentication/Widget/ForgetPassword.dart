@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class ForgetPasswordWidget extends StatelessWidget {
@@ -8,8 +9,6 @@ class ForgetPasswordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -22,7 +21,7 @@ class ForgetPasswordWidget extends StatelessWidget {
             child:  Text(
               'FORGOT PASSWORD?',
               style: TextStyle(
-                  fontSize: screenWidth * 0.034,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.bold,
                   color: tdGrey),
             ))

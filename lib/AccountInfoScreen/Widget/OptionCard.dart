@@ -51,7 +51,10 @@ class OptionsCard extends StatelessWidget {
             GestureDetector(
               onTap: onTap1,
               child: ListTile(
-                leading: SvgPicture.asset(icon1),
+                leading: SvgPicture.asset(
+                  icon1,
+                  width: 20.sp,
+                ),
                 title: Text(
                   text1,
                   style: TextStyle(
@@ -84,7 +87,10 @@ class OptionsCard extends StatelessWidget {
             GestureDetector(
               onTap: onTap2,
               child: ListTile(
-                  leading: SvgPicture.asset(icon2),
+                  leading: SvgPicture.asset(
+                    icon2,
+                    width: 20.sp,
+                  ),
                   title: Text(
                     text2,
                     style: TextStyle(
@@ -95,7 +101,7 @@ class OptionsCard extends StatelessWidget {
                   trailing: isWhatsapp
                       ? SizedBox(
                           width: 25.w,
-                          height: 25.h,
+                          height: 20.h,
                           child: SvgPicture.asset(
                             'assets/svg-profile/whatsapp.svg',
                             color: tdGreen,
@@ -103,8 +109,8 @@ class OptionsCard extends StatelessWidget {
                           ),
                         )
                       : Container(
-                    width: 22.w,
-                    height: 20.h,
+                          width: 22.w,
+                          height: 20.h,
                           decoration: BoxDecoration(
                             color: tdWhiteNav,
                             borderRadius: BorderRadius.circular(20).w,

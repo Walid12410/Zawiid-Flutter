@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:zawiid/Color&Icons/color.dart';
 
-class SignInButton extends StatelessWidget {
-  const SignInButton({
+import '../../Color&Icons/color.dart';
+
+class GuestBottom extends StatelessWidget {
+  const GuestBottom({
     super.key,
   });
 
@@ -14,31 +14,32 @@ class SignInButton extends StatelessWidget {
       padding: const EdgeInsets.all(1).w,
       child: GestureDetector(
         onTap: () {
-          GoRouter.of(context).go("/home");
+          //signup
         },
         child: Container(
           width: double.infinity,
-          height: 35.h,
+          height: 40.h,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50).w, color: tdBlack),
+              borderRadius: BorderRadius.circular(50).w, color: tdWhite),
           child: Padding(
             padding: const EdgeInsets.all(5).w,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 20.w),
-                 Text(
-                  'LOG IN',
+                Text(
+                  'CONTINUE AS A GUEST',
                   style: TextStyle(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.bold,
-                      color: tdWhite),
+                      color: tdBlack),
+                  textAlign: TextAlign.center,
                 ),
                 Container(
                     width: 25.w,
                     height: 25.h,
                     decoration: BoxDecoration(
-                        color: tdWhite,
+                        color: tdBlack,
                         borderRadius: BorderRadius.circular(20).w),
                     child:  Icon(
                       Icons.arrow_forward_ios,

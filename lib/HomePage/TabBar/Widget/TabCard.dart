@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
@@ -6,13 +7,8 @@ import 'package:zawiid/Color&Icons/color.dart';
 class TabCard extends StatelessWidget {
   const TabCard({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
     required this.names,
   });
-
-  final double screenWidth;
-  final double screenHeight;
   final List<String> names;
 
   @override
@@ -22,12 +18,12 @@ class TabCard extends StatelessWidget {
         GoRouter.of(context).goNamed('itemDetails');
       },
       child: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.02),
+        padding: const EdgeInsets.all(5).w,
         child: Container(
-          width: screenWidth * 0.45,
+          width: 165.w,
           decoration: BoxDecoration(
             color: tdWhite,
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(5).w,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
@@ -37,26 +33,27 @@ class TabCard extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0).w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: 5.h,
                 ),
                 Text(
                   names[0],
                   style: TextStyle(
-                      fontSize: screenWidth * 0.025, color: Colors.black),
+                      fontSize: 8.sp, color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: 5.h,
                 ),
                 Center(
                   child: SizedBox(
-                    width: screenWidth * 0.3,
+                    width: 100.w,
+                    height: 130.h,
                     child: Image.asset(
                       'assets/img/iphone.png',
                       fit: BoxFit.fill,
@@ -64,7 +61,7 @@ class TabCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: 5.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,27 +69,27 @@ class TabCard extends StatelessWidget {
                     Text(
                       '358.000 LB',
                       style: TextStyle(
-                          fontSize: screenWidth * 0.05,
+                          fontSize: 20.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.bold),
                     ),
                     SvgPicture.asset(
                       'assets/svg/buy.svg',
-                      width: screenWidth * 0.08,
+                      width: 27.w,
                       fit: BoxFit.fill,
                     ),
                     const SizedBox(),
                   ],
                 ),
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: 5.h,
                 ),
                 const Divider(),
                 Text(
                   'SKU: FT00962',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.033,
+                      fontSize: 12.sp,
                       color: Colors.grey),
                 ),
               ],

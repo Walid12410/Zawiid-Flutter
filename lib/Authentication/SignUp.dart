@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zawiid/Authentication/SignIn.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'Widget/GuestBottom.dart';
 import 'Widget/SignUpButton.dart';
 import 'Widget/SignUpTextfield.dart';
 import 'Widget/Terms&PrivacySignUp.dart';
@@ -17,8 +18,6 @@ class _SignUpState extends State<SignUp>{
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: tdBlack,
@@ -30,7 +29,7 @@ class _SignUpState extends State<SignUp>{
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: const EdgeInsets.all(30),
+                      padding: const EdgeInsets.all(20).w,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,19 +41,19 @@ class _SignUpState extends State<SignUp>{
                               Flexible(
                                 child: Image.asset(
                                   'assets/log/LOGO-icon---green.png',
-                                  width: screenWidth * 0.8,
-                                  height: screenHeight * 0.24,
+                                  width: 200.w,
+                                  height: 130.h,
                                   fit: BoxFit.contain,
                                 ),
                               )
                             ],
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: 10.h),
                            Text(
                             'Sign Up',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * 0.06,
+                              fontSize: 21.sp,
                               color: tdWhite,
                             ),
                           ),
@@ -64,13 +63,15 @@ class _SignUpState extends State<SignUp>{
                             },
                             child:  Text(
                               'Log In',
-                              style: TextStyle(fontSize: screenWidth * 0.06, color: tdGrey),
+                              style: TextStyle(fontSize: 21.sp, color: tdGrey),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.02),
-                          TextFieldWidgetSignUp(),
-                          SizedBox(height: screenHeight * 0.03),
-                          SignUpButton(),
+                          SizedBox(height: 10.h),
+                          const TextFieldWidgetSignUp(),
+                          SizedBox(height: 10.h),
+                          const SignUpButton(),
+                          SizedBox(height: 10.h),
+                          const GuestBottom()
                         ],
                       ),
                     ),
@@ -81,14 +82,15 @@ class _SignUpState extends State<SignUp>{
           ],
         ),
       ),
-      bottomNavigationBar:const BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
         elevation: 0, // Remove the shadow
         color: tdBlack,
         child: Padding(
-          padding:  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: TermsAndPrivacySignUp(),
+          padding:const  EdgeInsets.symmetric(vertical: 7, horizontal: 20).w,
+          child:const TermsAndPrivacySignUp(),
         ),
       ),
     );
   }
 }
+

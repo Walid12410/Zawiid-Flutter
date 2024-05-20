@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,13 +8,11 @@ class SignInTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15).w,
         color: tdWhite,
       ),
       child: Padding(
@@ -21,16 +20,16 @@ class SignInTextFieldWidget extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5).w,
               child: TextFormField(
-                style:  TextStyle(fontSize: screenWidth * 0.034),
+                style:  TextStyle(fontSize: 15.w),
                 decoration: InputDecoration(
                   labelText: 'EMAIL',
-                  labelStyle:  TextStyle(fontSize: screenWidth * 0.034, color: tdGrey),
+                  labelStyle:  TextStyle(fontSize: 15.sp, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  20),
+                    padding: const EdgeInsets.only(right:  15).w,
                     child: SvgPicture.asset('assets/svg/001-mail.svg',
-                      width: screenWidth * 0.02,height: screenHeight *0.02,),
+                      width: 10.w,height: 10.h,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -38,17 +37,17 @@ class SignInTextFieldWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5).w,
               child: TextFormField(
                 obscureText: true,
-                style:  TextStyle(fontSize: screenWidth * 0.034),
+                style:  TextStyle(fontSize: 15.sp),
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
-                  labelStyle:  TextStyle(fontSize: screenWidth * 0.034, color: tdGrey),
+                  labelStyle:  TextStyle(fontSize: 15.sp, color: tdGrey),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  20),
+                    padding: const EdgeInsets.only(right:  15).w,
                     child: SvgPicture.asset('assets/svg/002-password.svg',
-                    width: screenWidth * 0.02,height: screenHeight * 0.02,),
+                    width: 10.w,height: 10.h,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,

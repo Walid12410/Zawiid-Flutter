@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zawiid/Authentication/SignUp.dart';
 import 'package:zawiid/Authentication/Widget/SignInButton.dart';
 import 'package:zawiid/Authentication/Widget/SignInTextfield.dart';
 import 'package:zawiid/Authentication/Widget/Terms&PrivacySignIn.dart';
@@ -18,8 +18,6 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: tdGreen,
@@ -31,7 +29,7 @@ class _SignInState extends State<SignIn> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: const EdgeInsets.all(30),
+                      padding: const EdgeInsets.all(20).w,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,19 +41,19 @@ class _SignInState extends State<SignIn> {
                               Flexible(
                                 child: Image.asset(
                                   'assets/log/LOGO-icon---Black.png',
-                                  width: screenWidth * 0.8,
-                                  height: screenHeight * 0.24,
+                                  width: 200.w,
+                                  height: 130.h,
                                   fit: BoxFit.contain,
                                 ),
                               )
                             ],
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: 10.h),
                            Text(
                             'Log In',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * 0.06,
+                              fontSize: 21.sp,
                               color: tdBlack,
                             ),
                           ),
@@ -65,17 +63,17 @@ class _SignInState extends State<SignIn> {
                               },
                             child:  Text(
                               'Sign Up',
-                              style: TextStyle(fontSize: screenWidth * 0.06, color: tdGrey),
+                              style: TextStyle(fontSize: 21.sp, color: tdGrey),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.02),
-                          SignInTextFieldWidget(),
-                          SizedBox(height: screenHeight * 0.03),
-                          SignInButton(),
+                          SizedBox(height: 10.h),
+                          const SignInTextFieldWidget(),
+                          SizedBox(height: 15.h),
+                          const SignInButton(),
                           SizedBox(
-                            height: screenHeight * 0.02,
+                            height: 10.h,
                           ),
-                          ForgetPasswordWidget()
+                          const ForgetPasswordWidget()
                         ],
                       ),
                     ),
@@ -86,12 +84,12 @@ class _SignInState extends State<SignIn> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
+      bottomNavigationBar:  BottomAppBar(
         elevation: 0,
         color: tdGreen,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: TermsAndPrivacySignIn(),
+          padding:const EdgeInsets.symmetric(vertical: 7, horizontal: 20).w,
+          child:const TermsAndPrivacySignIn(),
         ),
       ),
     );

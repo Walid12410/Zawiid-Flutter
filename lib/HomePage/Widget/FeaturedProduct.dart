@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Color&Icons/color.dart';
 
 class FeaturedProductCard extends StatelessWidget {
   const FeaturedProductCard({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
 
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0).w,
       child: IntrinsicWidth(
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(12).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.5),
@@ -30,19 +27,20 @@ class FeaturedProductCard extends StatelessWidget {
               color: tdWhiteNav),
           child: Row(
             children: [
-              SizedBox(width: screenWidth * 0.05),
+              SizedBox(width: 10.w),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.02,
-                    vertical: screenWidth * 0.01),
+                padding:const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10).w,
                 child: SizedBox(
-                    width: screenWidth * 0.3,
+                    width: 80.w,
+                    height: 70.h,
                     child: Image.asset(
                       'assets/img/camera.png',
                       fit: BoxFit.fill,
                     )),
               ),
-              SizedBox(width: screenWidth * 0.04),
+              SizedBox(width: 10.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +48,7 @@ class FeaturedProductCard extends StatelessWidget {
                   Text(
                     'CATCH BIG',
                     style:
-                    TextStyle(color: tdBlack, fontSize: screenWidth * 0.05),
+                    TextStyle(color: tdBlack, fontSize: 20.sp),
                   ),
                   Row(
                     children: [
@@ -58,35 +56,35 @@ class FeaturedProductCard extends StatelessWidget {
                         'DEALS ',
                         style: TextStyle(
                             color: tdBlack,
-                            fontSize: screenWidth * 0.05,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         'ON THE',
                         style: TextStyle(
-                            color: tdBlack, fontSize: screenWidth * 0.05),
+                            color: tdBlack, fontSize: 20.sp),
                       )
                     ],
                   ),
                   Text(
                     'CAMERAS',
                     style:
-                    TextStyle(fontSize: screenWidth * 0.05, color: tdBlack),
+                    TextStyle(fontSize:20.sp, color: tdBlack),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: 5.h,
                   ),
                   Text(
                     'Shop now',
                     style: TextStyle(
-                        fontSize: screenWidth * 0.04,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
                         color: tdBlack),
                   )
                 ],
               ),
               SizedBox(
-                width: screenWidth * 0.05,
+                width: 20.h,
               ),
             ],
           ),

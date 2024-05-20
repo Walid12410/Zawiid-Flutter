@@ -36,6 +36,7 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(height: 5.h),
               Center(
                 child: SizedBox(
                   width: 100.w,

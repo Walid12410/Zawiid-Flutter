@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class SignUpButton extends StatelessWidget {
@@ -8,41 +9,40 @@ class SignUpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
-      padding: const EdgeInsets.all(1),
+      padding: const EdgeInsets.all(1).w,
       child: GestureDetector(
         onTap: () {
           //signup
         },
         child: Container(
           width: double.infinity,
-          height: screenHeight *0.06,
+          height: 35.h,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50), color: tdWhite),
+              borderRadius: BorderRadius.circular(50).w, color: tdWhite),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5).w,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: screenWidth * 0.05,),
+                SizedBox(width: 20.w),
                  Text(
                   'SIGN UP',
                   style: TextStyle(
-                      fontSize: screenWidth * 0.034,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.bold,
                       color: tdBlack),
+                   textAlign: TextAlign.center,
                 ),
                 Container(
-                    width: screenWidth * 0.09,
-                    height: screenWidth * 0.09,
+                    width: 25.w,
+                    height: 25.h,
                     decoration: BoxDecoration(
                         color: tdBlack,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20).w),
                     child:  Icon(
                       Icons.arrow_forward_ios,
-                      size: screenWidth * 0.05,
+                      size: 20.w,
                       color: tdGreen,
                     )
                 ),

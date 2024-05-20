@@ -10,8 +10,6 @@ class FeaturedPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     final List<String> names = [
       'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
@@ -28,27 +26,15 @@ class FeaturedPageView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TabCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                      names: names),
-                  TabCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                      names: names),
+                  TabCard(names: names),
+                  TabCard(names: names),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TabCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                      names: names),
-                  TabCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                      names: names),
+                  TabCard(names: names),
+                  TabCard(names: names),
                 ],
               ),
             ],

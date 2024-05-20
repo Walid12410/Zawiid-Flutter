@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'TabBar/TabView/FeaturedPage.dart';
 import 'TabBar/TabView/OnSalePage.dart';
@@ -47,43 +48,34 @@ class _HomePageState extends State<HomePage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(height: 5.h),
               Center(
                 child: SizedBox(
-                  width: screenWidth * 0.3,
-                  height: screenHeight * 0.1,
+                  width: 100.w,
+                  height: 50.h,
                   child: Image.asset(
                     'assets/log/LOGO-icon---Black.png',
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              CustomNavigationBar(screenWidth: screenWidth,screenHeight: screenHeight,),
-              SizedBox(height: screenHeight * 0.01),
-              OpeningImage(screenHeight: screenHeight),
-              SizedBox(height: screenHeight * 0.01),
-              SingleChildScrollView(
+              SizedBox(height: 20.h),
+              const CustomNavigationBar(),
+              SizedBox(height: 5.h),
+              const OpeningImage(),
+              SizedBox(height: 5.h),
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    FeaturedProductCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                    ),
-                    FeaturedProductCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                    ),
-                    FeaturedProductCard(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                    ),
+                    FeaturedProductCard(),
+                    FeaturedProductCard(),
+                    FeaturedProductCard(),
                   ],
                 ),
               ),
-              SizedBox(height: screenHeight * 0.01),
-              SizedBox(
-                height: screenHeight * 0.01, // Adjust the height as needed
-              ),
+              SizedBox(height: 10.h),
+
               CustomTabBarView(
                 tabController: _tabController,
                 tabViews: [
@@ -94,12 +86,12 @@ class _HomePageState extends State<HomePage>
               ),
               SizedBox(height: screenHeight * 0.01),
               Padding(
-                padding:  EdgeInsets.all(screenWidth * 0.02),
+                padding: const EdgeInsets.all(10).w,
                 child: Container(
                     width: double.infinity,
-                    height: screenHeight * 0.15,
+                    height: 90.h,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20)
+                      borderRadius: BorderRadius.circular(20).w
                     ),
                     child: Image.asset('assets/img/sddefault.png',
                     fit: BoxFit.fill,)),
