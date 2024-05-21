@@ -15,7 +15,10 @@ import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
 import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
 import '../AccountInfoScreen/Profile.dart';
 import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
+import '../CartPage/CartPage.dart';
+import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../Item/ItemDetails.dart';
+import '../NotificationPage/Notification.dart';
 import '../SearchPage/Search.dart';
 
 
@@ -79,7 +82,17 @@ class AppNavigation {
                           FadeTransition(opacity: animation, child: child),
                     ),
                   ),
-
+                  GoRoute(
+                    path: 'NotificationPage',
+                    name: 'NotificationPage',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const NotificationPage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -161,6 +174,18 @@ class AppNavigation {
                           FadeTransition(opacity: animation, child: child),
                     ),
                   ),
+                  GoRoute(
+                    path: 'CouponsPromotion',
+                    name: 'CouponsPromotion',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const CouponsPromotion(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+
                 ],
 
               ),
@@ -204,6 +229,14 @@ class AppNavigation {
           path: '/CustomerPage',
           name: 'CustomerPage',
           builder: (context,state)=> CustomerPage(
+            key: state.pageKey,
+          )
+      ),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/CartPage',
+          name: 'CartPage',
+          builder: (context,state)=> CartPage(
             key: state.pageKey,
           )
       ),

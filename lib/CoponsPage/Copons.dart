@@ -13,8 +13,6 @@ class CouponsMain extends StatefulWidget {
 class _CouponsMainState extends State<CouponsMain> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -24,11 +22,11 @@ class _CouponsMainState extends State<CouponsMain> {
             children: [
               const CouponsHead(),
               SizedBox(height: 15.h),
-              CouponCard(screenHeight: screenHeight),
-              CouponCard(screenHeight: screenHeight),
-              CouponCard(screenHeight: screenHeight),
-              CouponCard(screenHeight: screenHeight),
-              CouponCard(screenHeight: screenHeight),
+              const CouponCard(),
+              const CouponCard(),
+              const CouponCard(),
+              const CouponCard(),
+              const CouponCard(),
             ],
           ),
         ),

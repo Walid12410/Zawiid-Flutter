@@ -26,8 +26,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CouponsCardHead(screenWidth: screenWidth, screenHeight: screenHeight),
-              TitleAndDescription(
-                  screenWidth: screenWidth, screenHeight: screenHeight),
+              const TitleAndDescription(),
               Padding(
                 padding: EdgeInsets.all(screenWidth * 0.03),
                 child: Container(

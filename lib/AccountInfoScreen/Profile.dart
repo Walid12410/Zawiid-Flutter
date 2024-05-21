@@ -17,9 +17,6 @@ class ProfileMain extends StatefulWidget {
 class _ProfileMainState extends State<ProfileMain> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -31,18 +28,13 @@ class _ProfileMainState extends State<ProfileMain> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 5.h),
-                ProfileHeadPage(),
+                const ProfileHeadPage(),
                 SizedBox(
-                  height: 40.h,
+                  height: 30.h,
                 ),
-                UserProfileCard(
-                    screenHeight: screenHeight, screenWidth: screenWidth),
-                SizedBox(
-                  height: screenHeight * 0.02,
-                ),
+                const UserProfileCard(),
+                SizedBox(height: 10.h,),
                 OptionsCard(
-                    screenHeight: screenHeight,
-                    screenWidth: screenWidth,
                     icon1: 'assets/svg-profile/icons.svg',
                     text1: 'All My Orders',
                     icon2: 'assets/svg-profile/icon.svg',
@@ -56,8 +48,6 @@ class _ProfileMainState extends State<ProfileMain> {
                   isWhatsapp: true,
                 ),
                 OptionsCard(
-                    screenHeight: screenHeight,
-                    screenWidth: screenWidth,
                     icon1: 'assets/svg-profile/shipping.svg',
                     text1: 'Shipping Address',
                     icon2: 'assets/svg-profile/language.svg',
@@ -71,8 +61,6 @@ class _ProfileMainState extends State<ProfileMain> {
                   isWhatsapp: false,
                 ),
                 OptionsCard(
-                    screenHeight: screenHeight,
-                    screenWidth: screenWidth,
                     icon1: 'assets/svg-profile/Group.svg',
                     text1: 'Privacy Policy',
                     icon2: 'assets/svg-profile/Path.svg',
@@ -86,10 +74,9 @@ class _ProfileMainState extends State<ProfileMain> {
                   isWhatsapp: false,
                 ),
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: 10.h,
                 ),
-                LogoutWidget(
-                    screenWidth: screenWidth, screenHeight: screenHeight)
+                const LogoutWidget()
               ],
             ),
           ),

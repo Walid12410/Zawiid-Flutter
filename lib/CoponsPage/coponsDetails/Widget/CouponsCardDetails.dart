@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../Color&Icons/color.dart';
@@ -117,14 +118,19 @@ class CouponsCardDetails extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              Container(
-                width: double.infinity,
-                color: const Color(-9305855),
-                child: Padding(
-                  padding:const  EdgeInsets.all(8).w,
-                  child: Center(
-                    child: Text('SHOW COUPON',style: TextStyle(fontWeight: FontWeight.bold,
-                        color: tdWhite,fontSize: 8.sp),),
+              GestureDetector(
+                onTap: (){
+                  context.push(context.namedLocation('CouponsPromotion'));
+                },
+                child: Container(
+                  width: double.infinity,
+                  color: const Color(-9305855),
+                  child: Padding(
+                    padding:const  EdgeInsets.all(8).w,
+                    child: Center(
+                      child: Text('SHOW COUPON',style: TextStyle(fontWeight: FontWeight.bold,
+                          color: tdWhite,fontSize: 8.sp),),
+                    ),
                   ),
                 ),
               ),

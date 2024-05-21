@@ -37,9 +37,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -84,7 +81,6 @@ class _HomePageState extends State<HomePage>
                   TopRatedPageView(scrollController: _scrollController)
                 ],
               ),
-              SizedBox(height: screenHeight * 0.01),
               Padding(
                 padding: const EdgeInsets.all(10).w,
                 child: Container(

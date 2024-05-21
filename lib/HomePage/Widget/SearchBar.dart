@@ -3,6 +3,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zawiid/CartPage/CartPage.dart';
 import '../../Color&Icons/color.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -19,7 +20,7 @@ class CustomNavigationBar extends StatelessWidget {
         const SizedBox(),
         GestureDetector(
           onTap: () {
-            //notification bottom
+            GoRouter.of(context).goNamed('NotificationPage');
           },
           child: badges.Badge(
             badgeContent:  Text(
@@ -123,7 +124,7 @@ class CustomNavigationBar extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            //notification bottom
+            context.push(context.namedLocation('CartPage'));
           },
           child: badges.Badge(
             badgeContent:  Text(

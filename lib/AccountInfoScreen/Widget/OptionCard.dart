@@ -6,8 +6,6 @@ import '../../Color&Icons/color.dart';
 class OptionsCard extends StatelessWidget {
   const OptionsCard(
       {super.key,
-      required this.screenHeight,
-      required this.screenWidth,
       required this.icon1,
       required this.text1,
       required this.icon2,
@@ -16,8 +14,6 @@ class OptionsCard extends StatelessWidget {
       required this.onTap2,
       required this.isWhatsapp});
 
-  final double screenHeight;
-  final double screenWidth;
   final String icon1;
   final String icon2;
   final String text1;
@@ -33,7 +29,7 @@ class OptionsCard extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20).w,
+          borderRadius: BorderRadius.circular(10).w,
           color: tdWhite,
           boxShadow: [
             BoxShadow(
@@ -97,13 +93,15 @@ class OptionsCard extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   trailing: isWhatsapp
-                      ? SizedBox(
+                      ? Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50).w),
                           width: 25.w,
-                          height: 20.h,
+                          height: 22.h,
                           child: SvgPicture.asset(
                             'assets/svg-profile/whatsapp.svg',
                             color: tdGreen,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           ),
                         )
                       : Container(

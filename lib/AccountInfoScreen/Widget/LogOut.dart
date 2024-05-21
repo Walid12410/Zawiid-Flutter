@@ -6,12 +6,8 @@ import 'package:zawiid/Color&Icons/color.dart';
 class LogoutWidget extends StatelessWidget {
   const LogoutWidget({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
 
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {

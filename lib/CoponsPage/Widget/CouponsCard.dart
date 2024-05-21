@@ -6,10 +6,8 @@ import 'package:zawiid/Color&Icons/color.dart';
 class CouponCard extends StatelessWidget {
   const CouponCard({
     super.key,
-    required this.screenHeight,
   });
 
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
