@@ -46,7 +46,7 @@ class CustomTabBarView extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 500.h,
+          height: 480.h,
           child: TabBarView(
             controller: tabController,
             children: tabViews,

@@ -13,9 +13,10 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(),
         GestureDetector(
           onTap: () {
             //notification bottom
@@ -35,6 +36,7 @@ class CustomNavigationBar extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(),
         Container(
           height: 30.h,
           decoration: BoxDecoration(
@@ -49,6 +51,7 @@ class CustomNavigationBar extends StatelessWidget {
                   GoRouter.of(context).goNamed('SearchPage');
                 },
                 child: Container(
+                  width: 145.w,
                   decoration:  BoxDecoration(
                     borderRadius:const BorderRadius.only(
                       topLeft: Radius.circular(50),
@@ -124,7 +127,7 @@ class CustomNavigationBar extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent:  Text(
-              '3',
+              '0',
               style: TextStyle(color: tdWhite,fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
@@ -137,6 +140,7 @@ class CustomNavigationBar extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(width: 2.w,)
       ],
     );
   }

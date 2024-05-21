@@ -15,9 +15,10 @@ class SearchBarText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(),
         GestureDetector(
           onTap: () {
             //notification bottom
@@ -37,6 +38,7 @@ class SearchBarText extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(),
         Container(
           height: 30.h,
           decoration: BoxDecoration(
@@ -46,7 +48,7 @@ class SearchBarText extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 140.w,
+                width: 145.w,
                 decoration:  BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(50),
@@ -126,6 +128,7 @@ class SearchBarText extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(width: 2.w,)
       ],
     );
   }

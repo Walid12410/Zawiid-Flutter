@@ -35,13 +35,13 @@ class TitleAndDescription extends StatelessWidget {
               Text(
                 'Adidas',
                 style: TextStyle(
-                    fontSize: 15.sp,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.bold,
                     color: tdBlack),
               ),
               Text(
                 ' Coupon & Promo Codes - April 2024',
-                style: TextStyle(fontSize: 15.sp, color: tdGrey),
+                style: TextStyle(fontSize: 13.sp, color: tdGrey),
               ),
             ],
           ),

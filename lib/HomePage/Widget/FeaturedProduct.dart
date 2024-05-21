@@ -27,24 +27,25 @@ class FeaturedProductCard extends StatelessWidget {
               color: tdWhiteNav),
           child: Row(
             children: [
-              SizedBox(width: 10.w),
+              SizedBox(width: 15.w),
               Padding(
                 padding:const EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 10).w,
                 child: SizedBox(
-                    width: 80.w,
+                    width: 90.w,
                     height: 70.h,
                     child: Image.asset(
                       'assets/img/camera.png',
                       fit: BoxFit.fill,
                     )),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 15.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 5.h),
                   Text(
                     'CATCH BIG',
                     style:
@@ -80,11 +81,12 @@ class FeaturedProductCard extends StatelessWidget {
                         fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
                         color: tdBlack),
-                  )
+                  ),
+                  SizedBox(height: 5.h,)
                 ],
               ),
               SizedBox(
-                width: 20.h,
+                width: 15.h,
               ),
             ],
           ),
