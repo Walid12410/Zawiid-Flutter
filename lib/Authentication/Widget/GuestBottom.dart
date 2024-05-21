@@ -18,7 +18,7 @@ class GuestBottom extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          height: 40.h,
+          height: 35.h,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50).w, color: tdWhite),
           child: Padding(
@@ -26,7 +26,7 @@ class GuestBottom extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 20.w),
+                SizedBox(width: 35.w),
                 Text(
                   'CONTINUE AS A GUEST',
                   style: TextStyle(
@@ -35,17 +35,20 @@ class GuestBottom extends StatelessWidget {
                       color: tdBlack),
                   textAlign: TextAlign.center,
                 ),
-                Container(
-                    width: 25.w,
-                    height: 25.h,
+                Padding(
+                  padding: const EdgeInsets.only(right: 8).w,
+                  child: Container(
+                    width: 22.w,
+                    height: 20.h,
                     decoration: BoxDecoration(
                         color: tdBlack,
-                        borderRadius: BorderRadius.circular(20).w),
+                        borderRadius: BorderRadius.circular(200).w),
                     child:  Icon(
                       Icons.arrow_forward_ios,
-                      size: 20.w,
+                      size: 15.w,
                       color: tdGreen,
-                    )
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -26,7 +26,7 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'EMAIL/PHONE NUMBER',
                   labelStyle:
-                      TextStyle(fontSize: 11.sp, color: tdGrey),
+                      TextStyle(fontSize: 14.sp, color: tdGrey),
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right: 20).w,
                     child: SvgPicture.asset(
@@ -48,7 +48,7 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
                   labelStyle:
-                      TextStyle(fontSize: 11.sp, color: tdGrey),
+                      TextStyle(fontSize: 14.sp, color: tdGrey),
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right: 20).w,
                     child: SvgPicture.asset(

@@ -12,7 +12,7 @@ class AddressDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5).w,
+      padding: const EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5).w,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -22,7 +22,7 @@ class AddressDetails extends StatelessWidget {
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               offset: const Offset(5,5),
-              blurRadius: 12,
+              blurRadius: 5,
             ),
           ],
         ),
@@ -83,7 +83,7 @@ class AddressDetails extends StatelessWidget {
                       child: Text(
                         'Use as default',
                         style: TextStyle(
-                            fontSize: 15.h,
+                            fontSize: 12.h,
                             color: tdBlack,
                             fontWeight: FontWeight.bold),
                       )),
@@ -94,7 +94,7 @@ class AddressDetails extends StatelessWidget {
                       child: Text(
                         'Delete',
                         style: TextStyle(
-                            fontSize: 15.sp,
+                            fontSize: 12.sp,
                             color: tdGrey),
                       ))
                 ],

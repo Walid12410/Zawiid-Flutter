@@ -26,7 +26,7 @@ class SignInButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 20.w),
+                SizedBox(width: 30.w),
                  Text(
                   'LOG IN',
                   style: TextStyle(
@@ -34,17 +34,20 @@ class SignInButton extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: tdWhite),
                 ),
-                Container(
-                    width: 25.w,
-                    height: 25.h,
-                    decoration: BoxDecoration(
-                        color: tdWhite,
-                        borderRadius: BorderRadius.circular(20).w),
-                    child:  Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.w,
-                      color: tdGreen,
-                    )
+                Padding(
+                  padding: const EdgeInsets.only(right: 8).w,
+                  child: Container(
+                      width: 22.w,
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                          color: tdWhite,
+                          borderRadius: BorderRadius.circular(200).w),
+                      child:  Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15.w,
+                        color: tdGreen,
+                      ),
+                  ),
                 ),
               ],
             ),

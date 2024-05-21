@@ -20,33 +20,33 @@ class CustomTabBarView extends StatelessWidget {
           color: tdWhite,
           child: TabBar(
             controller: tabController,
-            indicatorColor: Colors.black,
+            indicatorColor: tdBlack,
             isScrollable: false,
             tabs: [
               Tab(
                 child: Text(
                   'Featured',
                   style:
-                      TextStyle(fontSize: 18.sp, color: tdBlack),
+                      TextStyle(fontSize: 15.sp, color: tdBlack),
                 ),
               ),
               Tab(
                 child: Text(
                   'On Sale',
                   style:
-                      TextStyle(fontSize: 18.sp, color: tdBlack),
+                      TextStyle(fontSize: 15.sp, color: tdBlack),
                 ),
               ),
               Tab(
                 child: Text('Top Rated',
                     style: TextStyle(
-                        fontSize: 18.sp, color: tdBlack)),
+                        fontSize: 15.sp, color: tdBlack)),
               ),
             ],
           ),
         ),
         SizedBox(
-          height: 480.h,
+          height: 500.h,
           child: TabBarView(
             controller: tabController,
             children: tabViews,

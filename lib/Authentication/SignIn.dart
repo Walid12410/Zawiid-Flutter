@@ -48,7 +48,6 @@ class _SignInState extends State<SignIn> {
                               )
                             ],
                           ),
-                          SizedBox(height: 10.h),
                            Text(
                             'Log In',
                             style: TextStyle(
@@ -68,7 +67,7 @@ class _SignInState extends State<SignIn> {
                           ),
                           SizedBox(height: 10.h),
                           const SignInTextFieldWidget(),
-                          SizedBox(height: 15.h),
+                          SizedBox(height: 20.h),
                           const SignInButton(),
                           SizedBox(
                             height: 10.h,

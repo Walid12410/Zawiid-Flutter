@@ -48,7 +48,6 @@ class _SignUpState extends State<SignUp>{
                               )
                             ],
                           ),
-                          SizedBox(height: 10.h),
                            Text(
                             'Sign Up',
                             style: TextStyle(
@@ -68,7 +67,7 @@ class _SignUpState extends State<SignUp>{
                           ),
                           SizedBox(height: 10.h),
                           const TextFieldWidgetSignUp(),
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 20.h),
                           const SignUpButton(),
                           SizedBox(height: 10.h),
                           const GuestBottom()

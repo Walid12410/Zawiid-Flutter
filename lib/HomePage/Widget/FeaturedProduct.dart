@@ -16,7 +16,7 @@ class FeaturedProductCard extends StatelessWidget {
       child: IntrinsicWidth(
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12).w,
+              borderRadius: BorderRadius.circular(18).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.5),
@@ -27,7 +27,7 @@ class FeaturedProductCard extends StatelessWidget {
               color: tdWhiteNav),
           child: Row(
             children: [
-              SizedBox(width: 15.w),
+              SizedBox(width: 20.w),
               Padding(
                 padding:const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -49,7 +49,7 @@ class FeaturedProductCard extends StatelessWidget {
                   Text(
                     'CATCH BIG',
                     style:
-                    TextStyle(color: tdBlack, fontSize: 20.sp),
+                    TextStyle(color: tdBlack, fontSize: 18.sp),
                   ),
                   Row(
                     children: [
@@ -57,20 +57,20 @@ class FeaturedProductCard extends StatelessWidget {
                         'DEALS ',
                         style: TextStyle(
                             color: tdBlack,
-                            fontSize: 20.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         'ON THE',
                         style: TextStyle(
-                            color: tdBlack, fontSize: 20.sp),
+                            color: tdBlack, fontSize: 18.sp),
                       )
                     ],
                   ),
                   Text(
                     'CAMERAS',
                     style:
-                    TextStyle(fontSize:20.sp, color: tdBlack),
+                    TextStyle(fontSize:18.sp, color: tdBlack),
                   ),
                   SizedBox(
                     height: 5.h,
@@ -86,7 +86,7 @@ class FeaturedProductCard extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                width: 15.h,
+                width: 25.h,
               ),
             ],
           ),

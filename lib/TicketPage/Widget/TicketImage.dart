@@ -16,7 +16,7 @@ class TicketImage extends StatelessWidget {
         width: double.infinity,
         height: 300.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20).w,
+          borderRadius: BorderRadius.circular(15).w,
           image: const DecorationImage(
             image: AssetImage('assets/img/ticketTestingimage.png'),
             fit: BoxFit.fill,

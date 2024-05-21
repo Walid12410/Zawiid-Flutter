@@ -25,7 +25,7 @@ class SignInTextFieldWidget extends StatelessWidget {
                 style:  TextStyle(fontSize: 10.sp),
                 decoration: InputDecoration(
                   labelText: 'EMAIL',
-                  labelStyle:  TextStyle(fontSize: 11.sp, color: tdGrey),
+                  labelStyle:  TextStyle(fontSize: 14.sp, color: tdGrey),
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right:  20).w,
                     child: SvgPicture.asset('assets/svg/001-mail.svg',
@@ -43,11 +43,11 @@ class SignInTextFieldWidget extends StatelessWidget {
                 style:  TextStyle(fontSize: 15.sp),
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
-                  labelStyle:  TextStyle(fontSize: 11.sp, color: tdGrey),
+                  labelStyle:  TextStyle(fontSize: 14.sp, color: tdGrey),
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right:  20).w,
                     child: SvgPicture.asset('assets/svg/002-password.svg',
-                    width: 5.w,height: 5.h,),
+                    width: 5.w,height: 5.h,fit: BoxFit.contain,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,

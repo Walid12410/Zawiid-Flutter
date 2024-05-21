@@ -27,7 +27,7 @@ class TabCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
-                blurRadius: 10,
+                blurRadius: 5,
                 offset: const Offset(5.0, 5.0),
               ),
             ],
@@ -69,7 +69,7 @@ class TabCard extends StatelessWidget {
                     Text(
                       '358.000 LB',
                       style: TextStyle(
-                          fontSize: 20.sp,
+                          fontSize: 18.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.bold),
                     ),

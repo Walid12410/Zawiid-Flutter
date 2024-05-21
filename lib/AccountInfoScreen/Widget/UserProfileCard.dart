@@ -40,7 +40,7 @@ class UserProfileCard extends StatelessWidget {
                   height: 20.h,
                   decoration: BoxDecoration(
                       border: Border.all(color: tdGrey),
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20).w),
                   child: Center(
                     child: Text(
                       'EDIT PROFILE',

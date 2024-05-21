@@ -26,7 +26,7 @@ class LogoutWidget extends StatelessWidget {
             'LOG OUT',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 12.sp,
+                fontSize: 10.sp,
                 color: tdGrey),
           ),
         ),

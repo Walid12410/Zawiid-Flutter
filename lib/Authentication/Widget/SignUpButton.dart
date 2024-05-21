@@ -25,7 +25,7 @@ class SignUpButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 20.w),
+                SizedBox(width: 30.w),
                  Text(
                   'SIGN UP',
                   style: TextStyle(
@@ -34,17 +34,20 @@ class SignUpButton extends StatelessWidget {
                       color: tdBlack),
                    textAlign: TextAlign.center,
                 ),
-                Container(
-                    width: 25.w,
-                    height: 25.h,
+                Padding(
+                  padding: const EdgeInsets.only(right: 8).w,
+                  child: Container(
+                    width: 22.w,
+                    height: 20.h,
                     decoration: BoxDecoration(
                         color: tdBlack,
-                        borderRadius: BorderRadius.circular(20).w),
+                        borderRadius: BorderRadius.circular(200).w),
                     child:  Icon(
                       Icons.arrow_forward_ios,
-                      size: 20.w,
+                      size: 15.w,
                       color: tdGreen,
-                    )
+                    ),
+                  ),
                 ),
               ],
             ),
