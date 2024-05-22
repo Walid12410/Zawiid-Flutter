@@ -30,7 +30,7 @@ class UserProfileCard extends StatelessWidget {
               ),
               Text(
                 'wjallad55@gmail.com',
-                style: TextStyle(fontSize: 13.sp, color: tdGrey,fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 12.sp, color: tdGrey,fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 5.h),
               GestureDetector(
@@ -40,12 +40,12 @@ class UserProfileCard extends StatelessWidget {
                   height: 20.h,
                   decoration: BoxDecoration(
                       border: Border.all(color: tdGrey),
-                      borderRadius: BorderRadius.circular(20).w),
+                      borderRadius: BorderRadius.circular(15).w),
                   child: Center(
                     child: Text(
                       'EDIT PROFILE',
                       style:
-                      TextStyle(fontSize: 10.sp, color: tdGrey),
+                      TextStyle(fontSize: 9.sp, color: tdGrey,fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -61,7 +61,7 @@ class UserProfileCard extends StatelessWidget {
                   height: 60.h,
                   child: Image.asset(
                     'assets/img/User.png',
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                   )),
               SizedBox(height: 7.h,)
             ],

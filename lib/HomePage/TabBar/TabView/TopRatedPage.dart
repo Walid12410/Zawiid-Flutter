@@ -19,6 +19,7 @@ class TopRatedPageView extends StatelessWidget {
     ];
 
     return Scaffold(
+      backgroundColor: tdWhite,
         body: SingleChildScrollView(
           controller: scrollController,
           child: Column(

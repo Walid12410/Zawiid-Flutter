@@ -12,22 +12,22 @@ class CouponCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0).w,
       child: GestureDetector(
         onTap: (){
           context.push(context.namedLocation('CouponsDetails'));
         },
         child: Container(
           width: double.infinity,
-          height: 150.h,
+          height: 120.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: tdWhite,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
-                offset: const Offset(4.0, 4.0),
-                blurRadius: 10,
+                offset: const Offset(0, 0),
+                blurRadius: 5,
               ),
             ],
           ),

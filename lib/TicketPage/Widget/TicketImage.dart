@@ -11,10 +11,10 @@ class TicketImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0).w,
+      padding: const EdgeInsets.all(1).w,
       child: Container(
         width: double.infinity,
-        height: 300.h,
+        height: 280.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15).w,
           image: const DecorationImage(

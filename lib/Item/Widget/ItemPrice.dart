@@ -13,7 +13,7 @@ class ItemPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('522.42 LB',style: TextStyle(fontSize: 16.sp,color: tdBlack,
+        Text('522.42 LB',style: TextStyle(fontSize: 14.sp,color: tdBlack,
           fontWeight: FontWeight.bold,
           decoration: TextDecoration.lineThrough,
           decorationThickness: 2.5, // Adjust the thickness of the line through
@@ -21,7 +21,7 @@ class ItemPrice extends StatelessWidget {
         ),
         ),
         SizedBox(width: 15.w),
-        Text('530.23 LB',style: TextStyle(fontSize: 25.sp,color: Colors.red,fontWeight: FontWeight.bold),)
+        Text('530.23 LB',style: TextStyle(fontSize: 20.sp,color: Colors.red,fontWeight: FontWeight.bold),)
       ],
     );
   }

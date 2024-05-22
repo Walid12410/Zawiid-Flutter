@@ -15,17 +15,17 @@ class ItemShipping extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Shipping',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        Text('Shipping',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold,color: tdBlack),),
         SizedBox(height: 10.h),
-        Text('Scheduled delivery (Free)',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        Text('Scheduled delivery (Free)',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold,color: tdBlack),),
         SizedBox(height: 5.h,),
-        Text('Free Next-Day delivery',style: TextStyle(fontSize: 15.sp,color: tdBlack),),
+        Text('Free Next-Day delivery',style: TextStyle(fontSize: 12.sp,color: tdBlack),),
         SizedBox(height: 5.h),
-        Text('1-Hour Express Delivery Available',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        Text('1-Hour Express Delivery Available',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold,color: tdBlack),),
         SizedBox(height: 5.sp),
-        Text('Order now and get it within 1 hour',style: TextStyle(fontSize: 15.sp,color: tdBlack),),
+        Text('Order now and get it within 1 hour',style: TextStyle(fontSize: 12.sp,color: tdBlack),),
         SizedBox(height: 5.sp,),
-        Text('3-Hour Express Delivery Available',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        Text('3-Hour Express Delivery Available',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold,color: tdBlack),),
       ],
     );
   }

@@ -33,7 +33,7 @@ class ProfileHeadPage extends StatelessWidget {
           ),
           Icon(
             MyFlutterApp.group_168,
-            size: 55.w,
+            size: 50.w,
           ),
           const SizedBox(),
         ],

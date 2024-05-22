@@ -25,7 +25,7 @@ class _ItemDetailsState extends State<ItemDetails> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ItemDetailsHead(),
+              const ItemDetailsHead(),
               Padding(
                 padding:const EdgeInsets.all(8).w,
                 child: Column(
@@ -34,8 +34,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                   children: [
                     Center(
                       child: SizedBox(
-                          width: 250.w,
-                          height: 300.h,
+                          width: 210.w,
+                          height: 250.h,
                           child: Image.asset('assets/img/iphone.png',fit: BoxFit.fill,)),
                     ),
                     SizedBox(height: 10.h,),

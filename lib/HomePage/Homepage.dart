@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import '../Drawer/DrawerPage.dart';
 import 'TabBar/TabView/FeaturedPage.dart';
 import 'TabBar/TabView/OnSalePage.dart';
 import 'TabBar/TabView/TopRatedPage.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerWithDropdown(),
       backgroundColor: tdWhite,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage>
               const CustomNavigationBar(),
               SizedBox(height: 5.h),
               const OpeningImage(),
-              SizedBox(height: 5.h),
+              SizedBox(height: 10.h),
               const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -71,8 +73,7 @@ class _HomePageState extends State<HomePage>
                   ],
                 ),
               ),
-              SizedBox(height: 10.h),
-
+              SizedBox(height: 5.h),
               CustomTabBarView(
                 tabController: _tabController,
                 tabViews: [

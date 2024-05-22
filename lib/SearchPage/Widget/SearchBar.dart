@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import '../../Color&Icons/color.dart';
 
 class SearchBarText extends StatelessWidget {
@@ -21,7 +22,7 @@ class SearchBarText extends StatelessWidget {
         const SizedBox(),
         GestureDetector(
           onTap: () {
-            //notification bottom
+            context.push(context.namedLocation('NotificationPage'));
           },
           child: badges.Badge(
             badgeContent:  Text(
@@ -111,7 +112,7 @@ class SearchBarText extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            //notification bottom
+            context.push(context.namedLocation('CartPage'));
           },
           child: badges.Badge(
             badgeContent:  Text(

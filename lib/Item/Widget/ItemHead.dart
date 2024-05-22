@@ -29,7 +29,7 @@ class ItemDetailsHead extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //notification bottom
+              context.push(context.namedLocation('CartPage'));
             },
             child: badges.Badge(
               badgeContent:  Text(

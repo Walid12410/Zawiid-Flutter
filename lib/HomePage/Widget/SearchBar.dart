@@ -81,7 +81,9 @@ class CustomNavigationBar extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
                 child: Container(
                   decoration:  BoxDecoration(
                     border:const Border(left: BorderSide(color: Colors.black)),

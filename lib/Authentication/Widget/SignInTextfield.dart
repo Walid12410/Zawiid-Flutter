@@ -16,11 +16,11 @@ class SignInTextFieldWidget extends StatelessWidget {
         color: tdWhite,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(5).w,
+        padding: const EdgeInsets.only(right: 5,left: 5).w,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(5).w,
+              padding: const EdgeInsets.only(left: 15,right: 5,bottom: 5,top: 5).w,
               child: TextFormField(
                 style:  TextStyle(fontSize: 10.sp),
                 decoration: InputDecoration(
@@ -29,7 +29,7 @@ class SignInTextFieldWidget extends StatelessWidget {
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right:  20).w,
                     child: SvgPicture.asset('assets/svg/001-mail.svg',
-                      width: 5.w,height: 5.h,),
+                      width: 2.w,height: 2.h,fit: BoxFit.contain,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -37,17 +37,17 @@ class SignInTextFieldWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(5).w,
+              padding: const EdgeInsets.only(left: 15,right: 5,bottom: 5,top: 5).w,
               child: TextFormField(
                 obscureText: true,
-                style:  TextStyle(fontSize: 15.sp),
+                style:  TextStyle(fontSize: 10.sp),
                 decoration: InputDecoration(
                   labelText: 'PASSWORD',
                   labelStyle:  TextStyle(fontSize: 14.sp, color: tdGrey),
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right:  20).w,
                     child: SvgPicture.asset('assets/svg/002-password.svg',
-                    width: 5.w,height: 5.h,fit: BoxFit.contain,),
+                    width: 2.w,height: 2.h,fit: BoxFit.contain,),
                   ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,

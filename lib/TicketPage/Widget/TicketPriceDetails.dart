@@ -12,15 +12,15 @@ class TicketPriceDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 238.w,
-      height: 41.h,
+      height: 30.h,
       decoration: BoxDecoration(
         color: tdWhite,
         borderRadius: BorderRadius.circular(50).w,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
-            offset: const Offset(4.0, 4.0),
-            blurRadius: 15,
+            offset: const Offset(0, 0),
+            blurRadius: 5,
           ),
         ],
       ),

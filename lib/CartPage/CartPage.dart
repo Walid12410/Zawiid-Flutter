@@ -42,7 +42,7 @@ class _CartPageState extends State<CartPage> {
       bottomNavigationBar: BottomAppBar(
         surfaceTintColor: tdWhite,
         color: tdWhite,
-        height: 140.h,
+        height: 125.h,
         child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
@@ -64,22 +64,22 @@ class _CartPageState extends State<CartPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Sub-Total:',style: TextStyle(color: tdBlack,fontSize: 15.sp),),
-                            Text('00.00 KWD',style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdBlack),)
+                            Text('Sub-Total:',style: TextStyle(color: tdBlack,fontSize: 12.sp),),
+                            Text('00.00 KWD',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),)
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Delivery:',style: TextStyle(color: tdBlack,fontSize: 15.sp),),
-                            Text('0',style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdBlack),)
+                            Text('Delivery:',style: TextStyle(color: tdBlack,fontSize: 12.sp),),
+                            Text('0',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),)
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('EST. Total:',style: TextStyle(color: tdBlack,fontSize: 15.sp),),
-                            Text('00.00 KWD',style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdBlack),)
+                            Text('EST. Total:',style: TextStyle(color: tdBlack,fontSize: 12.sp),),
+                            Text('00.00 KWD',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),)
                           ],
                         ),
                       ],
@@ -87,7 +87,6 @@ class _CartPageState extends State<CartPage> {
                   ),
                   Expanded(
                     child: Container(
-                      height: 200.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50).w,

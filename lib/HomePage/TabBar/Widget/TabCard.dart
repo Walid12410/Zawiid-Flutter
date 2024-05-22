@@ -26,9 +26,9 @@ class TabCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(5).w,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.grey.withOpacity(0.5),
                 blurRadius: 5,
-                offset: const Offset(5.0, 5.0),
+                offset: const Offset(0, 0),
               ),
             ],
           ),

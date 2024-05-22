@@ -19,14 +19,14 @@ class ItemBottoms extends StatelessWidget {
           },
           child: Container(
             width: 220.w,
-            height: 35.h,
+            height: 30.h,
             decoration: BoxDecoration(
                 border: Border.all(color: tdBlack),
                 borderRadius: BorderRadius.circular(20).w
             ),
             child: Center(
                 child: Text('Add to cart',style: TextStyle(
-                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 19.sp
+                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 17.sp
                 ),)),
           ),
         ),
@@ -37,14 +37,14 @@ class ItemBottoms extends StatelessWidget {
           },
           child: Container(
             width: 110.w,
-            height: 35.h,
+            height: 30.h,
             decoration: BoxDecoration(
                 border: Border.all(color: tdBlack),
                 borderRadius: BorderRadius.circular(20).w
             ),
             child: Center(
                 child: Text('Buy',style: TextStyle(
-                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 19.sp
+                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 17.sp
                 ),)),
           ),
         )

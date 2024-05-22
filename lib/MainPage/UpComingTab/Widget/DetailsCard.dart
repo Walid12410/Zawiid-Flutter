@@ -21,7 +21,7 @@ class DetailsUpComing extends StatelessWidget {
         children: [
           SizedBox(
             width: double.infinity,
-            height: 250.h,
+            height: 210.h,
             child: Image.asset(
               'assets/img/iphone.png',
               fit: BoxFit.contain,
@@ -31,7 +31,7 @@ class DetailsUpComing extends StatelessWidget {
             'iPhone 14 ProMax / 256GB Black Color',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
+                fontSize: 12.sp,
                 color: tdBlack),
              textAlign: TextAlign.center,
           ),
@@ -40,24 +40,24 @@ class DetailsUpComing extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('30th April. 10.00PM',style: TextStyle(fontSize: 10.sp,color: tdGrey),),
-              Text(' Today',style: TextStyle(fontSize: 10.sp,color: tdGreen),)
+              Text('30th April. 10.00PM',style: TextStyle(fontSize: 8.sp,color: tdGrey),),
+              Text(' Today',style: TextStyle(fontSize: 8.sp,color: tdGreen),)
             ],
           ),
-          Text('Starting Price: 50KD',style: TextStyle(fontSize: 10.sp,color: tdGrey),),
+          Text('Starting Price: 50KD',style: TextStyle(fontSize: 8.sp,color: tdGrey),),
           SizedBox(height: 10.h),
           Container(
-            width: 220.w,
+            width: 180.w,
             height: 20.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20).w,
                 border: Border.all(color: tdBlack)
             ),
             child:  Center(
-              child: Text('Zawiiidddd',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+              child: Text('Zawiiidddd',style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold,color: tdBlack),),
             ),
           ),
-          SizedBox(height: 2.h,),
+          SizedBox(height: 5.h,),
           CountdownTimerScreen(endTime: endTime),
         ],
       ),

@@ -25,7 +25,7 @@ class OptionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0).w,
+      padding: EdgeInsets.all(5.0.w),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -34,9 +34,8 @@ class OptionsCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
               blurRadius: 5,
-              offset: const Offset(0, 3),
+              offset: const Offset(0, 0),
             ),
           ],
         ),
@@ -44,35 +43,45 @@ class OptionsCard extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: onTap1,
-              child: ListTile(
-                leading: SvgPicture.asset(
-                  icon1,
-                  width: 20.sp,
-                ),
-                title: Text(
-                  text1,
-                  style: TextStyle(
-                      color: tdGrey,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-                trailing: Container(
-                  width: 22.w,
-                  height: 20.h,
-                  decoration: BoxDecoration(
-                    color: tdWhiteNav,
-                    borderRadius: BorderRadius.circular(20).w,
-                  ),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15.w,
-                    color: tdGrey,
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                        top: 8, right: 12, left: 12, bottom: 4)
+                    .w,
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      icon1,
+                      width: 18.sp,
+                    ),
+                    SizedBox(width: 15.w),
+                    Expanded(
+                      child: Text(
+                        text1,
+                        style: TextStyle(color: tdGrey, fontSize: 14.sp),
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(height: 5.h,),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50).w,
+                          ),
+                          width: 25.w,
+                          height: 22.h,
+                          child: SvgPicture.asset(
+                            'assets/svg/arrow.svg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 35, right: 20).w,
+              padding: EdgeInsets.only(left: 30.w, right: 15.w),
               child: const Divider(
                 color: tdGrey,
                 thickness: 0.2,
@@ -80,43 +89,61 @@ class OptionsCard extends StatelessWidget {
             ),
             GestureDetector(
               onTap: onTap2,
-              child: ListTile(
-                  leading: SvgPicture.asset(
-                    icon2,
-                    width: 20.sp,
-                  ),
-                  title: Text(
-                    text2,
-                    style: TextStyle(
-                        color: tdGrey,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  trailing: isWhatsapp
-                      ? Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50).w),
-                          width: 25.w,
-                          height: 22.h,
-                          child: SvgPicture.asset(
-                            'assets/svg-profile/whatsapp.svg',
-                            color: tdGreen,
-                            fit: BoxFit.fill,
-                          ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                        top: 4, right: 12, left: 12, bottom: 8)
+                    .w,
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      icon2,
+                      width: 18.sp,
+                    ),
+                    SizedBox(width: 15.w),
+                    Expanded(
+                      child: Text(
+                        text2,
+                        style: TextStyle(
+                          color: tdGrey,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    isWhatsapp
+                        ? Column(
+                          children: [
+                            SizedBox(height: 5.h,),
+                            Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50).w,
+                                ),
+                                width: 25.w,
+                                height: 22.h,
+                                child: SvgPicture.asset(
+                                  'assets/svg-profile/whatsapp.svg',
+                                  color: tdGreen,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                          ],
                         )
-                      : Container(
-                          width: 22.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                            color: tdWhiteNav,
-                            borderRadius: BorderRadius.circular(20).w,
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 15.w,
-                            color: tdGrey,
-                          ),
-                        )),
+                        : Column(
+                          children: [
+                            SizedBox(height: 5.h,),
+                            Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50).w,
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/svg/arrow.svg',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                          ],
+                        )
+                  ],
+                ),
+              ),
             ),
           ],
         ),

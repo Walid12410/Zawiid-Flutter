@@ -17,7 +17,7 @@ class SoldDetails extends StatelessWidget {
         children: [
           SizedBox(
             width: double.infinity,
-            height: 250.h,
+            height: 210.h,
             child: Image.asset(
               'assets/img/iphone.png',
               fit: BoxFit.contain,
@@ -27,7 +27,7 @@ class SoldDetails extends StatelessWidget {
             'iPhone 14 ProMax / 256GB Black Color',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
+                fontSize: 12.sp,
                 color: tdBlack),
             textAlign: TextAlign.center,
           ),
@@ -36,18 +36,18 @@ class SoldDetails extends StatelessWidget {
           ),
           Text(
             '30th April. 10.00PM',
-            style: TextStyle(fontSize: 10.sp, color: tdGrey),
+            style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(
             height: 2.h,
           ),
           Text(
             'SOLD AT: 1550KD',
-            style: TextStyle(fontSize: 10.sp, color: tdGrey),
+            style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),
           Container(
-            width: 220.w,
+            width: 180.w,
             height: 20.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20).w,
@@ -56,7 +56,7 @@ class SoldDetails extends StatelessWidget {
               child: Text(
                 'SOLD',
                 style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.bold,
                     color: tdBlack),
               ),

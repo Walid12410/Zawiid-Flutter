@@ -15,11 +15,11 @@ class ItemTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('APPLE',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        Text('APPLE',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold,color: tdBlack),),
         Text('Apple iPhone 15 Pro Max 6.7- Inch 250GB',style: TextStyle(
-            color: tdBlack,fontSize: 15.sp
+            color: tdBlack,fontSize: 12.sp
         ),),
-        Text('White Titanium',style: TextStyle(fontSize: 15.sp,color: tdBlack),),
+        Text('White Titanium',style: TextStyle(fontSize: 12.sp,color: tdBlack),),
       ],
     );
   }

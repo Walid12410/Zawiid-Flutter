@@ -51,8 +51,8 @@ class _NavBarState extends State<NavBar> {
                   borderRadius: BorderRadius.circular(100.0).w,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      blurRadius: 10,
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 5,
                       offset: const Offset(0, 0),
                     ),
                   ],

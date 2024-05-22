@@ -17,7 +17,7 @@ class LogoutWidget extends StatelessWidget {
       },
       child: Container(
         width: 100.w,
-        height: 25.h,
+        height: 20.h,
         decoration: BoxDecoration(
             border: Border.all(color: tdGrey),
             borderRadius: BorderRadius.circular(15).w),
@@ -26,7 +26,7 @@ class LogoutWidget extends StatelessWidget {
             'LOG OUT',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 10.sp,
+                fontSize: 9.sp,
                 color: tdGrey),
           ),
         ),

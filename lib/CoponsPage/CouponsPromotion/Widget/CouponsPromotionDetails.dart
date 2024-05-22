@@ -64,7 +64,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15).w
                 ),
                 child: Center(
-                  child: Text('ADI20',style: TextStyle(fontSize: 32.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+                  child: Text('ADI20',style: TextStyle(fontSize: 27.sp,fontWeight: FontWeight.bold,color: tdBlack),),
                 ),
               ),
               const SizedBox(),
@@ -77,7 +77,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                     color: tdBlack
                 ),
                 child: Center(
-                  child: Text('COPY',style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdWhite),),
+                  child: Text('COPY',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdWhite),),
                 ),
               ),
             ],
@@ -95,7 +95,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                   border: Border.all(color: tdBlack)
               ),
               child: Center(
-                child: Text('GO TO THE STORE',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 15.sp),),
+                child: Text('GO TO THE STORE',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 12.sp),),
               ),
             ),
           ),

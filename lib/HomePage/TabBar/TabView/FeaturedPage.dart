@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zawiid/Color&Icons/color.dart';
 
 import '../Widget/TabCard.dart';
 
@@ -19,6 +20,7 @@ class FeaturedPageView extends StatelessWidget {
     ];
 
     return Scaffold(
+      backgroundColor: tdWhite,
         body: SingleChildScrollView(
           controller: scrollController,
           child: Column(

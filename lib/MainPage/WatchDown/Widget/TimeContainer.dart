@@ -15,20 +15,19 @@ class TimeContainer extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8).w,
+          padding: const EdgeInsets.all(5).w,
           child: Container(
-            width: 35.w,
-            height: 30.h,
+            width: 27.w,
+            height: 20.h,
             margin:const EdgeInsets.all(5).w,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5).w,
+              color: tdWhite,
+              borderRadius: BorderRadius.circular(2).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
                   blurRadius: 5,
-                  offset:const Offset(0, 3),
+                  offset:const Offset(0, 0),
                 ),
               ],
             ),
@@ -43,7 +42,7 @@ class TimeContainer extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(fontSize: 7.sp,color: tdGrey ),
+          style: TextStyle(fontSize: 5.sp,color: tdGrey ),
         ),
       ],
     );

@@ -11,7 +11,7 @@ class OpeningImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
-        height: 220.h,
+        height: 200.h,
         child: Image.asset(
           'assets/img/watch.png',
           fit: BoxFit.fill,

@@ -46,39 +46,43 @@ class FeaturedProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 5.h),
-                  Text(
-                    'CATCH BIG',
-                    style:
-                    TextStyle(color: tdBlack, fontSize: 18.sp),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'DEALS ',
+                  SizedBox(
+                    width: 130.w,
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'CATCH BIG ',
                         style: TextStyle(
-                            color: tdBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 18.sp,
+                          color: tdBlack,
+                          fontWeight: FontWeight.w300
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'DEALS',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.sp,
+                              color: tdBlack,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' ON THE CAMERAS',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              color: tdBlack,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'ON THE',
-                        style: TextStyle(
-                            color: tdBlack, fontSize: 18.sp),
-                      )
-                    ],
-                  ),
-                  Text(
-                    'CAMERAS',
-                    style:
-                    TextStyle(fontSize:18.sp, color: tdBlack),
+                    ),
                   ),
                   SizedBox(
-                    height: 5.h,
+                    height: 10.h,
                   ),
                   Text(
                     'Shop now',
                     style: TextStyle(
-                        fontSize: 15.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                         color: tdBlack),
                   ),
@@ -86,7 +90,7 @@ class FeaturedProductCard extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                width: 25.h,
+                width: 20.h,
               ),
             ],
           ),
