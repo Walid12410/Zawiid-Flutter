@@ -14,7 +14,7 @@ class TicketImage extends StatelessWidget {
       padding: const EdgeInsets.all(1).w,
       child: Container(
         width: double.infinity,
-        height: 280.h,
+        height: 300.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15).w,
           image: const DecorationImage(

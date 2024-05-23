@@ -18,6 +18,7 @@ import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 import '../CartPage/CartPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../Item/ItemDetails.dart';
+import '../ItemAvariable/ItemAvariable.dart';
 import '../NotificationPage/Notification.dart';
 import '../SearchPage/Search.dart';
 
@@ -77,6 +78,17 @@ class AppNavigation {
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
                       child: const SearchPage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'ItemViewCategories',
+                    name: 'ItemViewCategories',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const ItemViewCategories(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                           FadeTransition(opacity: animation, child: child),

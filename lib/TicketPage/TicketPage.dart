@@ -41,7 +41,7 @@ class _TicketMainState extends State<TicketMain> {
               const TicketBackArrow(),
               const TicketImage(),
               if(_showDetails)
-                SizedBox(height: 20.h,),
+                SizedBox(height: 30.h,),
               if (_showDetailsBottom)
               TicketDetailsBottom(onTap: toggleVisibility),
               if (_showDetails) ...[

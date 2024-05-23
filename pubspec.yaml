@@ -98,6 +98,7 @@ flutter:
     - assets/svg/arrow.svg
     - assets/svg/arrow_down.svg
     - assets/svg/arrow_up.svg
+    - assets/img/pop2.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

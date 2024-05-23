@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class TitleCategory {
@@ -161,13 +162,18 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        titleCategories[i].categories[j],
-                                        style: TextStyle(
-                                            fontSize: 13.sp, color: tdBlack),
+                                      GestureDetector(
+                                        onTap: (){
+                                          GoRouter.of(context).goNamed('ItemViewCategories');
+                                        },
+                                        child: Text(
+                                          titleCategories[i].categories[j],
+                                          style: TextStyle(
+                                              fontSize: 13.sp, color: tdBlack),
+                                        ),
                                       ),
                                       if (j < titleCategories[i].categories.length - 1)
-                                        const Divider(), // Add divider if it's not the last category
+                                        const Divider(),
                                     ],
                                   ),
                                 ),
