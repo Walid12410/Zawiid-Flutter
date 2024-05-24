@@ -1,16 +1,17 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import '../Drawer/DrawerPage.dart';
 import 'Widget/FeaturedProduct.dart';
 import 'Widget/OpeningImage.dart';
 import 'Widget/SearchBar.dart';
+import 'Widget/SecondOpeningImage.dart';
 import 'Widget/TabView/FeaturedPage.dart';
 import 'Widget/TabView/OnSalePage.dart';
 import 'Widget/TabView/TopRatedPage.dart';
+import 'Widget/WeekDealCard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -257,165 +258,5 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 }
 
-class WeekDealCard extends StatelessWidget {
-  const WeekDealCard({super.key, required this.price, required this.image});
 
-  final String image;
-  final double price;
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 2.h,
-          ),
-          Center(
-            child: SizedBox(
-              width: 250.w,
-              height: 200.h,
-              child: Image.asset(
-                image,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 2.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '$price',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.sp,
-                            color: tdBlack),
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      SizedBox(
-                        width: 25.w,
-                        height: 30.h,
-                        child: SvgPicture.asset(
-                          'assets/svg/buy.svg',
-                          fit: BoxFit.contain,
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Container(
-                    width: 145.w,
-                    height: 0.2.h,
-                    color: tdGrey,
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Text(
-                    'SKU: FT00962',
-                    style: TextStyle(fontSize: 10.sp, color: tdGrey),
-                  )
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Hurry Up! Offer ends in:',
-                    style: TextStyle(fontSize: 12.sp, color: tdGrey),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const TimerWeekDeal(
-                        name: 'HOURS',
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      const TimerWeekDeal(
-                        name: 'MINS',
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      const TimerWeekDeal(
-                        name: 'Secs',
-                      ),
-                    ],
-                  )
-                ],
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class TimerWeekDeal extends StatelessWidget {
-  const TimerWeekDeal({super.key, required this.name});
-
-  final String name;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: tdWhite,
-          border: Border.all(color: tdGrey),
-          borderRadius: BorderRadius.circular(5).w),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0).w,
-        child: Column(
-          children: [
-            Text(
-              '00',
-              style: TextStyle(fontSize: 20.sp, color: tdGrey),
-            ),
-            Text(
-              'name',
-              style: TextStyle(fontSize: 7.sp, color: tdGrey),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SecondOpeningImage extends StatelessWidget {
-  const SecondOpeningImage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10).w,
-      child: Container(
-          width: double.infinity,
-          height: 100.h,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20).w),
-          child: Image.asset(
-            'assets/img/sddefault.png',
-            fit: BoxFit.fill,
-          )),
-    );
-  }
-}
