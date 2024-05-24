@@ -27,7 +27,7 @@ class OptionContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: 50.sp,
+              height: 40.sp,
             ),
             Padding(
               padding: const EdgeInsets.all(8).w,
@@ -40,7 +40,7 @@ class OptionContainer extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 50.sp,
+              height: 25.sp,
             ),
             const ServiceOptionCard(),
             const ServiceCallUs()

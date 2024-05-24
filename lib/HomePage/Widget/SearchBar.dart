@@ -30,10 +30,11 @@ class CustomNavigationBar extends StatelessWidget {
                 style: TextStyle(color: tdWhite,fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-              position: badges.BadgePosition.bottomEnd(),
+              position: badges.BadgePosition.custom(bottom: -7,end: -5),
               child: Image.asset(
                 'assets/svg/notification.png',
-                width: 25.w,
+                width:  25.w,
+                height: 22.h,
                 fit: BoxFit.fill,
                 color: tdBlack,
               ),
@@ -54,7 +55,7 @@ class CustomNavigationBar extends StatelessWidget {
                     GoRouter.of(context).goNamed('SearchPage');
                   },
                   child: Container(
-                    width: 145.w,
+                    width: 150.w,
                     decoration:  BoxDecoration(
                       borderRadius:const BorderRadius.only(
                         topLeft: Radius.circular(50),
@@ -134,19 +135,19 @@ class CustomNavigationBar extends StatelessWidget {
             child: badges.Badge(
               badgeContent:  Text(
                 '0',
-                style: TextStyle(color: tdWhite,fontSize: 10.sp),
+                style: TextStyle(color: tdWhite,fontSize: 8.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-              position: badges.BadgePosition.bottomEnd(),
+              position: badges.BadgePosition.custom(bottom: -7,end: -5),
               child: Image.asset(
                 'assets/svg/cart.png',
-                width: 25.w,
+                width:  25.w,
+                height: 22.h,
                 fit: BoxFit.fill,
                 color: tdBlack,
               ),
             ),
           ),
-          SizedBox(width: 2.w,)
         ],
       ),
     );

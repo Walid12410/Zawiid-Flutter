@@ -57,7 +57,7 @@ class _SearchPageState extends State<SearchPage> {
                     Text(
                       'RECENTLY VIEWED',
                       style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 9.sp,
                           color: tdGrey,
                           fontWeight: FontWeight.bold),
                     ),
@@ -69,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
                           'CLEAR',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 10.sp,
+                              fontSize: 9.sp,
                               color: tdBlack),
                         ))
                   ],

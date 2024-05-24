@@ -18,7 +18,7 @@ class CartPageHead extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go("/home");
+              context.pop();
             },
             child: SizedBox(
               width: 20.w,

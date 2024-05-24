@@ -13,14 +13,14 @@ class CustomServicesContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 3).w,
+      padding: const EdgeInsets.only(top: 2).w,
       child: Container(
         decoration: const BoxDecoration(
           color: tdWhiteNav,
         ),
         child: Column(
           children: [
-            SizedBox(height: 5.h),
+            SizedBox(height: 10.h),
             SizedBox(
                 width: 150.w,
                 height: 120.h,
