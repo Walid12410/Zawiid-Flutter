@@ -12,7 +12,7 @@ class AddressDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5).w,
+      padding: const EdgeInsets.all(8).w,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -21,7 +21,7 @@ class AddressDetails extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              offset: const Offset(5,5),
+              offset: const Offset(0,0),
               blurRadius: 5,
             ),
           ],
@@ -41,7 +41,7 @@ class AddressDetails extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: tdBlack,
-                        fontSize: 15.sp),
+                        fontSize: 12.sp),
                   ),
                   SizedBox(
                     height: 5.h,
@@ -49,12 +49,12 @@ class AddressDetails extends StatelessWidget {
                   Text(
                     'PO Box 81731 J Hawally, Salwa',
                     style: TextStyle(
-                        color: tdBlack, fontSize: 12.sp),
+                        color: tdBlack, fontSize: 10.sp),
                   ),
                   Text(
                     'Block 4',
                     style: TextStyle(
-                        color: tdBlack, fontSize: 12.sp),
+                        color: tdBlack, fontSize: 10.sp),
                   ),
                   SizedBox(
                     height: 5.h,
@@ -62,7 +62,7 @@ class AddressDetails extends StatelessWidget {
                   Text(
                     '+965 60378430',
                     style: TextStyle(
-                        fontSize: 12.sp, color: tdBlack),
+                        fontSize: 10.sp, color: tdBlack),
                   ),
                   SizedBox(
                     height: 5.h,

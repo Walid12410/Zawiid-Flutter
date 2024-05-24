@@ -20,8 +20,10 @@ class CustomTabBarView extends StatelessWidget {
           color: tdWhite,
           child: TabBar(
             controller: tabController,
+            tabAlignment: TabAlignment.center,
             indicatorColor: tdBlack,
-            isScrollable: false,
+            isScrollable: true,
+            unselectedLabelStyle: const TextStyle(color: tdGrey),
             tabs: [
               Tab(
                 child: Text(

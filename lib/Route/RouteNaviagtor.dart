@@ -66,7 +66,7 @@ class AppNavigation {
                     name: 'itemDetails',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const ItemDetails(),
+                      child: const ItemDetailsPage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                           FadeTransition(opacity: animation, child: child),

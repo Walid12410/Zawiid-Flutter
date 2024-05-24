@@ -11,7 +11,7 @@ class TicketPriceDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 238.w,
+      width: 200.w,
       height: 30.h,
       decoration: BoxDecoration(
         color: tdWhite,
@@ -25,7 +25,7 @@ class TicketPriceDetails extends StatelessWidget {
         ],
       ),
       child:  Center(
-        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 17.sp,fontWeight: FontWeight.bold),),
+        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
       ),
     );
   }

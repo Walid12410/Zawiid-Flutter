@@ -69,10 +69,11 @@ class TabCard extends StatelessWidget {
                     Text(
                       '358.000 LB',
                       style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 15.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(width: 2.w,),
                     SvgPicture.asset(
                       'assets/svg/buy.svg',
                       width: 27.w,
@@ -89,7 +90,7 @@ class TabCard extends StatelessWidget {
                   'SKU: FT00962',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12.sp,
+                      fontSize: 10.sp,
                       color: Colors.grey),
                 ),
               ],

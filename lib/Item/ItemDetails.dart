@@ -7,18 +7,16 @@ import 'Widget/ItemPrice.dart';
 import 'Widget/ItemShipping.dart';
 import 'Widget/ItemTitle.dart';
 
-class ItemDetails extends StatefulWidget {
-  const ItemDetails({super.key});
+class ItemDetailsPage extends StatefulWidget {
+  const ItemDetailsPage({super.key});
 
   @override
-  State<ItemDetails> createState() => _ItemDetailsState();
+  State<ItemDetailsPage> createState() => _ItemDetailsPageState();
 }
 
-class _ItemDetailsState extends State<ItemDetails> {
+class _ItemDetailsPageState extends State<ItemDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(

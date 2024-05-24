@@ -27,7 +27,6 @@ class _AddressViewState extends State<AddressView> {
                 const AddAddressBottom(),
                 const AddressDetails(),
                 const AddressDetails(),
-                const AddressDetails(),
           ],
         ),
       )),

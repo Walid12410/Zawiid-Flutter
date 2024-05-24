@@ -42,7 +42,7 @@ class TimeContainer extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(fontSize: 5.sp,color: tdGrey ),
+          style: TextStyle(fontSize: 4.sp,color: tdGrey ),
         ),
       ],
     );

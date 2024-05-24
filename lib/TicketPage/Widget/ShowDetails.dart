@@ -30,7 +30,7 @@ class TicketDetails extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: tdBlack,
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                   ),
                   textAlign: TextAlign.center,
                 ),

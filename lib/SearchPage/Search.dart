@@ -4,7 +4,6 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'Widget/SearchBar.dart';
 import 'Widget/SearchHistoryCard.dart';
 
-
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -51,30 +50,42 @@ class _SearchPageState extends State<SearchPage> {
               SearchBarText(focusNode: _focusNode),
               SizedBox(height: 25.h),
               Padding(
-                padding: const EdgeInsets.only(left: 12,right: 8).w,
+                padding: const EdgeInsets.only(left: 12, right: 8).w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  Text('RECENTLY VIEWED',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),),
+                    Text(
+                      'RECENTLY VIEWED',
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          color: tdGrey,
+                          fontWeight: FontWeight.bold),
+                    ),
                     GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           //Clear History
                         },
-                        child: Text('CLEAR',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp,color: tdBlack),))
+                        child: Text(
+                          'CLEAR',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10.sp,
+                              color: tdBlack),
+                        ))
                   ],
                 ),
               ),
               SizedBox(height: 5.h),
               const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      SearchHistoryCard(),
-                      SearchHistoryCard(),
-                      SearchHistoryCard(),
-                    ],
-                  ),
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    SearchHistoryCard(),
+                    SearchHistoryCard(),
+                    SearchHistoryCard(),
+                  ],
                 ),
+              ),
             ],
           ),
         ),
@@ -82,5 +93,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-
-

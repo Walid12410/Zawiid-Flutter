@@ -29,7 +29,7 @@ class _CartPageState extends State<CartPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('Clear Cart',style: TextStyle(fontSize: 15.sp,color: tdBlack,fontWeight: FontWeight.bold ),)
+                    Text('Clear Cart',style: TextStyle(fontSize: 12.sp,color: tdBlack,fontWeight: FontWeight.bold ),)
                   ],
                 ),
               ),
@@ -42,7 +42,7 @@ class _CartPageState extends State<CartPage> {
       bottomNavigationBar: BottomAppBar(
         surfaceTintColor: tdWhite,
         color: tdWhite,
-        height: 125.h,
+        height: 135.h,
         child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
@@ -94,7 +94,7 @@ class _CartPageState extends State<CartPage> {
                         color: tdWhite,
                       ),
                       child: Center(
-                        child: Text('Select Address',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 15.sp ),),
+                        child: Text('Select Address',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 12.sp ),),
                       ),
                     ),
                   )

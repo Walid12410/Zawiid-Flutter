@@ -13,7 +13,7 @@ class ProfileHeadPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 18, right: 70).w,
+      padding: const EdgeInsets.only(left: 18, right: 45).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,9 +31,13 @@ class ProfileHeadPage extends StatelessWidget {
               ),
             ),
           ),
-          Icon(
-            MyFlutterApp.group_168,
-            size: 50.w,
+          SizedBox(
+            width: 100.w,
+            height: 50.h,
+            child: Image.asset(
+              'assets/log/LOGO-icon---Black.png',
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(),
         ],

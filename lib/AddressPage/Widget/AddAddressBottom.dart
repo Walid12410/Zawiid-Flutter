@@ -18,12 +18,12 @@ class AddAddressBottom extends StatelessWidget {
         children: [
           Icon(
             Icons.add_circle_outline,
-            size: 15.w,
+            size: 13.w,
           ),
           Text(
             'ADD ADDRESS',
             style: TextStyle(
-                fontSize: 12.sp,
+                fontSize: 10.sp,
                 fontWeight: FontWeight.bold,
                 color: tdGrey),
           )

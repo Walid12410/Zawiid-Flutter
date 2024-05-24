@@ -9,17 +9,14 @@ class CartContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8).w,
-      child: SizedBox(
+    return SizedBox(
         width: double.infinity,
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: 95.w,
+                  width: 90.w,
                   height: 100.h,
                   child: Image.asset('assets/img/iphone.png',fit: BoxFit.fill,),
                 ),
@@ -30,30 +27,31 @@ class CartContainer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('SAMSUNG GALAXY S24',style: TextStyle(
-                        fontSize: 12.sp,color: tdBlack,fontWeight: FontWeight.bold,
+                        fontSize: 10.sp,color: tdBlack,fontWeight: FontWeight.bold,
                       ),overflow: TextOverflow.ellipsis,),
                       SizedBox(
                         width: 90.h,
                         child: Text('Ultra, 128GB Ram + 350 storage ',style: TextStyle(
-                          fontSize: 12.sp,color: tdBlack,fontWeight: FontWeight.bold,
+                          fontSize: 10.sp,color: tdBlack,fontWeight: FontWeight.bold,
                         ),overflow: TextOverflow.ellipsis,),
                       ),
                       SizedBox(height: 5.h),
-                      Text('358.000 KB',style: TextStyle(fontWeight: FontWeight.bold,color:tdBlack,fontSize: 15.sp ),),
+                      Text('358.000 KB',style: TextStyle(fontWeight: FontWeight.bold,color:tdBlack,fontSize: 12.sp ),),
                       SizedBox(height: 5.h),
-                      Text('SKU: FT00962',style: TextStyle(fontSize: 6.sp,color: tdGrey),)
+                      Text('SKU: FT00962',style: TextStyle(fontSize: 4.sp,color: tdGrey),)
                     ],
                   ),
                 ),
+                SizedBox(width: 30.w),
                 Container(
                   height: 20.h,
-                  width: 90.w,
+                  width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50).w,
                     color: tdWhite,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
+                        color: Colors.grey.withOpacity(0.5),
                         blurRadius: 5,
                         offset: const Offset(0, 0),
                       ),
@@ -65,15 +63,11 @@ class CartContainer extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: (){},
-                          child: Text('-',style: TextStyle(
-                              fontSize: 18.sp,color: tdBlack
-                          ),),
+                          child: Icon(Icons.remove,color: tdGrey,size: 12.w,)
                         ),
                         GestureDetector(
                           onTap: (){},
-                          child: Text('+',style: TextStyle(
-                              fontSize: 18.sp,color: tdBlack
-                          ),),
+                            child: Icon(Icons.add,color: tdGrey,size: 12.w,)
                         ),
                       ],
                     ),
@@ -85,7 +79,6 @@ class CartContainer extends StatelessWidget {
             const Divider(),
           ],
         ),
-      ),
-    );
+      );
   }
 }

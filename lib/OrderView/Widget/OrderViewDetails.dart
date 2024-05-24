@@ -17,8 +17,8 @@ class OrderViewDetails extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-                width: 100.w,
-                height: 100.h,
+                width: 90.w,
+                height: 90.h,
                 child: Image.asset('assets/img/iphone.png',fit: BoxFit.contain,)
             ),
             Expanded(
@@ -27,18 +27,18 @@ class OrderViewDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                    Text('SAMSUNG Galaxy S24 Ultra',style: TextStyle(
-                        fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack
+                        fontSize: 10.sp,fontWeight: FontWeight.bold,color: tdBlack
                     ),),
                   Padding(
                     padding: const EdgeInsets.only(right: 170).w,
-                    child: Text('128GB RAM +ads sdss',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp),
+                    child: Text('128GB RAM +ads sdss',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,),
                   ),
                   SizedBox(height: 15.h,),
-                  Text('358.000 KD',style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdGrey),),
+                  Text('358.000 KD',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdGrey),),
                   SizedBox(height: 5.h,),
-                  Text('SKU: FT00962',style: TextStyle(fontSize: 8.sp,color: tdGrey),)
+                  Text('SKU: FT00962',style: TextStyle(fontSize: 4.sp,color: tdGrey),)
                 ],
               ),
             )
