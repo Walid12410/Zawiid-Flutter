@@ -51,7 +51,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text(
                       'Upcoming',
                       style: TextStyle(
-                        fontSize: 15.sp,
+                        fontSize: 12.sp,
                         fontWeight: _currentPage == 0 ? FontWeight.bold : FontWeight.normal,
                         color: _currentPage == 0 ? Colors.black : Colors.grey,
                       ),
@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text(
                       'Ended',
                       style: TextStyle(
-                        fontSize: 15.sp,
+                        fontSize: 12.sp,
                         fontWeight: _currentPage == 1 ? FontWeight.bold : FontWeight.normal,
                         color: _currentPage == 1 ? Colors.black : Colors.grey,
                       ),

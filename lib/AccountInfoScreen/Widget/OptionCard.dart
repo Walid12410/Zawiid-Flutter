@@ -67,11 +67,11 @@ class OptionsCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50).w,
                           ),
-                          width: 25.w,
+                          width: 23.w,
                           height: 22.h,
                           child: SvgPicture.asset(
                             'assets/svg/arrow.svg',
-                            fit: BoxFit.fill,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ],
@@ -131,14 +131,16 @@ class OptionsCard extends StatelessWidget {
                           children: [
                             SizedBox(height: 5.h,),
                             Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50).w,
-                                ),
-                                child: SvgPicture.asset(
-                                  'assets/svg/arrow.svg',
-                                  fit: BoxFit.contain,
-                                ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50).w,
                               ),
+                              width: 23.w,
+                              height: 22.h,
+                              child: SvgPicture.asset(
+                                'assets/svg/arrow.svg',
+                                fit: BoxFit.contain
+                              ),
+                            ),
                           ],
                         )
                   ],

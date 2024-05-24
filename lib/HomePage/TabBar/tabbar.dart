@@ -18,37 +18,40 @@ class CustomTabBarView extends StatelessWidget {
       children: [
         Container(
           color: tdWhite,
-          child: TabBar(
-            controller: tabController,
-            tabAlignment: TabAlignment.center,
-            indicatorColor: tdBlack,
-            isScrollable: true,
-            unselectedLabelStyle: const TextStyle(color: tdGrey),
-            tabs: [
-              Tab(
-                child: Text(
-                  'Featured',
-                  style:
-                      TextStyle(fontSize: 15.sp, color: tdBlack),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10,right: 10).w,
+            child: TabBar(
+              controller: tabController,
+              tabAlignment: TabAlignment.center,
+              indicatorColor: tdBlack,
+              isScrollable: true,
+              unselectedLabelStyle: const TextStyle(color: tdGrey),
+              tabs: [
+                Tab(
+                  child: Text(
+                    'Featured',
+                    style:
+                        TextStyle(fontSize: 17.sp, color: tdBlack),
+                  ),
                 ),
-              ),
-              Tab(
-                child: Text(
-                  'On Sale',
-                  style:
-                      TextStyle(fontSize: 15.sp, color: tdBlack),
+                Tab(
+                  child: Text(
+                    'On Sale',
+                    style:
+                        TextStyle(fontSize: 17.sp, color: tdBlack),
+                  ),
                 ),
-              ),
-              Tab(
-                child: Text('Top Rated',
-                    style: TextStyle(
-                        fontSize: 15.sp, color: tdBlack)),
-              ),
-            ],
+                Tab(
+                  child: Text('Top Rated',
+                      style: TextStyle(
+                          fontSize: 17.sp, color: tdBlack)),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(
-          height: 490.h,
+          height: 500.h,
           child: TabBarView(
             controller: tabController,
             children: tabViews,

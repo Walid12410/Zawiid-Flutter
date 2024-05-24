@@ -40,9 +40,10 @@ class OptionContainer extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 25.sp,
+              height: 30.sp,
             ),
             const ServiceOptionCard(),
+            SizedBox(height: 10.h),
             const ServiceCallUs()
           ],
         ),

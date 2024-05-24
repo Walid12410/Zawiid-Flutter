@@ -15,13 +15,13 @@ import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
 import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
 import '../AccountInfoScreen/Profile.dart';
 import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
+import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../Item/ItemDetails.dart';
 import '../ItemAvariable/ItemAvariable.dart';
 import '../NotificationPage/Notification.dart';
 import '../SearchPage/Search.dart';
-
 
 class AppNavigation {
   AppNavigation._();
@@ -30,15 +30,15 @@ class AppNavigation {
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorHome =
-  GlobalKey<NavigatorState>(debugLabel: 'shellHome');
+      GlobalKey<NavigatorState>(debugLabel: 'shellHome');
   static final _shellNavigatorTicket =
-  GlobalKey<NavigatorState>(debugLabel: 'shellTicket');
+      GlobalKey<NavigatorState>(debugLabel: 'shellTicket');
   static final _shellNavigatorMain =
-  GlobalKey<NavigatorState>(debugLabel: 'shellMain');
+      GlobalKey<NavigatorState>(debugLabel: 'shellMain');
   static final _shellNavigatorProfile =
-  GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+      GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
   static final _shellNavigatorCoupons =
-  GlobalKey<NavigatorState>(debugLabel: 'shellCoupons');
+      GlobalKey<NavigatorState>(debugLabel: 'shellCoupons');
 
   static final GoRouter router = GoRouter(
     initialLocation: initial,
@@ -59,7 +59,7 @@ class AppNavigation {
                 path: "/home",
                 name: "Home",
                 builder: (BuildContext context, GoRouterState state) =>
-                const HomePage(),
+                    const HomePage(),
                 routes: [
                   GoRoute(
                     path: 'itemDetails',
@@ -69,7 +69,7 @@ class AppNavigation {
                       child: const ItemDetailsPage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                   GoRoute(
@@ -80,7 +80,7 @@ class AppNavigation {
                       child: const SearchPage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                   GoRoute(
@@ -91,7 +91,7 @@ class AppNavigation {
                       child: const ItemViewCategories(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                   GoRoute(
@@ -102,7 +102,7 @@ class AppNavigation {
                       child: const NotificationPage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                 ],
@@ -116,7 +116,7 @@ class AppNavigation {
                 path: "/Ticket",
                 name: "Ticket",
                 builder: (BuildContext context, GoRouterState state) =>
-                const TicketMain(),
+                    const TicketMain(),
               ),
             ],
           ),
@@ -124,11 +124,24 @@ class AppNavigation {
             navigatorKey: _shellNavigatorMain,
             routes: <RouteBase>[
               GoRoute(
-                path: "/mainPage",
-                name: "MainPage",
-                builder: (BuildContext context, GoRouterState state) =>
-                const MainPage(),
-              ),
+                  path: "/mainPage",
+                  name: "MainPage",
+                  builder: (BuildContext context, GoRouterState state) =>
+                      const MainPage(),
+                  routes: [
+                    GoRoute(
+                      path: 'BidPage',
+                      name: 'BidPage',
+                      pageBuilder: (context, state) =>
+                          CustomTransitionPage<void>(
+                        key: state.pageKey,
+                        child: const BidPage(),
+                        transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) =>
+                            FadeTransition(opacity: animation, child: child),
+                      ),
+                    ),
+                  ]),
             ],
           ),
           StatefulShellBranch(
@@ -138,7 +151,7 @@ class AppNavigation {
                 path: "/profile",
                 name: "Profile",
                 builder: (BuildContext context, GoRouterState state) =>
-                const ProfileMain(),
+                    const ProfileMain(),
                 routes: [
                   GoRoute(
                     path: 'AddressView',
@@ -148,7 +161,7 @@ class AppNavigation {
                       child: const AddressView(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                   GoRoute(
@@ -159,7 +172,7 @@ class AppNavigation {
                       child: const OrderView(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                 ],
@@ -173,7 +186,7 @@ class AppNavigation {
                 path: "/coupons",
                 name: "Coupons",
                 builder: (BuildContext context, GoRouterState state) =>
-                const CouponsMain(),
+                    const CouponsMain(),
                 routes: [
                   GoRoute(
                     path: 'CouponsDetails',
@@ -183,7 +196,7 @@ class AppNavigation {
                       child: const CouponsDetails(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                   GoRoute(
@@ -194,12 +207,10 @@ class AppNavigation {
                       child: const CouponsPromotion(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
-
                 ],
-
               ),
             ],
           ),
@@ -219,39 +230,36 @@ class AppNavigation {
         name: "SignUp",
         builder: (context, state) => SignUp(
           key: state.pageKey,
-        ),),
-      GoRoute(
-        parentNavigatorKey: _rootNavigatorKey,
-        path: '/PrivacyPage',
-        name: 'PrivacyPage',
-        builder: (context,state)=> PolicyPrivacy(
-          key: state.pageKey,
-        )
+        ),
       ),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/PrivacyPage',
+          name: 'PrivacyPage',
+          builder: (context, state) => PolicyPrivacy(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/TermsOfServices',
           name: 'TermsOfServices',
-          builder: (context,state)=> TermsOfServices(
-            key: state.pageKey,
-          )
-      ),
+          builder: (context, state) => TermsOfServices(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/CustomerPage',
           name: 'CustomerPage',
-          builder: (context,state)=> CustomerPage(
-            key: state.pageKey,
-          )
-      ),
+          builder: (context, state) => CustomerPage(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/CartPage',
           name: 'CartPage',
-          builder: (context,state)=> CartPage(
-            key: state.pageKey,
-          )
-      ),
+          builder: (context, state) => CartPage(
+                key: state.pageKey,
+              )),
     ],
   );
 }

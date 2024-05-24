@@ -34,10 +34,10 @@ class FeaturedProductCard extends StatelessWidget {
                     vertical: 10).w,
                 child: SizedBox(
                     width: 90.w,
-                    height: 70.h,
+                    height: 80.h,
                     child: Image.asset(
                       'assets/img/camera.png',
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     )),
               ),
               SizedBox(width: 15.w),

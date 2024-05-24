@@ -5,6 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:badges/badges.dart' as badges;
 
+import 'Widget/CartItemView.dart';
+import 'Widget/ItemViewHead.dart';
+import 'Widget/ItemViewSearchBar.dart';
+
 class ItemDetails {
   final String title;
   final String desc;
