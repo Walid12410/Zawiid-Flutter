@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import '../Drawer/DrawerPage.dart';
-import 'TabBar/TabView/FeaturedPage.dart';
-import 'TabBar/TabView/OnSalePage.dart';
-import 'TabBar/TabView/TopRatedPage.dart';
 import 'Widget/FeaturedProduct.dart';
 import 'Widget/OpeningImage.dart';
 import 'Widget/SearchBar.dart';
+import 'Widget/TabView/FeaturedPage.dart';
+import 'Widget/TabView/OnSalePage.dart';
+import 'Widget/TabView/TopRatedPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

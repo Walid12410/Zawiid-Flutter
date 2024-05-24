@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zawiid/Color&Icons/color.dart';
-
-import '../Widget/TabCard.dart';
+import '../TabCard.dart';
 
 class TopRatedPageView extends StatelessWidget {
   const TopRatedPageView({super.key});

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:zawiid/Color&Icons/color.dart';
+import '../TabCard.dart';
 
-import '../Widget/TabCard.dart';
 
-class FeaturedPageView extends StatelessWidget {
-  const FeaturedPageView({Key? key})
-      : super(key: key);
-
+class OnSalePageView extends StatelessWidget {
+  const OnSalePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
