@@ -4,12 +4,10 @@ import 'package:zawiid/Color&Icons/color.dart';
 import '../Widget/TabCard.dart';
 
 class OnSalePageView extends StatelessWidget {
-  const OnSalePageView({super.key,required this.scrollController});
-  final ScrollController? scrollController;
+  const OnSalePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final List<String> names = [
       'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
       'Iphone 16 Pro Max, 159GB RAM SADASDASDASD',
@@ -17,28 +15,23 @@ class OnSalePageView extends StatelessWidget {
       'SAMSUNG Galaxy S24 Ultra, 128GB RAM +...',
     ];
 
-    return Scaffold(
-      backgroundColor: tdWhite,
-        body: SingleChildScrollView(
-          controller: scrollController,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TabCard(names: names),
-                  TabCard(names: names),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TabCard(names: names),
-                  TabCard(names: names),
-                ],
-              ),
-            ],
-          ),
-        ));
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TabCard(names: names),
+            TabCard(names: names),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TabCard(names: names),
+            TabCard(names: names),
+          ],
+        ),
+      ],
+    );
   }
 }
