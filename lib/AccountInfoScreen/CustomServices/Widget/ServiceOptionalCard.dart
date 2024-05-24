@@ -18,12 +18,12 @@ class ServiceOptionCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: tdWhite,
-              borderRadius: BorderRadius.circular(20).w,
+              borderRadius: BorderRadius.circular(15).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
-                  offset: const Offset(4.0, 4.0),
-                  blurRadius: 10,
+                  offset: const Offset(0, 0),
+                  blurRadius: 5,
                 ),
               ],
             ),
@@ -53,7 +53,7 @@ class ServiceOptionCard extends StatelessWidget {
                         child: Text(
                           'Email Us',
                           style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 18.sp,
                               color: tdBlack,
                               fontWeight: FontWeight.bold),
                         ),
@@ -67,12 +67,12 @@ class ServiceOptionCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: tdWhite,
-              borderRadius: BorderRadius.circular(20).w,
+              borderRadius: BorderRadius.circular(15).w,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
-                  offset: const Offset(4.0, 4.0),
-                  blurRadius: 10,
+                  offset: const Offset(0, 0),
+                  blurRadius: 5,
                 ),
               ],
             ),
@@ -102,7 +102,7 @@ class ServiceOptionCard extends StatelessWidget {
                         child: Text(
                           'Chat Now',
                           style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 18.sp,
                               color: tdBlack,
                               fontWeight: FontWeight.bold),
                         ),

@@ -14,15 +14,17 @@ class TermsAndPrivacySignUp extends StatelessWidget {
       TextSpan(
         text: 'By creating an account, you agree to our ',
         style: TextStyle(
-          fontSize: 12.sp,
+          fontSize: 9.sp,
           color: tdGrey,
+            fontWeight: FontWeight.w400
         ),
         children: const <TextSpan>[
           TextSpan(
             text: 'Terms of Service',
             style: TextStyle(
               color: tdGreen,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w400,
+
             ),
           ),
           TextSpan(text: ' and '),
@@ -30,7 +32,7 @@ class TermsAndPrivacySignUp extends StatelessWidget {
             text: 'Privacy Policy',
             style: TextStyle(
               color: tdGreen,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],

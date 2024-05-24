@@ -18,69 +18,54 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: tdGreen,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.all(20).w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: Image.asset(
-                                  'assets/log/LOGO-icon---Black.png',
-                                  width: double.infinity,
-                                  height: 160.h,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            ],
-                          ),
-                           Text(
-                            'Log In',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 21.sp,
-                              color: tdBlack,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              context.push(context.namedLocation('SignUp'));
-                              },
-                            child:  Text(
-                              'Sign Up',
-                              style: TextStyle(fontSize: 21.sp, color: tdGrey),
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          const SignInTextFieldWidget(),
-                          SizedBox(height: 20.h),
-                          const SignInButton(),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          const ForgetPasswordWidget()
-                        ],
-                      ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+                  Center(
+                    child: Image.asset(
+                      'assets/log/LOGO-icon---Black.png',
+                      width: 170.w,
+                      height: 170.h,
+                      fit: BoxFit.contain,
                     ),
                   ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25,right: 25).w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Log In',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 19.sp,
+                        color: tdBlack,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.push(context.namedLocation('SignUp'));
+                      },
+                      child:  Text(
+                        'Sign Up',
+                        style: TextStyle(fontSize: 19.sp, color: tdGrey),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    const SignInTextFieldWidget(),
+                    SizedBox(height: 10.h),
+                    const SignInButton(),
+                    SizedBox(height: 10.h),
+                    const ForgetPasswordWidget()
+                  ],
                 ),
-              ],
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar:  BottomAppBar(

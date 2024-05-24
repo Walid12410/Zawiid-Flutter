@@ -27,12 +27,12 @@ class CustomServicesContainer extends StatelessWidget {
                 child: Image.asset(
                     'assets/img/CustomerService/CustomerServices.png',
                     fit: BoxFit.fill)),
-            SizedBox(height: 5.h),
+            SizedBox(height: 20.h),
             Text(
               'Tell us how we can help',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 25.w,
+                fontSize: 20.w,
                 color: tdBlack,
               ),
               textAlign: TextAlign.center,

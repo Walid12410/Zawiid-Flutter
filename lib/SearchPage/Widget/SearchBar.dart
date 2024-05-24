@@ -27,7 +27,7 @@ class SearchBarText extends StatelessWidget {
             child: badges.Badge(
               badgeContent:  Text(
                 '8',
-                style: TextStyle(color: tdWhite,fontSize: 10.sp),
+                style: TextStyle(color: tdWhite,fontSize: 8.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
               position: badges.BadgePosition.bottomEnd(),

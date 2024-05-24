@@ -17,12 +17,12 @@ class ServiceCallUs extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: tdWhite,
-          borderRadius: BorderRadius.circular(20).w,
+          borderRadius: BorderRadius.circular(15).w,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              offset: const Offset(4.0, 4.0),
-              blurRadius: 10,
+              offset: const Offset(0, 0),
+              blurRadius: 5,
             ),
           ],
         ),
@@ -34,7 +34,7 @@ class ServiceCallUs extends StatelessWidget {
               child: SizedBox(
                 height: 35.h,
                 width: 35.w,
-                child: Image.asset('assets/img/CustomerService/Group.png',fit: BoxFit.contain,),
+                child: Image.asset('assets/img/CustomerService/Group.png',fit: BoxFit.fill,),
               ),
             ),
             Padding(
@@ -54,9 +54,9 @@ class ServiceCallUs extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SizedBox(width: 5.w,),
-                        Text('Call Us',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.sp,color: tdBlack),),
-                        SizedBox(width: 7.w,),
-                        Text('+965 6037 8430',style: TextStyle(color: tdBlue,fontSize:  20.sp,fontWeight: FontWeight.bold),),
+                        Text('Call Us',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.sp,color: tdBlack),),
+                        SizedBox(width: 20.w,),
+                        Text('+965 6037 8430',style: TextStyle(color: tdBlue,fontSize:  17.sp,fontWeight: FontWeight.bold),),
                         SizedBox(width: 5.w,),
                       ],
                     ),

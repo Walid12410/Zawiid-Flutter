@@ -22,63 +22,51 @@ class _SignUpState extends State<SignUp>{
     return Scaffold(
       backgroundColor: tdBlack,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.all(20).w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: Image.asset(
-                                  'assets/log/LOGO-icon---green.png',
-                                  width: double.infinity,
-                                  height: 160.h,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            ],
-                          ),
-                           Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 21.sp,
-                              color: tdWhite,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              context.push(context.namedLocation('SignIn'));
-                            },
-                            child:  Text(
-                              'Log In',
-                              style: TextStyle(fontSize: 21.sp, color: tdGrey),
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          const TextFieldWidgetSignUp(),
-                          SizedBox(height: 20.h),
-                          const SignUpButton(),
-                          SizedBox(height: 10.h),
-                          const GuestBottom()
-                        ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/log/LOGO-icon---green.png',
+                  width: 170.w,
+                  height: 170.h,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25,right: 25).w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 19.sp,
+                        color: tdWhite,
                       ),
                     ),
-                  ),
+                    GestureDetector(
+                      onTap: () {
+                        context.push(context.namedLocation('SignIn'));
+                      },
+                      child:  Text(
+                        'Log In',
+                        style: TextStyle(fontSize: 19.sp, color: tdGrey),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    const TextFieldWidgetSignUp(),
+                    SizedBox(height: 20.h),
+                    const SignUpButton(),
+                    SizedBox(height: 10.h),
+                    const GuestBottom()
+                  ],
                 ),
-              ],
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(

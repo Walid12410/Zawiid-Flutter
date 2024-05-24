@@ -14,8 +14,9 @@ class TermsAndPrivacySignIn extends StatelessWidget {
       TextSpan(
         text: 'By creating an account, you agree to our ',
         style: TextStyle(
-          fontSize: 12.sp,
+          fontSize: 9.sp,
           color: tdBlack,
+          fontWeight: FontWeight.w400
         ),
         children: const <TextSpan>[
           TextSpan(

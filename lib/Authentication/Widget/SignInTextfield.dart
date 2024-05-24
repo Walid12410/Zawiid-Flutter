@@ -8,7 +8,6 @@ class SignInTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -16,44 +15,64 @@ class SignInTextFieldWidget extends StatelessWidget {
         color: tdWhite,
       ),
       child: Padding(
-        padding: const EdgeInsets.only(right: 5,left: 5).w,
+        padding: const EdgeInsets.only(right: 5, left: 5).w,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15,right: 5,bottom: 5,top: 5).w,
-              child: TextFormField(
-                style:  TextStyle(fontSize: 10.sp),
-                decoration: InputDecoration(
-                  labelText: 'EMAIL',
-                  labelStyle:  TextStyle(fontSize: 14.sp, color: tdGrey),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  20).w,
-                    child: SvgPicture.asset('assets/svg/001-mail.svg',
-                      width: 2.w,height: 2.h,fit: BoxFit.contain,),
+              padding: const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5).w,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15).w,
+                    child: SvgPicture.asset(
+                      'assets/svg/001-mail.svg',
+                      width: 10.w,
+                      height: 12.h, // Adjust height as needed
+                      fit: BoxFit.fill, // Adjust the fit as needed
+                    ),
                   ),
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
+                  Expanded(
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 9.sp),
+                      decoration: InputDecoration(
+                        labelText: 'EMAIL',
+                        labelStyle: TextStyle(fontSize: 9.sp, color: tdGrey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15,right: 5,bottom: 5,top: 5).w,
-              child: TextFormField(
-                obscureText: true,
-                style:  TextStyle(fontSize: 10.sp),
-                decoration: InputDecoration(
-                  labelText: 'PASSWORD',
-                  labelStyle:  TextStyle(fontSize: 14.sp, color: tdGrey),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right:  20).w,
-                    child: SvgPicture.asset('assets/svg/002-password.svg',
-                    width: 2.w,height: 2.h,fit: BoxFit.contain,),
+              padding: const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5).w,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15).w,
+                    child: SvgPicture.asset(
+                      'assets/svg/002-password.svg',
+                      width: 18.w,
+                      height: 18.h, // Adjust height as needed
+                      fit: BoxFit.fill, // Adjust the fit as needed
+                    ),
                   ),
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
+                  Expanded(
+                    child: TextFormField(
+                      obscureText: true,
+                      style: TextStyle(fontSize: 9.sp),
+                      decoration: InputDecoration(
+                        labelText: 'PASSWORD',
+                        labelStyle: TextStyle(fontSize: 9.sp, color: tdGrey),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -30,7 +30,7 @@ class GuestBottom extends StatelessWidget {
                 Text(
                   'CONTINUE AS A GUEST',
                   style: TextStyle(
-                      fontSize: 11.sp,
+                      fontSize: 9.sp,
                       fontWeight: FontWeight.bold,
                       color: tdBlack),
                   textAlign: TextAlign.center,
@@ -45,7 +45,7 @@ class GuestBottom extends StatelessWidget {
                         borderRadius: BorderRadius.circular(200).w),
                     child:  Icon(
                       Icons.arrow_forward_ios,
-                      size: 15.w,
+                      size: 10.w,
                       color: tdGreen,
                     ),
                   ),

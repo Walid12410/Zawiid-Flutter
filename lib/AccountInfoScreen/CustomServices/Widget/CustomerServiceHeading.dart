@@ -32,7 +32,7 @@ class CustomerServiceHeading extends StatelessWidget {
             child: Text(
                 'Customer Services',
                 style: TextStyle(
-                    color: tdBlack, fontWeight: FontWeight.bold, fontSize: 15.sp)
+                    color: tdBlack, fontWeight: FontWeight.bold, fontSize: 12.sp)
             ),
           ),
           SizedBox(width: 20.w,)

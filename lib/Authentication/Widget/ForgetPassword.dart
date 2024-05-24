@@ -21,7 +21,7 @@ class ForgetPasswordWidget extends StatelessWidget {
             child:  Text(
               'FORGOT PASSWORD?',
               style: TextStyle(
-                  fontSize: 11.sp,
+                  fontSize: 9.sp,
                   fontWeight: FontWeight.bold,
                   color: tdGrey),
             ))
