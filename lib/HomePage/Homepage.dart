@@ -15,6 +15,7 @@ import 'Widget/WeekDealCard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: HomePage.scaffoldKey,
       drawer: DrawerWithDropdown(),
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -62,7 +64,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              SizedBox(height: 5.h),
+              SizedBox(height: 5.h,),
+              Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10).w,
+                child: Container(
+                  height: 1.h,
+                  color: tdGrey,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 113.w,
+                        height: 2.h,
+                        color: tdBlack,
+                      ),
+                      Container(
+                        width: 113.w,
+                        height: 2.h,
+                        color: tdGrey,
+                      ),
+                      Container(
+                        width: 113.w,
+                        height: 2.h,
+                        color: tdGrey,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
               Column(
                 children: [
                   Row(
@@ -79,7 +108,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Text(
                               'Featured',
                               style: TextStyle(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: _currentPage1 == 0
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -89,12 +118,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           Container(
                             width: 65.w,
-                            height: 2.h,
+                            height: 1.h,
                             decoration: BoxDecoration(
                               color: _currentPage1 == 0
                                   ? tdBlack
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(4).w,
                             ),
                           ),
                         ],
@@ -109,7 +138,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Text(
                               'On Sale',
                               style: TextStyle(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: _currentPage1 == 1
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -119,12 +148,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           Container(
                             width: 60.w,
-                            height: 2.h,
+                            height: 1.h,
                             decoration: BoxDecoration(
                               color: _currentPage1 == 1
                                   ? tdBlack
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(4).w,
                             ),
                           ),
                         ],
@@ -139,7 +168,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Text(
                               'Top Rated',
                               style: TextStyle(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: _currentPage1 == 2
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -149,12 +178,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           Container(
                             width: 70.w,
-                            height: 2.h,
+                            height: 1.h,
                             decoration: BoxDecoration(
                               color: _currentPage1 == 2
                                   ? tdBlack
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(4).w,
                             ),
                           ),
                         ],

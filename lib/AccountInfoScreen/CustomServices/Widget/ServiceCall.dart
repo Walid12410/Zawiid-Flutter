@@ -15,6 +15,7 @@ class ServiceCallUs extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5).w,
       child: Container(
+        height: 50.h,
         decoration: BoxDecoration(
           color: tdWhite,
           borderRadius: BorderRadius.circular(15).w,
@@ -30,7 +31,7 @@ class ServiceCallUs extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsets.all(5).w,
+              padding: const EdgeInsets.all(3).w,
               child: SizedBox(
                 height: 35.h,
                 width: 35.w,

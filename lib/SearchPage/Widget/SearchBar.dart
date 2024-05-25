@@ -3,6 +3,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zawiid/HomePage/Homepage.dart';
 import '../../Color&Icons/color.dart';
 
 class SearchBarText extends StatelessWidget {
@@ -12,6 +13,15 @@ class SearchBarText extends StatelessWidget {
   }) : _focusNode = focusNode;
 
   final FocusNode _focusNode;
+
+  void openDrawerFromAnotherPage(BuildContext context) {
+    context.go('/home');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        HomePage.scaffoldKey.currentState?.openDrawer();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +80,10 @@ class SearchBarText extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    openDrawerFromAnotherPage(context);
+                    print('asdasd');
+                  },
                   child: Container(
                     decoration:BoxDecoration(
                       border: const Border(left: BorderSide(color: Colors.black)),
@@ -97,7 +110,7 @@ class SearchBarText extends StatelessWidget {
                               width: 5.w,
                             ),
                             SizedBox(
-                                height: 40.h,
+                                height: 30.h,
                                 width: 30.w,
                                 child: Center(
                                     child: SvgPicture.asset('assets/svg/search.svg',

@@ -35,7 +35,7 @@ class OptionContainer extends StatelessWidget {
                 'We’re here to help you at every step. Please look Through the options below and select what you’re looking for.',
                 style: TextStyle(
                     color: tdBlack,
-                    fontSize: 13.sp),
+                    fontSize: 14.sp),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -15,7 +16,7 @@ class ItemBottoms extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: (){
-            //ADD TO CART
+            context.push(context.namedLocation('CartPage'));
           },
           child: Container(
             width: 220.w,

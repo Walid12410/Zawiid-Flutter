@@ -19,7 +19,7 @@ class AddressViewHeading extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go("/Profile");
+              context.pop();
             },
             child: SizedBox(
               width: 20.w,

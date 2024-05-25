@@ -13,7 +13,7 @@ class SecondOpeningImage extends StatelessWidget {
       padding: const EdgeInsets.all(10).w,
       child: Container(
           width: double.infinity,
-          height: 100.h,
+          height: 110.h,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20).w),
           child: Image.asset(
             'assets/img/sddefault.png',

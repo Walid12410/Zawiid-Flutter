@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 import 'Widget/CartContainer.dart';
@@ -86,15 +87,20 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50).w,
-                        border: Border.all(color: tdBlack),
-                        color: tdWhite,
-                      ),
-                      child: Center(
-                        child: Text('Select Address',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 12.sp ),),
+                    child: GestureDetector(
+                      onTap: (){
+                        context.push(context.namedLocation('shippingAddress'));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50).w,
+                          border: Border.all(color: tdBlack),
+                          color: tdWhite,
+                        ),
+                        child: Center(
+                          child: Text('Select Address',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 12.sp ),),
+                        ),
                       ),
                     ),
                   )

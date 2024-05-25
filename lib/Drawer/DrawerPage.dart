@@ -149,32 +149,33 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                           },
                           children: [
                             for (var j = 0; j < titleCategories[i].categories.length; j++)
-                              Container(
-                                width: double.infinity,
-                                color: tdWhiteNav,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 10)
-                                      .w,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                          GoRouter.of(context).goNamed('ItemViewCategories');
-                                        },
-                                        child: Text(
-                                          titleCategories[i].categories[j],
-                                          style: TextStyle(
-                                              fontSize: 13.sp, color: tdBlack),
-                                        ),
-                                      ),
-                                      if (j < titleCategories[i].categories.length - 1)
-                                        const Divider(),
-                                    ],
+                              GestureDetector(
+                                onTap: (){
+                                  GoRouter.of(context).goNamed('ItemViewCategories');
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  color: tdWhiteNav,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 10)
+                                        .w,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                         Text(
+                                            titleCategories[i].categories[j],
+                                            style: TextStyle(
+                                                fontSize: 13.sp, color: tdBlack),
+                                          ),
+
+                                        if (j < titleCategories[i].categories.length - 1)
+                                          const Divider(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

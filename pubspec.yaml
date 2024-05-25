@@ -44,6 +44,16 @@ dependencies:
   flutter_screenutil: ^5.9.1
   linear_progress_bar: ^1.1.1
   expandable_page_view: ^1.0.17
+  flutter_native_splash: ^2.3.11
+
+flutter_native_splash:
+  color: "#000000" # Correct color format
+  image: assets/log/LOGO-icon---green.png
+  android: true
+  ios: true
+  android_12:
+    color: "#000000"
+    image: assets/log/LOGO-icon---green.png
 
 
 dev_dependencies:

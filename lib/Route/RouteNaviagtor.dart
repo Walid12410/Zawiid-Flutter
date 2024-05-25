@@ -158,7 +158,7 @@ class AppNavigation {
                     name: 'AddressView',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const AddressView(),
+                      child: const AddressView(showBottom: false,),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
@@ -260,6 +260,13 @@ class AppNavigation {
           builder: (context, state) => CartPage(
                 key: state.pageKey,
               )),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/shippingAddress',
+          name: 'shippingAddress',
+          builder: (context, state) =>AddressView(
+            key: state.pageKey,showBottom: true,
+          )),
     ],
   );
 }

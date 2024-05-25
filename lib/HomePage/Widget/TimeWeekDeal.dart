@@ -24,7 +24,7 @@ class TimerWeekDeal extends StatelessWidget {
               style: TextStyle(fontSize: 20.sp, color: tdGrey),
             ),
             Text(
-              'name',
+              name,
               style: TextStyle(fontSize: 7.sp, color: tdGrey),
             )
           ],
