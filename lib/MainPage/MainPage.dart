@@ -28,7 +28,7 @@ class _MainPageState extends State<MainPage> {
           children: [
             SizedBox(height: 5.h),
             Padding(
-              padding:  const EdgeInsets.only(left: 20, right: 40).w,
+              padding:  const EdgeInsets.only(left: 20, right: 40,top: 10).w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

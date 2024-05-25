@@ -17,7 +17,7 @@ class BidPageBottom extends StatelessWidget {
         width: 250.w,
         decoration: BoxDecoration(
           color: tdBlack,
-          borderRadius: BorderRadius.circular(15).w,
+          borderRadius: BorderRadius.circular(50).w,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -33,7 +33,7 @@ class BidPageBottom extends StatelessWidget {
               width: 160.w,
               decoration: BoxDecoration(
                 color: tdWhite,
-                borderRadius: BorderRadius.circular(15).w,
+                borderRadius: BorderRadius.circular(50).w,
               ),
               child: Center(
                 child: Text('\$200',style: TextStyle(fontSize: 8.sp,color: tdGrey),),
@@ -43,8 +43,8 @@ class BidPageBottom extends StatelessWidget {
               width: 80.w,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    bottomRight: Radius.circular(15)
+                    topRight: Radius.circular(50),
+                    bottomRight: Radius.circular(50)
                 ).w,
                 color: tdBlack,
               ),

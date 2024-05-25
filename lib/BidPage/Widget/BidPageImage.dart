@@ -10,11 +10,9 @@ class BidPageImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0).w,
-      child: Container(
+    return  Container(
         width: double.infinity,
-        height: 250.h,
+        height: 230.h,
         decoration: BoxDecoration(
           color: tdWhite,
           borderRadius: BorderRadius.circular(15).w,
@@ -31,7 +29,6 @@ class BidPageImage extends StatelessWidget {
               'assets/img/iphone.png',
               fit: BoxFit.contain,
             )),
-      ),
-    );
+      );
   }
 }

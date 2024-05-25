@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 5.h),
+              SizedBox(height: 12.h),
               Center(
                 child: SizedBox(
                   width: 100.w,
