@@ -4,9 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
-
-class TicketBackArrow extends StatelessWidget {
-  const TicketBackArrow({
+class PaymentHead extends StatelessWidget {
+  const PaymentHead({
     super.key,
   });
 
@@ -30,9 +29,9 @@ class TicketBackArrow extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10).w,
             child: Text(
-              'Ticket',
-              style: TextStyle(
-                  color: tdBlack, fontWeight: FontWeight.bold, fontSize: 12.sp)
+                'Payment',
+                style: TextStyle(
+                    color: tdBlack, fontWeight: FontWeight.bold, fontSize: 12.sp)
             ),
           ),
           SizedBox(width: 20.w,)

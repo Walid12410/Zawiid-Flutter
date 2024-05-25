@@ -9,6 +9,7 @@ import 'package:zawiid/CoponsPage/coponsDetails/CoponsDetails.dart';
 import 'package:zawiid/HomePage/Homepage.dart';
 import 'package:zawiid/MainPage/MainPage.dart';
 import 'package:zawiid/OrderView/OrderView.dart';
+import 'package:zawiid/Payment/payment.dart';
 import 'package:zawiid/TicketPage/TicketPage.dart';
 
 import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
@@ -21,6 +22,7 @@ import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../Item/ItemDetails.dart';
 import '../ItemAvariable/ItemAvariable.dart';
 import '../NotificationPage/Notification.dart';
+import '../Payment/ThanksPayment/ThanksPaymentPage.dart';
 import '../SearchPage/Search.dart';
 
 class AppNavigation {
@@ -267,6 +269,21 @@ class AppNavigation {
           builder: (context, state) =>AddressView(
             key: state.pageKey,showBottom: true,
           )),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/Payment',
+          name: 'payment',
+          builder: (context, state) =>PaymentPage(
+            key: state.pageKey,
+          )),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/ThanksPayment',
+          name: 'ThanksPayment',
+          builder: (context, state) =>ThanksPayment(
+            key: state.pageKey,
+          )),
+
     ],
   );
 }

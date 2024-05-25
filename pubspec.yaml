@@ -48,14 +48,14 @@ dependencies:
 
 flutter_native_splash:
   color: "#000000" # Correct color format
-  image: assets/log/LOGO-icon---green.png
+  image: assets/log/Splash.png
   android: true
   ios: true
   android_gravity: fill
   ios_content_mode: fill
   android_12:
     color: "#000000"
-    image: assets/log/LOGO-icon---green.png
+    image: assets/log/Splash.png
     android_gravity: fill
 
 
@@ -115,6 +115,11 @@ flutter:
     - assets/svg/arrow_up.svg
     - assets/img/pop2.png
     - assets/img/ps4.png
+    - assets/log/Splash.png
+    - assets/img/applepayment.png
+    - assets/img/knet.png
+    - assets/img/master.png
+    - assets/img/pop3.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

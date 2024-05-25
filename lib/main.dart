@@ -12,6 +12,7 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(const MyApp());
+
   // runApp(DevicePreview(
 //     enabled: !kReleaseMode,
 //     builder: (context) =>const  MyApp()));
@@ -29,9 +30,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 1), () {
       FlutterNativeSplash.remove();
-      print(WidgetsFlutterBinding.ensureInitialized());
     });
   }
 
