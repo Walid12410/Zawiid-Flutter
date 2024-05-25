@@ -29,7 +29,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Simulate some startup work like fetching user settings, etc.
     Future.delayed(Duration(seconds: 3), () {
       FlutterNativeSplash.remove();
       print(WidgetsFlutterBinding.ensureInitialized());
