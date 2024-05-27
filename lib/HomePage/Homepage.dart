@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Text(
                               'Featured',
                               style: TextStyle(
-                                fontSize: 18.sp,
+                                fontSize: 15.sp,
                                 fontWeight: _currentPage1 == 0
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Text(
                               'On Sale',
                               style: TextStyle(
-                                fontSize: 18.sp,
+                                fontSize: 15.sp,
                                 fontWeight: _currentPage1 == 1
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Text(
                               'Top Rated',
                               style: TextStyle(
-                                fontSize: 18.sp,
+                                fontSize: 15.sp,
                                 fontWeight: _currentPage1 == 2
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -211,15 +211,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.all(10).w,
                 child: Container(
                   decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
-                        blurRadius: 5,
-                        offset: const Offset(0, 0),
-                      ),
-                    ],
                     borderRadius: BorderRadius.circular(20).w,
-                    color: tdWhiteNav,
+                    color: tdGreyHome,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0).w,
@@ -234,7 +227,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                         SizedBox(height: 2.h),
                         LinearProgressBar(
-                          minHeight: 2.h,
+                          minHeight: 0.5.h,
                           maxSteps: 3,
                           progressType: LinearProgressBar.progressTypeLinear,
                           currentStep: _currentPage2 + 1,

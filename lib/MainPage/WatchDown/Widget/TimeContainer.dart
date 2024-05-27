@@ -34,7 +34,7 @@ class TimeContainer extends StatelessWidget {
             child: Center(
               child: Text(
                   '$value',
-                  style:  TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdGrey),
+                  style:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdGrey),textAlign: TextAlign.center,
                 ),
             ),
 

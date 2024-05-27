@@ -25,6 +25,7 @@ class _SignUpState extends State<SignUp>{
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 30.h,),
               Center(
                 child: Image.asset(
                   'assets/log/LOGO-icon---green.png',

@@ -17,7 +17,7 @@ class ItemDetail extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Product Details',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+        Text('Product Details',style: TextStyle(fontSize: 17.sp,fontWeight: FontWeight.bold,color: tdBlack),),
         SizedBox(height: 18.h),
         Text('- Display: 6.7 inch Super Retina XDR OLED Display,2796x 1290 Pixels',style: TextStyle(
             color: tdBlack,fontSize: 12.sp

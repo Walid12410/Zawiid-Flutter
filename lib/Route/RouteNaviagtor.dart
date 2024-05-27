@@ -19,6 +19,9 @@ import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
+import '../ForgetPassword/CodeReceive/CodeReceivePage.dart';
+import '../ForgetPassword/ForgetPasswordPage.dart';
+import '../ForgetPassword/NewPassword/NewPasswordPage.dart';
 import '../Item/ItemDetails.dart';
 import '../ItemAvariable/ItemAvariable.dart';
 import '../NotificationPage/Notification.dart';
@@ -283,7 +286,27 @@ class AppNavigation {
           builder: (context, state) =>ThanksPayment(
             key: state.pageKey,
           )),
-
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/ForgetPassword',
+          name: 'ForgetPassword',
+          builder: (context, state) =>ForgetPassword(
+            key: state.pageKey,
+          )),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/CodeReceivePage',
+          name: 'CodeReceivePage',
+          builder: (context, state) =>CodeReceivePage(
+            key: state.pageKey,
+          )),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/NewPassword',
+          name: 'NewPassword',
+          builder: (context, state) =>NewPassword(
+            key: state.pageKey,
+          )),
     ],
   );
 }

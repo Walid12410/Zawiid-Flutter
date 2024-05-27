@@ -27,7 +27,7 @@ class ItemBottoms extends StatelessWidget {
             ),
             child: Center(
                 child: Text('Add to cart',style: TextStyle(
-                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 17.sp
+                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 16.sp
                 ),)),
           ),
         ),
@@ -45,7 +45,7 @@ class ItemBottoms extends StatelessWidget {
             ),
             child: Center(
                 child: Text('Buy',style: TextStyle(
-                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 17.sp
+                    color: tdBlack,fontWeight: FontWeight.bold,fontSize: 16.sp
                 ),)),
           ),
         )

@@ -24,6 +24,7 @@ class _SignInState extends State<SignIn> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 30.h,),
                   Center(
                     child: Image.asset(
                       'assets/log/LOGO-icon---Black.png',

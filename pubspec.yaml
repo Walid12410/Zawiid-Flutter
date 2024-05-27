@@ -45,6 +45,7 @@ dependencies:
   linear_progress_bar: ^1.1.1
   expandable_page_view: ^1.0.17
   flutter_native_splash: ^2.3.11
+  pinput: ^3.0.1
 
 flutter_native_splash:
   color: "#000000" # Correct color format
@@ -120,6 +121,7 @@ flutter:
     - assets/img/knet.png
     - assets/img/master.png
     - assets/img/pop3.png
+    - assets/svg/close.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -8,3 +8,5 @@ const Color tdWhiteNav = Color.fromRGBO(234, 234, 234, 0.8470588235294118);
 const Color tdIconColor = Color.fromRGBO(81, 92, 111, 1);
 const Color tdBlue = Color.fromRGBO(78, 154, 232, 1);
 const Color tdGold = Color(-6909940);
+const Color tdGreyHome = Color.fromRGBO(249, 249, 249, 1);
+const Color tdGreyHome1 = Color.fromRGBO(241, 241, 241, 1);

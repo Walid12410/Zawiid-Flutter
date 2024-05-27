@@ -17,14 +17,7 @@ class FeaturedProductCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18).w,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  blurRadius: 5,
-                  offset: const Offset(0, 0),
-                ),
-              ],
-              color: tdWhiteNav),
+              color: tdGreyHome1),
           child: Row(
             children: [
               SizedBox(width: 20.w),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class ForgetPasswordWidget extends StatelessWidget {
@@ -16,7 +17,7 @@ class ForgetPasswordWidget extends StatelessWidget {
       children: [
         GestureDetector(
             onTap: () {
-              //forget pass nav
+              context.push(context.namedLocation('ForgetPassword'));
             },
             child:  Text(
               'FORGOT PASSWORD?',

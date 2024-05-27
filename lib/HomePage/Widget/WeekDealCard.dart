@@ -24,7 +24,7 @@ class WeekDealCard extends StatelessWidget {
           Center(
             child: SizedBox(
               width: 250.w,
-              height: 200.h,
+              height: 180.h,
               child: Image.asset(
                 image,
                 fit: BoxFit.contain,
@@ -81,6 +81,7 @@ class WeekDealCard extends StatelessWidget {
                   )
                 ],
               ),
+              SizedBox(width: 5.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,6 +90,7 @@ class WeekDealCard extends StatelessWidget {
                     'Hurry Up! Offer ends in:',
                     style: TextStyle(fontSize: 12.sp, color: tdGrey),
                   ),
+                  SizedBox(height: 10.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

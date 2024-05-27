@@ -47,7 +47,7 @@ class _CartPageState extends State<CartPage> {
         child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
-              color: tdWhiteNav,
+              color: tdGreyHome,
               borderRadius:const BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),

@@ -19,7 +19,7 @@ class _ThanksPaymentState extends State<ThanksPayment> {
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,  // Ensures the Column takes at least the height of the screen
+              minHeight: MediaQuery.of(context).size.height,
             ),
             child: IntrinsicHeight(
               child: Column(
