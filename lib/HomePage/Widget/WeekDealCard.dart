@@ -52,7 +52,7 @@ class WeekDealCard extends StatelessWidget {
                             color: tdBlack),
                       ),
                       SizedBox(
-                        width: 20.w,
+                        width: 15.w,
                       ),
                       SizedBox(
                         width: 25.w,
@@ -98,13 +98,13 @@ class WeekDealCard extends StatelessWidget {
                         name: 'HOURS',
                       ),
                       SizedBox(
-                        width: 10.w,
+                        width: 5.w,
                       ),
                       const TimerWeekDeal(
                         name: 'MINS',
                       ),
                       SizedBox(
-                        width: 10.w,
+                        width: 5.w,
                       ),
                       const TimerWeekDeal(
                         name: 'Secs',

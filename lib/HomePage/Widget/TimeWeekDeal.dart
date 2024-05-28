@@ -11,7 +11,6 @@ class TimerWeekDeal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.h,
       width: 45.w,
       decoration: BoxDecoration(
           color: tdWhite,
