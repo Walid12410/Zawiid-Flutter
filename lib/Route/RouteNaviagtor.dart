@@ -16,6 +16,7 @@ import '../AccountInfoScreen/CustomServices/CustomerServices.dart';
 import '../AccountInfoScreen/PrivacyPolicyPage/privacy.dart';
 import '../AccountInfoScreen/Profile.dart';
 import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
+import '../AddAddress/AddAddress.dart';
 import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
@@ -27,6 +28,7 @@ import '../ItemAvariable/ItemAvariable.dart';
 import '../NotificationPage/Notification.dart';
 import '../Payment/ThanksPayment/ThanksPaymentPage.dart';
 import '../SearchPage/Search.dart';
+import '../UpdateProfile/updateProfile.dart';
 
 class AppNavigation {
   AppNavigation._();
@@ -180,6 +182,29 @@ class AppNavigation {
                               FadeTransition(opacity: animation, child: child),
                     ),
                   ),
+                  GoRoute(
+                    path: 'UpdateProfile',
+                    name: 'UpdateProfile',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const UpdateProfile(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'AddAddressPage',
+                    name: 'AddAddressPage',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const AddAddressPage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                    ),
+                  ),
+
                 ],
               ),
             ],

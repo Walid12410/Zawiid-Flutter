@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -34,7 +35,9 @@ class UserProfileCard extends StatelessWidget {
               ),
               SizedBox(height: 5.h),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  context.goNamed("UpdateProfile");
+                },
                 child: Container(
                   width: 100.w,
                   height: 20.h,

@@ -11,6 +11,8 @@ class TimerWeekDeal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50.h,
+      width: 45.w,
       decoration: BoxDecoration(
           color: tdWhite,
           border: Border.all(color: tdGrey),
@@ -21,7 +23,7 @@ class TimerWeekDeal extends StatelessWidget {
           children: [
             Text(
               '00',
-              style: TextStyle(fontSize: 17.sp, color: tdGrey,fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20.sp, color: tdGrey,fontWeight: FontWeight.bold),
             ),
             Text(
               name,

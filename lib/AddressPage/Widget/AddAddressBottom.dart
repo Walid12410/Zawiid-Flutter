@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -16,16 +17,26 @@ class AddAddressBottom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Icon(
-            Icons.add_circle_outline,
-            size: 13.w,
+          GestureDetector(
+            onTap: (){
+              context.goNamed("AddAddressPage");
+            },
+            child: Icon(
+              Icons.add_circle_outline,
+              size: 15.w,
+            ),
           ),
-          Text(
-            'ADD ADDRESS',
-            style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.bold,
-                color: tdGrey),
+          GestureDetector(
+            onTap: (){
+              context.goNamed("AddAddressPage");
+            },
+            child: Text(
+              'ADD ADDRESS',
+              style: TextStyle(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.bold,
+                  color: tdGrey),
+            ),
           )
         ],
       ),
