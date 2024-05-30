@@ -54,7 +54,6 @@ final List<ItemDetails> items = [
     mainPrice: 899.99,
     salePrice: 799.99,
   ),
-
   // Add more items as needed
 ];
 
@@ -66,8 +65,18 @@ class ItemViewCategories extends StatefulWidget {
 }
 
 class _ItemViewCategoriesState extends State<ItemViewCategories> {
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
+    // Filter the items based on the search query
+    List<ItemDetails> filteredItems = items
+        .where((item) =>
+    item.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
+        item.desc.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
+
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -78,11 +87,18 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
               SizedBox(
                 height: 5.h,
               ),
-              const ItemSearchBar(),
+              ItemSearchBar(
+                controller: searchController,
+                onSearch: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
+              ),
               SizedBox(
                 height: 10.h,
               ),
-              for (int i = 0; i < items.length; i += 2)
+              for (int i = 0; i < filteredItems.length; i += 2)
                 Padding(
                   padding: const EdgeInsets.all(2).w,
                   child: Row(
@@ -92,20 +108,20 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                       Padding(
                         padding: const EdgeInsets.all(5).w,
                         child: CartItemView(
-                          title: items[i].title,
-                          desc: items[i].desc,
-                          mainPrice: items[i].mainPrice,
-                          salePrice: items[i].salePrice,
+                          title: filteredItems[i].title,
+                          desc: filteredItems[i].desc,
+                          mainPrice: filteredItems[i].mainPrice,
+                          salePrice: filteredItems[i].salePrice,
                         ),
                       ),
-                      if (i + 1 < items.length)
+                      if (i + 1 < filteredItems.length)
                         Padding(
                           padding: const EdgeInsets.all(5).w,
                           child: CartItemView(
-                            title: items[i + 1].title,
-                            desc: items[i + 1].desc,
-                            mainPrice: items[i + 1].mainPrice,
-                            salePrice: items[i + 1].salePrice,
+                            title: filteredItems[i + 1].title,
+                            desc: filteredItems[i + 1].desc,
+                            mainPrice: filteredItems[i + 1].mainPrice,
+                            salePrice: filteredItems[i + 1].salePrice,
                           ),
                         ),
                     ],
@@ -119,6 +135,3 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     );
   }
 }
-
-
-

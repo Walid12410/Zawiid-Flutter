@@ -12,7 +12,7 @@ void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  runApp(const MyApp());
+ runApp(const MyApp());
 
   // runApp(DevicePreview(
   //   enabled: !kReleaseMode,

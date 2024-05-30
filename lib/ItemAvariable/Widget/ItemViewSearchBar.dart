@@ -6,8 +6,10 @@ import '../../Color&Icons/color.dart';
 
 class ItemSearchBar extends StatelessWidget {
   const ItemSearchBar({
-    super.key,
+    super.key,required this.controller,required this.onSearch
   });
+  final TextEditingController controller;
+  final Function(String) onSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,7 @@ class ItemSearchBar extends StatelessWidget {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: controller,
                       decoration: InputDecoration(
                         hintText: 'Search for products',
                         hintStyle: TextStyle(fontSize: 9.sp, color: tdGrey),
@@ -65,6 +68,7 @@ class ItemSearchBar extends StatelessWidget {
                         true, // To reduce the inner padding of the TextField
                       ),
                       style: TextStyle(fontSize: 12.sp),
+                      onChanged: onSearch,
                     ),
                   ),
                 ),
