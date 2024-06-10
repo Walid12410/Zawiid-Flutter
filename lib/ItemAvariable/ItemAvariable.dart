@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-import 'package:badges/badges.dart' as badges;
 
 import 'Widget/CartItemView.dart';
 import 'Widget/ItemViewHead.dart';
@@ -70,7 +67,6 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
 
   @override
   Widget build(BuildContext context) {
-    // Filter the items based on the search query
     List<ItemDetails> filteredItems = items
         .where((item) =>
     item.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
@@ -102,7 +98,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                 Padding(
                   padding: const EdgeInsets.all(2).w,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(

@@ -5,7 +5,7 @@ import 'package:zawiid/Authentication/Widget/SignInButton.dart';
 import 'package:zawiid/Authentication/Widget/SignInTextfield.dart';
 import 'package:zawiid/Authentication/Widget/Terms&PrivacySignIn.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
+import 'AlertDialog/AlertLogin.dart';
 import 'Widget/ForgetPassword.dart';
 
 class SignIn extends StatefulWidget {
@@ -16,6 +16,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final AlertLogin alertLogin = AlertLogin();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,9 +61,15 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    const SignInTextFieldWidget(),
+                    SignInTextFieldWidget(emailController: emailController, passwordController: passwordController),
                     SizedBox(height: 10.h),
-                    const SignInButton(),
+                     SignInButton(onPressed: (){
+                       alertLogin.login(
+                         context,
+                         emailController.text,
+                         passwordController.text,
+                       );
+                     }),
                     SizedBox(height: 10.h),
                     const ForgetPasswordWidget()
                   ],
@@ -81,3 +91,26 @@ class _SignInState extends State<SignIn> {
   }
 }
 
+
+class LoginFailedDialog extends StatelessWidget {
+  final String title;
+  final String content;
+
+  const LoginFailedDialog({Key? key, required this.title, required this.content}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('OK'),
+        ),
+      ],
+    );
+  }
+}

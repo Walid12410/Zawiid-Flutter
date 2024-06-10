@@ -4,8 +4,14 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignInTextFieldWidget extends StatelessWidget {
-  const SignInTextFieldWidget({Key? key}) : super(key: key);
+  SignInTextFieldWidget(
+      {Key? key,
+      required this.emailController,
+      required this.passwordController})
+      : super(key: key);
 
+  TextEditingController emailController;
+  TextEditingController passwordController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +25,9 @@ class SignInTextFieldWidget extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5).w,
+              padding:
+                  const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5)
+                      .w,
               child: Row(
                 children: [
                   Padding(
@@ -33,6 +41,7 @@ class SignInTextFieldWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: emailController,
                       style: TextStyle(fontSize: 9.sp),
                       decoration: InputDecoration(
                         labelText: 'EMAIL',
@@ -46,7 +55,9 @@ class SignInTextFieldWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5).w,
+              padding:
+                  const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5)
+                      .w,
               child: Row(
                 children: [
                   Padding(
@@ -60,6 +71,7 @@ class SignInTextFieldWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       style: TextStyle(fontSize: 9.sp),
                       decoration: InputDecoration(

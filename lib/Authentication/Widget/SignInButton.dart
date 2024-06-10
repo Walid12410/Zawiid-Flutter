@@ -5,8 +5,11 @@ import 'package:zawiid/Color&Icons/color.dart';
 
 class SignInButton extends StatelessWidget {
   const SignInButton({
-    super.key,
+    super.key,required this.onPressed
   });
+
+  final VoidCallback onPressed;
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,8 @@ class SignInButton extends StatelessWidget {
       padding: const EdgeInsets.all(1).w,
       child: GestureDetector(
         onTap: () {
-          GoRouter.of(context).go("/home");
+          //GoRouter.of(context).go("/home");
+          onPressed();
         },
         child: Container(
           width: double.infinity,
