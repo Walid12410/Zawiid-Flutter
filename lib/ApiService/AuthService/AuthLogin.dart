@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ApiEndPoint.dart';
 
-class AuthService {
+class AuthLoginService {
   Future<Map<String, dynamic>> login(String username, String password) async {
       final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webLogin.php?UserName=$username&Password=$password');
       if(username.isEmpty && password.isEmpty){

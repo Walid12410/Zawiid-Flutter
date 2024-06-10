@@ -5,7 +5,9 @@ import 'package:zawiid/Color&Icons/color.dart';
 class SignUpButton extends StatelessWidget {
   const SignUpButton({
     super.key,
+    required this.onPressed
   });
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class SignUpButton extends StatelessWidget {
       padding: const EdgeInsets.all(1).w,
       child: GestureDetector(
         onTap: () {
-          //signup
+         onPressed();
         },
         child: Container(
           width: double.infinity,

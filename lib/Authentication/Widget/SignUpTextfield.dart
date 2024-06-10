@@ -4,14 +4,22 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TextFieldWidgetSignUp extends StatelessWidget {
-  const TextFieldWidgetSignUp({Key? key}) : super(key: key);
+  TextFieldWidgetSignUp({Key? key,
+    required this.emailController,
+    required this.passwordController})
+      : super(key: key);
+
+  TextEditingController emailController;
+  TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15).w,
+        borderRadius: BorderRadius
+            .circular(15)
+            .w,
         color: tdWhite,
       ),
       child: Padding(
@@ -19,7 +27,9 @@ class TextFieldWidgetSignUp extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5).w,
+              padding:
+              const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5)
+                  .w,
               child: Row(
                 children: [
                   Padding(
@@ -34,6 +44,7 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       style: TextStyle(fontSize: 9.sp),
+                      controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'EMAIL/PHONE NUMBER',
                         labelStyle: TextStyle(fontSize: 9.sp, color: tdGrey),
@@ -46,7 +57,9 @@ class TextFieldWidgetSignUp extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5).w,
+              padding:
+              const EdgeInsets.only(left: 15, right: 5, bottom: 5, top: 5)
+                  .w,
               child: Row(
                 children: [
                   Padding(
@@ -60,6 +73,7 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       style: TextStyle(fontSize: 9.sp),
                       decoration: InputDecoration(

@@ -6,7 +6,7 @@ import '../../ApiService/AuthService/AuthLogin.dart';
 import '../../Color&Icons/color.dart';
 
 class AlertLogin{
-  final AuthService _authService = AuthService();
+  final AuthLoginService _authService = AuthLoginService();
 
   Future<void> login(BuildContext context, String username,
       String password) async {

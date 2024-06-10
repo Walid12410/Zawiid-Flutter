@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class SignInButton extends StatelessWidget {
@@ -17,7 +16,6 @@ class SignInButton extends StatelessWidget {
       padding: const EdgeInsets.all(1).w,
       child: GestureDetector(
         onTap: () {
-          //GoRouter.of(context).go("/home");
           onPressed();
         },
         child: Container(

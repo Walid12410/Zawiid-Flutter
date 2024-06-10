@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'AlertDialog/AlertSignUp.dart';
 import 'Widget/GuestBottom.dart';
 import 'Widget/SignUpButton.dart';
 import 'Widget/SignUpTextfield.dart';
@@ -15,10 +16,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp>{
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final AlertSigUp alertSignUp = AlertSigUp();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: tdBlack,
       body: SafeArea(
@@ -58,9 +61,11 @@ class _SignUpState extends State<SignUp>{
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    const TextFieldWidgetSignUp(),
+                     TextFieldWidgetSignUp(emailController: emailController,passwordController: passwordController,),
                     SizedBox(height: 20.h),
-                    const SignUpButton(),
+                     SignUpButton(onPressed: (){
+                       alertSignUp.register(context, emailController.text, passwordController.text);
+                     },),
                     SizedBox(height: 10.h),
                     const GuestBottom()
                   ],
