@@ -27,6 +27,5 @@ class AuthLoginService {
       } catch (error) {
         return {'success': false, 'message': 'Something went wrong. Check your connection and try again later.'};
       }
-
   }
 }
