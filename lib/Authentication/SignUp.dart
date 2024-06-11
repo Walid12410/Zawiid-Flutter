@@ -18,7 +18,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp>{
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final AlertSigUp alertSignUp = AlertSigUp();
+  final AlertSignUp alertSignUp = AlertSignUp();
 
   @override
   Widget build(BuildContext context) {

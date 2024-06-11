@@ -66,7 +66,7 @@ class AuthSignUpService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         if (responseData['result'] == 'success') {
-          return {'success': true, 'msg': 'R2egistration successful'};
+          return {'success': true, 'msg': 'Registration successful'};
         } else {
           return {'success': false, 'msg': responseData['msg']};
         }

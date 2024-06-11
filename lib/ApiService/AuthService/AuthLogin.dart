@@ -5,7 +5,7 @@ import '../../ApiEndPoint.dart';
 
 class AuthLoginService {
   Future<Map<String, dynamic>> login(String username, String password) async {
-      final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webLogin.php?UserName=$username&Password=$password');
+      final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webLogin.php?username=$username&password=$password');
       if(username.isEmpty && password.isEmpty){
         return {'success': false, 'message': 'Username or Password cannot be empty'};
       }
