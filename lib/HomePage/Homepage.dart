@@ -2,8 +2,10 @@ import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import '../Drawer/DrawerPage.dart';
+import '../provider/Categories_Provider.dart';
 import 'Widget/FeaturedProduct.dart';
 import 'Widget/OpeningImage.dart';
 import 'Widget/SearchBar.dart';
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _currentPage2 = 0;
   final PageController _pageController1 = PageController(initialPage: 0);
   int _currentPage1 = 0;
+
 
   @override
   Widget build(BuildContext context) {

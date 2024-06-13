@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zawiid/Color&Icons/color.dart';
+import 'package:provider/provider.dart';
 
-class TitleCategory {
-  final String title;
-  final List<String> categories;
-
-  TitleCategory(this.title, this.categories);
-}
+import '../Color&Icons/color.dart';
+import '../provider/Categories_Provider.dart';
 
 class DrawerWithDropdown extends StatefulWidget {
   @override
@@ -17,46 +13,43 @@ class DrawerWithDropdown extends StatefulWidget {
 }
 
 class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
-  List<TitleCategory> titleCategories = [
-    TitleCategory('OpenBox', ['Mobile & Accessories', 'Tablet','Laptop','Iphone','Samsung']),
-    TitleCategory('Kashe', ['Mobile', 'Tablet']),
-    TitleCategory('Dell', ['Laptop', 'Board','Cpu','Ram','GPU']),
-    TitleCategory('Deldsl', ['h']),
-  ];
-
   Map<String, bool> isExpandedMap = {};
 
   @override
   void initState() {
     super.initState();
-    for (var category in titleCategories) {
-      isExpandedMap[category.title] = false;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CategoryProvider>(context, listen: false).getCategory();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
+    var categories = categoryProvider.category;
+
+    // Initialize isExpandedMap for the first time
+    for (var category in categories) {
+      if (!isExpandedMap.containsKey(category.categoryName)) {
+        isExpandedMap[category.categoryName] = false;
+      }
+    }
+
     return Drawer(
       surfaceTintColor: tdWhite,
       backgroundColor: tdWhite,
       width: 270.w,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero
-      ),
-
       child: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 30.h,
-            ),
+            SizedBox(height: 30.h),
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 70).w,
+              padding: EdgeInsets.only(left: 10.w, right: 70.w),
               child: Container(
                 width: double.infinity,
                 height: 25.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20).w,
+                  borderRadius: BorderRadius.circular(20.w),
                   color: tdWhite,
                   boxShadow: [
                     BoxShadow(
@@ -70,7 +63,7 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10).w,
+                      padding: EdgeInsets.only(left: 10.w),
                       child: Text(
                         'Search for products',
                         style: TextStyle(fontSize: 8.sp),
@@ -81,13 +74,13 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                       height: 25.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                          topRight: const Radius.circular(20).w,
-                          bottomRight: const Radius.circular(20).w,
+                          topRight: Radius.circular(20.w),
+                          bottomRight: Radius.circular(20.w),
                         ),
-                        color: tdBlack,
+                        color: Colors.black,
                       ),
                       child: Center(
-                        child: Icon(Icons.search, color: tdWhite, size: 20.w),
+                        child: Icon(Icons.search, color: Colors.white, size: 20.w),
                       ),
                     )
                   ],
@@ -95,96 +88,127 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
               ),
             ),
             SizedBox(height: 15.h),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
+            if (categories.isEmpty)
+              Column(
                 children: [
-                  for (var i = 0; i < titleCategories.length; i++) ...[
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(color: Colors.grey.shade300),
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
+                  SizedBox(
+                    height: 120.h,
+                  ),
+                  Center(
+                    child: SizedBox(
+                      width: 90.w,
+                      height: 100.h,
+                      child: Image.asset(
+                        'assets/log/LOGO-icon---Black.png',
+                        fit: BoxFit.contain,
                       ),
-                      child: ListTileTheme(
-                        data: ListTileThemeData(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          contentPadding: EdgeInsets.zero,
-                          visualDensity: VisualDensity.compact,
-                          horizontalTitleGap: 0.0,
-                          minLeadingWidth: 0,
-                          dense: true,
+                    ),
+                  ),
+                ],
+              ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  var category = categories[index];
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Colors.grey.shade300),
+                        bottom: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    child: ListTileTheme(
+                      data: ListTileThemeData(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        child: ExpansionTile(
-                          tilePadding:
-                          const EdgeInsets.only(left: 15, right: 10).w,
-                          collapsedShape: const RoundedRectangleBorder(
-                            side: BorderSide.none,
+                        contentPadding: EdgeInsets.zero,
+                        visualDensity: VisualDensity.compact,
+                        horizontalTitleGap: 0.0,
+                        minLeadingWidth: 0,
+                        dense: true,
+                      ),
+                      child: ExpansionTile(
+                        tilePadding: EdgeInsets.only(left: 15.w, right: 10.w),
+                        collapsedShape: const RoundedRectangleBorder(
+                          side: BorderSide.none,
+                        ),
+                        shape: const RoundedRectangleBorder(
+                          side: BorderSide.none,
+                        ),
+                        title: Text(
+                          category.categoryName,
+                          style: TextStyle(fontSize: 13.sp, color: tdBlack),
+                        ),
+                        trailing: isExpandedMap[category.categoryName] != null
+                            ? SizedBox(
+                          width: 20.w,
+                          height: 17.h,
+                          child: SvgPicture.asset(
+                            isExpandedMap[category.categoryName]!
+                                ? 'assets/svg/arrow_down.svg'
+                                : 'assets/svg/arrow_up.svg',
+                            fit: BoxFit.contain,
                           ),
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide.none,
-                          ),
-                          title: Text(
-                            titleCategories[i].title,
-                            style: TextStyle(fontSize: 13.sp, color: tdBlack),
-                          ),
-                          trailing: isExpandedMap[titleCategories[i].title] != null
-                              ? SizedBox(
-                            width: 20.w,
-                            height: 17.h,
-                            child: SvgPicture.asset(
-                                isExpandedMap[titleCategories[i].title]!
-                                    ? 'assets/svg/arrow_down.svg'
-                                    : 'assets/svg/arrow_up.svg',
-                              fit: BoxFit.contain,),
-
-                          ) : null,
-                          onExpansionChanged: (isExpanded) {
-                            setState(() {
-                              isExpandedMap[titleCategories[i].title] = isExpanded;
-                            });
-                          },
-                          children: [
-                            for (var j = 0; j < titleCategories[i].categories.length; j++)
+                        )
+                            : null,
+                        onExpansionChanged: (isExpanded) {
+                          setState(() {
+                            isExpandedMap[category.categoryName] = isExpanded;
+                          });
+                        },
+                        children: [
+                          if (category.subcategories != null && category.subcategories!.isNotEmpty)
+                            for (var subcategory in category.subcategories!)
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   GoRouter.of(context).goNamed('ItemViewCategories');
                                 },
                                 child: Container(
-                                  width: double.infinity,
                                   color: tdWhiteNav,
+                                  width: double.infinity,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 10)
-                                        .w,
+                                    padding: EdgeInsets.only(left: 15.w, right: 10.w),
                                     child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                         Text(
-                                            titleCategories[i].categories[j],
-                                            style: TextStyle(
-                                                fontSize: 13.sp, color: tdBlack),
-                                          ),
-
-                                        if (j < titleCategories[i].categories.length - 1)
+                                        Text(
+                                          subcategory.subCatName,
+                                          style: TextStyle(fontSize: 13.sp, color: tdBlack),
+                                        ),
+                                        if (category.subcategories!.last != subcategory)
                                           const Divider(),
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
-                          ],
-                        ),
+                          if (category.subcategories == null || category.subcategories!.isEmpty)
+                            Container(
+                              color: tdWhiteNav,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 15.w, right: 10.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'No subcategories available',
+                                      style: TextStyle(fontSize: 13.sp, color: tdBlack),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                  ],
-                ],
+                  );
+                },
               ),
             ),
           ],

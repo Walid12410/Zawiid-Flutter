@@ -3,7 +3,6 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zawiid/CartPage/CartPage.dart';
 import '../../Color&Icons/color.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -13,13 +12,10 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 8).w,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(),
           GestureDetector(
             onTap: () {
               GoRouter.of(context).goNamed('NotificationPage');
@@ -40,7 +36,6 @@ class CustomNavigationBar extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 10.w),
           Container(
             height: 30.h,
             decoration: BoxDecoration(
@@ -72,7 +67,7 @@ class CustomNavigationBar extends StatelessWidget {
                             child: Text(
                               'Search for products',
                               style: TextStyle(
-                                  fontSize: 8.sp, color: tdGrey),
+                                  fontSize: 7.sp, color: tdGrey),
                             ),
                           ),
                           SizedBox(
@@ -107,7 +102,7 @@ class CustomNavigationBar extends StatelessWidget {
                             Text(
                               'All Categories',
                               style: TextStyle(
-                                  fontSize: 10.sp, color: tdWhite),
+                                  fontSize: 8.sp, color: tdWhite),
                             ),
                             SizedBox(
                               width: 5.w,
@@ -127,7 +122,6 @@ class CustomNavigationBar extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 4.w),
           GestureDetector(
             onTap: () {
               context.push(context.namedLocation('CartPage'));
@@ -135,7 +129,7 @@ class CustomNavigationBar extends StatelessWidget {
             child: badges.Badge(
               badgeContent:  Text(
                 '0',
-                style: TextStyle(color: tdWhite,fontSize: 8.sp),
+                style: TextStyle(color: tdWhite,fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
               position: badges.BadgePosition.custom(bottom: -7,end: -5),
@@ -149,7 +143,6 @@ class CustomNavigationBar extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 }
