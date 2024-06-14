@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,20 @@ void main() {
     ],
     child: const MyApp(),
   ));
+
+
+  // runApp(
+  //   DevicePreview(
+  //     enabled: !kReleaseMode, // Enable DevicePreview only in debug mode
+  //     builder: (context) => MultiProvider(
+  //       providers: [
+  //         ChangeNotifierProvider(create: (_) => CategoryProvider()),
+  //       ],
+  //       child: MyApp(), // Your main app widget
+  //     ),
+  //   ),
+  // );
+
 }
 
 class MyApp extends StatefulWidget {
@@ -40,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp.router(
-          builder: DevicePreview.appBuilder,
+         // builder: DevicePreview.appBuilder,
           title: 'Zawiid',
           debugShowCheckedModeBanner: false,
           routerConfig: AppNavigation.router,
