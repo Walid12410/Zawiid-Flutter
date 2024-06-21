@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,13 +10,14 @@ class CartItemView extends StatelessWidget {
         required this.title,
         required this.desc,
         required this.mainPrice,
-        required this.salePrice});
+        required this.salePrice,
+      required this.image});
 
   final String title;
   final String desc;
-  final double mainPrice;
-  final double salePrice;
-
+  final String mainPrice;
+  final String salePrice;
+  final String image;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,11 +40,13 @@ class CartItemView extends StatelessWidget {
         children: [
           SizedBox(
               width: 90.w,
-              height: 100.h,
-              child: Image.asset(
-                'assets/img/iphone.png',
-                fit: BoxFit.fill,
-              )),
+              height: 110.h,
+              child: CachedNetworkImage(
+                imageUrl: image,
+                placeholder: (context, url) => Image.asset('assets/log/LOGO-icon---Black.png'),
+                errorWidget: (context, url, error) => Image.asset('assets/log/LOGO-icon---Black.png'),
+              ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20).w,
             child: Text(
@@ -51,13 +55,13 @@ class CartItemView extends StatelessWidget {
                   fontSize: 12.sp, color: tdBlack, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              maxLines: 2,
+              maxLines: 1,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15).w,
             child: Text(
-              desc,
+              formatDesc(desc),
               style: TextStyle(
                 fontSize: 8.sp,
                 color: tdBlack,
@@ -68,6 +72,8 @@ class CartItemView extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5.h),
+          if(salePrice == '0' || salePrice == '')
+             SizedBox(height: 2.h),
           Text(
             '$salePrice KD',
             style: TextStyle(
@@ -75,14 +81,21 @@ class CartItemView extends StatelessWidget {
                 fontSize: 16.sp,
                 color: Colors.red),
           ),
+          if(salePrice == '0' || salePrice == '')
+            Text(
+              '$mainPrice kD',
+              style: TextStyle(
+                fontSize: 10.sp, color: tdBlack,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           Text(
             '$mainPrice kD',
             style: TextStyle(
               fontSize: 10.sp, color: tdBlack,
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.lineThrough,
-              decorationThickness:
-              2.5, // Adjust the thickness of the line through
+              decorationThickness: 2.5, // Adjust the thickness of the line through
               decorationColor: tdGrey,
             ),
           ),
@@ -113,3 +126,14 @@ class CartItemView extends StatelessWidget {
     );
   }
 }
+String formatDesc(String desc) {
+  final TextPainter textPainter = TextPainter(
+    text: TextSpan(text: desc, style: TextStyle(fontSize: 8.sp)),
+    maxLines: 1,
+    textDirection: TextDirection.ltr,
+  );
+  textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+  final bool isOneLine = textPainter.didExceedMaxLines == false;
+  return isOneLine ? '$desc\n' : desc;
+}
+

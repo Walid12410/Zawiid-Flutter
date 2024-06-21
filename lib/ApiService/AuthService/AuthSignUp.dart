@@ -58,7 +58,7 @@ class AuthSignUpService {
       '&AreaNo=${areaNo ?? ''}'
       '&Email=$email'
       '&Tel=${tel ?? ''}'
-      '&UserName=${userName ?? ''}',
+      '&UserName=$email',
     );
 
     try {

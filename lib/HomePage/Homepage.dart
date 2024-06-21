@@ -1,11 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/tabbar.dart';
+import '../ApiEndPoint.dart';
 import '../Drawer/DrawerPage.dart';
+import '../ItemAvariable/ExploreProduct/ProductOfSubCatHomePage.dart';
 import '../provider/Categories_Provider.dart';
+import '../provider/Products_Provider.dart';
 import 'Widget/FeaturedProduct.dart';
 import 'Widget/OpeningImage.dart';
 import 'Widget/SearchBar.dart';
@@ -17,7 +23,8 @@ import 'Widget/WeekDealCard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  static final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>();
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,10 +35,41 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _currentPage2 = 0;
   final PageController _pageController1 = PageController(initialPage: 0);
   int _currentPage1 = 0;
+  int _selectedCategoryIndex = 0;
+  int _selectedSubcategoryIndex = 0;
+  List<Map<String, dynamic>> categories = [
+    {
+      'categoryId': 1,
+      'categoryName': 'Category 1 ',
+      'subcategories': [
+        {'subcategoryId': 1, 'subcategoryName': 'Subcategory 1'},
+        {'subcategoryId': 2, 'subcategoryName': 'Subcategory 2'},
+      ],
+    },
+    {
+      'categoryId': 2,
+      'categoryName': 'Category 2',
+      'subcategories': [
+        {'subcategoryId': 3, 'subcategoryName': 'Subcategory 3'},
+        {'subcategoryId': 4, 'subcategoryName': 'Subcategory 4'},
+      ],
+    },
+  ];
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<CategoryProvider>(context, listen: false).getCategory();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: true);
+    var categories = categoryProvider.category;
+
     return Scaffold(
       key: HomePage.scaffoldKey,
       drawer: DrawerWithDropdown(),
@@ -67,9 +105,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              SizedBox(height: 5.h,),
+              SizedBox(
+                height: 5.h,
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10).w,
+                padding: const EdgeInsets.only(left: 10, right: 10).w,
                 child: Container(
                   height: 1.h,
                   color: tdGrey,
@@ -263,7 +303,157 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-              )
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5, right: 5).w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Explore Our Product Range',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 12.sp),
+                        ),
+                        SizedBox(height: 3.h),
+                        Container(
+                          width: double.infinity,
+                          height: 1.h,
+                          color: tdGrey,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 160.w,
+                                height: 1.h,
+                                color: tdBlack,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        SizedBox(
+                          height: 35.h,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _selectedCategoryIndex = index;
+                                    _selectedSubcategoryIndex = 0;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5).w,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: tdWhite,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 0),
+                                        ),
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.circular(200).w,
+                                      border: _selectedCategoryIndex == index
+                                          ? Border.all(
+                                              color: tdBlack, width: 1.0.w)
+                                          : null,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                              left: 10, right: 10)
+                                          .w,
+                                      child: Center(
+                                        child: Text(
+                                          categories[index].categoryName,
+                                          style: TextStyle(
+                                            color: tdBlack,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 35.h,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categories[_selectedCategoryIndex]
+                                    .subcategories
+                                    ?.length ??
+                                0,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _selectedSubcategoryIndex = index;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                          right: 7, bottom: 12)
+                                      .w,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                            left: 12, right: 12)
+                                        .w,
+                                    child: Center(
+                                      child: Text(
+                                        categories[_selectedCategoryIndex]
+                                            .subcategories![index]
+                                            .subCatName,
+                                        style: TextStyle(
+                                          color: tdBlack,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 1.h),
+                  SizedBox(
+                    height: 500.h,
+                    child: categories[_selectedCategoryIndex].subcategories !=
+                                null &&
+                            categories[_selectedCategoryIndex]
+                                .subcategories!
+                                .isNotEmpty
+                        ? ProductsOfSubCategoriesHome(
+                            subCategoryId: categories[_selectedCategoryIndex]
+                                .subcategories![_selectedSubcategoryIndex]
+                                .subCarNo)
+                        : Center(
+                            child: Text(
+                              'No product added yet',
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: tdGrey),
+                            ),
+                          ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -282,6 +472,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 }
-
-
 

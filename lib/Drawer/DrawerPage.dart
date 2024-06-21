@@ -25,7 +25,8 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
+    CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
 
     // Initialize isExpandedMap for the first time
@@ -80,7 +81,8 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                         color: Colors.black,
                       ),
                       child: Center(
-                        child: Icon(Icons.search, color: Colors.white, size: 20.w),
+                        child:
+                            Icon(Icons.search, color: Colors.white, size: 20.w),
                       ),
                     )
                   ],
@@ -144,15 +146,15 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                         ),
                         trailing: isExpandedMap[category.categoryName] != null
                             ? SizedBox(
-                          width: 20.w,
-                          height: 17.h,
-                          child: SvgPicture.asset(
-                            isExpandedMap[category.categoryName]!
-                                ? 'assets/svg/arrow_down.svg'
-                                : 'assets/svg/arrow_up.svg',
-                            fit: BoxFit.contain,
-                          ),
-                        )
+                                width: 20.w,
+                                height: 17.h,
+                                child: SvgPicture.asset(
+                                  isExpandedMap[category.categoryName]!
+                                      ? 'assets/svg/arrow_down.svg'
+                                      : 'assets/svg/arrow_up.svg',
+                                  fit: BoxFit.contain,
+                                ),
+                              )
                             : null,
                         onExpansionChanged: (isExpanded) {
                           setState(() {
@@ -160,45 +162,59 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                           });
                         },
                         children: [
-                          if (category.subcategories != null && category.subcategories!.isNotEmpty)
+                          if (category.subcategories != null &&
+                              category.subcategories!.isNotEmpty)
                             for (var subcategory in category.subcategories!)
                               GestureDetector(
                                 onTap: () {
-                                  GoRouter.of(context).goNamed('ItemViewCategories');
+                                  GoRouter.of(context).goNamed(
+                                      'ItemViewCategories',
+                                      pathParameters: {
+                                        'title': subcategory.subCatName,
+                                        'categoryId': subcategory.subCarNo.toString()
+                                      });
                                 },
                                 child: Container(
                                   color: tdWhiteNav,
                                   width: double.infinity,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 15.w, right: 10.w),
+                                    padding: EdgeInsets.only(
+                                        left: 15.w, right: 10.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           subcategory.subCatName,
-                                          style: TextStyle(fontSize: 13.sp, color: tdBlack),
+                                          style: TextStyle(
+                                              fontSize: 13.sp, color: tdBlack),
                                         ),
-                                        if (category.subcategories!.last != subcategory)
+                                        if (category.subcategories!.last !=
+                                            subcategory)
                                           const Divider(),
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
-                          if (category.subcategories == null || category.subcategories!.isEmpty)
+                          if (category.subcategories == null ||
+                              category.subcategories!.isEmpty)
                             Container(
                               color: tdWhiteNav,
                               width: double.infinity,
                               child: Padding(
-                                padding: EdgeInsets.only(left: 15.w, right: 10.w),
+                                padding:
+                                    EdgeInsets.only(left: 15.w, right: 10.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
                                       'No subcategories available',
-                                      style: TextStyle(fontSize: 13.sp, color: tdBlack),
+                                      style: TextStyle(
+                                          fontSize: 13.sp, color: tdBlack),
                                     ),
                                   ],
                                 ),

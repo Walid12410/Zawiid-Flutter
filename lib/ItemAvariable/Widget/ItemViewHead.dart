@@ -7,8 +7,10 @@ import '../../Color&Icons/color.dart';
 
 class ItemCategoriesHead extends StatelessWidget {
   const ItemCategoriesHead({
-    super.key,
+    super.key,required this.title
   });
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class ItemCategoriesHead extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10).w,
-            child: Text('Accessories',
+            child: Text(title,
                 style: TextStyle(
                     color: tdBlack,
                     fontWeight: FontWeight.bold,

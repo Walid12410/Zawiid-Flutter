@@ -1,62 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
+import 'package:zawiid/provider/Products_Provider.dart';
+import '../Classes/Product/Products.dart';
 import 'Widget/CartItemView.dart';
 import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
 
-class ItemDetails {
-  final String title;
-  final String desc;
-  final double mainPrice;
-  final double salePrice;
-
-  ItemDetails({
-    required this.title,
-    required this.desc,
-    required this.mainPrice,
-    required this.salePrice,
-  });
-}
-
-final List<ItemDetails> items = [
-  ItemDetails(
-    title: 'iPhone 12',
-    desc: 'Latest Apple iPhone',
-    mainPrice: 999.99,
-    salePrice: 899.99,
-  ),
-  ItemDetails(
-    title: 'Samsung Galaxy S21',
-    desc: 'Latest Samsung Galaxy',
-    mainPrice: 899.99,
-    salePrice: 799.99,
-  ),
-  ItemDetails(
-    title: 'APPLE',
-    desc: 'Apple iPhone 15 Pro Max 6.7- Inch 250GB White Titanium',
-    mainPrice: 899.99,
-    salePrice: 799.99,
-  ),
-  ItemDetails(
-    title: 'Samsung Galaxy S21',
-    desc: 'Latest Samsung Galaxy',
-    mainPrice: 899.99,
-    salePrice: 799.99,
-  ),
-  ItemDetails(
-    title: 'APPLE',
-    desc: 'Apple iPhone 15 Pro Max 6.7- Inch 250GB White Titanium',
-    mainPrice: 899.99,
-    salePrice: 799.99,
-  ),
-  // Add more items as needed
-];
-
 class ItemViewCategories extends StatefulWidget {
-  const ItemViewCategories({super.key});
+  const ItemViewCategories({super.key, required this.title, required this.categoryId});
 
+  final String title;
+  final int categoryId;
   @override
   State<ItemViewCategories> createState() => _ItemViewCategoriesState();
 }
@@ -66,12 +23,25 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
   String searchQuery = '';
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final provider = Provider.of<ProductsProvider>(context, listen: false);
+      provider.getAllCategoryProducts(widget.categoryId);
+    });
+  }
+
+  List<Product> getFilteredProducts(List<Product> products, String query) {
+    return products.where((product) =>
+    product.productName.toLowerCase().contains(query.toLowerCase()) ||
+        product.productDesc.toLowerCase().contains(query.toLowerCase())).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<ItemDetails> filteredItems = items
-        .where((item) =>
-    item.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
-        item.desc.toLowerCase().contains(searchQuery.toLowerCase()))
-        .toList();
+    final provider = Provider.of<ProductsProvider>(context, listen: true);
+    var categoryProducts = provider.categoryProduct;
+    var filteredProducts = getFilteredProducts(categoryProducts, searchQuery);
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -79,7 +49,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ItemCategoriesHead(),
+              ItemCategoriesHead(title: widget.title),
               SizedBox(
                 height: 5.h,
               ),
@@ -91,10 +61,26 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                   });
                 },
               ),
+              if (filteredProducts.isEmpty ||
+                  widget.categoryId != filteredProducts[0].subCategoryNo)
+                Padding(
+                  padding: const EdgeInsets.all(20.0).w,
+                  child: Center(
+                    child: Text(
+                      'No products found',
+                      style: TextStyle(fontSize: 16.sp, color: tdGrey,fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              else
+                SizedBox(
+                  height: 10.h,
+                ),
               SizedBox(
                 height: 10.h,
               ),
-              for (int i = 0; i < filteredItems.length; i += 2)
+              if(filteredProducts.isNotEmpty && widget.categoryId == filteredProducts[0].subCategoryNo)
+              for (int i = 0; i < filteredProducts.length; i += 2)
                 Padding(
                   padding: const EdgeInsets.all(2).w,
                   child: Row(
@@ -104,20 +90,22 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                       Padding(
                         padding: const EdgeInsets.all(5).w,
                         child: CartItemView(
-                          title: filteredItems[i].title,
-                          desc: filteredItems[i].desc,
-                          mainPrice: filteredItems[i].mainPrice,
-                          salePrice: filteredItems[i].salePrice,
+                          title: filteredProducts[i].productName,
+                          desc: filteredProducts[i].productDesc,
+                          mainPrice: filteredProducts[i].price,
+                          salePrice: filteredProducts[i].discountedPrice,
+                          image: '${ApiEndpoints.localBaseUrl}/${filteredProducts[i].productImage}',
                         ),
                       ),
-                      if (i + 1 < filteredItems.length)
+                      if (i + 1 < filteredProducts.length)
                         Padding(
                           padding: const EdgeInsets.all(5).w,
                           child: CartItemView(
-                            title: filteredItems[i + 1].title,
-                            desc: filteredItems[i + 1].desc,
-                            mainPrice: filteredItems[i + 1].mainPrice,
-                            salePrice: filteredItems[i + 1].salePrice,
+                            title: filteredProducts[i + 1].productName,
+                            desc: filteredProducts[i + 1].productDesc,
+                            mainPrice: filteredProducts[i + 1].price,
+                            salePrice: filteredProducts[i + 1].discountedPrice,
+                            image: '${ApiEndpoints.localBaseUrl}/${filteredProducts[i].productImage}',
                           ),
                         ),
                     ],

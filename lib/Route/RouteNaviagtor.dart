@@ -91,15 +91,20 @@ class AppNavigation {
                     ),
                   ),
                   GoRoute(
-                    path: 'ItemViewCategories',
+                    path: 'ItemViewCategories/:title/:categoryId',
                     name: 'ItemViewCategories',
-                    pageBuilder: (context, state) => CustomTransitionPage<void>(
-                      key: state.pageKey,
-                      child: const ItemViewCategories(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) =>
-                              FadeTransition(opacity: animation, child: child),
-                    ),
+                    pageBuilder: (BuildContext context, GoRouterState state) {
+                      return CustomTransitionPage<void>(
+                        key: state.pageKey,
+                        child: ItemViewCategories(
+                            title: state.pathParameters['title']!,
+                            categoryId:
+                                int.parse(state.pathParameters['categoryId']!)),
+                        transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) =>
+                            FadeTransition(opacity: animation, child: child),
+                      );
+                    },
                   ),
                   GoRoute(
                     path: 'NotificationPage',
@@ -165,7 +170,9 @@ class AppNavigation {
                     name: 'AddressView',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const AddressView(showBottom: false,),
+                      child: const AddressView(
+                        showBottom: false,
+                      ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
@@ -190,7 +197,7 @@ class AppNavigation {
                       child: const UpdateProfile(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
                   GoRoute(
@@ -201,10 +208,9 @@ class AppNavigation {
                       child: const AddAddressPage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
+                              FadeTransition(opacity: animation, child: child),
                     ),
                   ),
-
                 ],
               ),
             ],
@@ -294,44 +300,45 @@ class AppNavigation {
           parentNavigatorKey: _rootNavigatorKey,
           path: '/shippingAddress',
           name: 'shippingAddress',
-          builder: (context, state) =>AddressView(
-            key: state.pageKey,showBottom: true,
-          )),
+          builder: (context, state) => AddressView(
+                key: state.pageKey,
+                showBottom: true,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/Payment',
           name: 'payment',
-          builder: (context, state) =>PaymentPage(
-            key: state.pageKey,
-          )),
+          builder: (context, state) => PaymentPage(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/ThanksPayment',
           name: 'ThanksPayment',
-          builder: (context, state) =>ThanksPayment(
-            key: state.pageKey,
-          )),
+          builder: (context, state) => ThanksPayment(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/ForgetPassword',
           name: 'ForgetPassword',
-          builder: (context, state) =>ForgetPassword(
-            key: state.pageKey,
-          )),
+          builder: (context, state) => ForgetPassword(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/CodeReceivePage',
           name: 'CodeReceivePage',
-          builder: (context, state) =>CodeReceivePage(
-            key: state.pageKey,
-          )),
+          builder: (context, state) => CodeReceivePage(
+                key: state.pageKey,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/NewPassword',
           name: 'NewPassword',
-          builder: (context, state) =>NewPassword(
-            key: state.pageKey,
-          )),
+          builder: (context, state) => NewPassword(
+                key: state.pageKey,
+              )),
     ],
   );
 }
