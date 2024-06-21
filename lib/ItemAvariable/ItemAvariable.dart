@@ -10,10 +10,11 @@ import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
 
 class ItemViewCategories extends StatefulWidget {
-  const ItemViewCategories({super.key, required this.title, required this.categoryId});
+  const ItemViewCategories({Key? key, required this.title, required this.categoryId}) : super(key: key);
 
   final String title;
   final int categoryId;
+
   @override
   State<ItemViewCategories> createState() => _ItemViewCategoriesState();
 }
@@ -25,7 +26,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       final provider = Provider.of<ProductsProvider>(context, listen: false);
       provider.getAllCategoryProducts(widget.categoryId);
     });
@@ -34,12 +35,13 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
   List<Product> getFilteredProducts(List<Product> products, String query) {
     return products.where((product) =>
     product.productName.toLowerCase().contains(query.toLowerCase()) ||
-        product.productDesc.toLowerCase().contains(query.toLowerCase())).toList();
+        product.productDesc.toLowerCase().contains(query.toLowerCase())
+    ).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProductsProvider>(context, listen: true);
+    final provider = Provider.of<ProductsProvider>(context);
     var categoryProducts = provider.categoryProduct;
     var filteredProducts = getFilteredProducts(categoryProducts, searchQuery);
 
@@ -50,9 +52,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           child: Column(
             children: [
               ItemCategoriesHead(title: widget.title),
-              SizedBox(
-                height: 5.h,
-              ),
+              SizedBox(height: 5.h),
               ItemSearchBar(
                 controller: searchController,
                 onSearch: (value) {
@@ -64,58 +64,56 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
               if (filteredProducts.isEmpty ||
                   widget.categoryId != filteredProducts[0].subCategoryNo)
                 Padding(
-                  padding: const EdgeInsets.all(20.0).w,
+                  padding: EdgeInsets.all(20.w),
                   child: Center(
                     child: Text(
                       'No products found',
-                      style: TextStyle(fontSize: 16.sp, color: tdGrey,fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 16.sp, color: tdGrey, fontWeight: FontWeight.bold),
                     ),
                   ),
-                )
-              else
-                SizedBox(
-                  height: 10.h,
                 ),
-              SizedBox(
-                height: 10.h,
-              ),
-              if(filteredProducts.isNotEmpty && widget.categoryId == filteredProducts[0].subCategoryNo)
-              for (int i = 0; i < filteredProducts.length; i += 2)
-                Padding(
-                  padding: const EdgeInsets.all(2).w,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5).w,
-                        child: CartItemView(
-                          title: filteredProducts[i].productName,
-                          desc: filteredProducts[i].productDesc,
-                          mainPrice: filteredProducts[i].price,
-                          salePrice: filteredProducts[i].discountedPrice,
-                          image: '${ApiEndpoints.localBaseUrl}/${filteredProducts[i].productImage}',
-                        ),
-                      ),
-                      if (i + 1 < filteredProducts.length)
-                        Padding(
-                          padding: const EdgeInsets.all(5).w,
-                          child: CartItemView(
-                            title: filteredProducts[i + 1].productName,
-                            desc: filteredProducts[i + 1].productDesc,
-                            mainPrice: filteredProducts[i + 1].price,
-                            salePrice: filteredProducts[i + 1].discountedPrice,
-                            image: '${ApiEndpoints.localBaseUrl}/${filteredProducts[i].productImage}',
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              SizedBox(height: 5.h)
+              if (filteredProducts.isNotEmpty && widget.categoryId == filteredProducts[0].subCategoryNo)
+                ..._buildProductRows(filteredProducts),
+              SizedBox(height: 5.h),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildProductRows(List<Product> products) {
+    List<Widget> rows = [];
+    for (int i = 0; i < products.length; i += 2) {
+      Widget row = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(5.w),
+            child: CartItemView(
+              title: products[i].productName,
+              desc: products[i].productDesc,
+              mainPrice: products[i].price,
+              salePrice: products[i].discountedPrice,
+              image: '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
+            ),
+          ),
+          if (i + 1 < products.length)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: CartItemView(
+                title: products[i + 1].productName,
+                desc: products[i + 1].productDesc,
+                mainPrice: products[i + 1].price,
+                salePrice: products[i + 1].discountedPrice,
+                image: '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
+              ),
+            ),
+        ],
+      );
+      rows.add(Padding(padding: EdgeInsets.all(2.w), child: row));
+    }
+    return rows;
   }
 }

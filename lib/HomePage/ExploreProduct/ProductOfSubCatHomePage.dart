@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../ApiEndPoint.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Products_Provider.dart';
@@ -16,23 +15,22 @@ class ProductsOfSubCategoriesHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProductsProvider>(context);
-    provider.getAllCategoryProducts(subCategoryId);
+    provider.getAllCategoryProductsHome(subCategoryId);
 
     return Consumer<ProductsProvider>(
       builder: (context, provider, _) {
-        var categoryProducts = provider.categoryProduct;
+        var categoryProducts = provider.categoryProductHome;
 
         return categoryProducts.isNotEmpty &&
                 subCategoryId == categoryProducts[0].subCategoryNo
             ? ListView.builder(
-                physics:
-                    const NeverScrollableScrollPhysics(), // Disable scrolling in this ListView
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: (categoryProducts.length > 4)
                     ? 2
-                    : (categoryProducts.length / 2).ceil(), // Show up to 2 rows
+                    : (categoryProducts.length / 2).ceil(),
                 itemBuilder: (context, rowIndex) {
-                  int startIndex = rowIndex * 2; // Start index for this row
+                  int startIndex = rowIndex * 2;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,13 +41,11 @@ class ProductsOfSubCategoriesHome extends StatelessWidget {
                           title: categoryProducts[productIndex].productName,
                           desc: categoryProducts[productIndex].productDesc,
                           mainPrice: categoryProducts[productIndex].price,
-                          salePrice:
-                              categoryProducts[productIndex].discountedPrice,
-                          image:
-                              '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
+                          salePrice: categoryProducts[productIndex].discountedPrice,
+                          image: '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
                         );
                       } else {
-                        return const SizedBox(); // Empty SizedBox if no product at this index
+                        return const SizedBox();
                       }
                     }).toList(),
                   );
@@ -57,14 +53,14 @@ class ProductsOfSubCategoriesHome extends StatelessWidget {
               )
             : Center(
                 child: Text(
-                  'No products added yet.',
+                  'No products added yet',
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                     fontSize: 15.sp,
                     color: tdGrey,
                   ),
                 ),
-              );
+            );
       },
     );
   }
