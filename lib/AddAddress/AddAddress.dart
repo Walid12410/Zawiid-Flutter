@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
+import '../provider/User_Provider.dart';
+import 'AlertDialog/AlertAddressInsert.dart';
 import 'Widget/AddAddressHead.dart';
 
 class AddAddressPage extends StatefulWidget {
@@ -15,8 +16,20 @@ class AddAddressPage extends StatefulWidget {
 class _AddAddressPageState extends State<AddAddressPage> {
   String? _selectedValue;
 
+  final TextEditingController _contactNum = TextEditingController();
+  final TextEditingController _block = TextEditingController();
+  final TextEditingController _street = TextEditingController();
+  final TextEditingController _building = TextEditingController();
+  final TextEditingController _floor = TextEditingController();
+
+  final AlertUserAddressAdded addingAddress = AlertUserAddressAdded();
+
+
   @override
   Widget build(BuildContext context) {
+    UserProvider userDetails = Provider.of<UserProvider>(context, listen: true);
+    var userInfo = userDetails.userInfo;
+
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -57,6 +70,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5, right: 5).w,
                         child: TextFormField(
+                          controller: _contactNum,
+                          cursorColor: tdBlack, // Color of the cursor
                           style: TextStyle(fontSize: 12.sp),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -181,6 +196,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5, right: 5).w,
                         child: TextFormField(
+                          controller: _block,
+                          cursorColor: tdBlack, // Color of the cursor
                           style: TextStyle(fontSize: 12.sp),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -219,7 +236,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5, right: 5).w,
                         child: TextFormField(
+                          controller: _street,
                           style: TextStyle(fontSize: 12.sp),
+                          cursorColor: tdBlack, // Color of the cursor
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -273,6 +292,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                               padding:
                                   const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
+                                controller: _building,
+                                cursorColor: tdBlack, // Color of the cursor
                                 style: TextStyle(fontSize: 12.sp),
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -301,6 +322,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                               padding:
                                   const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
+                                cursorColor: tdBlack, // Color of the cursor
+                                controller: _floor,
                                 style: TextStyle(fontSize: 12.sp),
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -317,8 +340,11 @@ class _AddAddressPageState extends State<AddAddressPage> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          GoRouter.of(context).go('/Profile');
-                        },
+                          addingAddress.userAddress(
+                              context, _contactNum.text, 1, 2,
+                              _block.text, _street.text,
+                              _building.text, _floor.text, userInfo[0].userNo);
+                          },
                         child: Container(
                           width: 180.w,
                           decoration: BoxDecoration(
@@ -356,4 +382,3 @@ class _AddAddressPageState extends State<AddAddressPage> {
     );
   }
 }
-

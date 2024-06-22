@@ -87,8 +87,8 @@ class UserProfileCard extends StatelessWidget {
                 ],
               )
             : Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Welcome to zawid',
@@ -99,19 +99,19 @@ class UserProfileCard extends StatelessWidget {
                   ),
                   SizedBox(height: 3.h),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           GoRouter.of(context).goNamed('SignIn');
                         },
                         child: Container(
                           height: 25.h,
                           decoration: BoxDecoration(
                               border: Border.all(color: tdGrey),
-                              borderRadius: BorderRadius.circular(15).w),
+                              borderRadius: BorderRadius.circular(20).w),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 30,right: 30).w,
+                            padding: const EdgeInsets.only(left: 30, right: 30).w,
                             child: Center(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -136,20 +136,21 @@ class UserProfileCard extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                      onTap: (){
-                        GoRouter.of(context).goNamed('SignUp');
-                      },
-                      child: Container(
+                        onTap: () {
+                          GoRouter.of(context).goNamed('SignUp');
+                        },
+                        child: Container(
                           height: 25.h,
                           decoration: BoxDecoration(
                               border: Border.all(color: tdGrey),
                               color: tdBlack,
-                              borderRadius: BorderRadius.circular(15).w),
+                              borderRadius: BorderRadius.circular(20).w),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 30,right: 30).w,
+                            padding: const EdgeInsets.only(left: 30, right: 30).w,
                             child: Center(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Icon(
                                     Icons.person,

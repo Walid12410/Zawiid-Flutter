@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import '../provider/User_Provider.dart';
 import 'Widget/LogOut.dart';
 import 'Widget/OptionCard.dart';
 import 'Widget/ProfileHeadPage.dart';
@@ -17,6 +19,9 @@ class ProfileMain extends StatefulWidget {
 class _ProfileMainState extends State<ProfileMain> {
   @override
   Widget build(BuildContext context) {
+    UserProvider userDetails = Provider.of<UserProvider>(context, listen: true);
+    var userInfo = userDetails.userInfo;
+
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -76,7 +81,7 @@ class _ProfileMainState extends State<ProfileMain> {
                 SizedBox(
                   height: 10.h,
                 ),
-                const LogoutWidget()
+                userInfo[0].userNo != 0 ? const LogoutWidget() : const SizedBox()
               ],
             ),
           ),
