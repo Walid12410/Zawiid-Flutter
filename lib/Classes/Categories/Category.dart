@@ -1,10 +1,10 @@
 import 'package:zawiid/Classes/Categories/SubCategory.dart';
 
 class Categories {
-  int categoryNo;
-  String categoryName;
-  String? photo;
-  List<SubCategories>? subcategories;
+  final int categoryNo;
+  final String categoryName;
+  final String? photo;
+  final List<SubCategories>? subcategories;
 
   Categories({
     required this.categoryNo,

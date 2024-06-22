@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -14,7 +15,7 @@ class GuestBottom extends StatelessWidget {
       padding: const EdgeInsets.all(1).w,
       child: GestureDetector(
         onTap: () {
-          //signup
+          GoRouter.of(context).go("/home");
         },
         child: Container(
           width: double.infinity,

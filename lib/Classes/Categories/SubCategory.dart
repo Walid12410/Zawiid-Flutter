@@ -1,8 +1,8 @@
 class SubCategories {
-  int subCarNo;
-  String subCatName;
-  int categoryNo;
-  String? photo;
+  final int subCarNo;
+  final String subCatName;
+  final int categoryNo;
+  final String? photo;
 
   SubCategories({
     required this.subCarNo,

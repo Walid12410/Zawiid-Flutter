@@ -9,7 +9,7 @@ class AlertLogin {
   final AuthLoginService _authService = AuthLoginService();
 
   Future<void> login(BuildContext context, String username, String password) async {
-    final result = await _authService.login(username, password);
+    final result = await _authService.login(username, password,context);
 
     if (result['success']) {
       GoRouter.of(context).go("/home");

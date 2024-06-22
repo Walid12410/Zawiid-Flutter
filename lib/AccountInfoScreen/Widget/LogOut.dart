@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+
+import '../../provider/Auth_Provider.dart';
 
 class LogoutWidget extends StatelessWidget {
   const LogoutWidget({
@@ -11,8 +14,11 @@ class LogoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: true);
+
     return GestureDetector(
       onTap: () {
+        authProvider.logout();
         GoRouter.of(context).goNamed('SignIn');
       },
       child: Container(

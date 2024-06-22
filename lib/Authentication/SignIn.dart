@@ -92,25 +92,3 @@ class _SignInState extends State<SignIn> {
 }
 
 
-class LoginFailedDialog extends StatelessWidget {
-  final String title;
-  final String content;
-
-  const LoginFailedDialog({Key? key, required this.title, required this.content}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('OK'),
-        ),
-      ],
-    );
-  }
-}

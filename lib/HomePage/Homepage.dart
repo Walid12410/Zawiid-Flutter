@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/User_Provider.dart';
 import '../Drawer/DrawerPage.dart';
 import '../provider/Categories_Provider.dart';
 import 'Widget/FeaturedProduct.dart';
@@ -35,10 +37,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CategoryProvider>(context, listen: false).getCategory();
+      UserProvider userInfo = Provider.of<UserProvider>(context, listen: false);
+      AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+      userInfo.getUserInfo(authProvider.userId);
     });
+    super.initState();
   }
 
   @override

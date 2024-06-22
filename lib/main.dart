@@ -1,36 +1,28 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
+import 'package:zawiid/provider/User_Provider.dart';
 import 'Route/RouteNaviagtor.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int userId = prefs.getInt('userID') ?? 0;
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ChangeNotifierProvider(create: (_) => ProductsProvider()),
+      ChangeNotifierProvider(create: (_) => AuthProvider()..setUserId(userId)),
+      ChangeNotifierProvider(create: (_) => UserProvider()),
     ],
     child: const MyApp(),
   ));
-
-
-  // runApp(
-  //   DevicePreview(
-  //     enabled: !kReleaseMode, // Enable DevicePreview only in debug mode
-  //     builder: (context) => MultiProvider(
-  //       providers: [
-  //         ChangeNotifierProvider(create: (_) => CategoryProvider()),
-  //       ],
-  //       child: MyApp(), // Your main app widget
-  //     ),
-  //   ),
-  // );
-
 }
 
 class MyApp extends StatefulWidget {
@@ -56,10 +48,10 @@ class _MyAppState extends State<MyApp> {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp.router(
-         // builder: DevicePreview.appBuilder,
           title: 'Zawiid',
           debugShowCheckedModeBanner: false,
           routerConfig: AppNavigation.router,
-        ));
+        )
+    );
   }
 }
