@@ -10,7 +10,9 @@ import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
 
 class ItemViewCategories extends StatefulWidget {
-  const ItemViewCategories({Key? key, required this.title, required this.categoryId}) : super(key: key);
+  const ItemViewCategories(
+      {Key? key, required this.title, required this.categoryId})
+      : super(key: key);
 
   final String title;
   final int categoryId;
@@ -23,61 +25,116 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
 
+  late Future<void> _fetchProductsFuture;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      final provider = Provider.of<ProductsProvider>(context, listen: false);
-      provider.getAllCategoryProducts(widget.categoryId);
-    });
+    _fetchProductsFuture = _fetchProducts();
+  }
+
+  Future<void> _fetchProducts() async {
+    final provider = Provider.of<ProductsProvider>(context, listen: false);
+    await provider.getAllCategoryProducts(widget.categoryId);
   }
 
   List<Product> getFilteredProducts(List<Product> products, String query) {
-    return products.where((product) =>
-    product.productName.toLowerCase().contains(query.toLowerCase()) ||
-        product.productDesc.toLowerCase().contains(query.toLowerCase())
-    ).toList();
+    return products
+        .where((product) =>
+            product.productName.toLowerCase().contains(query.toLowerCase()) ||
+            product.productDesc.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: tdWhite,
+      body: SafeArea(
+        child: FutureBuilder(
+          future: _fetchProductsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                      child: SizedBox(
+                        width: 90.w,
+                        height: 100.h,
+                        child: Image.asset(
+                          'assets/log/LOGO-icon---Black.png',
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                  ),
+                  Text(
+                    'An error occurred',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: tdBlack,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  'An error occurred',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: tdGrey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            } else {
+              return _buildContent(context);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
     final provider = Provider.of<ProductsProvider>(context);
     var categoryProducts = provider.categoryProduct;
     var filteredProducts = getFilteredProducts(categoryProducts, searchQuery);
 
-    return Scaffold(
-      backgroundColor: tdWhite,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ItemCategoriesHead(title: widget.title),
-              SizedBox(height: 5.h),
-              ItemSearchBar(
-                controller: searchController,
-                onSearch: (value) {
-                  setState(() {
-                    searchQuery = value;
-                  });
-                },
-              ),
-              if (filteredProducts.isEmpty ||
-                  widget.categoryId != filteredProducts[0].subCategoryNo)
-                Padding(
-                  padding: EdgeInsets.all(20.w),
-                  child: Center(
-                    child: Text(
-                      'No products found',
-                      style: TextStyle(fontSize: 16.sp, color: tdGrey, fontWeight: FontWeight.bold),
-                    ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ItemCategoriesHead(title: widget.title),
+          SizedBox(height: 5.h),
+          ItemSearchBar(
+            controller: searchController,
+            onSearch: (value) {
+              setState(() {
+                searchQuery = value;
+              });
+            },
+          ),
+          if (filteredProducts.isEmpty)
+            Padding(
+              padding: EdgeInsets.all(20.w),
+              child: Center(
+                child: Text(
+                  'No products found',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: tdGrey,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              if (filteredProducts.isNotEmpty && widget.categoryId == filteredProducts[0].subCategoryNo)
-                ..._buildProductRows(filteredProducts),
-              SizedBox(height: 5.h),
-            ],
-          ),
-        ),
+              ),
+            ),
+          if (filteredProducts.isNotEmpty)
+            ..._buildProductRows(filteredProducts),
+          SizedBox(height: 5.h),
+        ],
       ),
     );
   }
@@ -107,7 +164,8 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                 desc: products[i + 1].productDesc,
                 mainPrice: products[i + 1].price,
                 salePrice: products[i + 1].discountedPrice,
-                image: '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
+                image:
+                    '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
               ),
             ),
         ],

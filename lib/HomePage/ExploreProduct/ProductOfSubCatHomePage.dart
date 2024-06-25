@@ -6,24 +6,101 @@ import '../../Color&Icons/color.dart';
 import '../../provider/Products_Provider.dart';
 import 'ProductSubCatCard.dart';
 
-class ProductsOfSubCategoriesHome extends StatelessWidget {
+class ProductsOfSubCategoriesHome extends StatefulWidget {
   final int subCategoryId;
 
   const ProductsOfSubCategoriesHome({Key? key, required this.subCategoryId})
       : super(key: key);
 
   @override
+  _ProductsOfSubCategoriesHomeState createState() => _ProductsOfSubCategoriesHomeState();
+}
+
+class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHome> {
+  late Future<void> _fetchProductsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProductsFuture = _fetchProducts(widget.subCategoryId);
+  }
+
+  @override
+  void didUpdateWidget(covariant ProductsOfSubCategoriesHome oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.subCategoryId != widget.subCategoryId) {
+      setState(() {
+        _fetchProductsFuture = _fetchProducts(widget.subCategoryId);
+      });
+    }
+  }
+
+  Future<void> _fetchProducts(int subCategoryId) async {
+    final provider = Provider.of<ProductsProvider>(context, listen: false);
+    await provider.getAllCategoryProductsHome(subCategoryId);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProductsProvider>(context);
-    provider.getAllCategoryProductsHome(subCategoryId);
+    return FutureBuilder(
+      future: _fetchProductsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                  child: SizedBox(
+                    width: 90.w,
+                    height: 100.h,
+                    child: Image.asset(
+                      'assets/log/LOGO-icon---Black.png',
+                      fit: BoxFit.contain,
+                    ),
+                  )
+              ),
+              Text(
+                'An error occurred',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: tdBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'An error occurred',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15.sp,
+                color: Colors.red,
+              ),
+            ),
+          );
+        } else {
+          return Consumer<ProductsProvider>(
+            builder: (context, provider, _) {
+              var categoryProducts = provider.categoryProductHome;
 
-    return Consumer<ProductsProvider>(
-      builder: (context, provider, _) {
-        var categoryProducts = provider.categoryProductHome;
+              if (categoryProducts.isEmpty ||
+                  widget.subCategoryId != categoryProducts[0].subCategoryNo) {
+                return Center(
+                  child: Text(
+                    'No products added yet',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.sp,
+                      color: tdGrey,
+                    ),
+                  ),
+                );
+              }
 
-        return categoryProducts.isNotEmpty &&
-                subCategoryId == categoryProducts[0].subCategoryNo
-            ? ListView.builder(
+              return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: (categoryProducts.length > 4)
@@ -50,17 +127,10 @@ class ProductsOfSubCategoriesHome extends StatelessWidget {
                     }).toList(),
                   );
                 },
-              )
-            : Center(
-                child: Text(
-                  'No products added yet',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.sp,
-                    color: tdGrey,
-                  ),
-                ),
-            );
+              );
+            },
+          );
+        }
       },
     );
   }
