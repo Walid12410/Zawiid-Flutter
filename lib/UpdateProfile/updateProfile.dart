@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/GovArea_Provider.dart';
+import 'package:zawiid/provider/User_Provider.dart';
 
 import 'Widget/UpdateProfileHead.dart';
 
@@ -14,11 +17,40 @@ class UpdateProfile extends StatefulWidget {
 
 class _UpdateProfileState extends State<UpdateProfile> {
   bool _isChecked = false;
-  bool _isChecked1 = true;
-  String? _selectedValue;
+  String? selectedGovernorate;
+  String? selectedArea;
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<GovAreaProvider>(context, listen: false).getAllGov();
+      Provider.of<GovAreaProvider>(context, listen: false).getAllArea();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.userInfo.isNotEmpty) {
+      var user = userProvider.userInfo.first;
+      firstNameController.text = user.firstName;
+      lastNameController.text = user.lastName;
+      birthDateController.text = user.birthDate?.toString() ?? '';
+      selectedGovernorate = user.govNo.toString();
+      selectedArea = user.areaNo.toString();
+      _isChecked = user.gender.toLowerCase() == 'male';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GovAreaProvider>(context);
+    selectedGovernorate ??= provider.gov.isNotEmpty ? provider.gov.first.governerateId.toString() : null;
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -72,8 +104,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 5, right: 5).w,
+                              const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
+                                controller: firstNameController,
                                 style: TextStyle(fontSize: 12.sp),
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -100,8 +133,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 5, right: 5).w,
+                              const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
+                                controller: lastNameController,
                                 style: TextStyle(fontSize: 12.sp),
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -142,6 +176,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5, right: 5).w,
                         child: TextFormField(
+                          controller: birthDateController,
                           style: TextStyle(fontSize: 12.sp),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -180,7 +215,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 5, right: 5).w,
+                              const EdgeInsets.only(left: 5, right: 5).w,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -227,17 +262,17 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 5, right: 5).w,
+                              const EdgeInsets.only(left: 5, right: 5).w,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Transform.scale(
                                     scale: 1.3,
                                     child: Checkbox(
-                                      value: _isChecked1,
+                                      value: !_isChecked,
                                       onChanged: (bool? newValue) {
                                         setState(() {
-                                          _isChecked1 = newValue!;
+                                          _isChecked = !newValue!;
                                         });
                                       },
                                       shape: const CircleBorder(),
@@ -262,7 +297,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      'Select Governerate',
+                      'Select Governorate',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: tdBlack,
@@ -285,12 +320,20 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          value: _selectedValue,
-                          items: [],
+                          hint: Text('Select Governorate'),
+                          value: selectedGovernorate,
+                          items: provider.gov.map((gov) {
+                            return DropdownMenuItem<String>(
+                              value: gov.governerateId.toString(),
+                              child: Text(gov.governerateName),
+                            );
+                          }).toList(),
                           onChanged: (String? newValue) {
                             setState(() {
-                              _selectedValue = newValue;
+                              selectedGovernorate = newValue;
+                              selectedArea = null; // Reset area selection when governorate changes
                             });
+                            provider.getAllArea(); // Fetch areas for the selected governorate
                           },
                           isExpanded: true,
                           icon: Icon(
@@ -299,11 +342,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             size: 40.w,
                           ),
                         ),
+
                       ),
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      'Select Area Name',
+                      'Select Area',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: tdBlack,
@@ -326,11 +370,19 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          value: _selectedValue,
-                          items: [],
+                          hint: Text('Select Area'),
+                          value: selectedArea,
+                          items: provider.area
+                              .where((area) => area.governerateId == int.parse(selectedGovernorate ?? '0'))
+                              .map((area) {
+                            return DropdownMenuItem<String>(
+                              value: area.areaId.toString(),
+                              child: Text(area.areaName),
+                            );
+                          }).toList(),
                           onChanged: (String? newValue) {
                             setState(() {
-                              _selectedValue = newValue;
+                              selectedArea = newValue;
                             });
                           },
                           isExpanded: true,
@@ -351,33 +403,35 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         child: Container(
                           width: 180.w,
                           decoration: BoxDecoration(
-                              border: Border.all(color: tdBlack),
-                              borderRadius: BorderRadius.circular(50).w,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.5),
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 0),
-                                ),
-                              ],
-                              color: tdWhite),
+                            border: Border.all(color: tdBlack),
+                            borderRadius: BorderRadius.circular(50).w,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                blurRadius: 5,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                            color: tdWhite,
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(10).w,
                             child: Text(
                               'Save',
                               style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: tdBlack,
-                                  fontWeight: FontWeight.bold),
+                                fontSize: 12.sp,
+                                color: tdBlack,
+                                fontWeight: FontWeight.bold,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

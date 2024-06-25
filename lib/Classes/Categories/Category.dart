@@ -3,13 +3,11 @@ import 'package:zawiid/Classes/Categories/SubCategory.dart';
 class Categories {
   final int categoryNo;
   final String categoryName;
-  final String? photo;
   final List<SubCategories>? subcategories;
 
   Categories({
     required this.categoryNo,
     required this.categoryName,
-    this.photo,
     this.subcategories,
   });
 
@@ -24,7 +22,6 @@ class Categories {
     return Categories(
       categoryNo: json["CategoryNo"] ?? 0,
       categoryName: json["CategoryName"] ?? '',
-      photo: json["Photo"],
       subcategories: subcategoriesList,
     );
   }
