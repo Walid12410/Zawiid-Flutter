@@ -13,7 +13,8 @@ class ProductsOfSubCategoriesHome extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ProductsOfSubCategoriesHomeState createState() => _ProductsOfSubCategoriesHomeState();
+  _ProductsOfSubCategoriesHomeState createState() =>
+      _ProductsOfSubCategoriesHomeState();
 }
 
 class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHome> {
@@ -46,29 +47,15 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
       future: _fetchProductsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                  child: SizedBox(
-                    width: 90.w,
-                    height: 100.h,
-                    child: Image.asset(
-                      'assets/log/LOGO-icon---Black.png',
-                      fit: BoxFit.contain,
-                    ),
-                  )
-              ),
-              Text(
-                'An error occurred',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: tdBlack,
-                  fontWeight: FontWeight.bold,
+          return Center(
+              child: SizedBox(
+                width: 90.w,
+                height: 100.h,
+                child: Image.asset(
+                  'assets/log/LOGO-icon---Black.png',
+                  fit: BoxFit.contain,
                 ),
-              ),
-            ],
+              )
           );
         } else if (snapshot.hasError) {
           return Center(
@@ -77,7 +64,7 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp,
-                color: Colors.red,
+                color: tdGrey,
               ),
             ),
           );
@@ -118,8 +105,10 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
                           title: categoryProducts[productIndex].productName,
                           desc: categoryProducts[productIndex].productDesc,
                           mainPrice: categoryProducts[productIndex].price,
-                          salePrice: categoryProducts[productIndex].discountedPrice,
-                          image: '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
+                          salePrice:
+                              categoryProducts[productIndex].discountedPrice,
+                          image:
+                              '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
                         );
                       } else {
                         return const SizedBox();

@@ -30,8 +30,8 @@ class UserInformation {
       lastName: json["LastName"] ?? '',
       birthDate: json['BirthDate'] != null ? BirthDate.fromJson(json['BirthDate']) : null,
       gender: json["Gender"] ?? '',
-      govNo: json["GovNo"] ?? 0,
-      areaNo: json["AreaNo"] ?? 0,
+      govNo: json["GovNo"] ?? 1,
+      areaNo: json["AreaNo"] ?? 1,
       email: json["Email"] ?? '',
       tel: json["Tel"] ?? '',
     );

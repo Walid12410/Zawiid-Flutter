@@ -28,7 +28,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<GovAreaProvider>(context, listen: false).getAllGov();
-      Provider.of<GovAreaProvider>(context, listen: false).getAllArea();
     });
   }
 
@@ -40,17 +39,25 @@ class _UpdateProfileState extends State<UpdateProfile> {
       var user = userProvider.userInfo.first;
       firstNameController.text = user.firstName;
       lastNameController.text = user.lastName;
-      birthDateController.text = user.birthDate?.toString() ?? '';
-      selectedGovernorate = user.govNo.toString();
-      selectedArea = user.areaNo.toString();
-      _isChecked = user.gender.toLowerCase() == 'male';
+      if (user.birthDate?.date != null) {
+        birthDateController.text =
+            "${user.birthDate?.date?.year}-${user.birthDate?.date?.month.toString().padLeft(2, '0')}-${user.birthDate?.date?.day.toString().padLeft(2, '0')}";
+      }
+      if (user.govNo != 0) {
+        selectedGovernorate = user.govNo.toString();
+      }
+
+      if (user.gender == 'male') {
+        _isChecked = true;
+      } else {
+        _isChecked = false;
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GovAreaProvider>(context);
-    selectedGovernorate ??= provider.gov.isNotEmpty ? provider.gov.first.governerateId.toString() : null;
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -104,7 +111,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.only(left: 5, right: 5).w,
+                                  const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
                                 controller: firstNameController,
                                 style: TextStyle(fontSize: 12.sp),
@@ -133,7 +140,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.only(left: 5, right: 5).w,
+                                  const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
                                 controller: lastNameController,
                                 style: TextStyle(fontSize: 12.sp),
@@ -174,16 +181,29 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5).w,
-                        child: TextFormField(
-                          controller: birthDateController,
-                          style: TextStyle(fontSize: 12.sp),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                          ),
-                        ),
-                      ),
+                          padding: const EdgeInsets.only(left: 5, right: 5).w,
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: birthDateController,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                            ),
+                            onTap: () async {
+                              DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2035),
+                              );
+                              if (picked != null) {
+                                setState(() {
+                                  birthDateController.text =
+                                      "${picked.year}-${picked.month}-${picked.day}";
+                                });
+                              }
+                            },
+                          )),
                     ),
                     SizedBox(height: 10.h),
                     Text(
@@ -215,7 +235,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.only(left: 5, right: 5).w,
+                                  const EdgeInsets.only(left: 5, right: 5).w,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -262,7 +282,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ),
                             child: Padding(
                               padding:
-                              const EdgeInsets.only(left: 5, right: 5).w,
+                                  const EdgeInsets.only(left: 5, right: 5).w,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -318,31 +338,40 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           ),
                         ],
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          hint: Text('Select Governorate'),
-                          value: selectedGovernorate,
-                          items: provider.gov.map((gov) {
-                            return DropdownMenuItem<String>(
-                              value: gov.governerateId.toString(),
-                              child: Text(gov.governerateName),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedGovernorate = newValue;
-                              selectedArea = null; // Reset area selection when governorate changes
-                            });
-                            provider.getAllArea(); // Fetch areas for the selected governorate
-                          },
-                          isExpanded: true,
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: tdBlack,
-                            size: 40.w,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5).w,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            hint: Text(
+                              'Select Governorate',
+                              style: TextStyle(fontSize: 12.sp, color: tdBlack),
+                            ),
+                            value: selectedGovernorate,
+                            items: provider.gov.map((gov) {
+                              return DropdownMenuItem<String>(
+                                value: gov.governerateId.toString(),
+                                child: Text(
+                                  gov.governerateName,
+                                  style: TextStyle(
+                                      fontSize: 12.sp, color: tdBlack),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedGovernorate = newValue;
+                                selectedArea = null;
+                              });
+                              provider.getAllArea();
+                            },
+                            isExpanded: true,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: tdBlack,
+                              size: 40.w,
+                            ),
                           ),
                         ),
-
                       ),
                     ),
                     SizedBox(height: 10.h),
@@ -368,28 +397,38 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           ),
                         ],
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          hint: Text('Select Area'),
-                          value: selectedArea,
-                          items: provider.area
-                              .where((area) => area.governerateId == int.parse(selectedGovernorate ?? '0'))
-                              .map((area) {
-                            return DropdownMenuItem<String>(
-                              value: area.areaId.toString(),
-                              child: Text(area.areaName),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedArea = newValue;
-                            });
-                          },
-                          isExpanded: true,
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: tdBlack,
-                            size: 40.w,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5).w,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            hint: Text(
+                              'Select Area',
+                              style: TextStyle(fontSize: 12.sp, color: tdBlack),
+                            ),
+                            value: selectedArea,
+                            items: provider.area
+                                .where((area) =>
+                                    area.governerateId ==
+                                    int.parse(selectedGovernorate ?? '0'))
+                                .map((area) {
+                              return DropdownMenuItem<String>(
+                                value: area.areaId.toString(),
+                                child: Text(area.areaName,
+                                    style: TextStyle(
+                                        fontSize: 12.sp, color: tdBlack)),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedArea = newValue;
+                              });
+                            },
+                            isExpanded: true,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: tdBlack,
+                              size: 40.w,
+                            ),
                           ),
                         ),
                       ),
