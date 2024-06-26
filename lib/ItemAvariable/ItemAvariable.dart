@@ -55,11 +55,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           future: _fetchProductsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
+              return Center(
                       child: SizedBox(
                         width: 90.w,
                         height: 100.h,
@@ -68,21 +64,11 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                           fit: BoxFit.contain,
                         ),
                       )
-                  ),
-                  Text(
-                    'An error occurred',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: tdBlack,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              );
+                  );
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'An error occurred',
+                  'Something went wrong, check you connection',
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: tdGrey,

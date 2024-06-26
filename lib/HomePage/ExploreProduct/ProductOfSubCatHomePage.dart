@@ -60,12 +60,13 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
-              'An error occurred',
+              'Something went wrong, check you connection.',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp,
                 color: tdGrey,
               ),
+              textAlign: TextAlign.center,
             ),
           );
         } else {

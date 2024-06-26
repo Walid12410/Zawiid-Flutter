@@ -28,8 +28,6 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
     CategoryProvider categoryProvider =
         Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
-
-    // Initialize isExpandedMap for the first time
     for (var category in categories) {
       if (!isExpandedMap.containsKey(category.categoryName)) {
         isExpandedMap[category.categoryName] = false;
