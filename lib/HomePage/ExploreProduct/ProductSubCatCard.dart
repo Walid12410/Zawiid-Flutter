@@ -74,7 +74,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$salePrice LB',
+                    '$mainPrice \$',
                     style: TextStyle(
                         fontSize: 15.sp,
                         color: Colors.grey,

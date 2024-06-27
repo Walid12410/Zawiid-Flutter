@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Classes/Product/Products.dart';
-import '../../Classes/Categories/Category.dart';
 
 Future<List<Product>> fetchProductByCategoryNo(int id) async {
   try {

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/Classes/Featured/Featured.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
+import '../ApiEndPoint.dart';
 import '../Drawer/DrawerPage.dart';
 import '../provider/Categories_Provider.dart';
 import 'Widget/FeaturedProduct.dart';
@@ -41,6 +44,8 @@ class _HomePageState extends State<HomePage> {
       Provider.of<CategoryProvider>(context, listen: false).getCategory();
       UserProvider userInfo = Provider.of<UserProvider>(context, listen: false);
       AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+      ProductsProvider productProvider = Provider.of<ProductsProvider>(context, listen: false);
+      productProvider.getAllFeaturedProductCard();
       userInfo.getUserInfo(authProvider.userId);
     });
     super.initState();
@@ -50,6 +55,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
+    ProductsProvider productProvider = Provider.of<ProductsProvider>(context, listen: true);
+
+    List<Featured> getNewestFeaturedProducts(int count) {
+      List<Featured> featuredProducts = productProvider.featuredProductCard;
+      featuredProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
+      List<Featured> newestFeaturedProducts = featuredProducts.where((product) => product.endDate.isAfter(DateTime.now())).take(count).toList();
+      return newestFeaturedProducts;
+    }
+    List<Featured> newestFeaturedProducts = getNewestFeaturedProducts(3);
+
 
     return Scaffold(
       key: HomePage.scaffoldKey,
@@ -265,19 +280,21 @@ class _HomePageState extends State<HomePage> {
                               _currentPage2 = page.toInt();
                             });
                           },
-                          children: const [
-                            WeekDealCard(
-                              price: 345.00,
-                              image: 'assets/img/ps4.png',
-                            ),
-                            WeekDealCard(
-                              price: 234.00,
-                              image: 'assets/img/iphone.png',
-                            ),
-                            WeekDealCard(
-                              price: 325.00,
-                              image: 'assets/img/ps4.png',
-                            ),
+                          children:  [
+                            if (newestFeaturedProducts.isEmpty)
+                              SizedBox(
+                                child: Center(
+                                  child: Text('No featured products available',style: TextStyle(fontWeight: FontWeight.bold,color: tdGrey,fontSize: 12.sp),),
+                                ),
+                              )
+                            else
+                              for (var featuredProduct in newestFeaturedProducts)
+                                WeekDealCard(
+                                  price: featuredProduct.products![0].price,
+                                  image: '${ApiEndpoints.localBaseUrl}/${featuredProduct.products![0].productImage}',
+                                  startDate: featuredProduct.startDate,
+                                  endDate: featuredProduct.endDate,
+                                ),
                           ],
                         ),
                       ],

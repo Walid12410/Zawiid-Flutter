@@ -1,17 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../Color&Icons/color.dart';
-import 'TimeWeekDeal.dart';
-
+import '../CountTime/CountTimerFeatured.dart';
 
 
 class WeekDealCard extends StatelessWidget {
-  const WeekDealCard({super.key, required this.price, required this.image});
+  const WeekDealCard({super.key, required this.price, required this.image,required this.startDate,required this.endDate});
 
+  final DateTime startDate;
+  final DateTime endDate;
   final String image;
-  final double price;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,12 @@ class WeekDealCard extends StatelessWidget {
             child: SizedBox(
               width: 250.w,
               height: 180.h,
-              child: Image.asset(
-                image,
-                fit: BoxFit.contain,
+              child: CachedNetworkImage(
+                imageUrl: image,
+                placeholder: (context, url) =>
+                    Image.asset('assets/log/LOGO-icon---Black.png'),
+                errorWidget: (context, url, error) =>
+                    Image.asset('assets/log/LOGO-icon---Black.png'),
               ),
             ),
           ),
@@ -45,7 +49,7 @@ class WeekDealCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$price KD',
+                        '$price \$',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,
@@ -68,7 +72,7 @@ class WeekDealCard extends StatelessWidget {
                     height: 5.h,
                   ),
                   Container(
-                    width: 145.w,
+                    width: 140.w,
                     height: 0.2.h,
                     color: tdGrey,
                   ),
@@ -81,36 +85,17 @@ class WeekDealCard extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(width: 5.w),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 5.h,),
                   Text(
                     'Hurry Up! Offer ends in:',
                     style: TextStyle(fontSize: 12.sp, color: tdGrey),
                   ),
-                  SizedBox(height: 10.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const TimerWeekDeal(
-                        name: 'HOURS',
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      const TimerWeekDeal(
-                        name: 'MINS',
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      const TimerWeekDeal(
-                        name: 'Secs',
-                      ),
-                    ],
-                  )
+                  SizedBox(height: 5.h),
+                  CountTimerFeatured(startTime: startDate, endTime: endDate)
                 ],
               )
             ],

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,9 +8,17 @@ import 'package:zawiid/Color&Icons/color.dart';
 class TabCard extends StatelessWidget {
   const TabCard({
     super.key,
-    required this.names,
+    required this.productName,
+    required this.productDesc,
+    required this.productImage,
+    required this.productPrice
   });
-  final List<String> names;
+
+  final String productName;
+  final String productDesc;
+  final String productImage;
+  final String productPrice;
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +51,7 @@ class TabCard extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  names[0],
+                  '$productName $productDesc',
                   style: TextStyle(
                       fontSize: 8.sp, color: Colors.black),
                   overflow: TextOverflow.ellipsis,
@@ -54,9 +63,12 @@ class TabCard extends StatelessWidget {
                   child: SizedBox(
                     width: 100.w,
                     height: 130.h,
-                    child: Image.asset(
-                      'assets/img/iphone.png',
-                      fit: BoxFit.fill,
+                    child: CachedNetworkImage(
+                      imageUrl: productImage,
+                      placeholder: (context, url) =>
+                          Image.asset('assets/log/LOGO-icon---Black.png'),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/log/LOGO-icon---Black.png'),
                     ),
                   ),
                 ),
@@ -67,7 +79,7 @@ class TabCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '358.000 LB',
+                      '$productPrice \$',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,

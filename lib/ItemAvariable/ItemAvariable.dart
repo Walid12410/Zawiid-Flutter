@@ -68,7 +68,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check you connection',
+                  'Something went wrong, check you connection.',
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: tdGrey,
