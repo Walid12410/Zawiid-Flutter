@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => AuthProvider()..setUserId(userId)),
       ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => GovAreaProvider()),
+      ChangeNotifierProvider(create: (_) => AddressProvider()),
     ],
     child: const MyApp(),
   ));

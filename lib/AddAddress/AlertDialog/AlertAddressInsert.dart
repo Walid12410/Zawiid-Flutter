@@ -5,24 +5,28 @@ import '../../ApiService/AddressService/AddAddressApi.dart';
 import '../../Color&Icons/color.dart';
 
 class AlertUserAddressAdded {
-
   final AddingAddress addingAddress = AddingAddress();
 
   Future<void> userAddress(
       BuildContext context,
       String contactPhoneNum,
-      int? gov,
-      int? area,
+      String? gov,
+      String? area,
       String block,
       String street,
       String building,
       String floor,
-      int userNo) async {
+      int userNo,
+      int isCheckOut) async {
 
     final result = await addingAddress.insertAddress(
         contactPhoneNum, gov, area, block, street, building, floor, userNo);
     if (result['success']) {
-      context.goNamed("AddressView");
+      if (isCheckOut == 1) {
+        context.push(context.namedLocation('shippingAddress'));
+      } else {
+        context.goNamed("AddressView");
+      }
     } else {
       _showLoginFailedDialog(context, result['message']);
     }

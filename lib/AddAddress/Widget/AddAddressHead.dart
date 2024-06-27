@@ -5,10 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../Color&Icons/color.dart';
 
 class AddAddressHead extends StatelessWidget {
-  const AddAddressHead({
-    super.key,
-  });
+  const AddAddressHead({super.key, required this.isCheckOut});
 
+  final int isCheckOut;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,13 +17,16 @@ class AddAddressHead extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go("/Profile");
+              if (isCheckOut == 1) {
+                context.push(context.namedLocation('shippingAddress'));
+              } else {
+                GoRouter.of(context).goNamed("AddressView");
+              }
             },
             child: SizedBox(
               width: 20.w,
               height: 18.h,
-              child: Image.asset('assets/img/pop.png',
-                  fit: BoxFit.contain),
+              child: Image.asset('assets/img/pop.png', fit: BoxFit.contain),
             ),
           ),
           Padding(

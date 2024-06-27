@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 class AddingAddress {
   Future<Map<String, dynamic>> insertAddress(
       String contactPhoneNum,
-      int? gov,
-      int? area,
+      String? gov,
+      String? area,
       String block,
       String street,
       String building,
@@ -27,10 +27,47 @@ class AddingAddress {
       'UserNo': userNo.toString(),
     };
 
-    if(contactPhoneNum.isEmpty && block.isEmpty && street.isEmpty && building.isEmpty && floor.isEmpty){
+    if(contactPhoneNum.isEmpty){
       return {
         'success': false,
-        'message': 'Some Field is empty',
+        'message': 'Phone Number is required',
+      };
+    }
+    if(block.isEmpty){
+      return {
+        'success': false,
+        'message': 'Block field is required',
+      };
+    }
+    if(street.isEmpty){
+      return {
+        'success': false,
+        'message': 'Street field is required',
+      };
+    }
+
+    if(building.isEmpty){
+      return {
+        'success': false,
+        'message': 'Building field is required',
+      };
+    }
+    if(floor.isEmpty){
+      return {
+        'success': false,
+        'message': 'Floor/Door field is required',
+      };
+    }
+    if(gov == null || gov == 0){
+      return {
+        'success': false,
+        'message': 'Governorate field is required',
+      };
+    }
+    if(area == null || area == 0){
+      return {
+        'success': false,
+        'message': 'Area field is required',
       };
     }
 

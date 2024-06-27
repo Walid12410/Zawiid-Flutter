@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
-
 import 'Widget/UpdateProfileHead.dart';
 
 class UpdateProfile extends StatefulWidget {
@@ -46,7 +45,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
       if (user.govNo != 0) {
         selectedGovernorate = user.govNo.toString();
       }
-
       if (user.gender == 'male') {
         _isChecked = true;
       } else {
@@ -58,6 +56,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GovAreaProvider>(context);
+
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(

@@ -205,7 +205,7 @@ class AppNavigation {
                     name: 'AddAddressPage',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const AddAddressPage(),
+                      child: const AddAddressPage(isCheckOut: 0,),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
@@ -311,6 +311,13 @@ class AppNavigation {
           builder: (context, state) => PaymentPage(
                 key: state.pageKey,
               )),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/addAddress2',
+          name: 'addAddress2',
+          builder: (context, state) => AddAddressPage(
+            key: state.pageKey, isCheckOut: 1,
+          )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/ThanksPayment',
