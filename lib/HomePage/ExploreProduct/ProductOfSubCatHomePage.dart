@@ -110,6 +110,9 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
                               categoryProducts[productIndex].discountedPrice,
                           image:
                               '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
+                          productNo: categoryProducts[productIndex].productNo,
+                          markNo: categoryProducts[productIndex].markNo,
+                          colorNo: categoryProducts[productIndex].colorNo,
                         );
                       } else {
                         return const SizedBox();

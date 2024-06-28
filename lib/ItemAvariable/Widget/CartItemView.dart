@@ -22,7 +22,6 @@ class CartItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 160.w,
-      height: 230.h,
       decoration: BoxDecoration(
         color: tdWhite,
         borderRadius: BorderRadius.circular(10).w,
@@ -38,6 +37,7 @@ class CartItemView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 10.h),
           SizedBox(
               width: 90.w,
               height: 110.h,
@@ -72,8 +72,6 @@ class CartItemView extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5.h),
-          if(salePrice == '0' || salePrice == '')
-             SizedBox(height: 2.h),
           Text(
             '$salePrice KD',
             style: TextStyle(
@@ -81,14 +79,6 @@ class CartItemView extends StatelessWidget {
                 fontSize: 16.sp,
                 color: Colors.red),
           ),
-          if(salePrice == '0' || salePrice == '')
-            Text(
-              '$mainPrice kD',
-              style: TextStyle(
-                fontSize: 10.sp, color: tdBlack,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           Text(
             '$mainPrice kD',
             style: TextStyle(

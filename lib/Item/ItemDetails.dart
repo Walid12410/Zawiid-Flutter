@@ -33,6 +33,16 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     _fetchProductFuture = _fetchProductDetails();
   }
 
+  @override
+  void didUpdateWidget(covariant ItemDetailsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.productNo != widget.productNo) {
+      setState(() {
+        _fetchProductFuture = _fetchProductDetails();
+      });
+    }
+  }
+
   Future<void> _fetchProductDetails() async {
     final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
     final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
@@ -65,16 +75,21 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                       ),
                     );
                   } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        'Something went wrong, check your connection.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp,
-                          color: Colors.grey, // Replace with your color
+                    return Column(
+                      children: [
+                        SizedBox(height: 150.h),
+                        Center(
+                          child: Text(
+                            'Something went wrong, check your connection.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                              color: Colors.grey, // Replace with your color
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        textAlign: TextAlign.center,
-                      ),
+                      ],
                     );
                   } else {
                     return Consumer<ProductsProvider>(

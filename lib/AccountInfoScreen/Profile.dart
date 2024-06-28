@@ -45,7 +45,7 @@ class _ProfileMainState extends State<ProfileMain> {
             backgroundColor: tdWhite,
             body: Center(
               child: Text(
-                'Error loading user information',
+                'Something went wrong. check your connection',
                 style: TextStyle(
                   fontSize: 15.sp,
                   color: tdBlack,
