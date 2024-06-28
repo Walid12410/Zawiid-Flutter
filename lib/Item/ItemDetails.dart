@@ -37,6 +37,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
     final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
     await productsProvider.getProductById(widget.productNo);
+    await productsProvider.getProductDetailsById(widget.productNo);
     await colorMarkProvider.getColorById(widget.colorNo);
     await colorMarkProvider.getMarkById(widget.markNo);
   }

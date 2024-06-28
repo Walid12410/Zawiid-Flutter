@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:zawiid/ApiService/FeaturedService/FeaturedProductApi.dart';
 import 'package:zawiid/ApiService/ProductService/ProductApi.dart';
 import 'package:zawiid/ApiService/ProductService/ProductByIdApi.dart';
+import 'package:zawiid/ApiService/ProductService/ProductDetails.dart';
 import 'package:zawiid/ApiService/ProductService/ProductOnSaleApi.dart';
 import 'package:zawiid/ApiService/ProductService/ProductTopRated.dart';
 import 'package:zawiid/Classes/Featured/Featured.dart';
+import 'package:zawiid/Classes/Product/ProductDetails.dart';
 import 'package:zawiid/Classes/Product/Products.dart';
 
 class ProductsProvider with ChangeNotifier {
@@ -65,4 +67,11 @@ class ProductsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<ProductDetails> _productDetailsById = [];
+  List<ProductDetails> get productDetailsById => _productDetailsById;
+  getProductDetailsById(int id) async {
+    final res = await fetchProductDetailsById(id);
+    _productDetailsById = res;
+    notifyListeners();
+  }
 }
