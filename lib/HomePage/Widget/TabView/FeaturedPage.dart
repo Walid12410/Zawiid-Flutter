@@ -108,10 +108,13 @@ class _FeaturedPageViewState extends State<FeaturedPageView> {
                 cards.add(
                   Expanded(
                     child: TabCard(
-                      productName: products![0].productName,
+                      productNo: products![0].productNo,
+                      productName: products[0].productName,
                       productDesc: products[0].productDesc,
                       productImage: '${ApiEndpoints.localBaseUrl}/${products[0].productImage}',
                       productPrice: products[0].price,
+                      markNo: products[0].markNo,
+                      colorNo: products[0].colorNo,
                     ),
                   ),
                 );

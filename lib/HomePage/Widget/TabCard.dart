@@ -8,23 +8,32 @@ import 'package:zawiid/Color&Icons/color.dart';
 class TabCard extends StatelessWidget {
   const TabCard({
     super.key,
+    required this.productNo,
     required this.productName,
     required this.productDesc,
     required this.productImage,
-    required this.productPrice
+    required this.productPrice,
+    required this.markNo,
+    required this.colorNo
   });
 
+  final int productNo;
   final String productName;
   final String productDesc;
   final String productImage;
   final String productPrice;
-
+  final int markNo;
+  final int colorNo;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        GoRouter.of(context).goNamed('itemDetails');
+        GoRouter.of(context).goNamed('itemDetails',pathParameters: {
+          'itemNo': productNo.toString(),
+          'colorNo': colorNo.toString(),
+          'markNo' : markNo.toString()
+        });
       },
       child: Padding(
         padding: const EdgeInsets.all(5).w,

@@ -86,11 +86,14 @@ class _TopRatedPageViewState extends State<TopRatedPageView> {
                       int productIndex = startIndex + index;
                       if (productIndex < productTopRated.length) {
                         return TabCard(
+                          productNo: productTopRated[productIndex].productNo,
                           productName: productTopRated[productIndex].productName,
                           productDesc: productTopRated[productIndex].productDesc,
                           productImage:
                           '${ApiEndpoints.localBaseUrl}/${productTopRated[productIndex].productImage}',
-                          productPrice: productTopRated[productIndex].price
+                          productPrice: productTopRated[productIndex].price,
+                          markNo: productTopRated[productIndex].markNo,
+                          colorNo: productTopRated[productIndex].colorNo,
                         );
                       } else {
                         return const SizedBox();

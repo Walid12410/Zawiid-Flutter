@@ -99,10 +99,13 @@ class _OnSalePageViewState extends State<OnSalePageView> {
                       int productIndex = startIndex + index;
                       if (productIndex < onSaleProduct.length) {
                         return TabCard(
+                          productNo: onSaleProduct[productIndex].productNo,
                           productName: onSaleProduct[productIndex].productName,
                           productDesc: onSaleProduct[productIndex].productDesc,
                           productImage:'${ApiEndpoints.localBaseUrl}/${onSaleProduct[productIndex].productImage}',
-                          productPrice:onSaleProduct[productIndex].price
+                          productPrice:onSaleProduct[productIndex].price,
+                          markNo: onSaleProduct[productIndex].markNo,
+                          colorNo: onSaleProduct[productIndex].colorNo,
                         );
                       } else {
                         return const SizedBox();

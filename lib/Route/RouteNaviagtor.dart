@@ -69,11 +69,17 @@ class AppNavigation {
                     const HomePage(),
                 routes: [
                   GoRoute(
-                    path: 'itemDetails',
+                    path: 'itemDetails/:itemNo/:colorNo/:markNo',
                     name: 'itemDetails',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const ItemDetailsPage(),
+                      child: ItemDetailsPage(
+                        productNo: int.parse(state.pathParameters['itemNo']!),
+                        colorNo: int.parse(
+                          state.pathParameters['colorNo']!,
+                        ),
+                        markNo: int.parse(state.pathParameters['markNo']!),
+                      ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
@@ -205,7 +211,9 @@ class AppNavigation {
                     name: 'AddAddressPage',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const AddAddressPage(isCheckOut: 0,),
+                      child: const AddAddressPage(
+                        isCheckOut: 0,
+                      ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
@@ -316,8 +324,9 @@ class AppNavigation {
           path: '/addAddress2',
           name: 'addAddress2',
           builder: (context, state) => AddAddressPage(
-            key: state.pageKey, isCheckOut: 1,
-          )),
+                key: state.pageKey,
+                isCheckOut: 1,
+              )),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/ThanksPayment',

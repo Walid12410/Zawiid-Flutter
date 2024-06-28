@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Classes/GovArea/Area.dart';
-import 'package:zawiid/Classes/GovArea/Governerate.dart';
 
 Future<List<Area>> fetchAllArea() async {
   try {
