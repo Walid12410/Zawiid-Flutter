@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:zawiid/ApiEndPoint.dart';
 
 import '../../Color&Icons/color.dart';
+import '../../provider/Products_Provider.dart';
 
 class BidPageImage extends StatelessWidget {
   const BidPageImage({
@@ -10,6 +14,9 @@ class BidPageImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductsProvider productById = Provider.of<ProductsProvider>(context, listen: true);
+    var product = productById.productById;
+    String imagePath = '${ApiEndpoints.localBaseUrl}/${product[0].productImage}';
     return  Container(
         width: double.infinity,
         height: 230.h,
@@ -25,10 +32,15 @@ class BidPageImage extends StatelessWidget {
           ],
         ),
         child: Center(
-            child: Image.asset(
-              'assets/img/iphone.png',
+            child:  CachedNetworkImage(
+              imageUrl: imagePath,
+              placeholder: (context, url) =>
+                  Image.asset('assets/log/LOGO-icon---Black.png'),
+              errorWidget: (context, url, error) =>
+                  Image.asset('assets/log/LOGO-icon---Black.png'),
               fit: BoxFit.contain,
-            )),
+            ),
+        ),
       );
   }
 }

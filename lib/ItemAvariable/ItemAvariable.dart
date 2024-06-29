@@ -93,6 +93,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 20.h),
           ItemCategoriesHead(title: widget.title),
           SizedBox(height: 5.h),
           ItemSearchBar(

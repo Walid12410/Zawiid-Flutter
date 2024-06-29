@@ -1,48 +1,97 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
+import '../../../ApiService/MarkColorService/ColorByIdApi.dart';
+import '../../../Classes/ColorAndMark/color.dart';
 import '../../../Color&Icons/color.dart';
 
-class SoldDetails extends StatelessWidget {
+class SoldDetails extends StatefulWidget {
   const SoldDetails({
-    super.key,
-  });
+    Key? key,
+    required this.bidNo,
+    required this.productNo,
+    required this.endTime,
+    required this.productName,
+    required this.productImage,
+    required this.colorNo,
+    required this.soldPrice
+  }) : super(key: key);
 
+  final int bidNo;
+  final int productNo;
+  final DateTime endTime;
+  final String productName;
+  final String productImage;
+  final int colorNo;
+  final String soldPrice;
+
+  @override
+  _SoldDetailsState createState() => _SoldDetailsState();
+}
+
+class _SoldDetailsState extends State<SoldDetails> {
+  ColorProduct? _colorProduct;
+
+  Future<void> _fetchColorDetails() async {
+    try {
+      final List<ColorProduct> colorProducts =
+      await fetchColorById(widget.colorNo);
+      setState(() {
+        _colorProduct =  colorProducts.isNotEmpty ? colorProducts[0] : null;
+      });
+    } catch (e) {
+      print('Error fetching color details: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchColorDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
+    String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.endTime);
+
     return Padding(
       padding: const EdgeInsets.all(8.0).w,
       child: Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: 210.h,
-            child: Image.asset(
-              'assets/img/iphone.png',
-              fit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20).w,
+            child: SizedBox(
+              width: double.infinity,
+              height: 210.h,
+              child: CachedNetworkImage(
+                imageUrl: widget.productImage,
+                placeholder: (context, url) =>
+                    Image.asset('assets/log/LOGO-icon---Black.png'),
+                errorWidget: (context, url, error) =>
+                    Image.asset('assets/log/LOGO-icon---Black.png'),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           Text(
-            'iPhone 14 ProMax / 256GB Black Color',
+            '${widget.productName} / ${_colorProduct?.colorName}',
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12.sp,
-                color: tdBlack),
+              fontWeight: FontWeight.bold,
+              fontSize: 12.sp,
+              color: tdBlack,
+            ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(
-            height: 10.h,
-          ),
+          SizedBox(height: 5.h),
           Text(
-            '30th April. 10.00PM',
+            formattedStartTime,
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          Text(
-            'SOLD AT: 1550KD',
+          SizedBox(height: 2.h),
+           Text(
+            'SOLD AT: ${widget.soldPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),
@@ -50,19 +99,20 @@ class SoldDetails extends StatelessWidget {
             width: 180.w,
             height: 20.h,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20).w,
-                border: Border.all(color: tdBlack)),
+              borderRadius: BorderRadius.circular(20).w,
+              border: Border.all(color: tdBlack),
+            ),
             child: Center(
-              child: Text(
-                'SOLD',
+              child: Text('SOLD',
                 style: TextStyle(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.bold,
-                    color: tdBlack),
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.bold,
+                  color: tdBlack,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 2.h,),
+          SizedBox(height: 2.h),
         ],
       ),
     );

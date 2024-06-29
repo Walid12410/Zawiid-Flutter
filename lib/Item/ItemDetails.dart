@@ -96,7 +96,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                       builder: (context, productProvider, _) {
                         var product = productProvider.productById;
 
-                        if (product.isEmpty) {
+                        if (product.isEmpty || product[0].productNo != widget.productNo) {
                           return Center(
                             child: Text(
                               'No product details available.',

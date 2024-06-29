@@ -1,21 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../Color&Icons/color.dart';
+import '../../provider/Bid_Provider.dart';
+import '../../provider/Products_Provider.dart';
+import '../../provider/SelectionMarkColor_Provider.dart';
 import '../WatchDown/WatchCount2.dart';
 import 'BidPageBottom.dart';
-
 
 class BidPageDetails extends StatelessWidget {
   const BidPageDetails({
     super.key,
-    required this.endTime,
   });
-
-  final DateTime endTime;
 
   @override
   Widget build(BuildContext context) {
+    ProductsProvider productById =
+        Provider.of<ProductsProvider>(context, listen: true);
+    var product = productById.productById;
+    MarkColorProvider colorById =
+        Provider.of<MarkColorProvider>(context, listen: true);
+    var color = colorById.oneColorByID;
+    BidProvider bidProvider = Provider.of<BidProvider>(context, listen: true);
+    var bid = bidProvider.bidById;
+
+    if (product.isEmpty || color.isEmpty || bid.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: tdBlack,
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(right: 15, left: 15).w,
       child: Column(
@@ -26,17 +43,15 @@ class BidPageDetails extends StatelessWidget {
             height: 15.h,
           ),
           Text(
-            'iPhone 14 Pro Max 256gb - Black Titanium',
+            '${product[0].productName} - ${color[0].colorName}',
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: tdGrey,
-                fontSize: 12.sp),
+                fontWeight: FontWeight.bold, color: tdGrey, fontSize: 12.sp),
           ),
           SizedBox(
             height: 10.h,
           ),
           Text(
-            'The iPhone 14 Pro Max comes with 6.7-inch OLED display with 120Hz refresh rate and Apple’s improved Bionic A16 processor. On the back there is a Triple camera setup with 48MP main camera',
+            product[0].productDesc,
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 30.h),
@@ -73,10 +88,16 @@ class BidPageDetails extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 20.h,),
+          SizedBox(
+            height: 20.h,
+          ),
           const BidPageBottom(),
-          SizedBox(height: 5.h,),
-          CountdownTimerScreen2(endTime: endTime,)
+          SizedBox(
+            height: 5.h,
+          ),
+          CountdownTimerScreen2(
+            endTime: bid[0].bidEndDate,
+          )
         ],
       ),
     );

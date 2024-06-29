@@ -33,15 +33,21 @@ class _TopRatedPageViewState extends State<TopRatedPageView> {
       future: _fetchProductsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: SizedBox(
-                width: 90.w,
-                height: 100.h,
-                child: Image.asset(
-                  'assets/log/LOGO-icon---Black.png',
-                  fit: BoxFit.contain,
-                ),
-              )
+          return Column(
+            children: [
+              SizedBox(height: 170.h,),
+              Center(
+                  child: SizedBox(
+                    width: 90.w,
+                    height: 100.h,
+                    child: Image.asset(
+                      'assets/log/LOGO-icon---Black.png',
+                      fit: BoxFit.contain,
+                    ),
+                  )
+              ),
+              SizedBox(height: 170.h,),
+            ],
           );
         } else if (snapshot.hasError) {
           return Center(

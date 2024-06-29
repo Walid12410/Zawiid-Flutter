@@ -148,12 +148,16 @@ class AppNavigation {
                       const MainPage(),
                   routes: [
                     GoRoute(
-                      path: 'BidPage',
+                      path: 'BidPage/:bidNo/:productNo/:colorNo',
                       name: 'BidPage',
                       pageBuilder: (context, state) =>
                           CustomTransitionPage<void>(
                         key: state.pageKey,
-                        child: const BidPage(),
+                        child:  BidPage(
+                          bidNo: int.parse(state.pathParameters['bidNo']!),
+                          productNo: int.parse(state.pathParameters['productNo']!),
+                          colorNo: int.parse(state.pathParameters['colorNo']!),
+                        ),
                         transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) =>
                             FadeTransition(opacity: animation, child: child),

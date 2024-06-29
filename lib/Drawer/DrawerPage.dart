@@ -94,14 +94,9 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                   SizedBox(
                     height: 120.h,
                   ),
-                  Center(
-                    child: SizedBox(
-                      width: 90.w,
-                      height: 100.h,
-                      child: Image.asset(
-                        'assets/log/LOGO-icon---Black.png',
-                        fit: BoxFit.contain,
-                      ),
+                  const Center(
+                    child: CircularProgressIndicator(
+                      color: tdBlack,
                     ),
                   ),
                 ],

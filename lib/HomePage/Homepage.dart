@@ -60,9 +60,12 @@ class _HomePageState extends State<HomePage> {
     List<Featured> getNewestFeaturedProducts(int count) {
       List<Featured> featuredProducts = productProvider.featuredProductCard;
       featuredProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
-      List<Featured> newestFeaturedProducts = featuredProducts.where((product) => product.endDate.isAfter(DateTime.now())).take(count).toList();
-      return newestFeaturedProducts;
+      List<Featured> validFeaturedProducts = featuredProducts.where((product) =>
+      product.startDate.isBefore(DateTime.now().add(const Duration(days: 1))) &&
+          product.endDate.isAfter(DateTime.now())).toList();
+      return validFeaturedProducts.take(count).toList();
     }
+
     List<Featured> newestFeaturedProducts = getNewestFeaturedProducts(3);
 
 

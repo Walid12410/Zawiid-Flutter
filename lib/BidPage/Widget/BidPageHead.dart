@@ -17,7 +17,7 @@ class BidPageHead extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go('/home');
+              GoRouter.of(context).go('/mainPage');
             },
             child: SizedBox(
               width: 23.w,

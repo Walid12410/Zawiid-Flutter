@@ -34,7 +34,7 @@ class _OnSalePageViewState extends State<OnSalePageView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Column(
             children: [
-              SizedBox(height: 100.h,),
+              SizedBox(height: 170.h,),
               Center(
                   child: SizedBox(
                     width: 90.w,
@@ -45,7 +45,7 @@ class _OnSalePageViewState extends State<OnSalePageView> {
                     ),
                   )
               ),
-              SizedBox(height: 100.h,),
+              SizedBox(height: 170.h,),
             ],
           );
         } else if (snapshot.hasError) {
