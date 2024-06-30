@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,17 @@ class CouponsPromotionDetails extends StatelessWidget {
     if(markDetails.isEmpty || couponsDetails.isEmpty || couponsDetailsTable.isEmpty){
       return const Center(
         child: CircularProgressIndicator(color: tdBlack,),
+      );
+    }
+
+    void copyToClipboard(String text) {
+      Clipboard.setData(ClipboardData(text: text));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Coupon code copied'),
+          duration: Duration(seconds: 2),
+          backgroundColor: tdBlack,
+        ),
       );
     }
 
@@ -97,20 +109,25 @@ class CouponsPromotionDetails extends StatelessWidget {
                 ),
               ),
               const SizedBox(),
-              Container(
-                width: 130.w,
-                height: 45.h,
-                decoration: BoxDecoration(
-                    border: Border.all(color: tdBlack),
-                    borderRadius: BorderRadius.circular(15).w,
-                    color: tdBlack),
-                child: Center(
-                  child: Text(
-                    'COPY',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                        color: tdWhite),
+              GestureDetector(
+                onTap: (){
+                  copyToClipboard(couponsDetailsTable[0].code);
+                },
+                child: Container(
+                  width: 130.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: tdBlack),
+                      borderRadius: BorderRadius.circular(15).w,
+                      color: tdBlack),
+                  child: Center(
+                    child: Text(
+                      'COPY',
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                          color: tdWhite),
+                    ),
                   ),
                 ),
               ),
