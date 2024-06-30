@@ -25,7 +25,7 @@ class ItemDetail extends StatelessWidget {
         if (productDetails.isEmpty)
           Text(
             'No details added yet.',
-            style: TextStyle(fontSize: 15.sp, color: tdBlack),
+            style: TextStyle(fontSize: 12.sp, color: tdBlack),
           )
         else
           ...productDetails.map((detail) {

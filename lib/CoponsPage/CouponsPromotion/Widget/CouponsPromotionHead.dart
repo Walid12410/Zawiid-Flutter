@@ -18,7 +18,7 @@ class CouponsPromotionHead extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).goNamed("CouponsDetails");
+             context.pop();
             },
             child: SizedBox(
               width: 20.w,

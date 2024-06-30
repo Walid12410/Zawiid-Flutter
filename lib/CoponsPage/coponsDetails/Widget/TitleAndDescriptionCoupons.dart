@@ -1,18 +1,39 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:zawiid/ApiEndPoint.dart';
 import '../../../Color&Icons/color.dart';
+import '../../../provider/Coupons_Provider.dart';
+import '../../../provider/SelectionMarkColor_Provider.dart';
 
 class TitleAndDescription extends StatelessWidget {
   const TitleAndDescription({
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
+    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
+    var markDetails = markProvider.oneMarkByIDCoupons;
+    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
+    var couponsDetails = couponsProvider.oneCoupon;
+
+    if (markDetails.isEmpty || couponsDetails.isEmpty) {
+      return const Center(
+          child: CircularProgressIndicator(
+        color: tdBlack,
+      ));
+    }
+
+    String markImage =
+        '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}';
+    String formattedStartTime =
+        DateFormat('MMMM yyyy').format(couponsDetails[0].issueDate);
+
     return Padding(
-      padding:const EdgeInsets.all(10).w,
+      padding: const EdgeInsets.all(10).w,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,39 +41,41 @@ class TitleAndDescription extends StatelessWidget {
           SizedBox(
             width: 120.w,
             height: 80.h,
-            child: Image.asset(
-              'assets/img/adidas.png',
-              fit: BoxFit.fill,
+            child: CachedNetworkImage(
+              imageUrl: markImage,
+              placeholder: (context, url) =>
+                  Image.asset('assets/log/LOGO-icon---Black.png'),
+              errorWidget: (context, url, error) =>
+                  Image.asset('assets/log/LOGO-icon---Black.png'),
+              fit: BoxFit.contain,
             ),
           ),
           SizedBox(height: 5.h),
           Row(
             children: [
               Text(
-                'Adidas',
+                markDetails[0].markName,
                 style: TextStyle(
-                    fontSize: 13.sp,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
                     color: tdBlack),
               ),
               Text(
-                ' Coupon & Promo Codes - April 2024',
-                style: TextStyle(fontSize: 13.sp, color: tdGrey),
+                ' Coupon & Promo Codes - $formattedStartTime',
+                style: TextStyle(fontSize: 11.sp, color: tdGrey),
               ),
             ],
           ),
           Text(
             'adidas.com.kw',
             style: TextStyle(
-                fontSize: 8.sp,
-                color: tdBlue,
-                fontWeight: FontWeight.bold),
+                fontSize: 5.sp, color: tdBlue, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            height: 5.h,
+            height: 10.h,
           ),
           Text(
-            'Adidas is the one-stop platform to purchase high-intensity sportswear and accessories in Kuwait. From its apparel to footwear, every new line is tested on the field so fitness enthusiasts and athletes can get the best products to break their PR and enhance their performance. Besides, you can grab the Adidas Promo Code from our website to avail yourself of great saving opportunities on all your Adidas shopping. Adidas believes in the power of sports, the significant impact they have on our lives and how they change us for the better. Its sports collection will reignite the passion of sports and fitness in you whether you love running, yoga, hiking, skateboarding or something else entirely. Furthermore, you needn’t worry about shopping for massive products from this sports giant with the Adidas Coupon Code. Adidas is loved by the Kuwaitis on the tracks, in the gym or another place because of its exclusively-made sportswear. You will find high tech sports apparel and footwear designed for athletes from football, training to golf and everything in between. Additionally, pay no attention to the retail value because by redeeming the Adidas Kuwait Promo Code, you will have knocked prices off by a big margin.',
+            markDetails[0].markDesc,
             style: TextStyle(fontSize: 8.sp, color: tdBlack),
           ),
         ],

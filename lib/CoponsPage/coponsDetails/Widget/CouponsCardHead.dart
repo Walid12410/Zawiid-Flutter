@@ -8,12 +8,7 @@ import '../../../Color&Icons/color.dart';
 class CouponsCardHead extends StatelessWidget {
   const CouponsCardHead({
     super.key,
-    required this.screenWidth,
-    required this.screenHeight,
   });
-
-  final double screenWidth;
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {

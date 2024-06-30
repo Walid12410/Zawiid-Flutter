@@ -93,7 +93,6 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 20.h),
           ItemCategoriesHead(title: widget.title),
           SizedBox(height: 5.h),
           ItemSearchBar(
@@ -104,6 +103,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
               });
             },
           ),
+          SizedBox(height: 20.h),
           if (filteredProducts.isEmpty)
             Padding(
               padding: EdgeInsets.all(20.w),
@@ -137,10 +137,11 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
             padding: EdgeInsets.all(5.w),
             child: CartItemView(
               title: products[i].productName,
-              desc: products[i].productDesc,
               mainPrice: products[i].price,
               salePrice: products[i].discountedPrice,
               image: '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
+              markNo: products[i].markNo,
+              colorNo: products[i].colorNo,
             ),
           ),
           if (i + 1 < products.length)
@@ -148,11 +149,11 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
               padding: EdgeInsets.all(5.w),
               child: CartItemView(
                 title: products[i + 1].productName,
-                desc: products[i + 1].productDesc,
                 mainPrice: products[i + 1].price,
                 salePrice: products[i + 1].discountedPrice,
-                image:
-                    '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
+                image: '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
+                markNo: products[i + 1].markNo,
+                colorNo: products[i + 1].colorNo,
               ),
             ),
         ],

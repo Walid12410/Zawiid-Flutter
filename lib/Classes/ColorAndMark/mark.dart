@@ -1,14 +1,14 @@
 class Mark {
   final int markNo;
   final String markName;
-  final String? markDesc;
-  final String? markImage;
+  final String markDesc;
+  final String markImage;
 
   Mark({
     required this.markNo,
     required this.markName,
-    this.markDesc,
-    this.markImage,
+    required this.markDesc,
+    required this.markImage,
   });
 
   factory Mark.fromJson(Map<String, dynamic> json) {

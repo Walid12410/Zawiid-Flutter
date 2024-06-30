@@ -25,5 +25,13 @@ class MarkColorProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Mark> _oneMarkByIDCoupons = [];
+  List<Mark> get oneMarkByIDCoupons => _oneMarkByIDCoupons;
+  getMarkByIdCoupons(int id) async {
+    final res = await fetchMarkById(id);
+    _oneMarkByIDCoupons = res;
+    notifyListeners();
+  }
+
 
 }

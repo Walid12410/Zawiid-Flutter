@@ -237,11 +237,12 @@ class AppNavigation {
                     const CouponsMain(),
                 routes: [
                   GoRoute(
-                    path: 'CouponsDetails',
+                    path: 'CouponsDetails/:markId/:couponsId',
                     name: 'CouponsDetails',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: const CouponsDetails(),
+                      child:  CouponsDetails(markId: int.parse(state.pathParameters['markId']!),
+                      couponId: int.parse(state.pathParameters['couponsId']!),),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
