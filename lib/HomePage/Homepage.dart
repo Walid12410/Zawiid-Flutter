@@ -479,6 +479,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 500.h,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
+                                    color: tdGreyHome,
                                     borderRadius: BorderRadius.circular(20).w,
                                     image: DecorationImage(
                                       image: CachedNetworkImageProvider('${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo!}'),
