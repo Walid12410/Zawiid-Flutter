@@ -105,14 +105,13 @@ class CustomNavigationBar extends StatelessWidget {
                             width: 5.w,
                           ),
                           SizedBox(
-                              height: 40.h,
+                              height: 30.h,
                               width: 30.w,
                               child: Center(
                                   child: SvgPicture.asset(
                                 'assets/svg/search.svg',
                                 fit: BoxFit.cover,
                               ))),
-                          SizedBox(width: 5.w),
                         ],
                       ),
                     ),

@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import '../Classes/Product/Products.dart';
 import 'Widget/SearchBar.dart';
 import 'Widget/SearchHistoryCard.dart';
+import 'package:http/http.dart' as http;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -13,17 +19,64 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _searchController = TextEditingController();
+  List<Product> _searchResults = [];
+  bool _isSearching = false;
+  bool _isLoading = false;
+  bool _hasError = false;
 
   @override
   void initState() {
     super.initState();
     _focusNode.requestFocus();
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
+    _searchController.dispose();
     super.dispose();
+  }
+
+  void _onSearchChanged() {
+    setState(() {
+      _isSearching = _searchController.text.isNotEmpty;
+      _isLoading = true;
+      _hasError = false;
+    });
+    _searchProducts(_searchController.text);
+  }
+
+  void _updateSearchResults(List<Product> results) {
+    setState(() {
+      _searchResults = results;
+      _isLoading = false;
+    });
+  }
+
+  void _searchProducts(String query) async {
+    if (query.isEmpty) {
+      _updateSearchResults([]);
+      return;
+    }
+
+    try {
+      final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileSearch.php?productName=$query'));
+
+      if (response.statusCode == 200) {
+        List<dynamic> body = jsonDecode(response.body);
+        List<Product> products = body.map((dynamic item) => Product.fromJson(item)).toList();
+        _updateSearchResults(products);
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (error) {
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -47,45 +100,118 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               SizedBox(height: 20.h),
-              SearchBarText(focusNode: _focusNode),
+              SearchBarText(
+                focusNode: _focusNode,
+                controller: _searchController,
+                onSearchResults: _updateSearchResults,
+              ),
               SizedBox(height: 25.h),
-              Padding(
-                padding: const EdgeInsets.only(left: 12, right: 8).w,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'RECENTLY VIEWED',
-                      style: TextStyle(
-                          fontSize: 9.sp,
-                          color: tdGrey,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          //Clear History
-                        },
-                        child: Text(
-                          'CLEAR',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 9.sp,
-                              color: tdBlack),
-                        ))
-                  ],
+              if (!_isSearching)
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 8).w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'RECENTLY VIEWED',
+                        style: TextStyle(
+                            fontSize: 9.sp,
+                            color: tdGrey,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            // Clear History
+                          },
+                          child: Text(
+                            'CLEAR',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 9.sp,
+                                color: tdBlack),
+                          ))
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 5.h),
-              const SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    SearchHistoryCard(),
-                    SearchHistoryCard(),
-                    SearchHistoryCard(),
-                  ],
+              if (!_isSearching)
+                const SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      SearchHistoryCard(),
+                      SearchHistoryCard(),
+                      SearchHistoryCard(),
+                    ],
+                  ),
                 ),
-              ),
+              if (_isLoading)
+                const Center(
+                  child: CircularProgressIndicator(color: tdBlack,),
+                ),
+              if (_hasError)
+                Center(
+                  child: Column(
+                    children: [
+                      Text('Something went wrong. Check your connection',style: TextStyle(
+                        fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold
+                      ),textAlign: TextAlign.center,),
+                    ],
+                  ),
+                ),
+              if (_searchResults.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(5).w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _searchResults.map((product) {
+                      return Padding(
+                        padding: const EdgeInsets.all(5).w,
+                        child: SizedBox(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 50.w,
+                                height: 50.h,
+                                child: CachedNetworkImage(
+                                  imageUrl: '${ApiEndpoints.localBaseUrl}/${product.productImage}',
+                                  placeholder: (context, url) =>
+                                      Image.asset('assets/log/LOGO-icon---Black.png'),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset('assets/log/LOGO-icon---Black.png'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              // Product details
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      product.productName,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h),
+                                    Text(
+                                      '\$${product.price.toString()}',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
             ],
           ),
         ),

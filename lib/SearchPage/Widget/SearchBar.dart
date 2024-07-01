@@ -4,15 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/HomePage/Homepage.dart';
+import '../../Classes/Product/Products.dart';
 import '../../Color&Icons/color.dart';
 
 class SearchBarText extends StatelessWidget {
   const SearchBarText({
     super.key,
     required FocusNode focusNode,
+    required this.controller,
+    required this.onSearchResults,
   }) : _focusNode = focusNode;
 
   final FocusNode _focusNode;
+  final TextEditingController controller;
+  final Function(List<Product>) onSearchResults;
 
   void openDrawerFromAnotherPage(BuildContext context) {
     context.go('/home');
@@ -66,14 +71,16 @@ class SearchBarText extends StatelessWidget {
                   ).w,
                 ),
                 child: TextField(
+                  controller: controller,
                   focusNode: _focusNode,
+                  style: TextStyle(fontSize: 9.sp,color: tdBlack),
                   decoration: InputDecoration(
                     hintText: 'Search for products',
                     hintStyle: TextStyle(fontSize: 7.sp, color: tdGrey),
                     border: InputBorder.none,
                     contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 12)
-                            .w,
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 12)
+                        .w,
                   ),
                 ),
               ),
@@ -92,15 +99,14 @@ class SearchBarText extends StatelessWidget {
                   ),
                   child: Center(
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
-                              .w,
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4).w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          SizedBox(width: 10.w),
                           Text(
                             'All Categories',
-                            style: TextStyle(fontSize: 8.sp, color: tdWhite),
+                            style: TextStyle(fontSize: 9.sp, color: tdWhite),
                           ),
                           SizedBox(
                             width: 5.w,
@@ -110,9 +116,9 @@ class SearchBarText extends StatelessWidget {
                               width: 30.w,
                               child: Center(
                                   child: SvgPicture.asset(
-                                'assets/svg/search.svg',
-                                fit: BoxFit.cover,
-                              ))),
+                                    'assets/svg/search.svg',
+                                    fit: BoxFit.cover,
+                                  ))),
                         ],
                       ),
                     ),
