@@ -12,6 +12,7 @@ import 'package:zawiid/provider/GovArea_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
+import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import 'Route/RouteNaviagtor.dart';
 
 Future<void> main() async {
@@ -30,6 +31,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => MarkColorProvider()),
       ChangeNotifierProvider(create: (_) => BidProvider()),
       ChangeNotifierProvider(create: (_) => CouponsProvider()),
+      ChangeNotifierProvider(create: (_) => TicketProvider()),
     ],
     child: const MyApp(),
   ));

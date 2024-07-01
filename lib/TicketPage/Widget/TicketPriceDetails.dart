@@ -4,9 +4,11 @@ import 'package:zawiid/Color&Icons/color.dart';
 
 class TicketPriceDetails extends StatelessWidget {
   const TicketPriceDetails({
-    super.key,
+    super.key,required this.ticketPrice
   });
 
+
+  final String ticketPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TicketPriceDetails extends StatelessWidget {
         ],
       ),
       child:  Center(
-        child: Text('1\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
+        child: Text('$ticketPrice\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
       ),
     );
   }

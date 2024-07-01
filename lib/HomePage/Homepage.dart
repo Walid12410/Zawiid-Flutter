@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,8 +44,10 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CategoryProvider>(context, listen: false).getCategory();
       UserProvider userInfo = Provider.of<UserProvider>(context, listen: false);
-      AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-      ProductsProvider productProvider = Provider.of<ProductsProvider>(context, listen: false);
+      AuthProvider authProvider =
+          Provider.of<AuthProvider>(context, listen: false);
+      ProductsProvider productProvider =
+          Provider.of<ProductsProvider>(context, listen: false);
       productProvider.getAllFeaturedProductCard();
       userInfo.getUserInfo(authProvider.userId);
     });
@@ -53,21 +56,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
+    CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
-    ProductsProvider productProvider = Provider.of<ProductsProvider>(context, listen: true);
+    ProductsProvider productProvider =
+        Provider.of<ProductsProvider>(context, listen: true);
 
     List<Featured> getNewestFeaturedProducts(int count) {
       List<Featured> featuredProducts = productProvider.featuredProductCard;
       featuredProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
-      List<Featured> validFeaturedProducts = featuredProducts.where((product) =>
-      product.startDate.isBefore(DateTime.now().add(const Duration(days: 1))) &&
-          product.endDate.isAfter(DateTime.now())).toList();
+      List<Featured> validFeaturedProducts = featuredProducts
+          .where((product) =>
+              product.startDate
+                  .isBefore(DateTime.now().add(const Duration(days: 1))) &&
+              product.endDate.isAfter(DateTime.now()))
+          .toList();
       return validFeaturedProducts.take(count).toList();
     }
 
     List<Featured> newestFeaturedProducts = getNewestFeaturedProducts(3);
-
 
     return Scaffold(
       key: HomePage.scaffoldKey,
@@ -98,9 +105,15 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    FeaturedProductCard(text: 'iphone1231321313',),
-                    FeaturedProductCard(text: 'asdasdasdsd',),
-                    FeaturedProductCard(text: 'sd',),
+                    FeaturedProductCard(
+                      text: 'iphone1231321313',
+                    ),
+                    FeaturedProductCard(
+                      text: 'asdasdasdsd',
+                    ),
+                    FeaturedProductCard(
+                      text: 'sd',
+                    ),
                   ],
                 ),
               ),
@@ -283,18 +296,26 @@ class _HomePageState extends State<HomePage> {
                               _currentPage2 = page.toInt();
                             });
                           },
-                          children:  [
+                          children: [
                             if (newestFeaturedProducts.isEmpty)
                               SizedBox(
                                 child: Center(
-                                  child: Text('No featured products available',style: TextStyle(fontWeight: FontWeight.bold,color: tdGrey,fontSize: 12.sp),),
+                                  child: Text(
+                                    'No featured products available',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: tdGrey,
+                                        fontSize: 12.sp),
+                                  ),
                                 ),
                               )
                             else
-                              for (var featuredProduct in newestFeaturedProducts)
+                              for (var featuredProduct
+                                  in newestFeaturedProducts)
                                 WeekDealCard(
                                   price: featuredProduct.products![0].price,
-                                  image: '${ApiEndpoints.localBaseUrl}/${featuredProduct.products![0].productImage}',
+                                  image:
+                                      '${ApiEndpoints.localBaseUrl}/${featuredProduct.products![0].productImage}',
                                   startDate: featuredProduct.startDate,
                                   endDate: featuredProduct.endDate,
                                 ),
@@ -436,7 +457,36 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 1.h),
+                        Padding(
+                          padding: const EdgeInsets.all(5).w,
+                          child: categories.isNotEmpty &&
+                                  categories[_selectedCategoryIndex]
+                                          .subcategories !=
+                                      null &&
+                                  categories[_selectedCategoryIndex]
+                                      .subcategories!
+                                      .isNotEmpty &&
+                                  categories[_selectedCategoryIndex]
+                                          .subcategories!
+                                          .length >
+                                      _selectedSubcategoryIndex &&
+                                  categories[_selectedCategoryIndex]
+                                          .subcategories![
+                                              _selectedSubcategoryIndex]
+                                          .photo !=
+                                      null
+                              ? Container(
+                                  height: 500.h,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20).w,
+                                    image: DecorationImage(
+                                      image: CachedNetworkImageProvider('${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo!}'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),)
+                              : const SizedBox(),
+                        ),
                         SizedBox(
                           height: 500.h,
                           child: categories[_selectedCategoryIndex]

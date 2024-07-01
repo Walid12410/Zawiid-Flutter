@@ -48,19 +48,19 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-              child: SizedBox(
-                width: 90.w,
-                height: 100.h,
-                child: Image.asset(
-                  'assets/log/LOGO-icon---Black.png',
-                  fit: BoxFit.contain,
-                ),
-              )
+            child: SizedBox(
+              width: 90.w,
+              height: 100.h,
+              child: Image.asset(
+                'assets/log/LOGO-icon---Black.png',
+                fit: BoxFit.contain,
+              ),
+            ),
           );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
-              'Something went wrong, check you connection.',
+              'Something went wrong, check your connection.',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp,
@@ -75,7 +75,7 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
               var categoryProducts = provider.categoryProductHome;
 
               if (categoryProducts.isEmpty ||
-                  widget.subCategoryId != categoryProducts[0].subCategoryNo) {
+                  widget.subCategoryId!= categoryProducts[0].subCategoryNo) {
                 return Center(
                   child: Text(
                     'No products added yet',
@@ -88,36 +88,47 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
                 );
               }
 
+              categoryProducts = categoryProducts.take(4).toList();
+              int rowCount = (categoryProducts.length / 2).ceil();
+
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: (categoryProducts.length > 4)
-                    ? 2
-                    : (categoryProducts.length / 2).ceil(),
+                itemCount: rowCount,
                 itemBuilder: (context, rowIndex) {
                   int startIndex = rowIndex * 2;
+                  int endIndex = startIndex + 2;
+                  if (endIndex > categoryProducts.length) {
+                    endIndex = categoryProducts.length;
+                  }
+
+                  List<Widget> rowChildren = List.generate(endIndex - startIndex, (index) {
+                    int productIndex = startIndex + index;
+                    return ProductSubCategoriesHomePageCard(
+                      title: categoryProducts[productIndex].productName,
+                      desc: categoryProducts[productIndex].productDesc,
+                      mainPrice: categoryProducts[productIndex].price,
+                      salePrice: categoryProducts[productIndex].discountedPrice,
+                      image: '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
+                      productNo: categoryProducts[productIndex].productNo,
+                      markNo: categoryProducts[productIndex].markNo,
+                      colorNo: categoryProducts[productIndex].colorNo,
+                    );
+                  });
+
+                  if (rowChildren.length == 3) {
+                    return Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: rowChildren,
+                      ),
+                    );
+                  }
+
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(2, (index) {
-                      int productIndex = startIndex + index;
-                      if (productIndex < categoryProducts.length) {
-                        return ProductSubCategoriesHomePageCard(
-                          title: categoryProducts[productIndex].productName,
-                          desc: categoryProducts[productIndex].productDesc,
-                          mainPrice: categoryProducts[productIndex].price,
-                          salePrice:
-                              categoryProducts[productIndex].discountedPrice,
-                          image:
-                              '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
-                          productNo: categoryProducts[productIndex].productNo,
-                          markNo: categoryProducts[productIndex].markNo,
-                          colorNo: categoryProducts[productIndex].colorNo,
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    }).toList(),
+                    children: rowChildren,
                   );
                 },
               );

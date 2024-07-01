@@ -16,11 +16,9 @@ class BidPageDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductsProvider productById =
-        Provider.of<ProductsProvider>(context, listen: true);
+    ProductsProvider productById = Provider.of<ProductsProvider>(context, listen: true);
     var product = productById.productById;
-    MarkColorProvider colorById =
-        Provider.of<MarkColorProvider>(context, listen: true);
+    MarkColorProvider colorById = Provider.of<MarkColorProvider>(context, listen: true);
     var color = colorById.oneColorByID;
     BidProvider bidProvider = Provider.of<BidProvider>(context, listen: true);
     var bid = bidProvider.bidById;
