@@ -182,7 +182,6 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                               SizedBox(width: 10.w),
-                              // Product details
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
