@@ -22,7 +22,7 @@ Future<void> deleteAddress(BuildContext context, int id) async {
     }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to delete address')),
+      SnackBar(content: Text('Failed to delete address'),backgroundColor: tdBlack,duration: const Duration(seconds: 1)),
     );
   }
 }

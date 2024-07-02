@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
+import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => CategoryProvider()),
+      ChangeNotifierProvider(create: (_) => CartProvider()),
       ChangeNotifierProvider(create: (_) => ProductsProvider()),
       ChangeNotifierProvider(create: (_) => AuthProvider()..setUserId(userId)),
       ChangeNotifierProvider(create: (_) => UserProvider()),

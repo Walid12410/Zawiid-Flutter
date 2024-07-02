@@ -19,7 +19,7 @@ class ItemDetailsHead extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).go("/home");
+              context.pop();
             },
             child: SizedBox(
               width: 20.w,
@@ -32,7 +32,7 @@ class ItemDetailsHead extends StatelessWidget {
               context.push(context.namedLocation('CartPage'));
             },
             child: badges.Badge(
-              badgeContent:  Text(
+              badgeContent: Text(
                 '3',
                 style: TextStyle(color: tdWhite,fontSize: 10.sp),
               ),

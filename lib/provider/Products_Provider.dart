@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/ApiService/FeaturedService/FeaturedProductApi.dart';
 import 'package:zawiid/ApiService/ProductService/ProductApi.dart';
 import 'package:zawiid/ApiService/ProductService/ProductByIdApi.dart';
@@ -8,6 +11,7 @@ import 'package:zawiid/ApiService/ProductService/ProductTopRated.dart';
 import 'package:zawiid/Classes/Featured/Featured.dart';
 import 'package:zawiid/Classes/Product/ProductDetails.dart';
 import 'package:zawiid/Classes/Product/Products.dart';
+import 'package:http/http.dart' as http;
 
 class ProductsProvider with ChangeNotifier {
 
@@ -74,4 +78,27 @@ class ProductsProvider with ChangeNotifier {
     _productDetailsById = res;
     notifyListeners();
   }
+
+  List<Product> _productByIdCart = [];
+
+  List<Product> get productByIdCart => _productByIdCart;
+
+  Future<List<Product>> getProductOfCartByUserId(int id) async {
+    try {
+      final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/webProduct.php?status=one&id=$id'));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+        _productByIdCart = jsonData.map((json) => Product.fromJson(json)).toList();
+        notifyListeners();
+        return _productByIdCart;
+      } else {
+        throw Exception('Failed to load Products');
+      }
+    } catch (e) {
+      throw Exception('Server Error');
+    }
+  }
+
+
+
 }

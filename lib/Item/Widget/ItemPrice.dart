@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../Color&Icons/color.dart';
 import '../../provider/Products_Provider.dart';
 
@@ -16,19 +15,14 @@ class ItemPrice extends StatelessWidget {
         Provider.of<ProductsProvider>(context, listen: true);
     var product = productProvider.productById;
 
-    String price =
-        product.isNotEmpty && product[0].price != null ? product[0].price : '';
+    String price = product.isNotEmpty && product[0].price != null ? product[0].price : '0';
     String discountedPrice =
         product.isNotEmpty && product[0].discountedPrice != null
             ? product[0].discountedPrice
-            : '';
+            : '0.0';
 
-    if (discountedPrice == "" ||
-        discountedPrice == ".00" ||
-        discountedPrice == "0" ||
-        discountedPrice == "0.00" ||
-        discountedPrice == "0.0" ||
-        discountedPrice == null) {
+    if (double.parse(discountedPrice) == 0.0 ||
+        double.parse(discountedPrice) <= 0) {
       return Row(
         children: [
           Text(
@@ -51,8 +45,7 @@ class ItemPrice extends StatelessWidget {
               color: tdBlack,
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.lineThrough,
-              decorationThickness:
-                  2.5,
+              decorationThickness: 2.5,
               decorationColor: tdGrey,
             ),
           ),

@@ -38,7 +38,7 @@ class Product {
       markNo: json["MarkNo"] ?? 0,
       size: json["size"] ?? 0,
       colorNo: json["ColorNo"] ?? 0,
-      discountedPrice: json["DiscountedPrice"]?? '',
+      discountedPrice: json["DiscountedPrice"]?? '0.0',
       isOpenBox: json["IsOpenBox"] ?? 0,
       productImage: json["ProductImage"] ?? '',
     );

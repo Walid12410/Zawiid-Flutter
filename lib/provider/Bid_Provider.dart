@@ -15,7 +15,6 @@ class BidProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   List<Bid> _bidById = [];
   List<Bid> get bidById => _bidById;
   getBidById(int id) async {

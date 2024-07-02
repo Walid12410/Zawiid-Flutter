@@ -56,15 +56,14 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                      child: SizedBox(
-                        width: 90.w,
-                        height: 100.h,
-                        child: Image.asset(
-                          'assets/log/LOGO-icon---Black.png',
-                          fit: BoxFit.contain,
-                        ),
-                      )
-                  );
+                  child: SizedBox(
+                width: 90.w,
+                height: 100.h,
+                child: Image.asset(
+                  'assets/log/LOGO-icon---Black.png',
+                  fit: BoxFit.contain,
+                ),
+              ));
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -136,25 +135,27 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           Padding(
             padding: EdgeInsets.all(5.w),
             child: CartItemView(
-              title: products[i].productName,
-              mainPrice: products[i].price,
-              salePrice: products[i].discountedPrice,
-              image: '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
-              markNo: products[i].markNo,
-              colorNo: products[i].colorNo,
-            ),
+                title: products[i].productName,
+                mainPrice: products[i].price,
+                salePrice: products[i].discountedPrice,
+                image:
+                    '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
+                markNo: products[i].markNo,
+                colorNo: products[i].colorNo,
+                productNo: products[i].productNo),
           ),
           if (i + 1 < products.length)
             Padding(
               padding: EdgeInsets.all(5.w),
               child: CartItemView(
-                title: products[i + 1].productName,
-                mainPrice: products[i + 1].price,
-                salePrice: products[i + 1].discountedPrice,
-                image: '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
-                markNo: products[i + 1].markNo,
-                colorNo: products[i + 1].colorNo,
-              ),
+                  title: products[i + 1].productName,
+                  mainPrice: products[i + 1].price,
+                  salePrice: products[i + 1].discountedPrice,
+                  image:
+                      '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
+                  markNo: products[i + 1].markNo,
+                  colorNo: products[i + 1].colorNo,
+                  productNo: products[i].productNo),
             ),
         ],
       );
