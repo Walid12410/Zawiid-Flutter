@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:zawiid/ApiService/Bid/BidApi.dart';
 import 'package:zawiid/ApiService/Bid/BidByIdApi.dart';
+import 'package:zawiid/ApiService/Bid/BidZawidLastAmtApi.dart';
+import 'package:zawiid/Classes/Bid/BIdZawid.dart';
 import 'package:zawiid/Classes/Bid/Bid.dart';
 import 'package:zawiid/Classes/Bid/bidProduct.dart';
 
@@ -22,4 +24,13 @@ class BidProvider with ChangeNotifier {
     _bidById = res;
     notifyListeners();
   }
+
+  List<BidZawid> _latestBid = [];
+  List<BidZawid> get latestBid => _latestBid;
+  getLatestBid(int id) async {
+    final res = await fetchLatestBid(id);
+    _latestBid = res ;
+    notifyListeners();
+  }
+
 }

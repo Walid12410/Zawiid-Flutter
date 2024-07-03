@@ -153,9 +153,10 @@ class AppNavigation {
                       pageBuilder: (context, state) =>
                           CustomTransitionPage<void>(
                         key: state.pageKey,
-                        child:  BidPage(
+                        child: BidPage(
                           bidNo: int.parse(state.pathParameters['bidNo']!),
-                          productNo: int.parse(state.pathParameters['productNo']!),
+                          productNo:
+                              int.parse(state.pathParameters['productNo']!),
                           colorNo: int.parse(state.pathParameters['colorNo']!),
                         ),
                         transitionsBuilder: (context, animation,
@@ -241,8 +242,10 @@ class AppNavigation {
                     name: 'CouponsDetails',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child:  CouponsDetails(markId: int.parse(state.pathParameters['markId']!),
-                      couponId: int.parse(state.pathParameters['couponsId']!),),
+                      child: CouponsDetails(
+                        markId: int.parse(state.pathParameters['markId']!),
+                        couponId: int.parse(state.pathParameters['couponsId']!),
+                      ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(opacity: animation, child: child),
@@ -271,6 +274,16 @@ class AppNavigation {
         name: "SignIn",
         builder: (context, state) => SignIn(
           key: state.pageKey,
+        ),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/itemDetailsView/:itemNo/:colorNo/:markNo',
+        name: 'itemDetailsView/:itemNo/:colorNo/:markNo',
+        builder: (context, state) => ItemDetailsPage(
+          productNo: int.parse(state.pathParameters['itemNo']!),
+          colorNo: int.parse(state.pathParameters['colorNo']!),
+          markNo: int.parse(state.pathParameters['markNo']!),
         ),
       ),
       GoRoute(

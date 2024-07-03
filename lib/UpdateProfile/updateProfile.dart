@@ -166,44 +166,61 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       height: 5.h,
                     ),
                     Container(
-                      width: double.infinity,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        color: tdWhite,
-                        borderRadius: BorderRadius.circular(5).w,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            blurRadius: 5,
-                            offset: const Offset(0, 0),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5).w,
-                          child: TextFormField(
-                            readOnly: true,
-                            controller: birthDateController,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
+                        width: double.infinity,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          color: tdWhite,
+                          borderRadius: BorderRadius.circular(5).w,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                              offset: const Offset(0, 0),
                             ),
-                            onTap: () async {
-                              DateTime? picked = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2035),
-                              );
-                              if (picked != null) {
-                                setState(() {
-                                  birthDateController.text =
-                                      "${picked.year}-${picked.month}-${picked.day}";
-                                });
-                              }
-                            },
-                          )),
-                    ),
+                          ],
+                        ),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: birthDateController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: 'Select Birth Date',
+                            hintStyle: TextStyle(color: tdBlack),
+                          ),
+                          onTap: () async {
+                            DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2035),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData.light().copyWith(
+                                    colorScheme: const ColorScheme.light(
+                                      primary: tdBlack,
+                                      onPrimary: tdWhite,
+                                    ),
+                                    textTheme: const TextTheme(
+                                      bodyText1: TextStyle(color: tdBlack),
+                                      subtitle1: TextStyle(color: tdBlack),
+                                      button: TextStyle(color: tdBlack),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (picked != null) {
+                              setState(() {
+                                birthDateController.text =
+                                    "${picked.year}-${picked.month}-${picked.day}";
+                              });
+                            }
+                          },
+                        )),
                     SizedBox(height: 10.h),
                     Text(
                       'Gender',

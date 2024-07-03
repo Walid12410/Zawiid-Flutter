@@ -71,10 +71,10 @@ class _TicketMainState extends State<TicketMain> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ProductsProvider productProvider =
             Provider.of<ProductsProvider>(context, listen: false);
-        productProvider.getProductById(latestStartedTicket.productNo);
+        productProvider.getProductByIdTicket(latestStartedTicket.productNo);
       });
 
-      var productDetails = productData.productById;
+      var productDetails = productData.productByIdTicket;
 
       if (productDetails.isEmpty) {
         return const Center(
@@ -86,13 +86,13 @@ class _TicketMainState extends State<TicketMain> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           MarkColorProvider markProvider =
               Provider.of<MarkColorProvider>(context, listen: false);
-          markProvider.getMarkById(productDetails[0].markNo);
-          markProvider.getColorById(productDetails[0].colorNo);
+          markProvider.getMarkByIdTicket(productDetails[0].markNo);
+          markProvider.getColorByIdTicket(productDetails[0].colorNo);
         });
       }
 
-      var color = markColorProvider.oneColorByID;
-      var mark = markColorProvider.oneMarkByID;
+      var color = markColorProvider.oneColorByIDTicket;
+      var mark = markColorProvider.oneMarkByIDTicket;
 
       if (color.isEmpty || mark.isEmpty) {
         return const Center(

@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../Color&Icons/color.dart';
 
-
 class ProductSubCategoriesHomePageCard extends StatelessWidget {
   const ProductSubCategoriesHomePageCard(
       {super.key,
@@ -92,7 +91,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$mainPrice \$',
+                      '$mainPrice KD',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,

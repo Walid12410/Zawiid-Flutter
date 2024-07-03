@@ -88,7 +88,7 @@ class TabCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$productPrice \$',
+                      '$productPrice KD',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,

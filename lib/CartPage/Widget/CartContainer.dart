@@ -8,6 +8,7 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import '../../ApiService/CartService/UpdateCartApi.dart';
 import '../../Classes/Product/Products.dart';
 import '../../provider/Auth_Provider.dart';
+import '../../provider/Cart_Provider.dart';
 
 class CartContainer extends StatefulWidget {
   const CartContainer({
@@ -63,12 +64,11 @@ class _CartContainerState extends State<CartContainer> {
 
   Future<void> _updateCart(int newQuantity) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final userNo = authProvider.userId;
     final productPrice = _currentPrice;
-
     await updateCart(userNo, widget.productNo, newQuantity,
         productPrice * newQuantity, context);
-
     setState(() {
       _currentQuantity = newQuantity;
     });

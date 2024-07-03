@@ -5,6 +5,7 @@ import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import '../Classes/Product/Products.dart';
+import '../provider/Cart_Provider.dart';
 import 'Widget/CartItemView.dart';
 import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
@@ -155,7 +156,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                       '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
                   markNo: products[i + 1].markNo,
                   colorNo: products[i + 1].colorNo,
-                  productNo: products[i].productNo),
+                  productNo: products[i + 1].productNo),
             ),
         ],
       );

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import '../Classes/Product/Products.dart';
@@ -62,11 +63,13 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     try {
-      final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileSearch.php?productName=$query'));
+      final response = await http.get(Uri.parse(
+          '${ApiEndpoints.localBaseUrl}/mobileSearch.php?productName=$query'));
 
       if (response.statusCode == 200) {
         List<dynamic> body = jsonDecode(response.body);
-        List<Product> products = body.map((dynamic item) => Product.fromJson(item)).toList();
+        List<Product> products =
+            body.map((dynamic item) => Product.fromJson(item)).toList();
         _updateSearchResults(products);
       } else {
         throw Exception('Failed to load products');
@@ -146,15 +149,22 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               if (_isLoading)
                 const Center(
-                  child: CircularProgressIndicator(color: tdBlack,),
+                  child: CircularProgressIndicator(
+                    color: tdBlack,
+                  ),
                 ),
               if (_hasError)
                 Center(
                   child: Column(
                     children: [
-                      Text('Something went wrong. Check your connection',style: TextStyle(
-                        fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold
-                      ),textAlign: TextAlign.center,),
+                      Text(
+                        'Something went wrong. Check your connection',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: tdGrey,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
                 ),
@@ -166,45 +176,53 @@ class _SearchPageState extends State<SearchPage> {
                     children: _searchResults.map((product) {
                       return Padding(
                         padding: const EdgeInsets.all(5).w,
-                        child: SizedBox(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 50.w,
-                                height: 50.h,
-                                child: CachedNetworkImage(
-                                  imageUrl: '${ApiEndpoints.localBaseUrl}/${product.productImage}',
-                                  placeholder: (context, url) =>
-                                      Image.asset('assets/log/LOGO-icon---Black.png'),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset('assets/log/LOGO-icon---Black.png'),
-                                  fit: BoxFit.cover,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.push('/itemDetailsView/${product.productNo}/${product.colorNo}/${product.markNo}');
+                          },
+                          child: SizedBox(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 50.w,
+                                  height: 50.h,
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        '${ApiEndpoints.localBaseUrl}/${product.productImage}',
+                                    placeholder: (context, url) => Image.asset(
+                                        'assets/log/LOGO-icon---Black.png'),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                            'assets/log/LOGO-icon---Black.png'),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      product.productName,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.bold,
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        product.productName,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 5.h),
-                                    Text(
-                                      '\$${product.price.toString()}',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.grey,
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                        '\$${product.price.toString()}',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.grey,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );

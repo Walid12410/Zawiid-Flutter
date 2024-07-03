@@ -28,7 +28,7 @@ class TicketPriceDetails extends StatelessWidget {
         ],
       ),
       child:  Center(
-        child: Text('${price.toStringAsFixed(2)}\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
+        child: Text('${price.toStringAsFixed(2)}KD TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
       ),
     );
   }

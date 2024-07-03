@@ -71,6 +71,14 @@ class ProductsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Product> _productByIdTicket = [];
+  List<Product> get productByIdTicket => _productByIdTicket;
+  getProductByIdTicket(int id) async {
+    final res = await fetchProductById(id);
+    _productByIdTicket = res;
+    notifyListeners();
+  }
+
   List<ProductDetails> _productDetailsById = [];
   List<ProductDetails> get productDetailsById => _productDetailsById;
   getProductDetailsById(int id) async {
@@ -98,7 +106,4 @@ class ProductsProvider with ChangeNotifier {
       throw Exception('Server Error');
     }
   }
-
-
-
 }

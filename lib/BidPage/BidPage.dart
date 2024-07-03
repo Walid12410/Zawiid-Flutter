@@ -37,8 +37,9 @@ class _BidPageState extends State<BidPage> {
     final productById = Provider.of<ProductsProvider>(context, listen: false);
     final colorById = Provider.of<MarkColorProvider>(context, listen: false);
     final bidProvider = Provider.of<BidProvider>(context, listen: false);
+    await bidProvider.getLatestBid(widget.bidNo);
     await productById.getProductById(widget.productNo);
-    await colorById.getColorById(widget.colorNo);
+    await colorById.getColorByIdBid(widget.colorNo);
     await bidProvider.getBidById(widget.bidNo);
   }
 
@@ -61,7 +62,7 @@ class _BidPageState extends State<BidPage> {
                   'Something went wrong, check you connection.',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15.sp,
+                    fontSize: 12.sp,
                     color: tdGrey,
                   ),
                   textAlign: TextAlign.center,

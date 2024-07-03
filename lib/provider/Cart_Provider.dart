@@ -19,18 +19,16 @@ class CartProvider with ChangeNotifier {
     var cartItem = _cartUser.firstWhere(
           (cart) => cart.userNo == userNo && cart.productNo == productNo
     );
-    if (cartItem != null) {
-      cartItem.productCartQty = quantity;
-      cartItem.productCartPrice = (price / quantity).toString();
-      notifyListeners();
+    cartItem.productCartQty = quantity;
+    cartItem.productCartPrice = (price / quantity).toString();
+    notifyListeners();
     }
-  }
 
   double get totalPrice {
     double total = 0.0;
-    _cartUser.forEach((cart) {
-      total += double.parse(cart.productCartPrice) * cart.productCartQty;
-    });
+    for (var cart in _cartUser) {
+      total += double.parse(cart.productCartPrice);
+    }
     return total;
   }
 

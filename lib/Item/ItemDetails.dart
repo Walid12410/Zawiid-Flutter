@@ -32,32 +32,36 @@ class ItemDetailsPage extends StatefulWidget {
 }
 
 class _ItemDetailsPageState extends State<ItemDetailsPage> {
-  late Future<void> _productFuture;
 
   @override
   void initState() {
     super.initState();
-    _productFuture = _fetchProductDetails();
-  }
-
-  Future<void> _fetchProductDetails() async {
-    final productsProvider =
-        Provider.of<ProductsProvider>(context, listen: false);
-    final colorMarkProvider =
-        Provider.of<MarkColorProvider>(context, listen: false);
-    final cartView = Provider.of<CartProvider>(context, listen: false);
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-    await productsProvider.getProductById(widget.productNo);
-    await productsProvider.getProductDetailsById(widget.productNo);
-    await colorMarkProvider.getColorById(widget.colorNo);
-    await colorMarkProvider.getMarkById(widget.markNo);
-    await cartView.getIfCartIsAdded(auth.userId, widget.productNo);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
+      final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
+      final cartView = Provider.of<CartProvider>(context, listen: false);
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+      productsProvider.getProductById(widget.productNo);
+      productsProvider.getProductDetailsById(widget.productNo);
+      colorMarkProvider.getColorById(widget.colorNo);
+      colorMarkProvider.getMarkById(widget.markNo);
+      cartView.getIfCartIsAdded(auth.userId, widget.productNo);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final productsProvider = Provider.of<ProductsProvider>(context);
+    final productsProvider = Provider.of<ProductsProvider>(context, listen: true);
     var product = productsProvider.productById;
+
+    if (product.isEmpty || product[0].productNo != widget.productNo) {
+      return Center(
+          child: Text(
+        'Something went wrong, check your connection',
+        style: TextStyle(
+            fontSize: 12.sp, color: tdGrey, fontWeight: FontWeight.bold),
+      ));
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -65,87 +69,44 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           child: Column(
             children: [
               const ItemDetailsHead(),
-              FutureBuilder<void>(
-                future: _productFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: tdBlack,
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 150.h),
-                        Center(
-                          child: Text(
-                            'Something went wrong, check your connection',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.sp,
-                              color: Colors.grey,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    );
-                  } else if (product.isEmpty ||
-                      product[0].productNo != widget.productNo) {
-                    return Center(
-                      child: Text(
-                        'No product details available.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp,
-                          color: Colors.grey,
+              Padding(
+                padding: const EdgeInsets.all(8).w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        width: 210.w,
+                        height: 250.h,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
+                          placeholder: (context, url) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
                         ),
                       ),
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.all(8).w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: SizedBox(
-                              width: 210.w,
-                              height: 250.h,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
-                                placeholder: (context, url) => Image.asset(
-                                    'assets/log/LOGO-icon---Black.png'),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                        'assets/log/LOGO-icon---Black.png'),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          const ItemTitle(),
-                          SizedBox(height: 10.h),
-                          const ItemPrice(),
-                          SizedBox(height: 10.h),
-                          ItemBottoms(
-                            productNo: product[0].productNo,
-                            productPrice: product[0].price,
-                            productSalePrice: product[0].discountedPrice,
-                          ),
-                          SizedBox(height: 10.h),
-                          const ItemDetail(),
-                          SizedBox(height: 10.h),
-                          const ItemShipping(),
-                          SizedBox(height: 10.h),
-                        ],
-                      ),
-                    );
-                  }
-                },
-              ),
+                    ),
+                    SizedBox(height: 10.h),
+                    const ItemTitle(),
+                    SizedBox(height: 10.h),
+                    const ItemPrice(),
+                    SizedBox(height: 10.h),
+                    ItemBottoms(
+                      productNo: product[0].productNo,
+                      productPrice: product[0].price,
+                      productSalePrice: product[0].discountedPrice,
+                    ),
+                    SizedBox(height: 10.h),
+                    const ItemDetail(),
+                    SizedBox(height: 10.h),
+                    const ItemShipping(),
+                    SizedBox(height: 10.h),
+                  ],
+                ),
+              )
             ],
           ),
         ),

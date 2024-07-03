@@ -15,7 +15,7 @@ class TicketDetailsText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Buy a ${price.toStringAsFixed(2)}\$ ticket and enter',
+          'Buy a ${price.toStringAsFixed(2)}KD ticket and enter',
           style: TextStyle(
             fontSize: 12.sp,
             color: tdGrey,

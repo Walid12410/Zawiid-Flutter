@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 import '../../Color&Icons/color.dart';
+import '../../provider/Cart_Provider.dart';
 
 class ItemSearchBar extends StatelessWidget {
   const ItemSearchBar({
@@ -13,6 +15,9 @@ class ItemSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context, listen: true);
+    var cartLength = cart.cartUser;
+
     return Padding(
       padding: const EdgeInsets.only(left: 5, right: 8).w,
       child: Row(
@@ -25,7 +30,7 @@ class ItemSearchBar extends StatelessWidget {
             },
             child: badges.Badge(
               badgeContent: Text(
-                '8',
+                '0',
                 style: TextStyle(color: tdWhite, fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
@@ -93,8 +98,8 @@ class ItemSearchBar extends StatelessWidget {
             },
             child: badges.Badge(
               badgeContent: Text(
-                '3',
-                style: TextStyle(color: tdWhite, fontSize: 8.sp),
+              '${cartLength.length}',
+                style: TextStyle(color: tdWhite, fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
               position: badges.BadgePosition.custom(bottom: -7,end: -5),
