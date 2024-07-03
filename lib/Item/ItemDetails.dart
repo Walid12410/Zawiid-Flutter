@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'Widget/ItemBottoms.dart';
@@ -30,63 +32,32 @@ class ItemDetailsPage extends StatefulWidget {
 }
 
 class _ItemDetailsPageState extends State<ItemDetailsPage> {
-  bool _isLoading = true;
-  String? _errorMessage;
+  late Future<void> _productFuture;
 
   @override
   void initState() {
     super.initState();
-    _fetchProductDetails();
-  }
-
-  @override
-  void didUpdateWidget(covariant ItemDetailsPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.productNo != widget.productNo ||
-        oldWidget.colorNo != widget.colorNo ||
-        oldWidget.markNo != widget.markNo) {
-      _fetchProductDetails();
-    }
+    _productFuture = _fetchProductDetails();
   }
 
   Future<void> _fetchProductDetails() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    try {
-      final productsProvider =
-          Provider.of<ProductsProvider>(context, listen: false);
-      final colorMarkProvider =
-          Provider.of<MarkColorProvider>(context, listen: false);
-      await productsProvider.getProductById(widget.productNo);
-      await productsProvider.getProductDetailsById(widget.productNo);
-      await colorMarkProvider.getColorById(widget.colorNo);
-      await colorMarkProvider.getMarkById(widget.markNo);
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Something went wrong, check your connection.';
-      });
-    }
+    final productsProvider =
+        Provider.of<ProductsProvider>(context, listen: false);
+    final colorMarkProvider =
+        Provider.of<MarkColorProvider>(context, listen: false);
+    final cartView = Provider.of<CartProvider>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    await productsProvider.getProductById(widget.productNo);
+    await productsProvider.getProductDetailsById(widget.productNo);
+    await colorMarkProvider.getColorById(widget.colorNo);
+    await colorMarkProvider.getMarkById(widget.markNo);
+    await cartView.getIfCartIsAdded(auth.userId, widget.productNo);
   }
 
   @override
   Widget build(BuildContext context) {
-    final productsProvider = Provider.of<ProductsProvider>(context, listen: true);
+    final productsProvider = Provider.of<ProductsProvider>(context);
     var product = productsProvider.productById;
-
-    if (product.isEmpty || product[0].productNo != widget.productNo) {
-      return const Center(
-        child: CircularProgressIndicator(
-          color: tdBlack,
-        ),
-      );
-    }
 
     return Scaffold(
       body: SafeArea(
@@ -94,74 +65,87 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           child: Column(
             children: [
               const ItemDetailsHead(),
-              if (_isLoading)
-                const Center(
-                    child: CircularProgressIndicator(
-                  color: tdBlack,
-                ))
-              else if (_errorMessage != null)
-                Column(
-                  children: [
-                    SizedBox(height: 150.h),
-                    Center(
+              FutureBuilder<void>(
+                future: _productFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: tdBlack,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 150.h),
+                        Center(
+                          child: Text(
+                            'Something went wrong, check your connection',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.sp,
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else if (product.isEmpty ||
+                      product[0].productNo != widget.productNo) {
+                    return Center(
                       child: Text(
-                        _errorMessage!,
+                        'No product details available.',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15.sp,
                           color: Colors.grey,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ],
-                )
-              else if (product.isEmpty ||
-                  product[0].productNo != widget.productNo)
-                Center(
-                  child: Text(
-                    'No product details available.',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.sp,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.all(8).w,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: SizedBox(
-                        width: 210.w,
-                        height: 250.h,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
-                          placeholder: (context, url) =>
-                              Image.asset('assets/log/LOGO-icon---Black.png'),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/log/LOGO-icon---Black.png'),
-                        ),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.all(8).w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: SizedBox(
+                              width: 210.w,
+                              height: 250.h,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
+                                placeholder: (context, url) => Image.asset(
+                                    'assets/log/LOGO-icon---Black.png'),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                        'assets/log/LOGO-icon---Black.png'),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          const ItemTitle(),
+                          SizedBox(height: 10.h),
+                          const ItemPrice(),
+                          SizedBox(height: 10.h),
+                          ItemBottoms(
+                            productNo: product[0].productNo,
+                            productPrice: product[0].price,
+                            productSalePrice: product[0].discountedPrice,
+                          ),
+                          SizedBox(height: 10.h),
+                          const ItemDetail(),
+                          SizedBox(height: 10.h),
+                          const ItemShipping(),
+                          SizedBox(height: 10.h),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 10.h),
-                    const ItemTitle(),
-                    SizedBox(height: 10.h),
-                    const ItemPrice(),
-                    SizedBox(height: 10.h),
-                    const ItemBottoms(),
-                    SizedBox(height: 10.h),
-                    const ItemDetail(),
-                    SizedBox(height: 10.h),
-                    const ItemShipping(),
-                    SizedBox(height: 10.h),
-                  ],
-                ),
-              )
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

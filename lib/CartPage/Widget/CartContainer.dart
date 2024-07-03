@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
-import '../../ApiService/CartService/UpdateCart.dart';
+import '../../ApiService/CartService/UpdateCartApi.dart';
 import '../../Classes/Product/Products.dart';
 import '../../provider/Auth_Provider.dart';
 
@@ -38,12 +38,15 @@ class _CartContainerState extends State<CartContainer> {
   }
 
   Future<void> _fetchProductDetails() async {
-    final productProvider = Provider.of<ProductsProvider>(context, listen: false);
-    List<Product> products = await productProvider.getProductOfCartByUserId(widget.productNo);
+    final productProvider =
+        Provider.of<ProductsProvider>(context, listen: false);
+    List<Product> products =
+        await productProvider.getProductOfCartByUserId(widget.productNo);
     if (products.isNotEmpty) {
       setState(() {
         _product = products[0];
-        _currentPrice = _calculateProductPrice(_product!); // Ensure _product is not null
+        _currentPrice =
+            _calculateProductPrice(_product!); // Ensure _product is not null
       });
     }
   }
@@ -63,7 +66,8 @@ class _CartContainerState extends State<CartContainer> {
     final userNo = authProvider.userId;
     final productPrice = _currentPrice;
 
-    await updateCart(userNo, widget.productNo, newQuantity, productPrice * newQuantity, context);
+    await updateCart(userNo, widget.productNo, newQuantity,
+        productPrice * newQuantity, context);
 
     setState(() {
       _currentQuantity = newQuantity;
@@ -73,7 +77,7 @@ class _CartContainerState extends State<CartContainer> {
   @override
   Widget build(BuildContext context) {
     if (_product == null) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: Container());
     }
 
     return Padding(
@@ -94,9 +98,12 @@ class _CartContainerState extends State<CartContainer> {
                         width: 70.w,
                         height: 90.h,
                         child: CachedNetworkImage(
-                          imageUrl: '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
-                          placeholder: (context, url) => Image.asset('assets/log/LOGO-icon---Black.png'),
-                          errorWidget: (context, url, error) => Image.asset('assets/log/LOGO-icon---Black.png'),
+                          imageUrl:
+                              '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
+                          placeholder: (context, url) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -175,7 +182,10 @@ class _CartContainerState extends State<CartContainer> {
                         ),
                         Text(
                           '$_currentQuantity',
-                          style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 10.sp),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tdBlack,
+                              fontSize: 10.sp),
                         ),
                         GestureDetector(
                           onTap: () {

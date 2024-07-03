@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:zawiid/ApiService/CartService/Cart.dart';
+import 'package:zawiid/ApiService/CartService/CartApi.dart';
+import 'package:zawiid/ApiService/CartService/CheckProductApi.dart';
 import 'package:zawiid/Classes/Cart/Cart.dart';
 
 
@@ -13,15 +14,52 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
   void updateCartItem(int userNo, int productNo, int quantity, double price) {
     var cartItem = _cartUser.firstWhere(
           (cart) => cart.userNo == userNo && cart.productNo == productNo
     );
     if (cartItem != null) {
       cartItem.productCartQty = quantity;
-      cartItem.productCartPrice = price.toString();
+      cartItem.productCartPrice = (price / quantity).toString();
       notifyListeners();
     }
+  }
+
+  double get totalPrice {
+    double total = 0.0;
+    _cartUser.forEach((cart) {
+      total += double.parse(cart.productCartPrice) * cart.productCartQty;
+    });
+    return total;
+  }
+
+  List<Cart> _viewCartFound = [];
+  List<Cart> get viewCartFound => _viewCartFound;
+  getIfCartIsAdded(int userId,int productNo) async {
+    final res = await fetchProductCartFound(userId, productNo);
+    _viewCartFound = res;
+    notifyListeners();
+  }
+
+  void removeFromCart(int id) {
+    _cartUser.removeWhere((cart) => cart.productNo == id);
+    notifyListeners();
+  }
+
+  void addToCart(int userNo,int productNo, int quantity,String price){
+    _cartUser.add(Cart(
+      userNo: userNo,
+      productNo: productNo,
+      productCartQty: quantity,
+      productCartPrice: price.toString(),
+    ));
+    notifyListeners();
+  }
+
+  void clearCart(){
+    _cartUser.clear();
+    notifyListeners();
   }
 
 }

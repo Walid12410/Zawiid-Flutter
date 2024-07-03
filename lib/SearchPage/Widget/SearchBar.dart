@@ -3,9 +3,11 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/HomePage/Homepage.dart';
 import '../../Classes/Product/Products.dart';
 import '../../Color&Icons/color.dart';
+import '../../provider/Cart_Provider.dart';
 
 class SearchBarText extends StatelessWidget {
   const SearchBarText({
@@ -30,6 +32,9 @@ class SearchBarText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context, listen: true);
+    var cartLength = cart.cartUser;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +45,7 @@ class SearchBarText extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent: Text(
-              '8',
+              '0',
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
@@ -134,7 +139,7 @@ class SearchBarText extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent: Text(
-              '3',
+              '${cartLength.length}',
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),

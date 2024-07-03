@@ -3,16 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class TicketDetailsText extends StatelessWidget {
-  const TicketDetailsText({super.key});
+  const TicketDetailsText({super.key,required this.ticketPrice});
 
+  final String ticketPrice;
   @override
   Widget build(BuildContext context) {
+    double price = double.parse(ticketPrice);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Buy a 1\$ ticket and enter',
+          'Buy a ${price.toStringAsFixed(2)}\$ ticket and enter',
           style: TextStyle(
             fontSize: 12.sp,
             color: tdGrey,

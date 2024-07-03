@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import '../ApiEndPoint.dart';
 import '../Drawer/DrawerPage.dart';
+import '../provider/Cart_Provider.dart';
 import '../provider/Categories_Provider.dart';
 import 'Widget/FeaturedProduct.dart';
 import 'Widget/OpeningImage.dart';
@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final productProvider = Provider.of<ProductsProvider>(context, listen: false);
+    await Provider.of<CartProvider>(context, listen: false).getAllCartOfUser(authProvider.userId);
     await categoryProvider.getCategory();
     await userProvider.getUserInfo(authProvider.userId);
     await productProvider.getAllFeaturedProduct();

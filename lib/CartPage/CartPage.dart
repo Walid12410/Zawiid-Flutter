@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
-import 'package:zawiid/provider/Products_Provider.dart';
-
+import '../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../provider/Auth_Provider.dart';
 import 'Widget/CartContainer.dart';
 import 'Widget/CartPageHead.dart';
@@ -28,10 +27,121 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
+  void _showClearCartDialog(BuildContext context, int userID) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25).w,
+          ),
+          backgroundColor: tdWhite,
+          surfaceTintColor: tdWhite,
+          content: SizedBox(
+            height: 75.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                    child: Text(
+                  'Are you sure you want',
+                  style: TextStyle(
+                      fontSize: 10.sp,
+                      color: tdBlack,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                )),
+                Center(
+                    child: Text(
+                  'to clear your cart ?',
+                  style: TextStyle(
+                      fontSize: 10.sp,
+                      color: tdBlack,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                )),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await deleteAllCartItemsByUserNo(userID, context);
+                        context.pop();
+                      },
+                      child: Container(
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200).w,
+                          color: tdWhite,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8).w,
+                          child: Center(
+                            child: Text(
+                              'YES',
+                              style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: tdBlack,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: Container(
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200).w,
+                          color: tdBlack,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8).w,
+                          child: Center(
+                            child: Text(
+                              'NO',
+                              style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: tdWhite,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
     var cartItem = cartProvider.cartUser;
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -46,29 +156,46 @@ class _CartPageState extends State<CartPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Clear Cart',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: tdBlack,
-                          fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        cartItem.isNotEmpty? _showClearCartDialog(context, authProvider.userId) : null;
+                      },
+                      child: Text(
+                        'Clear Cart',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: tdBlack,
+                            fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: cartItem.length,
-                itemBuilder: (context, index) {
-                  var cart = cartItem[index];
-                  return CartContainer(
-                    productNo: cart.productNo,
-                    productCartPrice: cart.productCartPrice,
-                    cartQuantity: cart.productCartQty,
-                  );
-                },
-              ),
+              cartItem.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cartItem.length,
+                      itemBuilder: (context, index) {
+                        var cart = cartItem[index];
+                        return CartContainer(
+                          productNo: cart.productNo,
+                          productCartPrice: cart.productCartPrice,
+                          cartQuantity: cart.productCartQty,
+                        );
+                      },
+                    )
+                  : Column(
+                    children: [
+                      SizedBox(height: 200.h),
+                      Center(
+                          child: Text(
+                            'Your cart is empty!',
+                            style: TextStyle(fontSize: 12.sp, color: tdGrey),textAlign: TextAlign.center,
+                          ),
+                        ),
+                    ],
+                  )
             ],
           ),
         ),
@@ -104,7 +231,7 @@ class _CartPageState extends State<CartPage> {
                           style: TextStyle(color: tdBlack, fontSize: 12.sp),
                         ),
                         Text(
-                          '00.00 KWD',
+                          '${cartProvider.totalPrice.toStringAsFixed(2)} KD',
                           style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
@@ -136,7 +263,7 @@ class _CartPageState extends State<CartPage> {
                           style: TextStyle(color: tdBlack, fontSize: 12.sp),
                         ),
                         Text(
-                          '00.00 KWD',
+                          '${cartProvider.totalPrice.toStringAsFixed(2)} KD',
                           style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.bold,

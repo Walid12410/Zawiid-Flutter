@@ -63,7 +63,7 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
               'Something went wrong, check your connection.',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
+                fontSize: 12.sp,
                 color: tdGrey,
               ),
               textAlign: TextAlign.center,

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 
 import '../../Color&Icons/color.dart';
+import '../../provider/Cart_Provider.dart';
 class ItemDetailsHead extends StatelessWidget {
   const ItemDetailsHead({
     super.key,
@@ -12,6 +14,9 @@ class ItemDetailsHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context, listen: true);
+    var cartLength = cart.cartUser;
+
     return Padding(
       padding:const EdgeInsets.only(right: 15,left: 12,top: 15).w,
       child: Row(
@@ -33,11 +38,11 @@ class ItemDetailsHead extends StatelessWidget {
             },
             child: badges.Badge(
               badgeContent: Text(
-                '3',
+               '${cartLength.length}',
                 style: TextStyle(color: tdWhite,fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-              position: badges.BadgePosition.bottomEnd(),
+              position: badges.BadgePosition.custom(bottom: -7, end: -5),
               child: Image.asset(
                 'assets/svg/cart.png',
                 width: 25.w,

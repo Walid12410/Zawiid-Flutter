@@ -3,6 +3,8 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:zawiid/provider/Cart_Provider.dart';
 import '../../Color&Icons/color.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -12,6 +14,9 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context, listen: true);
+    var cartLength = cart.cartUser;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -22,7 +27,7 @@ class CustomNavigationBar extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent: Text(
-              '8',
+              '0',
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
@@ -127,7 +132,7 @@ class CustomNavigationBar extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent: Text(
-              '0',
+              '${cartLength.length}',
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),

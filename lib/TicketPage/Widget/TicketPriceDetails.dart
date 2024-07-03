@@ -12,6 +12,7 @@ class TicketPriceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double price = double.parse(ticketPrice);
     return Container(
       width: 200.w,
       height: 30.h,
@@ -27,7 +28,7 @@ class TicketPriceDetails extends StatelessWidget {
         ],
       ),
       child:  Center(
-        child: Text('$ticketPrice\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
+        child: Text('${price.toStringAsFixed(2)}\$ TICKET',style: TextStyle(color: tdGrey,fontSize: 14.sp,fontWeight: FontWeight.bold),),
       ),
     );
   }

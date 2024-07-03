@@ -123,7 +123,7 @@ class _TicketMainState extends State<TicketMain> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  const TicketDetailsText(),
+                   TicketDetailsText(ticketPrice: latestStartedTicket.ticketPrice,),
                   SizedBox(
                     height: 15.h,
                   ),
