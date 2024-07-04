@@ -50,6 +50,7 @@ class TopRatedPageView extends StatelessWidget {
                 productPrice: productTopRated[productIndex].price,
                 markNo: productTopRated[productIndex].markNo,
                 colorNo: productTopRated[productIndex].colorNo,
+                productSalePrice: productTopRated[productIndex].discountedPrice,
               );
             } else {
               return const SizedBox();

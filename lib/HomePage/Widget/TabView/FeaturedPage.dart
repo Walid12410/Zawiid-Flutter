@@ -55,6 +55,7 @@ class FeaturedPageView extends StatelessWidget {
                 productPrice: products[0].price,
                 markNo: products[0].markNo,
                 colorNo: products[0].colorNo,
+                productSalePrice: products[0].discountedPrice,
               ),
             ),
           );

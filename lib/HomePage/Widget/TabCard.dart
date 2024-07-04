@@ -4,18 +4,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import '../../ApiService/CartService/AddCart.dart';
+import '../../ApiService/CartService/DeleteFromCartApi.dart';
+import '../../provider/Auth_Provider.dart';
+import 'package:provider/provider.dart';
 
-class TabCard extends StatelessWidget {
-  const TabCard({
-    super.key,
-    required this.productNo,
-    required this.productName,
-    required this.productDesc,
-    required this.productImage,
-    required this.productPrice,
-    required this.markNo,
-    required this.colorNo
-  });
+import '../../provider/Cart_Provider.dart';
+
+class TabCard extends StatefulWidget {
+  const TabCard(
+      {super.key,
+      required this.productNo,
+      required this.productName,
+      required this.productDesc,
+      required this.productImage,
+      required this.productPrice,
+      required this.markNo,
+      required this.colorNo,
+      required this.productSalePrice});
 
   final int productNo;
   final String productName;
@@ -24,15 +30,68 @@ class TabCard extends StatelessWidget {
   final String productPrice;
   final int markNo;
   final int colorNo;
+  final String productSalePrice;
+
+  @override
+  _TabCardState createState() => _TabCardState();
+}
+
+class _TabCardState extends State<TabCard> {
+  Future<void> _toggleCart() async {
+    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
+    if (userID == 0) {
+      return;
+    }
+
+    try {
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      final isProductInCart = cartProvider.cartUser.any((cartItem) =>
+          cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+
+      if (isProductInCart) {
+        await deleteCartItem(
+            userNo: userID, productNo: widget.productNo, context: context);
+        _showSnackBar('Item removed from cart');
+      } else {
+        await addCartItem(
+          userNo: userID,
+          productNo: widget.productNo,
+          productCartQty: 1,
+          productCartPrice: double.parse(widget.productSalePrice) > 0.0
+              ? double.parse(widget.productSalePrice)
+              : double.parse(widget.productPrice),
+          context: context,
+        );
+        _showSnackBar('Item added to cart');
+      }
+      cartProvider.getAllCartOfUser(userID);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: tdBlack,
+        content: Text(
+          message,
+          style: TextStyle(
+              fontSize: 10.sp, fontWeight: FontWeight.bold, color: tdWhite),
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        GoRouter.of(context).goNamed('itemDetails',pathParameters: {
-          'itemNo': productNo.toString(),
-          'colorNo': colorNo.toString(),
-          'markNo' : markNo.toString()
+      onTap: () {
+        GoRouter.of(context).goNamed('itemDetails', pathParameters: {
+          'itemNo': widget.productNo.toString(),
+          'colorNo': widget.colorNo.toString(),
+          'markNo': widget.markNo.toString(),
         });
       },
       child: Padding(
@@ -60,9 +119,8 @@ class TabCard extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  '$productName $productDesc',
-                  style: TextStyle(
-                      fontSize: 8.sp, color: Colors.black),
+                  '${widget.productName} ${widget.productDesc}',
+                  style: TextStyle(fontSize: 8.sp, color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
@@ -73,7 +131,7 @@ class TabCard extends StatelessWidget {
                     width: 100.w,
                     height: 130.h,
                     child: CachedNetworkImage(
-                      imageUrl: productImage,
+                      imageUrl: widget.productImage,
                       placeholder: (context, url) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
@@ -88,17 +146,22 @@ class TabCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$productPrice KD',
+                      '${widget.productPrice} KD',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 2.w,),
-                    SvgPicture.asset(
-                      'assets/svg/buy.svg',
-                      width: 27.w,
-                      fit: BoxFit.fill,
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    GestureDetector(
+                      onTap: _toggleCart,
+                      child: SvgPicture.asset(
+                        'assets/svg/buy.svg',
+                        width: 27.w,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                     const SizedBox(),
                   ],

@@ -40,7 +40,7 @@ class _CartPageState extends State<CartPage> {
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
           content: SizedBox(
-            height: 75.h,
+            height: 90.h,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

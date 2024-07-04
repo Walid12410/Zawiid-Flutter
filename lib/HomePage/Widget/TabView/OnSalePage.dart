@@ -50,6 +50,7 @@ class OnSalePageView extends StatelessWidget {
                 productPrice: onSaleProduct[productIndex].price,
                 markNo: onSaleProduct[productIndex].markNo,
                 colorNo: onSaleProduct[productIndex].colorNo,
+                productSalePrice: onSaleProduct[productIndex].discountedPrice,
               );
             } else {
               return const SizedBox();

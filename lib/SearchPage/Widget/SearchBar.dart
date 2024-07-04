@@ -75,17 +75,17 @@ class SearchBarText extends StatelessWidget {
                     bottomLeft: Radius.circular(50),
                   ).w,
                 ),
-                child: TextField(
-                  controller: controller,
-                  focusNode: _focusNode,
-                  style: TextStyle(fontSize: 9.sp,color: tdBlack),
-                  decoration: InputDecoration(
-                    hintText: 'Search for products',
-                    hintStyle: TextStyle(fontSize: 7.sp, color: tdGrey),
-                    border: InputBorder.none,
-                    contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 12)
-                        .w,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5,left: 7).w,
+                  child: TextField(
+                    controller: controller,
+                    focusNode: _focusNode,
+                    style: TextStyle(fontSize: 9.sp,color: tdBlack),
+                    decoration: InputDecoration(
+                      hintText: 'Search for products',
+                      hintStyle: TextStyle(fontSize: 7.sp, color: tdGrey),
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ),
