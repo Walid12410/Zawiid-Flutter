@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
@@ -37,10 +38,12 @@ class _BidPageState extends State<BidPage> {
     final productById = Provider.of<ProductsProvider>(context, listen: false);
     final colorById = Provider.of<MarkColorProvider>(context, listen: false);
     final bidProvider = Provider.of<BidProvider>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
     await bidProvider.getLatestBid(widget.bidNo);
     await productById.getProductById(widget.productNo);
     await colorById.getColorByIdBid(widget.colorNo);
     await bidProvider.getBidById(widget.bidNo);
+    await bidProvider.getLatestUserBid(auth.userId, widget.bidNo);
   }
 
   @override

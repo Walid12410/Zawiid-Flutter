@@ -6,6 +6,8 @@ import 'package:zawiid/Classes/Bid/BIdZawid.dart';
 import 'package:zawiid/Classes/Bid/Bid.dart';
 import 'package:zawiid/Classes/Bid/bidProduct.dart';
 
+import '../ApiService/Bid/UserLatestBid.dart';
+
 
 class BidProvider with ChangeNotifier {
 
@@ -30,6 +32,14 @@ class BidProvider with ChangeNotifier {
   getLatestBid(int id) async {
     final res = await fetchLatestBid(id);
     _latestBid = res ;
+    notifyListeners();
+  }
+
+  List<BidZawid> _latestUserBid = [];
+  List<BidZawid> get latestUserBid => _latestUserBid;
+  getLatestUserBid(int userNo , int bidNo) async {
+    final res = await fetchLatestUserBid(userNo,bidNo);
+    _latestUserBid = res ;
     notifyListeners();
   }
 
