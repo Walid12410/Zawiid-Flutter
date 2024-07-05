@@ -64,11 +64,10 @@ class _CartContainerState extends State<CartContainer> {
 
   Future<void> _updateCart(int newQuantity) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final userNo = authProvider.userId;
     final productPrice = _currentPrice;
     await updateCart(userNo, widget.productNo, newQuantity,
-        productPrice * newQuantity, context);
+        productPrice, context);
     setState(() {
       _currentQuantity = newQuantity;
     });

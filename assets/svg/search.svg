@@ -1,30 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="49" height="49" viewBox="0 0 49 49">
-  <defs>
-    <filter id="Ellipse_145" x="0" y="0" width="49" height="49" filterUnits="userSpaceOnUse">
-      <feOffset dy="3" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feFlood flood-opacity="0.161"/>
-      <feComposite operator="in" in2="blur"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-    <filter id="Ellipse_145-2" x="0" y="0" width="49" height="49" filterUnits="userSpaceOnUse">
-      <feOffset dy="3" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="3" result="blur-2"/>
-      <feFlood flood-opacity="0.161" result="color"/>
-      <feComposite operator="out" in="SourceGraphic" in2="blur-2"/>
-      <feComposite operator="in" in="color"/>
-      <feComposite operator="in" in2="SourceGraphic"/>
-    </filter>
-  </defs>
-  <g id="Group_343" data-name="Group 343" transform="translate(9.218 6)">
-    <g data-type="innerShadowGroup">
-      <g transform="matrix(1, 0, 0, 1, -9.22, -6)" filter="url(#Ellipse_145)">
-        <circle id="Ellipse_145-3" data-name="Ellipse 145" cx="15.5" cy="15.5" r="15.5" transform="translate(9 6)" fill="#fff"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -9.22, -6)" filter="url(#Ellipse_145-2)">
-        <circle id="Ellipse_145-4" data-name="Ellipse 145" cx="15.5" cy="15.5" r="15.5" transform="translate(9 6)" fill="#fff"/>
-      </g>
-    </g>
-    <path id="Path_180" data-name="Path 180" d="M6.5,0,0,6.04l6.5,6.04" transform="translate(9.435 20.028) rotate(-90)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-  </g>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 330 330" xml:space="preserve">
+<path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
+	c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
+	s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"/>
 </svg>

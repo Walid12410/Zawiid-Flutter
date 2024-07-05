@@ -76,11 +76,11 @@ class SearchBarText extends StatelessWidget {
                   ).w,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 5,left: 7).w,
+                  padding: const EdgeInsets.only(bottom: 7, left: 7).w,
                   child: TextField(
                     controller: controller,
                     focusNode: _focusNode,
-                    style: TextStyle(fontSize: 9.sp,color: tdBlack),
+                    style: TextStyle(fontSize: 9.sp, color: tdBlack),
                     decoration: InputDecoration(
                       hintText: 'Search for products',
                       hintStyle: TextStyle(fontSize: 7.sp, color: tdGrey),
@@ -104,26 +104,35 @@ class SearchBarText extends StatelessWidget {
                   ),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4).w,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
+                              .w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(width: 10.w),
+                          SizedBox(width: 5.w),
                           Text(
                             'All Categories',
                             style: TextStyle(fontSize: 9.sp, color: tdWhite),
                           ),
                           SizedBox(
-                            width: 5.w,
+                            width: 10.w,
                           ),
-                          SizedBox(
-                              height: 30.h,
-                              width: 30.w,
+                          Container(
+                              height: 20.h,
+                              width: 20.w,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: tdWhite,
+                              ),
                               child: Center(
                                   child: SvgPicture.asset(
-                                    'assets/svg/search.svg',
-                                    fit: BoxFit.cover,
-                                  ))),
+                                'assets/svg/search.svg',
+                                width: 10.w,
+                                height: 10.h,
+                                fit: BoxFit.contain,
+                                color: tdBlack,
+                              ))),
                         ],
                       ),
                     ),

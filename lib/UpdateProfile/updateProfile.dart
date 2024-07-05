@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/ApiService/UserInformationService/UpdateProfileApi.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import 'Widget/UpdateProfileHead.dart';
@@ -18,8 +19,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
   bool _isChecked = false;
   String? selectedGovernorate;
   String? selectedArea;
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
   TextEditingController birthDateController = TextEditingController();
 
   @override
@@ -28,27 +29,36 @@ class _UpdateProfileState extends State<UpdateProfile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<GovAreaProvider>(context, listen: false).getAllGov();
     });
+    fetchUserData();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  Future<void> fetchUserData() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final govArea = Provider.of<GovAreaProvider>(context, listen: false);
+
     if (userProvider.userInfo.isNotEmpty) {
       var user = userProvider.userInfo.first;
-      firstNameController.text = user.firstName;
-      lastNameController.text = user.lastName;
-      if (user.birthDate?.date != null) {
-        birthDateController.text =
-            "${user.birthDate?.date?.year}-${user.birthDate?.date?.month.toString().padLeft(2, '0')}-${user.birthDate?.date?.day.toString().padLeft(2, '0')}";
-      }
+      setState(() {
+        firstNameController = TextEditingController(text: user.firstName);
+        lastNameController = TextEditingController(text: user.lastName);
+        if (user.birthDate?.date != null) {
+          birthDateController.text = user.birthDate != null
+              ? "${user.birthDate!.date!.year}-${user.birthDate!.date!.month.toString().padLeft(2, '0')}-${user.birthDate!.date!.day.toString().padLeft(2, '0')}"
+              : '';
+        }
+        if (user.gender == 'male') {
+          _isChecked = true;
+        } else {
+          _isChecked = false;
+        }
+      });
       if (user.govNo != 0) {
         selectedGovernorate = user.govNo.toString();
+        selectedArea = null;
+        govArea.getAllArea();
       }
-      if (user.gender == 'male') {
-        _isChecked = true;
-      } else {
-        _isChecked = false;
+      if (user.areaNo != 0) {
+        selectedArea = user.areaNo.toString();
       }
     }
   }
@@ -56,6 +66,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GovAreaProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -272,9 +283,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   Text(
                                     'Male',
                                     style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: tdBlack,
-                                        fontWeight: FontWeight.w500),
+                                        fontSize: 12.sp, color: tdBlack),
                                   )
                                 ],
                               ),
@@ -319,33 +328,34 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   Text(
                                     'Female',
                                     style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: tdBlack,
-                                        fontWeight: FontWeight.w500),
+                                        fontSize: 12.sp, color: tdBlack),
                                   )
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(),
                       ],
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(
+                      height: 10.h,
+                    ),
                     Text(
                       'Select Governorate',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: tdBlack,
-                          fontSize: 12.sp),
+                          fontSize: 12.sp,
+                          color: tdBlack),
                     ),
-                    SizedBox(height: 5.h),
+                    SizedBox(
+                      height: 5.h,
+                    ),
                     Container(
-                      width: double.infinity,
                       height: 40.h,
+                      width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5).w,
                         color: tdWhite,
+                        borderRadius: BorderRadius.circular(5).w,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -354,57 +364,55 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5).w,
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            hint: Text(
-                              'Select Governorate',
-                              style: TextStyle(fontSize: 12.sp, color: tdBlack),
-                            ),
-                            value: selectedGovernorate,
-                            items: provider.gov.map((gov) {
-                              return DropdownMenuItem<String>(
-                                value: gov.governerateId.toString(),
-                                child: Text(
-                                  gov.governerateName,
-                                  style: TextStyle(
-                                      fontSize: 12.sp, color: tdBlack),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedGovernorate = newValue;
-                                selectedArea = null;
-                              });
-                              provider.getAllArea();
-                            },
-                            isExpanded: true,
-                            icon: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: tdBlack,
-                              size: 40.w,
-                            ),
-                          ),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedGovernorate,
+                        icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: tdBlack,
+                          size: 40.w,
                         ),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: tdBlack, fontSize: 12.sp),
+                        underline: Container(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedGovernorate = newValue;
+                            selectedArea = null;
+                            provider.getAllArea(); // Update area list
+                          });
+                        },
+                        items: provider.gov.map((governorate) {
+                          return DropdownMenuItem<String>(
+                            value: governorate.governerateId.toString(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5,top: 5).w,
+                              child: Text(governorate.governerateName,style: TextStyle(fontSize: 12.sp,color: tdBlack),),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(
+                      height: 10.h,
+                    ),
                     Text(
-                      'Select Area',
+                      'Area',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: tdBlack,
-                          fontSize: 12.sp),
+                          fontSize: 12.sp,
+                          color: tdBlack),
                     ),
-                    SizedBox(height: 5.h),
+                    SizedBox(
+                      height: 5.h,
+                    ),
                     Container(
-                      width: double.infinity,
                       height: 40.h,
+                      width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5).w,
                         color: tdWhite,
+                        borderRadius: BorderRadius.circular(5).w,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -413,47 +421,67 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5).w,
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            hint: Text(
-                              'Select Area',
-                              style: TextStyle(fontSize: 12.sp, color: tdBlack),
-                            ),
-                            value: selectedArea,
-                            items: provider.area
-                                .where((area) =>
-                                    area.governerateId ==
-                                    int.parse(selectedGovernorate ?? '0'))
-                                .map((area) {
-                              return DropdownMenuItem<String>(
-                                value: area.areaId.toString(),
-                                child: Text(area.areaName,
-                                    style: TextStyle(
-                                        fontSize: 12.sp, color: tdBlack)),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedArea = newValue;
-                              });
-                            },
-                            isExpanded: true,
-                            icon: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: tdBlack,
-                              size: 40.w,
-                            ),
-                          ),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedArea,
+                        icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: tdBlack,
+                          size: 40.w,
                         ),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: tdBlack, fontSize: 12.sp),
+                        underline: Container(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedArea = newValue;
+                          });
+                        },
+                        items: provider.area
+                            .where((area) =>
+                                area.governerateId ==
+                                int.parse(selectedGovernorate ?? '0'))
+                            .map((area) {
+                          return DropdownMenuItem<String>(
+                            value: area.areaId.toString(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5,top: 5).w,
+                              child: Text(area.areaName,style: TextStyle(fontSize: 12.sp,color: tdBlack),),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                    SizedBox(height: 30.h),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          GoRouter.of(context).go('/Profile');
+                          if (selectedGovernorate == null || selectedArea == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Please select Governorate and Area',
+                                  style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                                ),
+                                backgroundColor: tdBlack,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                            return;
+                          }
+                          updateProfile(
+                            context: context,
+                            userId: authProvider.userId,
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                            birthDate: birthDateController.text,
+                            gender: _isChecked ? 'male' : 'female',
+                            govNo: selectedGovernorate.toString(),
+                            areaNo: selectedArea.toString(),
+                          );
                         },
                         child: Container(
                           width: 180.w,
@@ -492,5 +520,39 @@ class _UpdateProfileState extends State<UpdateProfile> {
         ),
       ),
     );
+  }
+
+  void updateProfile({
+    required BuildContext context,
+    required int userId,
+    required String firstName,
+    required String lastName,
+    required String birthDate,
+    required String gender,
+    required String govNo,
+    required String areaNo,
+  }) async {
+    try {
+      await updateUserProfile(
+        context,
+        userId,
+        firstName,
+        lastName,
+        birthDate,
+        gender,
+        govNo,
+        areaNo,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully',style: TextStyle(fontSize: 10.sp,
+        color: tdWhite),),backgroundColor: tdBlack,),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile',style: TextStyle(fontSize: 10.sp,
+            color: tdWhite),),backgroundColor: tdBlack,),
+      );
+    }
   }
 }

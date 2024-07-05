@@ -20,14 +20,14 @@ class CartProvider with ChangeNotifier {
           (cart) => cart.userNo == userNo && cart.productNo == productNo
     );
     cartItem.productCartQty = quantity;
-    cartItem.productCartPrice = (price / quantity).toString();
+    cartItem.productCartPrice = price.toString();
     notifyListeners();
     }
 
   double get totalPrice {
     double total = 0.0;
     for (var cart in _cartUser) {
-      total += double.parse(cart.productCartPrice);
+      total += double.parse(cart.productCartPrice) * cart.productCartQty;
     }
     return total;
   }

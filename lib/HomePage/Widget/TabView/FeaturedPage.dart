@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Classes/Featured/Featured.dart';
 import '../../../ApiEndPoint.dart';
-import '../../../Color&Icons/color.dart';
 import '../../../provider/Products_Provider.dart';
 import '../TabCard.dart';
 
@@ -14,7 +13,7 @@ class FeaturedPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     ProductsProvider productProvider =
-        Provider.of<ProductsProvider>(context, listen: true);
+    Provider.of<ProductsProvider>(context, listen: true);
     List<Featured> featuredProducts = productProvider.featuredProduct;
 
     if (featuredProducts.isEmpty) {
@@ -31,8 +30,10 @@ class FeaturedPageView extends StatelessWidget {
     }
 
     List<Featured> activeFeaturedProducts = featuredProducts.where((featured) {
+      DateTime startDate = featured.startDate;
       DateTime endDate = featured.endDate;
-      return endDate.isAfter(now) || endDate.isAtSameMomentAs(now);
+      return (now.isAfter(startDate) || now.isAtSameMomentAs(startDate)) &&
+          (now.isBefore(endDate) || now.isAtSameMomentAs(endDate));
     }).toList();
 
     List<Widget> rows = [];
@@ -51,7 +52,7 @@ class FeaturedPageView extends StatelessWidget {
                 productName: products[0].productName,
                 productDesc: products[0].productDesc,
                 productImage:
-                    '${ApiEndpoints.localBaseUrl}/${products[0].productImage}',
+                '${ApiEndpoints.localBaseUrl}/${products[0].productImage}',
                 productPrice: products[0].price,
                 markNo: products[0].markNo,
                 colorNo: products[0].colorNo,
