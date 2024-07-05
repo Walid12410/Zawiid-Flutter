@@ -79,7 +79,7 @@ class _TabCardState extends State<TabCard> {
           style: TextStyle(
               fontSize: 10.sp, fontWeight: FontWeight.bold, color: tdWhite),
         ),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
       ),
     );
   }

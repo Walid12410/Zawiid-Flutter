@@ -53,7 +53,7 @@ class _TicketMainState extends State<TicketMain> {
 
     if (allTickets.isEmpty) {
       return const Center(
-        child: CircularProgressIndicator(color: Colors.black),
+        child: CircularProgressIndicator(color: tdBlack),
       );
     }
 
@@ -128,7 +128,9 @@ class _TicketMainState extends State<TicketMain> {
                     height: 15.h,
                   ),
                   TicketPriceDetails(
-                      ticketPrice: latestStartedTicket.ticketPrice)
+                      ticketPrice: latestStartedTicket.ticketPrice,
+                  numberOfTicketLeft: latestStartedTicket.nbrOfTicketsLeft,
+                  withDrawalNo: latestStartedTicket.withdrawalID,)
                 ],
                 if (!_showDetails)
                   TicketDetails(
