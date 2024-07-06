@@ -8,6 +8,7 @@ class GetCoupon {
   final String savings;
   final String minOrderValue;
   final String validFor;
+  final String couponsDesc;
 
   GetCoupon({
     required this.getCouponNo,
@@ -19,6 +20,7 @@ class GetCoupon {
     required this.savings,
     required this.minOrderValue,
     required this.validFor,
+    required this.couponsDesc
   });
 
   factory GetCoupon.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class GetCoupon {
       savings: json['Savings'] ?? "",
       minOrderValue: json['MinOrderValue'] ?? "",
       validFor: json['ValidFor'] ?? "",
+      couponsDesc: json['CouponsDesc'] ?? "",
     );
   }
 }

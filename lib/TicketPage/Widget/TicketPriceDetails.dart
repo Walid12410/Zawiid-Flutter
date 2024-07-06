@@ -169,10 +169,7 @@ class TicketPriceDetails extends StatelessWidget {
                             ticketsTotalPrice: totalTicketPrice,
                             withDrawalID: withDrawalNo,
                             userNo: auth.userId,
-                            context: context);
-                        await updateNbrOfTicketsLeft(
-                            withdrawalID: withDrawalNo,
-                            nbrOfTicketsLeft: numberOfTicketLeft - ticketsCount,
+                            ticketLeft: numberOfTicketLeft - ticketsCount,
                             context: context);
                         await ticketProvider.getAllTicket();
                         Navigator.pop(context);

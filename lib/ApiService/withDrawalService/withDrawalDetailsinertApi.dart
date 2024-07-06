@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:zawiid/ApiEndPoint.dart';
+import 'package:zawiid/ApiService/withDrawalService/withDrawalMainUpdate.dart';
 
 import '../../Color&Icons/color.dart';
 
@@ -13,6 +14,7 @@ Future<void> addOrUpdateWithdrawalDetails({
   required double ticketsTotalPrice,
   required int withDrawalID,
   required int userNo,
+  required int ticketLeft
 }) async {
   String apiUrl = '${ApiEndpoints.localBaseUrl}/webWithDrawalDetails.php?status=new';
 
@@ -32,6 +34,10 @@ Future<void> addOrUpdateWithdrawalDetails({
 
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200 && jsonResponse['message'] != null) {
+     await updateNbrOfTicketsLeft(
+          withdrawalID: withDrawalID,
+          nbrOfTicketsLeft: ticketLeft,
+          context: context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

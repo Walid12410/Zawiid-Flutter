@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:zawiid/ApiService/CouponsService/CouponById.dart';
 import 'package:zawiid/ApiService/CouponsService/CouponsWithMarkApi.dart';
 import 'package:zawiid/ApiService/CouponsService/GetCouponsApi.dart';
+import 'package:zawiid/ApiService/CouponsService/GetCouponsByIDApi.dart';
 import 'package:zawiid/Classes/Coupons/Coupon.dart';
 import 'package:zawiid/Classes/Coupons/CouponsMark.dart';
 import 'package:zawiid/Classes/Coupons/GetCoupons.dart';
@@ -32,5 +33,14 @@ class CouponsProvider with ChangeNotifier {
     _couponsDetailsByCouponNo = res;
     notifyListeners();
   }
+
+  List<GetCoupon> _getCouponsByID = [];
+  List<GetCoupon> get getCouponsByID => _getCouponsByID;
+  getCouponsById(int id) async {
+    final res = await fetchGetCouponsById(id);
+    _getCouponsByID = res;
+    notifyListeners();
+  }
+
 
 }

@@ -131,15 +131,9 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          FeaturedProductCard(
-                            text: 'iphone1231321313',
-                          ),
-                          FeaturedProductCard(
-                            text: 'asdasdasdsd',
-                          ),
-                          FeaturedProductCard(
-                            text: 'sd',
-                          ),
+                          FeaturedProductCard(),
+                          FeaturedProductCard(),
+                          FeaturedProductCard(),
                         ],
                       ),
                     ),

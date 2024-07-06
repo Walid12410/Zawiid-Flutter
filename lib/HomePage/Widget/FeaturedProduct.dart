@@ -4,12 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Color&Icons/color.dart';
 
 class FeaturedProductCard extends StatelessWidget {
-  const FeaturedProductCard({
-    super.key,
-  required this.text
-  });
-
-  final String text;
+  const FeaturedProductCard({super.key});
 
 
   @override
@@ -44,7 +39,6 @@ class FeaturedProductCard extends StatelessWidget {
                   SizedBox(height: 5.h),
                   SizedBox(
                     width: 130.w,
-                    height: 60.h,
                     child: RichText(
                       text: TextSpan(
                         text: 'CATCH BIG ',

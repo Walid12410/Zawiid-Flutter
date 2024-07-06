@@ -23,7 +23,7 @@ class CouponsPromotionDetails extends StatelessWidget {
     var markDetails = markProvider.oneMarkByIDCoupons;
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
     var couponsDetails = couponsProvider.oneCoupon;
-    var couponsDetailsTable = couponsProvider.couponsDetailsByCouponNo;
+    var couponsDetailsTable = couponsProvider.getCouponsByID;
 
     String markImage = '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}';
     String formattedStartTime = DateFormat('MMMM yyyy').format(couponsDetails[0].issueDate);
@@ -167,7 +167,7 @@ class CouponsPromotionDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Shop your favorite Adidas wearables in Kuwait and get a guaranteed, huge discount! Just use the Adidas coupon code and get a flat 20% discount on the entire stock!',
+                  couponsDetailsTable[0].couponsDesc,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: tdBlack,
