@@ -5,15 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../ApiService/CartService/AddCart.dart';
-import '../../ApiService/CartService/CheckProductApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Auth_Provider.dart';
 import '../../provider/Cart_Provider.dart';
-import '../../Classes/Cart/Cart.dart';
-import '../../ApiEndPoint.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class ProductSubCategoriesHomePageCard extends StatefulWidget {
   const ProductSubCategoriesHomePageCard({
@@ -93,6 +88,11 @@ class _ProductSubCategoriesHomePageCardState
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
+    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
+    cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+
     return Padding(
       padding: const EdgeInsets.all(5).w,
       child: GestureDetector(
@@ -165,9 +165,11 @@ class _ProductSubCategoriesHomePageCardState
                     GestureDetector(
                       onTap: _toggleCart,
                       child: SvgPicture.asset(
-                        'assets/svg/buy.svg',
+                        isProductInCart
+                            ? 'assets/svg/remove.svg'
+                            : 'assets/svg/buy.svg',
                         width: 27.w,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(),
