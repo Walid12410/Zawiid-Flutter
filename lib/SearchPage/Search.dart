@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import '../Classes/Product/Products.dart';
+import '../LocalDatabase/SearchHistory.dart';
 import 'Widget/SearchBar.dart';
 import 'Widget/SearchHistoryCard.dart';
 import 'package:http/http.dart' as http;
@@ -25,12 +25,14 @@ class _SearchPageState extends State<SearchPage> {
   bool _isSearching = false;
   bool _isLoading = false;
   bool _hasError = false;
+  List<Product> _searchHistory = [];
 
   @override
   void initState() {
     super.initState();
     _focusNode.requestFocus();
     _searchController.addListener(_onSearchChanged);
+    _loadSearchHistory();
   }
 
   @override
@@ -69,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
       if (response.statusCode == 200) {
         List<dynamic> body = jsonDecode(response.body);
         List<Product> products =
-            body.map((dynamic item) => Product.fromJson(item)).toList();
+        body.map((dynamic item) => Product.fromJson(item)).toList();
         _updateSearchResults(products);
       } else {
         throw Exception('Failed to load products');
@@ -80,6 +82,18 @@ class _SearchPageState extends State<SearchPage> {
         _isLoading = false;
       });
     }
+  }
+
+  void _loadSearchHistory() async {
+    List<Product> history = await DatabaseHelper().getSearchHistory();
+    setState(() {
+      _searchHistory = history;
+    });
+  }
+
+  void _saveProductToHistory(Product product) async {
+    await DatabaseHelper().insertProduct(product);
+    _loadSearchHistory(); // Refresh the search history
   }
 
   @override
@@ -124,7 +138,8 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       GestureDetector(
                           onTap: () {
-                            // Clear History
+                            DatabaseHelper().clearSearchHistory();
+                            _loadSearchHistory();
                           },
                           child: Text(
                             'CLEAR',
@@ -137,14 +152,12 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
               if (!_isSearching)
-                const SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
-                      SearchHistoryCard(),
-                      SearchHistoryCard(),
-                      SearchHistoryCard(),
-                    ],
+                    children: _searchHistory.map((product) {
+                      return SearchHistoryCard(product: product);
+                    }).toList(),
                   ),
                 ),
               if (_isLoading)
@@ -178,6 +191,7 @@ class _SearchPageState extends State<SearchPage> {
                         padding: const EdgeInsets.all(5).w,
                         child: GestureDetector(
                           onTap: () {
+                            _saveProductToHistory(product);
                             context.push('/itemDetailsView/${product.productNo}/${product.colorNo}/${product.markNo}');
                           },
                           child: SizedBox(
@@ -188,7 +202,7 @@ class _SearchPageState extends State<SearchPage> {
                                   height: 50.h,
                                   child: CachedNetworkImage(
                                     imageUrl:
-                                        '${ApiEndpoints.localBaseUrl}/${product.productImage}',
+                                    '${ApiEndpoints.localBaseUrl}/${product.productImage}',
                                     placeholder: (context, url) => Image.asset(
                                         'assets/log/LOGO-icon---Black.png'),
                                     errorWidget: (context, url, error) =>
@@ -201,7 +215,7 @@ class _SearchPageState extends State<SearchPage> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         product.productName,

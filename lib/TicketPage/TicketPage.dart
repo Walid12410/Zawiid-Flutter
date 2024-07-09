@@ -123,7 +123,7 @@ class _TicketMainState extends State<TicketMain> {
                   SizedBox(
                     height: 10.h,
                   ),
-                   TicketDetailsText(ticketPrice: latestStartedTicket.ticketPrice,),
+                   TicketDetailsText(ticketPrice: latestStartedTicket.ticketPrice,ticketTitle: latestStartedTicket.ticketTitle,),
                   SizedBox(
                     height: 15.h,
                   ),

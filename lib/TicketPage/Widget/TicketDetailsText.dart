@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
 class TicketDetailsText extends StatelessWidget {
-  const TicketDetailsText({super.key,required this.ticketPrice});
+  const TicketDetailsText({super.key,required this.ticketPrice,required this.ticketTitle});
 
+  final String ticketTitle;
   final String ticketPrice;
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class TicketDetailsText extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: 'WASHING-MACHINE!',
+                text: ticketTitle,
                 style: TextStyle(
                   color: tdGrey, // Example: Change to your special color
                   fontSize: 12.sp,

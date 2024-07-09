@@ -8,6 +8,8 @@ class WithdrawalMain {
   int nbrOfTickets;
   int nbrOfTicketsLeft;
   int ownerUserNo;
+  String ticketTitle;
+
 
   WithdrawalMain({
     required this.withdrawalID,
@@ -19,6 +21,7 @@ class WithdrawalMain {
     required this.nbrOfTickets,
     required this.nbrOfTicketsLeft,
     required this.ownerUserNo,
+    required this.ticketTitle
   });
 
   factory WithdrawalMain.fromJson(Map<String, dynamic> json) {
@@ -32,6 +35,7 @@ class WithdrawalMain {
       nbrOfTickets: json['NbrOfTickets'] ?? 0,
       nbrOfTicketsLeft: json['NbrOfTicketsLeft'] ?? 0,
       ownerUserNo: json['OwnerUserNo'] ?? 0,
+      ticketTitle: json['TicketTitle'] ?? ""
     );
   }
 }
