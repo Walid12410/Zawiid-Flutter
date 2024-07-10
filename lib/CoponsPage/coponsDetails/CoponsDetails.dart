@@ -35,8 +35,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
     final markProvider = Provider.of<MarkColorProvider>(context, listen: false);
     final couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
     await markProvider.getMarkByIdCoupons(widget.markId);
-    await couponsProvider.getOneCoupon(widget.couponId);
-    await couponsProvider.getCouponsDetailsByCouponNo(widget.couponId);
+    await couponsProvider.getCouponsByMarkId(widget.markId);
   }
 
   @override

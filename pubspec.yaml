@@ -125,7 +125,6 @@ flutter:
     - assets/img/master.png
     - assets/img/pop3.png
     - assets/svg/close.svg
-    - assets/svg/remove.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

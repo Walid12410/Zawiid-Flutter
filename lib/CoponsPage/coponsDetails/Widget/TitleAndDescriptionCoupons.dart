@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import '../../../Color&Icons/color.dart';
-import '../../../provider/Coupons_Provider.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
 
 class TitleAndDescription extends StatelessWidget {
@@ -17,20 +15,16 @@ class TitleAndDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
     var markDetails = markProvider.oneMarkByIDCoupons;
-    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
-    var couponsDetails = couponsProvider.oneCoupon;
 
-    if (markDetails.isEmpty || couponsDetails.isEmpty) {
+
+    if (markDetails.isEmpty ) {
       return const Center(
           child: CircularProgressIndicator(
         color: tdBlack,
       ));
     }
 
-    String markImage =
-        '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}';
-    String formattedStartTime =
-        DateFormat('MMMM yyyy').format(couponsDetails[0].issueDate);
+    String markImage = '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}';
 
     return Padding(
       padding: const EdgeInsets.all(10).w,
@@ -61,7 +55,7 @@ class TitleAndDescription extends StatelessWidget {
                     color: tdBlack),
               ),
               Text(
-                ' Coupon & Promo Codes - $formattedStartTime',
+                ' Coupon & Promo Codes',
                 style: TextStyle(fontSize: 11.sp, color: tdGrey),
               ),
             ],

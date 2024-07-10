@@ -23,7 +23,7 @@ class CouponsPromotionDetails extends StatelessWidget {
     var markDetails = markProvider.oneMarkByIDCoupons;
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
     var couponsDetails = couponsProvider.oneCoupon;
-    var couponsDetailsTable = couponsProvider.getCouponsByID;
+    var couponsDetailsTable = couponsProvider.oneCoupon;
 
     String markImage = '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}';
     String formattedStartTime = DateFormat('MMMM yyyy').format(couponsDetails[0].issueDate);
@@ -167,7 +167,7 @@ class CouponsPromotionDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  couponsDetailsTable[0].couponsDesc,
+                  couponsDetailsTable[0].couponDesc,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: tdBlack,

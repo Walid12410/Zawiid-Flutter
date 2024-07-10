@@ -34,7 +34,7 @@ class _CouponsMainState extends State<CouponsMain> {
       future: _fetchCouponsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: tdBlack,));
+          return const Center(child: CircularProgressIndicator(color: tdBlack));
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -57,6 +57,15 @@ class _CouponsMainState extends State<CouponsMain> {
   Widget _buildCouponsList() {
     final couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
     final allCoupons = couponsProvider.couponsOfMark;
+    final displayedMarks = <int>{};
+    final uniqueCoupons = allCoupons.where((coupon) {
+      if (displayedMarks.contains(coupon.markNo)) {
+        return false;
+      } else {
+        displayedMarks.add(coupon.markNo);
+        return true;
+      }
+    }).toList();
 
     return Scaffold(
       body: SafeArea(
@@ -70,9 +79,9 @@ class _CouponsMainState extends State<CouponsMain> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: allCoupons.length,
+                itemCount: uniqueCoupons.length,
                 itemBuilder: (context, index) {
-                  var coupon = allCoupons[index];
+                  var coupon = uniqueCoupons[index];
                   var markImage = coupon.mark.markImage;
                   return CouponCard(
                     couponsId: coupon.couponNo,

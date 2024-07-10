@@ -13,7 +13,7 @@ class CouponsTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
-    var couponsDetailsTable = couponsProvider.getCouponsByID;
+    var couponsDetailsTable = couponsProvider.oneCoupon;
 
     if(couponsDetailsTable.isEmpty){
       return const Center(child: CircularProgressIndicator(color: tdBlack,),);

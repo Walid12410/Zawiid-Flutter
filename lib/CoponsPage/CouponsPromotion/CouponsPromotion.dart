@@ -23,22 +23,17 @@ class _CouponsPromotionState extends State<CouponsPromotion> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
-      print('asdasdsd');
-      couponsProvider.getCouponsById(widget.getCouponsID);
+      couponsProvider.getOneCoupon(widget.getCouponsID);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
-    var getCoupons = couponsProvider.getCouponsByID;
-    print(getCoupons);
-
-    if(getCoupons.isEmpty || getCoupons[0].getCouponNo != widget.getCouponsID){
+    var getCoupons = couponsProvider.oneCoupon;
+    if(getCoupons.isEmpty || getCoupons[0].couponNo != widget.getCouponsID){
       return const Center(child: CircularProgressIndicator(color: tdBlack,),);
     }
-
-    print(getCoupons);
 
     return Scaffold(
       backgroundColor: tdWhite,

@@ -13,15 +13,17 @@ class CouponsCardDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
-    var couponList = couponsProvider.couponsDetailsByCouponNo;
-    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: false);
+    var couponList = couponsProvider.couponsMark;
+    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
     var markDetails = markProvider.oneMarkByIDCoupons;
 
     List<Widget> rows = [];
 
     DateTime now = DateTime.now();
+    var validCoupons = couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
 
-    if (couponList.isEmpty) {
+
+    if (validCoupons.isEmpty || couponList.isEmpty) {
       rows.add(
         Padding(
           padding: const EdgeInsets.all(8.0).w,
@@ -31,7 +33,8 @@ class CouponsCardDetails extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12.sp,
                 color: tdGrey,
-              ),textAlign: TextAlign.center,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
@@ -110,12 +113,15 @@ class CouponsCardDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '${markDetails[0].markName ?? ""} Member Offer: Up to ${coupon.savings}% off for Member Only ',
-                        style: TextStyle(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.bold,
-                          color: tdBlack,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8).w,
+                        child: Text(
+                          '${markDetails[0].markName ?? ""} Member Offer: Up to ${coupon.savings}% off for Member Only ',
+                          style: TextStyle(
+                            fontSize: 8.sp,
+                            fontWeight: FontWeight.bold,
+                            color: tdBlack,
+                          ),
                         ),
                       ),
                       SizedBox(height: 5.h),
@@ -126,7 +132,8 @@ class CouponsCardDetails extends StatelessWidget {
                             color: tdGold,
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                  left: 5, right: 5, bottom: 2, top: 2).w,
+                                      left: 5, right: 5, bottom: 2, top: 2)
+                                  .w,
                               child: Center(
                                 child: Text(
                                   '${markDetails[0].markName ?? ""} MEMBER',
@@ -154,7 +161,7 @@ class CouponsCardDetails extends StatelessWidget {
                       ),
                       SizedBox(height: 5.h),
                       ReadMoreText(
-                        coupon.couponsDesc,
+                        coupon.couponDesc,
                         trimMode: TrimMode.Length,
                         trimLength: 62,
                         style: TextStyle(fontSize: 8.sp, color: tdGrey),
@@ -180,9 +187,10 @@ class CouponsCardDetails extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          context.push(context.namedLocation('CouponsPromotion', pathParameters: {
-                            'couponsId': coupon.getCouponNo.toString(),
-                          }));
+                          context.push(context.namedLocation('CouponsPromotion',
+                              pathParameters: {
+                                'couponsId': coupon.couponNo.toString(),
+                              }));
                         },
                         child: Container(
                           width: double.infinity,

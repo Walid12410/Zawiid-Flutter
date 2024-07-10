@@ -1,5 +1,3 @@
-import 'package:zawiid/Classes/ColorAndMark/mark.dart';
-
 class Coupon {
   final int couponNo;
   final int markNo;
@@ -8,6 +6,9 @@ class Coupon {
   final String code;
   final String savings;
   final String minOrderValue;
+  final String couponDesc;
+  final String validFor;
+
 
   Coupon({
     required this.couponNo,
@@ -17,6 +18,8 @@ class Coupon {
     required this.code,
     required this.savings,
     required this.minOrderValue,
+    required this.couponDesc,
+    required this.validFor
   });
 
   factory Coupon.fromJson(Map<String, dynamic> json) {
@@ -31,6 +34,8 @@ class Coupon {
       code: json['Code'] ?? "",
       savings: json['Savings'] ?? "",
       minOrderValue: json['MinOrderValue'] ?? "",
+      couponDesc: json['CouponDesc'] ?? "",
+      validFor: json['ValidFor'] ?? ""
     );
   }
 }

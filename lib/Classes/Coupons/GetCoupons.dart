@@ -1,8 +1,8 @@
 class GetCoupon {
   final int getCouponNo;
-  final int? userNo; // Nullable
+  final int? userNo;
   final int couponNo;
-  final DateTime? getDate; // Nullable
+  final DateTime? getDate;
   final DateTime expiryDate;
   final String code;
   final String savings;
@@ -29,7 +29,7 @@ class GetCoupon {
 
     return GetCoupon(
       getCouponNo: json['GetCouponNo'] ?? 0,
-      userNo: json['UserNo'],
+      userNo: json['UserNo'] ?? 0,
       couponNo: json['CouponNo'] ?? 0,
       getDate: getDate,
       expiryDate: expiryDate,

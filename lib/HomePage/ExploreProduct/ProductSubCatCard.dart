@@ -88,10 +88,6 @@ class _ProductSubCategoriesHomePageCardState
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
-    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-    cartItem.productNo == widget.productNo && cartItem.userNo == userID);
 
     return Padding(
       padding: const EdgeInsets.all(5).w,
@@ -164,12 +160,9 @@ class _ProductSubCategoriesHomePageCardState
                     ),
                     GestureDetector(
                       onTap: _toggleCart,
-                      child: SvgPicture.asset(
-                        isProductInCart
-                            ? 'assets/svg/remove.svg'
-                            : 'assets/svg/buy.svg',
+                      child: SvgPicture.asset('assets/svg/buy.svg',
                         width: 27.w,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                       ),
                     ),
                     const SizedBox(),
