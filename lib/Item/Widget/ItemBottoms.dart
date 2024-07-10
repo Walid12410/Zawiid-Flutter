@@ -23,7 +23,7 @@ class ItemBottoms extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartView = Provider.of<CartProvider>(context, listen: true);
     var cartCheck = cartView.viewCartFound;
-    final auth = Provider.of<AuthProvider>(context, listen: true);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
 
     double price = double.parse(productSalePrice) > 0.0
         ? double.parse(productSalePrice)
@@ -33,7 +33,19 @@ class ItemBottoms extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () async {
-            if (cartCheck.isEmpty) {
+            if(auth.userId == 0 ){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Login or SignUp please.',
+                    style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                  ),
+                  backgroundColor: tdBlack,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+              return;
+            }else if (cartCheck.isEmpty) {
               await addCartItem(
                 userNo: auth.userId,
                 productNo: productNo,

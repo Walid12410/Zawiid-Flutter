@@ -316,6 +316,19 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                     onTap: () async {
                       String bidAmount = _bidPriceController.text;
                       final auth = Provider.of<AuthProvider>(context, listen: false);
+                      if(auth.userId == 0){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Login or SignUp please.',
+                              style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                            ),
+                            backgroundColor: tdBlack,
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                        return;
+                      }
                       if(bidAmount.isEmpty){
                         _emptyController();
                       }else{

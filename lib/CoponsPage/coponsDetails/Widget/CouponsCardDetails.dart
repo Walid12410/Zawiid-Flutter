@@ -244,7 +244,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                           } else if (snapshot.hasError) {
                             return Center(child: Text('${snapshot.error}'));
                           }
-                          return const Center(child: CircularProgressIndicator(color: tdBlack,));
+                          return Container();
                         },
                       ),
                       SizedBox(height: 5.h),
@@ -254,7 +254,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Text(
-                              'Loading...',
+                              '0 People Used',
                               style: TextStyle(
                                 fontSize: 8.sp,
                                 color: tdGrey,
@@ -262,7 +262,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                             );
                           } else if (snapshot.hasError) {
                             return Text(
-                              'Error',
+                              '0 People Used',
                               style: TextStyle(
                                 fontSize: 8.sp,
                                 color: tdGrey,
@@ -388,6 +388,20 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                 children: [
                   GestureDetector(
                     onTap: () async {
+                      if(userId == 0){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: tdBlack,
+                            duration: const Duration(seconds: 2),
+                            content: Text(
+                              'Login please to get this coupon',
+                              style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                            ),
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                        return;
+                      }
                       bool success = await getCoupons(userNo: userId, used: 0, couponNo: couponNo);
                       if (success) {
                         Navigator.of(context).pop();
