@@ -7,7 +7,6 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../provider/Auth_Provider.dart';
-import '../provider/Bid_Provider.dart';
 import 'Widget/CartContainer.dart';
 import 'Widget/CartPageHead.dart';
 

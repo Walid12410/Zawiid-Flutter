@@ -3,28 +3,46 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:zawiid/ApiService/CouponsService/GetCouponsApi.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
+import '../../../ApiService/CouponsService/CouponsCheck.dart';
 import '../../../ApiService/CouponsService/CouponsUsageApi.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../provider/Coupons_Provider.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
 
-class CouponsCardDetails extends StatelessWidget {
+
+
+class CouponsCardDetails extends StatefulWidget {
   const CouponsCardDetails({Key? key}) : super(key: key);
 
   @override
+  _CouponsCardDetailsState createState() => _CouponsCardDetailsState();
+}
+
+class _CouponsCardDetailsState extends State<CouponsCardDetails> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<String> _fetchCouponStatus(int userId, int couponNo) {
+    return checkCouponStatus(userId, couponNo);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    CouponsProvider couponsProvider =
-        Provider.of<CouponsProvider>(context, listen: true);
+    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
     var couponList = couponsProvider.couponsMark;
-    MarkColorProvider markProvider =
-        Provider.of<MarkColorProvider>(context, listen: true);
+    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
     var markDetails = markProvider.oneMarkByIDCoupons;
+    AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
     List<Widget> rows = [];
 
     DateTime now = DateTime.now();
-    var validCoupons =
-        couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
+    var validCoupons = couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
 
     if (validCoupons.isEmpty || couponList.isEmpty) {
       rows.add(
@@ -135,7 +153,7 @@ class CouponsCardDetails extends StatelessWidget {
                             color: tdGold,
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                      left: 5, right: 5, bottom: 2, top: 2)
+                                  left: 5, right: 5, bottom: 2, top: 2)
                                   .w,
                               child: Center(
                                 child: Text(
@@ -188,30 +206,46 @@ class CouponsCardDetails extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.push(context.namedLocation('CouponsPromotion',
-                              pathParameters: {
-                                'couponsId': coupon.couponNo.toString(),
-                              }));
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          color: const Color(-9305855),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8).w,
-                            child: Center(
-                              child: Text(
-                                'SHOW COUPON',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: tdWhite,
-                                  fontSize: 8.sp,
+                      FutureBuilder<String>(
+                        future: _fetchCouponStatus(auth.userId, coupon.couponNo),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (snapshot.data == 'Show Coupon') {
+                                  context.push(context.namedLocation('CouponsPromotion',
+                                      pathParameters: {
+                                        'couponsId': coupon.couponNo.toString(),
+                                      }));
+                                } else if (snapshot.data == 'Get Coupon') {
+                                  _getCoupons(context, auth.userId, coupon.couponNo).then((_) {
+                                    _fetchCouponStatus(auth.userId, coupon.couponNo);
+                                  });
+                                }
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                color: const Color(-9305855),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0).w,
+                                  child: Center(
+                                    child: Text(
+                                      snapshot.data!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: tdWhite,
+                                        fontSize: 8.sp,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('${snapshot.error}'));
+                          }
+                          return const Center(child: CircularProgressIndicator(color: tdBlack,));
+                        },
                       ),
                       SizedBox(height: 5.h),
                       FutureBuilder<int>(
@@ -314,4 +348,126 @@ class CouponsCardDetails extends StatelessWidget {
       children: rows,
     );
   }
+
+  Future<void> _getCoupons(BuildContext context, int userId, int couponNo) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          backgroundColor: tdWhite,
+          surfaceTintColor: tdWhite,
+          contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Get Coupon',
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Do you want to get this coupon?',
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      bool success = await getCoupons(userNo: userId, used: 0, couponNo: couponNo);
+                      if (success) {
+                        Navigator.of(context).pop();
+                        setState(() {});
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: tdBlack,
+                            duration: const Duration(seconds: 1),
+                            content: Text(
+                              'Something went wrong. Check your connection',
+                              style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      width: 100.w,
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(200),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'YES',
+                          style: TextStyle(
+                            fontSize: 9.sp,
+                            color: tdBlack,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: 100.w,
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(200),
+                        color: tdBlack,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'NO',
+                          style: TextStyle(
+                            fontSize: 9.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
+
+
