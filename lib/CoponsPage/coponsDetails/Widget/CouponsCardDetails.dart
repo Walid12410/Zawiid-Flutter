@@ -3,25 +3,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import '../../../ApiService/CouponsService/CouponsUsageApi.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../provider/Coupons_Provider.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
 
 class CouponsCardDetails extends StatelessWidget {
-  const CouponsCardDetails({Key? key});
+  const CouponsCardDetails({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
+    CouponsProvider couponsProvider =
+        Provider.of<CouponsProvider>(context, listen: true);
     var couponList = couponsProvider.couponsMark;
-    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
+    MarkColorProvider markProvider =
+        Provider.of<MarkColorProvider>(context, listen: true);
     var markDetails = markProvider.oneMarkByIDCoupons;
 
     List<Widget> rows = [];
 
     DateTime now = DateTime.now();
-    var validCoupons = couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
-
+    var validCoupons =
+        couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
 
     if (validCoupons.isEmpty || couponList.isEmpty) {
       rows.add(
@@ -211,51 +214,58 @@ class CouponsCardDetails extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 5.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.wifi,
-                                size: 10.w,
+                      FutureBuilder<int>(
+                        future: fetchCouponUsage(coupon.couponNo),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Text(
+                              'Loading...',
+                              style: TextStyle(
+                                fontSize: 8.sp,
                                 color: tdGrey,
                               ),
-                              Text(
-                                'People Used',
-                                style: TextStyle(
-                                  fontSize: 8.sp,
-                                  color: tdGrey,
-                                ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                              'Error',
+                              style: TextStyle(
+                                fontSize: 8.sp,
+                                color: tdGrey,
                               ),
-                            ],
-                          ),
-                          const Row(
-                            children: [
-                              SizedBox(),
-                            ],
-                          ),
-                        ],
+                            );
+                          } else if (snapshot.hasData) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.wifi,
+                                      size: 10.w,
+                                      color: tdGrey,
+                                    ),
+                                    Text(
+                                      ' ${snapshot.data} People Used',
+                                      style: TextStyle(
+                                        fontSize: 8.sp,
+                                        color: tdGrey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
                       ),
+                      SizedBox(height: 2.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.share,
-                                size: 10.w,
-                                color: tdGrey,
-                              ),
-                              Text(
-                                'Share',
-                                style: TextStyle(
-                                  color: tdBlue,
-                                  fontSize: 8.sp,
-                                ),
-                              ),
-                            ],
-                          ),
                           Row(
                             children: [
                               Icon(
@@ -272,6 +282,22 @@ class CouponsCardDetails extends StatelessWidget {
                               ),
                             ],
                           ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.share,
+                                size: 10.w,
+                                color: tdGrey,
+                              ),
+                              Text(
+                                'Share',
+                                style: TextStyle(
+                                  color: tdBlue,
+                                  fontSize: 8.sp,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ],
