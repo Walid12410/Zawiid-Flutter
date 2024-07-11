@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:zawiid/Classes/ColorAndMark/color.dart';
 import '../../../ApiService/MarkColorService/ColorByIdApi.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../TimeMethod/CheckWhatDate.dart';
+import '../../../provider/Auth_Provider.dart';
 import '../../WatchDown/WatchCount.dart';
 
 class DetailsUpComing extends StatefulWidget {
@@ -85,6 +87,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
   Widget build(BuildContext context) {
     String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.startTime);
     String dateCategory = getDateCategory(widget.startTime);
+    AuthProvider auth  = Provider.of<AuthProvider>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.all(8.0).w,
@@ -158,6 +161,19 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
               : _hasStarted
                   ? GestureDetector(
                       onTap: () {
+                        if(auth.userId == 0){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Login or SignUp to enter this bid.',
+                                style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                              ),
+                              backgroundColor: tdBlack,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                          return;
+                        }
                         GoRouter.of(context).goNamed('BidPage',
                         pathParameters: {'bidNo' : widget.bidNo.toString(),
                           'productNo' : widget.productNo.toString(),

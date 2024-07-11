@@ -11,13 +11,16 @@ class AddressDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AddressProvider addressView = Provider.of<AddressProvider>(context, listen: true);
-    GovAreaProvider govAreaProvider = Provider.of<GovAreaProvider>(context, listen: true);
+    AddressProvider addressProvider =
+        Provider.of<AddressProvider>(context, listen: true);
+    GovAreaProvider govAreaProvider =
+        Provider.of<GovAreaProvider>(context, listen: true);
 
-    var addressUser = addressView.addressView;
+    var addressUser = addressProvider.addressView;
     var governorates = govAreaProvider.gov;
     var areas = govAreaProvider.area;
 
+    print(addressProvider.defaultAddressNo);
     var governorateMap = {
       for (var gov in governorates) gov.governerateId: gov.governerateName
     };
@@ -106,13 +109,20 @@ class AddressDetails extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    // Use as default button
+                                    addressProvider
+                                        .setDefaultAddress(address.addressNo);
                                   },
                                   child: Text(
-                                    'Use as default',
+                                    addressProvider.defaultAddressNo ==
+                                            address.addressNo
+                                        ? 'default'
+                                        : 'Use as default',
                                     style: TextStyle(
                                       fontSize: 12.h,
-                                      color: tdBlack,
+                                      color: addressProvider.defaultAddressNo ==
+                                              address.addressNo
+                                          ? tdBlack
+                                          : tdGrey,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -120,6 +130,8 @@ class AddressDetails extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     deleteAddress(context, address.addressNo);
+                                    addressProvider
+                                        .deleteAddress(address.addressNo);
                                   },
                                   child: Text(
                                     'Delete',

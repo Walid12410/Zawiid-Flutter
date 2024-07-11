@@ -86,6 +86,11 @@ class _TabCardState extends State<TabCard> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
+    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
+        cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+
     return GestureDetector(
       onTap: () {
         GoRouter.of(context).goNamed('itemDetails', pathParameters: {
@@ -156,13 +161,17 @@ class _TabCardState extends State<TabCard> {
                       width: 2.w,
                     ),
                     GestureDetector(
-                      onTap: _toggleCart,
-                      child: SvgPicture.asset(
-                        'assets/svg/buy.svg',
-                        width: 27.w,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+                        onTap: _toggleCart,
+                        child: isProductInCart
+                            ? Icon(
+                                Icons.remove_circle,
+                                size: 27.w,color: tdBlack,
+                              )
+                            : SvgPicture.asset(
+                                'assets/svg/buy.svg',
+                                width: 27.w,
+                                fit: BoxFit.fill,
+                              )),
                     const SizedBox(),
                   ],
                 ),

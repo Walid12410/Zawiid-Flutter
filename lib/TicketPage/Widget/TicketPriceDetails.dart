@@ -25,6 +25,7 @@ class TicketPriceDetails extends StatelessWidget {
     double price = double.parse(ticketPrice);
     int minTickets = 0;
     int maxTickets = numberOfTicketLeft;
+    AuthProvider auth  = Provider.of<AuthProvider>(context, listen: false);
 
     void showTicketModal() {
       final auth = Provider.of<AuthProvider>(context, listen: false);
@@ -203,7 +204,22 @@ class TicketPriceDetails extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: showTicketModal,
+      onTap: (){
+        if(auth.userId == 0){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Login or SignUp please.',
+                style: TextStyle(fontSize: 10.sp, color: tdWhite),
+              ),
+              backgroundColor: tdBlack,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+          return;
+        }
+        showTicketModal();
+      },
       child: Container(
         width: 200.w,
         height: 30.h,

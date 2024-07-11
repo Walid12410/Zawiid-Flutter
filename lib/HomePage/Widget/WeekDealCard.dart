@@ -87,11 +87,16 @@ class _WeekDealCardState extends State<WeekDealCard> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
+    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
+        cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+
     return SizedBox(
       child: Column(
         children: [
           SizedBox(
-            height: 2.h,
+            height: 5.h,
           ),
           Center(
             child: GestureDetector(
@@ -129,7 +134,7 @@ class _WeekDealCardState extends State<WeekDealCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${widget.price} \$',
+                        '${widget.price}KD',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,
@@ -139,16 +144,18 @@ class _WeekDealCardState extends State<WeekDealCard> {
                         width: 15.w,
                       ),
                       GestureDetector(
-                        onTap: _toggleCart,
-                        child: SizedBox(
-                          width: 25.w,
-                          height: 30.h,
-                          child: SvgPicture.asset(
-                            'assets/svg/buy.svg',
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      )
+                          onTap: _toggleCart,
+                          child: isProductInCart
+                              ? Icon(
+                                  Icons.remove_circle,
+                                  size: 27.w,
+                                  color: tdBlack,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/svg/buy.svg',
+                                  width: 27.w,
+                                  fit: BoxFit.fill,
+                                ))
                     ],
                   ),
                   SizedBox(

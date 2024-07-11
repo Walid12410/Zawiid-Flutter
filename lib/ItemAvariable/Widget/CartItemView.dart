@@ -226,7 +226,17 @@ class _CartItemViewState extends State<CartItemView> {
                           auth.userId, widget.productNo);
                     }
                   } else {
-                    null;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Login or SignUp please.',
+                            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                          ),
+                          backgroundColor: tdBlack,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                      return;
                   }
                 },
                 child: Container(

@@ -22,14 +22,11 @@ class CouponsCardDetails extends StatefulWidget {
 
 class _CouponsCardDetailsState extends State<CouponsCardDetails> {
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future<String> _fetchCouponStatus(int userId, int couponNo) {
     return checkCouponStatus(userId, couponNo);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -251,10 +248,9 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                       FutureBuilder<int>(
                         future: fetchCouponUsage(coupon.couponNo),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Text(
-                              '0 People Used',
+                              'Loading...',
                               style: TextStyle(
                                 fontSize: 8.sp,
                                 color: tdGrey,
@@ -262,7 +258,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                             );
                           } else if (snapshot.hasError) {
                             return Text(
-                              '0 People Used',
+                              'Loading...',
                               style: TextStyle(
                                 fontSize: 8.sp,
                                 color: tdGrey,

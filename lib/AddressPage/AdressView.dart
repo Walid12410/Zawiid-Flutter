@@ -6,7 +6,6 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import '../provider/Auth_Provider.dart';
 import '../provider/GovArea_Provider.dart';
-import '../provider/User_Provider.dart';
 import 'Widget/AddAddressBottom.dart';
 import 'Widget/AddressDetails.dart';
 import 'Widget/AddressViewHeading.dart';
@@ -38,8 +37,58 @@ class _AddressViewState extends State<AddressView> {
     await addressProvider.getAddressByUserId(authProvider.userId);
   }
 
+  Future<void> _selectAddressAlert() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button to dismiss the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: tdWhite,
+          surfaceTintColor: tdWhite,
+          title:  Text('Select Address',style: TextStyle(fontSize: 12.sp
+              ,color: tdBlack,fontWeight: FontWeight.bold),),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Pick your shipping address to complete your order.',style: TextStyle(
+                    fontSize: 10.sp,color: tdBlack
+                ),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                width: 75.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100).w,
+                  color: tdBlack,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5).w,
+                  child: Center(child: Text('OK',style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final addressProvider = Provider.of<AddressProvider>(context, listen: true);
+
     return FutureBuilder<void>(
       future: _fetchDataFuture,
       builder: (context, snapshot) {
@@ -87,6 +136,10 @@ class _AddressViewState extends State<AddressView> {
                     height: 70.h,
                     child: GestureDetector(
                       onTap: () {
+                        if(addressProvider.defaultAddressNo == -1 || addressProvider.defaultAddressNo == 0){
+                          _selectAddressAlert();
+                          return;
+                        }
                         context.push(context.namedLocation('payment'));
                       },
                       child: Container(

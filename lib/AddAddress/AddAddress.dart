@@ -85,7 +85,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         padding: const EdgeInsets.only(left: 5, right: 5).w,
                         child: TextFormField(
                           controller: _contactNum,
-                          cursorColor: tdBlack, // Color of the cursor
+                          cursorColor: tdBlack,
                           style: TextStyle(fontSize: 12.sp),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
