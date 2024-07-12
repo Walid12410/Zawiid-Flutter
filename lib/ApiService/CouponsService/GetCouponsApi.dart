@@ -8,7 +8,11 @@ Future<bool> getCoupons({
   //required String expiryDate,
   required int used,
   required int couponNo,
-}) async {
+  required String code,
+  required String savings,
+  required minOrderValue,
+  required validFor
+  }) async {
   final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webGetCoupons.php?status=new');
 
 
@@ -19,9 +23,13 @@ Future<bool> getCoupons({
     body: {
       'UserNo': userNo.toString(),
       'GetDate': getDate,
-     // 'ExpiryDate': expiryDate,
+       // 'ExpiryDate': expiryDate,
       'Used': used.toString(),
       'CouponNo': couponNo.toString(),
+      'Code' : code.toString(),
+      'Savings' : savings.toString(),
+      'MinOrderValue' : minOrderValue.toString(),
+      'ValidFor' : validFor.toString()
     },
   );
 

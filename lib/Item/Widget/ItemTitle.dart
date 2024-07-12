@@ -20,10 +20,13 @@ class ItemTitle extends StatelessWidget {
     var mark = colorMarkProvider.oneMarkByID;
 
     String markName = mark.isNotEmpty && mark[0].markName != null ? mark[0].markName : '';
-    String productNameDesc = product.isNotEmpty && product[0].productName != null && product[0].productDesc != null
-        ? '${product[0].productName} ${product[0].productDesc}'
+    String productNameDesc =
+        product.isNotEmpty && product[0].productName != ""
+            ? '${product[0].productName} '
+            : '';
+    String colorName = color.isNotEmpty && color[0].colorName != ""
+        ? color[0].colorName
         : '';
-    String colorName = color.isNotEmpty && color[0].colorName != null ? color[0].colorName : '';
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -31,7 +34,8 @@ class ItemTitle extends StatelessWidget {
       children: [
         Text(
           markName,
-          style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: tdBlack),
+          style: TextStyle(
+              fontSize: 17.sp, fontWeight: FontWeight.bold, color: tdBlack),
         ),
         SizedBox(height: 2.h),
         Text(

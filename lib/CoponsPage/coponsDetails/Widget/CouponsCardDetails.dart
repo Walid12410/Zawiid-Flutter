@@ -12,7 +12,6 @@ import '../../../provider/Coupons_Provider.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
 
 
-
 class CouponsCardDetails extends StatefulWidget {
   const CouponsCardDetails({Key? key}) : super(key: key);
 
@@ -21,12 +20,30 @@ class CouponsCardDetails extends StatefulWidget {
 }
 
 class _CouponsCardDetailsState extends State<CouponsCardDetails> {
+  late Future<Map<int, int>> _couponUsageMap;
 
+  @override
+  void initState() {
+    super.initState();
+    _couponUsageMap = _fetchAllCouponUsage();
+  }
+
+  Future<Map<int, int>> _fetchAllCouponUsage() async {
+    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
+    var couponList = couponsProvider.couponsMark;
+    Map<int, int> usageMap = {};
+
+    for (var coupon in couponList) {
+      int usage = await fetchCouponUsage(coupon.couponNo);
+      usageMap[coupon.couponNo] = usage;
+    }
+
+    return usageMap;
+  }
 
   Future<String> _fetchCouponStatus(int userId, int couponNo) {
     return checkCouponStatus(userId, couponNo);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,214 +75,204 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
         ),
       );
     } else {
-      for (var coupon in couponList) {
-        DateTime expiryDate = coupon.expiryDate;
-        if (expiryDate.isBefore(now)) {
-          continue;
-        }
+      return FutureBuilder<Map<int, int>>(
+        future: _couponUsageMap,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator(color: tdBlack,));
+          } else if (snapshot.hasError) {
+            return Center(child: Text('something went wrong. check your connection',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),));
+          } else if (snapshot.hasData) {
+            var usageMap = snapshot.data!;
+            for (var coupon in couponList) {
+              DateTime expiryDate = coupon.expiryDate;
+              if (expiryDate.isBefore(now)) {
+                continue;
+              }
 
-        int daysLeft = expiryDate.difference(now).inDays;
+              int daysLeft = expiryDate.difference(now).inDays;
+              int usageCount = usageMap[coupon.couponNo] ?? 0;
 
-        rows.add(
-          Padding(
-            padding: const EdgeInsets.all(4).w,
-            child: Row(
-              children: [
+              rows.add(
                 Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 5).w,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(-16214415)),
-                      borderRadius: BorderRadius.circular(5.w),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5).w,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 2.sp,
-                          ),
-                          Text(
-                            '${coupon.savings} %',
-                            style: TextStyle(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(-16214415),
-                            ),
-                          ),
-                          Text(
-                            'OFF',
-                            style: TextStyle(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(-16214415),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.sp,
-                          ),
-                          Container(
-                            width: 35.w,
-                            color: const Color(-16214415),
-                            child: Center(
-                              child: Text(
-                                'Deal',
-                                style: TextStyle(
-                                  color: tdWhite,
-                                  fontSize: 8.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10.sp,
-                ),
-                SizedBox(
-                  width: 180.w,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.all(4).w,
+                  child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 8).w,
-                        child: Text(
-                          '${markDetails[0].markName ?? ""} Member Offer: Up to ${coupon.savings}% off for Member Only ',
-                          style: TextStyle(
-                            fontSize: 8.sp,
-                            fontWeight: FontWeight.bold,
-                            color: tdBlack,
+                        padding: const EdgeInsets.only(top: 5, bottom: 5).w,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(-16214415)),
+                            borderRadius: BorderRadius.circular(5.w),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(
-                        children: [
-                          Container(
-                            width: 80.w,
-                            color: tdGold,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 5, bottom: 2, top: 2)
-                                  .w,
-                              child: Center(
-                                child: Text(
-                                  '${markDetails[0].markName ?? ""} MEMBER',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: tdWhite,
-                                    fontSize: 8.sp,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5).w,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 2.sp,
                                 ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Text(
-                            'Expires in $daysLeft days',
-                            style: TextStyle(
-                              fontSize: 8.sp,
-                              color: tdGrey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5.h),
-                      ReadMoreText(
-                        coupon.couponDesc,
-                        trimMode: TrimMode.Length,
-                        trimLength: 62,
-                        style: TextStyle(fontSize: 8.sp, color: tdGrey),
-                        colorClickableText: tdBlue,
-                        trimCollapsedText: 'More',
-                        trimExpandedText: 'Less',
-                        moreStyle: TextStyle(
-                          fontSize: 8.sp,
-                          color: tdBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        lessStyle: TextStyle(
-                          fontSize: 8.sp,
-                          color: tdBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      FutureBuilder<String>(
-                        future: _fetchCouponStatus(auth.userId, coupon.couponNo),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return GestureDetector(
-                              onTap: () {
-                                if (snapshot.data == 'Show Coupon') {
-                                  context.push(context.namedLocation('CouponsPromotion',
-                                      pathParameters: {
-                                        'couponsId': coupon.couponNo.toString(),
-                                      }));
-                                } else if (snapshot.data == 'Get Coupon') {
-                                  _getCoupons(context, auth.userId, coupon.couponNo).then((_) {
-                                    _fetchCouponStatus(auth.userId, coupon.couponNo);
-                                  });
-                                }
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                color: const Color(-9305855),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0).w,
+                                Text(
+                                  '${coupon.savings} %',
+                                  style: TextStyle(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(-16214415),
+                                  ),
+                                ),
+                                Text(
+                                  'OFF',
+                                  style: TextStyle(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(-16214415),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.sp,
+                                ),
+                                Container(
+                                  width: 35.w,
+                                  color: const Color(-16214415),
                                   child: Center(
                                     child: Text(
-                                      snapshot.data!,
+                                      'Deal',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
                                         color: tdWhite,
                                         fontSize: 8.sp,
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Container();
-                          }
-                          return Container();
-                        },
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 5.h),
-                      FutureBuilder<int>(
-                        future: fetchCouponUsage(coupon.couponNo),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Text(
-                              'Loading...',
-                              style: TextStyle(
-                                fontSize: 8.sp,
-                                color: tdGrey,
+                      SizedBox(
+                        width: 10.sp,
+                      ),
+                      SizedBox(
+                        width: 180.w,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8).w,
+                              child: Text(
+                                '${markDetails[0].markName ?? ""} Member Offer: Up to ${coupon.savings}% off for Member Only ',
+                                style: TextStyle(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: tdBlack,
+                                ),
                               ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text(
-                              'Loading...',
-                              style: TextStyle(
+                            ),
+                            SizedBox(height: 5.h),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 80.w,
+                                  color: tdGold,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 2, top: 2)
+                                        .w,
+                                    child: Center(
+                                      child: Text(
+                                        '${markDetails[0].markName ?? ""} MEMBER',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: tdWhite,
+                                          fontSize: 8.sp,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Text(
+                                  'Expires in $daysLeft days',
+                                  style: TextStyle(
+                                    fontSize: 8.sp,
+                                    color: tdGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5.h),
+                            ReadMoreText(
+                              coupon.couponDesc,
+                              trimMode: TrimMode.Length,
+                              trimLength: 62,
+                              style: TextStyle(fontSize: 8.sp, color: tdGrey),
+                              colorClickableText: tdBlue,
+                              trimCollapsedText: 'More',
+                              trimExpandedText: 'Less',
+                              moreStyle: TextStyle(
                                 fontSize: 8.sp,
-                                color: tdGrey,
+                                color: tdBlue,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          } else if (snapshot.hasData) {
-                            return Row(
+                              lessStyle: TextStyle(
+                                fontSize: 8.sp,
+                                color: tdBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            FutureBuilder<String>(
+                              future: _fetchCouponStatus(auth.userId, coupon.couponNo),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (snapshot.data == 'Show Coupon') {
+                                        context.push(context.namedLocation('CouponsPromotion',
+                                            pathParameters: {
+                                              'couponsId': coupon.couponNo.toString(),
+                                            }));
+                                      } else if (snapshot.data == 'Get Coupon') {
+                                        _getCoupons(context, auth.userId, coupon.couponNo,coupon.validFor,coupon.code,coupon.minOrderValue,coupon.savings).then((_) {
+                                          _fetchCouponStatus(auth.userId, coupon.couponNo);
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      color: const Color(-9305855),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0).w,
+                                        child: Center(
+                                          child: Text(
+                                            snapshot.data!,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: tdWhite,
+                                              fontSize: 8.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Container();
+                                }
+                                return Container();
+                              },
+                            ),
+                            SizedBox(height: 5.h),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
@@ -276,7 +283,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                       color: tdGrey,
                                     ),
                                     Text(
-                                      ' ${snapshot.data} People Used',
+                                      ' $usageCount People Used',
                                       style: TextStyle(
                                         fontSize: 8.sp,
                                         color: tdGrey,
@@ -285,67 +292,68 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                   ],
                                 ),
                               ],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
-                      SizedBox(height: 2.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.email,
-                                size: 10.w,
-                                color: tdGrey,
-                              ),
-                              Text(
-                                'Email',
-                                style: TextStyle(
-                                  color: tdBlue,
-                                  fontSize: 8.sp,
+                            ),
+                            SizedBox(height: 2.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.email,
+                                      size: 10.w,
+                                      color: tdGrey,
+                                    ),
+                                    Text(
+                                      'Email',
+                                      style: TextStyle(
+                                        color: tdBlue,
+                                        fontSize: 8.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.share,
-                                size: 10.w,
-                                color: tdGrey,
-                              ),
-                              Text(
-                                'Share',
-                                style: TextStyle(
-                                  color: tdBlue,
-                                  fontSize: 8.sp,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.share,
+                                      size: 10.w,
+                                      color: tdGrey,
+                                    ),
+                                    Text(
+                                      'Share',
+                                      style: TextStyle(
+                                        color: tdBlue,
+                                        fontSize: 8.sp,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        );
-      }
+              );
+            }
+            return Column(
+              children: rows,
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
     }
-
     return Column(
       children: rows,
     );
   }
-
-  Future<void> _getCoupons(BuildContext context, int userId, int couponNo) async {
+  Future<void> _getCoupons(BuildContext context, int userId, int couponNo,String validFor,String code,String minOrder,String saving) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -398,7 +406,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                         Navigator.of(context).pop();
                         return;
                       }
-                      bool success = await getCoupons(userNo: userId, used: 0, couponNo: couponNo);
+                      bool success = await getCoupons(userNo: userId, used: 0, couponNo: couponNo,validFor: validFor,code: code,savings: saving,minOrderValue: minOrder );
                       if (success) {
                         Navigator.of(context).pop();
                         setState(() {});
@@ -478,6 +486,9 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
       },
     );
   }
+
+
 }
+
 
 

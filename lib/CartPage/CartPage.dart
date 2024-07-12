@@ -283,8 +283,20 @@ class _CartPageState extends State<CartPage> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          context
-                              .push(context.namedLocation('shippingAddress'));
+                          if(cartItem.isEmpty){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Cart is empty!',
+                                  style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                                ),
+                                backgroundColor: tdBlack,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                            return;
+                          }
+                          context.push(context.namedLocation('shippingAddress'));
                         },
                         child: Container(
                           width: double.infinity,

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/Classes/Featured/Featured.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
@@ -72,16 +71,16 @@ class _HomePageState extends State<HomePage> {
     var categories = categoryProvider.category;
     OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: true);
 
-    List<Offer> getNewestFeaturedProducts() {
-      List<Offer> featuredProducts = offerProvider.allOffer;
-      featuredProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
-      List<Offer> validFeaturedProducts = featuredProducts
+    List<Offer> getNewestOfferProducts() {
+      List<Offer> offerProducts = offerProvider.allOffer;
+      offerProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
+      List<Offer> validOfferProducts = offerProducts
           .where((offer) => offer.startDate.isBefore(DateTime.now()) &&
           offer.endDate.isAfter(DateTime.now())).toList();
-      return validFeaturedProducts;
+      return validOfferProducts;
     }
 
-    List<Offer> newestOfferProducts = getNewestFeaturedProducts();
+    List<Offer> newestOfferProducts = getNewestOfferProducts();
 
     return Scaffold(
       key: HomePage.scaffoldKey,
@@ -368,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                                       'Explore Our Product Range',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 12.sp),
+                                          fontSize: 10.sp),
                                     ),
                                     SizedBox(height: 3.h),
                                     Container(
@@ -437,7 +436,7 @@ class _HomePageState extends State<HomePage> {
                                                           .categoryName,
                                                       style: TextStyle(
                                                         color: tdBlack,
-                                                        fontSize: 12.sp,
+                                                        fontSize: 10.sp,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
@@ -483,7 +482,7 @@ class _HomePageState extends State<HomePage> {
                                                         .subCatName,
                                                     style: TextStyle(
                                                       color: tdBlack,
-                                                      fontSize: 12.sp,
+                                                      fontSize: 10.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
                                                     ),

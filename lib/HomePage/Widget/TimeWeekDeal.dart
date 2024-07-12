@@ -13,7 +13,7 @@ class TimerWeekDeal extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5).w,
       child: Container(
-        width: 45.w,
+        width: 47.w,
         decoration: BoxDecoration(
             color: tdWhite,
             border: Border.all(color: tdGrey),
@@ -29,7 +29,8 @@ class TimerWeekDeal extends StatelessWidget {
               Text(
                 name,
                 style: TextStyle(fontSize: 7.sp, color: tdGrey),
-              )
+              ),
+              SizedBox(height: 2.h,),
             ],
           ),
         ),

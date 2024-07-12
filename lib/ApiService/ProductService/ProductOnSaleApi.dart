@@ -9,6 +9,9 @@ Future<List<Product>> fetchProductOnSale() async {
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<Product> productsOnSale = jsonData.map((json) => Product.fromJson(json)).toList();
+      print(productsOnSale);
+      print(jsonData);
+
       return productsOnSale;
     } else {
       throw Exception('Failed to load productsOnSale');

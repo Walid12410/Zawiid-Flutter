@@ -39,9 +39,9 @@ class CouponsPromotionDetails extends StatelessWidget {
     void copyToClipboard(String text) {
       Clipboard.setData(ClipboardData(text: text));
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Coupon code copied'),
-          duration: Duration(seconds: 2),
+         SnackBar(
+          content: Text('Coupon code copied',style: TextStyle(fontSize: 12.sp,color: tdWhite),),
+          duration: const Duration(seconds: 2),
           backgroundColor: tdBlack,
         ),
       );
