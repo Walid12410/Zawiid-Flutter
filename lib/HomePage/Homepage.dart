@@ -8,9 +8,11 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/Classes/Featured/Featured.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import '../ApiEndPoint.dart';
+import '../Classes/offer/offer.dart';
 import '../Drawer/DrawerPage.dart';
 import '../provider/Cart_Provider.dart';
 import '../provider/Categories_Provider.dart';
@@ -53,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final productProvider = Provider.of<ProductsProvider>(context, listen: false);
+    OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: false);
     await Provider.of<CartProvider>(context, listen: false).getAllCartOfUser(authProvider.userId);
     await categoryProvider.getCategory();
     await userProvider.getUserInfo(authProvider.userId);
@@ -60,27 +63,25 @@ class _HomePageState extends State<HomePage> {
     await productProvider.getProductsOnSale();
     await productProvider.getProductsTopRated();
     await productProvider.getAllFeaturedProductCard();
+    await offerProvider.getAllOffer();
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
-    ProductsProvider productProvider = Provider.of<ProductsProvider>(context, listen: true);
+    OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: true);
 
-    List<Featured> getNewestFeaturedProducts(int count) {
-      List<Featured> featuredProducts = productProvider.featuredProductCard;
+    List<Offer> getNewestFeaturedProducts() {
+      List<Offer> featuredProducts = offerProvider.allOffer;
       featuredProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
-      List<Featured> validFeaturedProducts = featuredProducts
-          .where((product) =>
-              product.startDate
-                  .isBefore(DateTime.now().add(const Duration(days: 1))) &&
-              product.endDate.isAfter(DateTime.now()))
-          .toList();
-      return validFeaturedProducts.take(count).toList();
+      List<Offer> validFeaturedProducts = featuredProducts
+          .where((offer) => offer.startDate.isBefore(DateTime.now()) &&
+          offer.endDate.isAfter(DateTime.now())).toList();
+      return validFeaturedProducts;
     }
 
-    List<Featured> newestFeaturedProducts = getNewestFeaturedProducts(3);
+    List<Offer> newestOfferProducts = getNewestFeaturedProducts();
 
     return Scaffold(
       key: HomePage.scaffoldKey,
@@ -322,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                                   });
                                 },
                                 children: [
-                                  if (newestFeaturedProducts.isEmpty)
+                                  if (newestOfferProducts.isEmpty)
                                     SizedBox(
                                       child: Center(
                                         child: Text(
@@ -335,19 +336,16 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     )
                                   else
-                                    for (var featuredProduct
-                                        in newestFeaturedProducts)
+                                    for (var offerProduct
+                                        in newestOfferProducts)
                                       WeekDealCard(
-                                        price:
-                                            featuredProduct.products![0].price,
-                                        image:
-                                            '${ApiEndpoints.localBaseUrl}/${featuredProduct.products![0].productImage}',
-                                        startDate: featuredProduct.startDate,
-                                        endDate: featuredProduct.endDate,
-                                        productNo: featuredProduct.products![0].productNo,
-                                        colorNo: featuredProduct.products![0].colorNo,
-                                        markNo: featuredProduct.products![0].markNo,
-                                        salePrice: featuredProduct.products![0].discountedPrice,
+                                        image: '${ApiEndpoints.localBaseUrl}/${offerProduct.products[0].productImage}',
+                                        startDate: offerProduct.startDate,
+                                        endDate: offerProduct.endDate,
+                                        productNo: offerProduct.products[0].productNo,
+                                        colorNo: offerProduct.products[0].colorNo,
+                                        markNo: offerProduct.products[0].markNo,
+                                        productOfferPrice: offerProduct.productPrice,
                                       ),
                                 ],
                               ),

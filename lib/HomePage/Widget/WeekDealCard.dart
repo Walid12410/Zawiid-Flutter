@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../ApiService/CartService/AddCart.dart';
-import '../../ApiService/CartService/CheckProductApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Auth_Provider.dart';
@@ -15,23 +14,21 @@ import 'package:provider/provider.dart';
 class WeekDealCard extends StatefulWidget {
   const WeekDealCard(
       {super.key,
-      required this.price,
       required this.image,
       required this.startDate,
       required this.endDate,
       required this.productNo,
       required this.colorNo,
       required this.markNo,
-      required this.salePrice});
+      required this.productOfferPrice});
 
   final DateTime startDate;
   final DateTime endDate;
   final String image;
-  final String price;
   final int productNo;
   final int colorNo;
   final int markNo;
-  final String salePrice;
+  final String productOfferPrice;
 
   @override
   _WeekDealCardState createState() => _WeekDealCardState();
@@ -58,9 +55,7 @@ class _WeekDealCardState extends State<WeekDealCard> {
           userNo: userID,
           productNo: widget.productNo,
           productCartQty: 1,
-          productCartPrice: double.parse(widget.salePrice) > 0.0
-              ? double.parse(widget.salePrice)
-              : double.parse(widget.price),
+          productCartPrice: double.parse(widget.productOfferPrice),
           context: context,
         );
         _showSnackBar('Item added to cart');
@@ -134,7 +129,7 @@ class _WeekDealCardState extends State<WeekDealCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${widget.price}KD',
+                        '${widget.productOfferPrice}KD',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,

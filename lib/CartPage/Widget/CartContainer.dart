@@ -8,7 +8,6 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import '../../ApiService/CartService/UpdateCartApi.dart';
 import '../../Classes/Product/Products.dart';
 import '../../provider/Auth_Provider.dart';
-import '../../provider/Cart_Provider.dart';
 
 class CartContainer extends StatefulWidget {
   const CartContainer({
@@ -29,7 +28,7 @@ class CartContainer extends StatefulWidget {
 class _CartContainerState extends State<CartContainer> {
   late int _currentQuantity;
   late double _currentPrice;
-  Product? _product; // Nullable product to handle initialization
+  Product? _product;
 
   @override
   void initState() {
@@ -46,21 +45,11 @@ class _CartContainerState extends State<CartContainer> {
     if (products.isNotEmpty) {
       setState(() {
         _product = products[0];
-        _currentPrice =
-            _calculateProductPrice(_product!); // Ensure _product is not null
+        _currentPrice = double.parse(widget.productCartPrice);
       });
     }
   }
 
-  double _calculateProductPrice(Product product) {
-    double productPrice = 0.0;
-    if (double.parse(product.discountedPrice) > 0.0) {
-      productPrice = double.parse(product.discountedPrice);
-    } else {
-      productPrice = double.parse(product.price);
-    }
-    return productPrice;
-  }
 
   Future<void> _updateCart(int newQuantity) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);

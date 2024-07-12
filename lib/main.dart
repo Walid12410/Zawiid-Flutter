@@ -10,6 +10,7 @@ import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
+import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider()),
       ChangeNotifierProvider(create: (_) => ProductsProvider()),
+      ChangeNotifierProvider(create: (_) => OfferProvider()),
       ChangeNotifierProvider(create: (_) => AuthProvider()..setUserId(userId)),
       ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => GovAreaProvider()),

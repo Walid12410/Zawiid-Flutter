@@ -239,7 +239,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                               ),
                             );
                           } else if (snapshot.hasError) {
-                            return Center(child: Text('${snapshot.error}'));
+                            return Container();
                           }
                           return Container();
                         },
