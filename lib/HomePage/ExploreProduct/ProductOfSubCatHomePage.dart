@@ -111,8 +111,8 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
                       salePrice: categoryProducts[productIndex].discountedPrice,
                       image: '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
                       productNo: categoryProducts[productIndex].productNo,
-                      markNo: categoryProducts[productIndex].markNo,
-                      colorNo: categoryProducts[productIndex].colorNo,
+                      markNo: categoryProducts[productIndex].mark!.markNo,
+                      colorNo: categoryProducts[productIndex].color!.colorNo,
                     );
                   });
 

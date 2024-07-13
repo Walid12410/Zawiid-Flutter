@@ -22,8 +22,8 @@ class ItemBottoms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartView = Provider.of<CartProvider>(context, listen: true);
-    var cartCheck = cartView.viewCartFound;
     final auth = Provider.of<AuthProvider>(context, listen: false);
+    final isProductInCart = cartView.isProductInCart(productNo);
 
     double price = double.parse(productSalePrice) > 0.0
         ? double.parse(productSalePrice)
@@ -33,7 +33,7 @@ class ItemBottoms extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () async {
-            if(auth.userId == 0 ){
+            if (auth.userId == 0) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -45,22 +45,32 @@ class ItemBottoms extends StatelessWidget {
                 ),
               );
               return;
-            }else if (cartCheck.isEmpty) {
+            } else if (!isProductInCart) {
+              cartView.addToCart(auth.userId, productNo, 1, price.toString());
               await addCartItem(
                 userNo: auth.userId,
                 productNo: productNo,
                 productCartQty: 1,
                 productCartPrice: price,
-                context: context,
               );
-              await cartView.getIfCartIsAdded(auth.userId, productNo);
-            } else {
+            } else if(isProductInCart) {
+              cartView.removeFromCart(productNo);
               await deleteCartItem(
                 userNo: auth.userId,
                 productNo: productNo,
-                context: context,
               );
-              await cartView.getIfCartIsAdded(auth.userId, productNo);
+            }else{
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Login or SignUp please.',
+                    style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                  ),
+                  backgroundColor: tdBlack,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+              return;
             }
           },
           child: Container(
@@ -72,7 +82,7 @@ class ItemBottoms extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                cartCheck.isEmpty ? 'Add to cart' : 'Remove from cart',
+                isProductInCart ? 'Remove from cart' : 'Add to cart',
                 style: TextStyle(
                   color: tdBlack,
                   fontWeight: FontWeight.bold,
@@ -105,7 +115,7 @@ class ItemBottoms extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

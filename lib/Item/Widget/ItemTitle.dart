@@ -22,7 +22,7 @@ class ItemTitle extends StatelessWidget {
     String markName = mark.isNotEmpty && mark[0].markName != null ? mark[0].markName : '';
     String productNameDesc =
         product.isNotEmpty && product[0].productName != ""
-            ? '${product[0].productName} '
+            ? '${product[0].productName} ${product[0].productDesc} '
             : '';
     String colorName = color.isNotEmpty && color[0].colorName != ""
         ? color[0].colorName

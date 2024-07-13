@@ -15,7 +15,7 @@ class BidPageImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductsProvider productById = Provider.of<ProductsProvider>(context, listen: true);
-    var product = productById.productById;
+    var product = productById.productByIdBid;
     String imagePath = '${ApiEndpoints.localBaseUrl}/${product[0].productImage}';
     return  Container(
         width: double.infinity,

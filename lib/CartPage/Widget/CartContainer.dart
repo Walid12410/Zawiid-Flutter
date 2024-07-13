@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import '../../ApiService/CartService/UpdateCartApi.dart';
 import '../../Classes/Product/Products.dart';
@@ -55,17 +56,15 @@ class _CartContainerState extends State<CartContainer> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final userNo = authProvider.userId;
     final productPrice = _currentPrice;
-    await updateCart(userNo, widget.productNo, newQuantity,
-        productPrice, context);
-    setState(() {
-      _currentQuantity = newQuantity;
-    });
+    await updateCart(userNo, widget.productNo, newQuantity, productPrice, context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
+
     if (_product == null) {
-      return Center(child: Container());
+      return const Center(child: CircularProgressIndicator(color: tdBlack,));
     }
 
     return Padding(
@@ -162,6 +161,7 @@ class _CartContainerState extends State<CartContainer> {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            cartProvider.decrimentQty(widget.productNo);
                             if (_currentQuantity > 1) {
                               _updateCart(_currentQuantity - 1);
                             }
@@ -169,7 +169,7 @@ class _CartContainerState extends State<CartContainer> {
                           child: Icon(Icons.remove, color: tdGrey, size: 12.w),
                         ),
                         Text(
-                          '$_currentQuantity',
+                          '${widget.cartQuantity}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: tdBlack,
@@ -177,6 +177,7 @@ class _CartContainerState extends State<CartContainer> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            cartProvider.incrementQty(widget.productNo);
                             _updateCart(_currentQuantity + 1);
                           },
                           child: Icon(Icons.add, color: tdGrey, size: 12.w),

@@ -1,3 +1,4 @@
+import 'package:zawiid/Classes/Product/ProductCategory.dart';
 import '../Product/Products.dart';
 
 class BidProduct {
@@ -23,7 +24,7 @@ class BidProduct {
   final int productNo;
   final int soldToUserNo;
   final int show;
-  final List<Product> products;
+  final List<ProductCategory> products; // Changed to List<ProductCategory>
 
   factory BidProduct.fromJson(Map<String, dynamic> json) {
     DateTime startDate = DateTime.parse(json['BidStartDate']['date']);
@@ -41,8 +42,8 @@ class BidProduct {
       show: json["Show"] ?? 0,
       products: json["Products"] == null
           ? []
-          : List<Product>.from(
-              json["Products"]!.map((x) => Product.fromJson(x))),
+          : List<ProductCategory>.from(
+          json["Products"].map((x) => ProductCategory.fromJson(x))), // Changed Product.fromJson to ProductCategory.fromJson
     );
   }
 }

@@ -88,30 +88,28 @@ class _AddressViewState extends State<AddressView> {
   @override
   Widget build(BuildContext context) {
     final addressProvider = Provider.of<AddressProvider>(context, listen: true);
-
     return FutureBuilder<void>(
       future: _fetchDataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: SizedBox(
-                width: 90.w,
-                height: 100.h,
-                child: Image.asset(
-                  'assets/log/LOGO-icon---Black.png',
-                  fit: BoxFit.contain,
-                ),
-              ));
+          return const Scaffold(
+            backgroundColor: tdWhite,
+            body: Center(
+                child:CircularProgressIndicator(color: tdBlack,)),
+          );
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Something went wrong. Please check your connection.',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
-                color: tdGrey,
+          return Scaffold(
+            backgroundColor: tdWhite,
+            body: Center(
+              child: Text(
+                'Something went wrong. Please check your connection.',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.sp,
+                  color: tdGrey,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           );
         } else {

@@ -2,9 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-
-import '../../../ApiService/MarkColorService/ColorByIdApi.dart';
-import '../../../Classes/ColorAndMark/color.dart';
 import '../../../Color&Icons/color.dart';
 
 class SoldDetails extends StatefulWidget {
@@ -16,7 +13,8 @@ class SoldDetails extends StatefulWidget {
     required this.productName,
     required this.productImage,
     required this.colorNo,
-    required this.soldPrice
+    required this.soldPrice,
+    required this.colorName
   }) : super(key: key);
 
   final int bidNo;
@@ -26,31 +24,13 @@ class SoldDetails extends StatefulWidget {
   final String productImage;
   final int colorNo;
   final String soldPrice;
+  final String colorName;
 
   @override
   _SoldDetailsState createState() => _SoldDetailsState();
 }
 
 class _SoldDetailsState extends State<SoldDetails> {
-  ColorProduct? _colorProduct;
-
-  Future<void> _fetchColorDetails() async {
-    try {
-      final List<ColorProduct> colorProducts =
-      await fetchColorById(widget.colorNo);
-      setState(() {
-        _colorProduct =  colorProducts.isNotEmpty ? colorProducts[0] : null;
-      });
-    } catch (e) {
-      print('Error fetching color details: $e');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchColorDetails();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +56,7 @@ class _SoldDetailsState extends State<SoldDetails> {
             ),
           ),
           Text(
-            '${widget.productName} / ${_colorProduct?.colorName}',
+            '${widget.productName} / ${widget.colorName}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12.sp,

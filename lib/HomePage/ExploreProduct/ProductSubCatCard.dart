@@ -10,9 +10,9 @@ import '../../Color&Icons/color.dart';
 import '../../provider/Auth_Provider.dart';
 import '../../provider/Cart_Provider.dart';
 
-class ProductSubCategoriesHomePageCard extends StatefulWidget {
+class ProductSubCategoriesHomePageCard extends StatelessWidget {
   const ProductSubCategoriesHomePageCard({
-    super.key,
+    Key? key,
     required this.title,
     required this.desc,
     required this.mainPrice,
@@ -21,7 +21,7 @@ class ProductSubCategoriesHomePageCard extends StatefulWidget {
     required this.productNo,
     required this.markNo,
     required this.colorNo,
-  });
+  }) : super(key: key);
 
   final String title;
   final String desc;
@@ -32,75 +32,59 @@ class ProductSubCategoriesHomePageCard extends StatefulWidget {
   final int markNo;
   final int colorNo;
 
-  @override
-  _ProductSubCategoriesHomePageCardState createState() =>
-      _ProductSubCategoriesHomePageCardState();
-}
-
-class _ProductSubCategoriesHomePageCardState
-    extends State<ProductSubCategoriesHomePageCard> {
-  Future<void> _toggleCart() async {
+  void _toggleCart(BuildContext context) async {
     final userID = Provider.of<AuthProvider>(context, listen: false).userId;
     if (userID == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+          content: Text(
+            'Login or SignUp please.',
+            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+          ),
+          backgroundColor: tdBlack,
+          duration:const Duration(seconds: 2),
+        ),
+      );
       return;
     }
 
-    try {
-      final cartProvider = Provider.of<CartProvider>(context, listen: false);
-      final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-          cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
 
-      if (isProductInCart) {
-        await deleteCartItem(
-            userNo: userID, productNo: widget.productNo, context: context);
-        _showSnackBar('Item removed from cart');
-      } else {
-        await addCartItem(
-          userNo: userID,
-          productNo: widget.productNo,
-          productCartQty: 1,
-          productCartPrice: double.parse(widget.salePrice) > 0.0
-              ? double.parse(widget.salePrice)
-              : double.parse(widget.mainPrice),
-          context: context,
-        );
-        _showSnackBar('Item added to cart');
-      }
-      cartProvider.getAllCartOfUser(userID);
-    } catch (e) {
-      throw Exception(e);
+    double price = double.parse(salePrice) > 0.0
+        ? double.parse(salePrice)
+        : double.parse(mainPrice);
+
+    if (!isProductInCart) {
+      cartProvider.addToCart(userID, productNo, 1, price.toString());
+      addCartItem(
+        userNo: userID,
+        productNo: productNo,
+        productCartQty: 1,
+        productCartPrice: price,
+      );
+    } else {
+      cartProvider.removeFromCart(productNo);
+      deleteCartItem(
+        userNo: userID,
+        productNo: productNo,
+      );
     }
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: tdBlack,
-        content: Text(
-          message,
-          style: TextStyle(
-              fontSize: 10.sp, fontWeight: FontWeight.bold, color: tdWhite),
-        ),
-        duration: const Duration(seconds: 1),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
-    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-        cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
 
     return Padding(
-      padding: const EdgeInsets.all(5).w,
+      padding: EdgeInsets.all(5).w,
       child: GestureDetector(
         onTap: () {
           GoRouter.of(context).goNamed('itemDetails', pathParameters: {
-            'itemNo': widget.productNo.toString(),
-            'colorNo': widget.colorNo.toString(),
-            'markNo': widget.markNo.toString(),
+            'itemNo': productNo.toString(),
+            'colorNo': colorNo.toString(),
+            'markNo': markNo.toString(),
           });
         },
         child: Container(
@@ -117,7 +101,7 @@ class _ProductSubCategoriesHomePageCardState
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(5.0).w,
+            padding: EdgeInsets.all(5.0).w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +110,7 @@ class _ProductSubCategoriesHomePageCardState
                   height: 5.h,
                 ),
                 Text(
-                  '${widget.title} ${widget.desc}',
+                  '$title $desc',
                   style: TextStyle(fontSize: 8.sp, color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -138,7 +122,7 @@ class _ProductSubCategoriesHomePageCardState
                     width: 100.w,
                     height: 130.h,
                     child: CachedNetworkImage(
-                      imageUrl: widget.image,
+                      imageUrl: image,
                       placeholder: (context, url) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
@@ -153,7 +137,7 @@ class _ProductSubCategoriesHomePageCardState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${widget.mainPrice} KD',
+                      '$mainPrice KD',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,
@@ -163,17 +147,19 @@ class _ProductSubCategoriesHomePageCardState
                       width: 2.w,
                     ),
                     GestureDetector(
-                        onTap: _toggleCart,
-                        child: isProductInCart
-                            ? Icon(
-                                Icons.remove_circle,
-                                size: 27.w,color: tdBlack,
-                              )
-                            : SvgPicture.asset(
-                                'assets/svg/buy.svg',
-                                width: 27.w,
-                                fit: BoxFit.fill,
-                              )),
+                      onTap: () => _toggleCart(context),
+                      child: isProductInCart
+                          ? Icon(
+                        Icons.remove_circle,
+                        size: 27.w,
+                        color: tdBlack,
+                      )
+                          : SvgPicture.asset(
+                        'assets/svg/buy.svg',
+                        width: 27.w,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                     const SizedBox(),
                   ],
                 ),

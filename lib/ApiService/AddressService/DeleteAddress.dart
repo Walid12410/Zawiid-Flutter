@@ -15,6 +15,7 @@ Future<void> deleteAddress(BuildContext context, int id) async {
 
     if (response.statusCode == 200) {
       Provider.of<AddressProvider>(context, listen: false).removeAddress(id);
+      Provider.of<AddressProvider>(context, listen: false).removeDefaultAddress();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Address deleted successfully',style: TextStyle(fontSize: 10.sp,color: tdWhite),),backgroundColor: tdBlack,duration: const Duration(seconds: 1),),
       );

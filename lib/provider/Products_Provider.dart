@@ -9,22 +9,23 @@ import 'package:zawiid/ApiService/ProductService/ProductDetails.dart';
 import 'package:zawiid/ApiService/ProductService/ProductOnSaleApi.dart';
 import 'package:zawiid/ApiService/ProductService/ProductTopRated.dart';
 import 'package:zawiid/Classes/Featured/Featured.dart';
+import 'package:zawiid/Classes/Product/ProductCategory.dart';
 import 'package:zawiid/Classes/Product/ProductDetails.dart';
 import 'package:zawiid/Classes/Product/Products.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsProvider with ChangeNotifier {
 
-  List<Product> _categoryProducts = [];
-  List<Product> get categoryProduct => _categoryProducts;
+  List<ProductCategory> _categoryProducts = [];
+  List<ProductCategory> get categoryProduct => _categoryProducts;
   getAllCategoryProducts(int id) async {
     final res = await fetchProductByCategoryNo(id);
     _categoryProducts = res;
     notifyListeners();
   }
 
-  List<Product> _categoryProductsHome = [];
-  List<Product> get categoryProductHome => _categoryProductsHome;
+  List<ProductCategory> _categoryProductsHome = [];
+  List<ProductCategory> get categoryProductHome => _categoryProductsHome;
   getAllCategoryProductsHome(int id) async {
     final res = await fetchProductByCategoryNo(id);
     _categoryProductsHome = res;
@@ -70,6 +71,15 @@ class ProductsProvider with ChangeNotifier {
     _productById = res;
     notifyListeners();
   }
+
+  List<Product> _productByIdBid = [];
+  List<Product> get productByIdBid => _productByIdBid;
+  getProductByIdBid(int id) async {
+    final res = await fetchProductById(id);
+    _productByIdBid = res;
+    notifyListeners();
+  }
+
 
   List<Product> _productByIdTicket = [];
   List<Product> get productByIdTicket => _productByIdTicket;

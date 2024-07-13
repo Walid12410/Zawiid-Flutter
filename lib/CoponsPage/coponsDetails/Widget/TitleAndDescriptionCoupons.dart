@@ -60,11 +60,6 @@ class TitleAndDescription extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            'adidas.com.kw',
-            style: TextStyle(
-                fontSize: 5.sp, color: tdBlue, fontWeight: FontWeight.bold),
-          ),
           SizedBox(
             height: 10.h,
           ),

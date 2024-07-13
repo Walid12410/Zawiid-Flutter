@@ -11,16 +11,17 @@ import '../../provider/Cart_Provider.dart';
 import '../CountTime/CountTimerFeatured.dart';
 import 'package:provider/provider.dart';
 
-class WeekDealCard extends StatefulWidget {
-  const WeekDealCard(
-      {super.key,
-      required this.image,
-      required this.startDate,
-      required this.endDate,
-      required this.productNo,
-      required this.colorNo,
-      required this.markNo,
-      required this.productOfferPrice});
+class WeekDealCard extends StatelessWidget {
+  const WeekDealCard({
+    Key? key,
+    required this.startDate,
+    required this.endDate,
+    required this.image,
+    required this.productNo,
+    required this.colorNo,
+    required this.markNo,
+    required this.productOfferPrice,
+  }) : super(key: key);
 
   final DateTime startDate;
   final DateTime endDate;
@@ -30,62 +31,46 @@ class WeekDealCard extends StatefulWidget {
   final int markNo;
   final String productOfferPrice;
 
-  @override
-  _WeekDealCardState createState() => _WeekDealCardState();
-}
-
-class _WeekDealCardState extends State<WeekDealCard> {
-  Future<void> _toggleCart() async {
+  void _toggleCart(BuildContext context) async {
     final userID = Provider.of<AuthProvider>(context, listen: false).userId;
     if (userID == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+          content: Text(
+            'Login or SignUp please.',
+            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+          ),
+          backgroundColor: tdBlack,
+          duration:const Duration(seconds: 2),
+        ),
+      );
       return;
     }
 
-    try {
-      final cartProvider = Provider.of<CartProvider>(context, listen: false);
-      final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-          cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
 
-      if (isProductInCart) {
-        await deleteCartItem(
-            userNo: userID, productNo: widget.productNo, context: context);
-        _showSnackBar('Item removed from cart');
-      } else {
-        await addCartItem(
-          userNo: userID,
-          productNo: widget.productNo,
-          productCartQty: 1,
-          productCartPrice: double.parse(widget.productOfferPrice),
-          context: context,
-        );
-        _showSnackBar('Item added to cart');
-      }
-      cartProvider.getAllCartOfUser(userID);
-    } catch (e) {
-      throw Exception(e);
+    if (!isProductInCart) {
+      cartProvider.addToCart(userID, productNo, 1, productOfferPrice);
+      addCartItem(
+        userNo: userID,
+        productNo: productNo,
+        productCartQty: 1,
+        productCartPrice: double.parse(productOfferPrice),
+      );
+    } else {
+      cartProvider.removeFromCart(productNo);
+      deleteCartItem(
+        userNo: userID,
+        productNo: productNo,
+      );
     }
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: tdBlack,
-        content: Text(
-          message,
-          style: TextStyle(
-              fontSize: 10.sp, fontWeight: FontWeight.bold, color: tdWhite),
-        ),
-        duration: const Duration(seconds: 1),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
-    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-        cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
 
     return SizedBox(
       child: Column(
@@ -97,16 +82,16 @@ class _WeekDealCardState extends State<WeekDealCard> {
             child: GestureDetector(
               onTap: () {
                 GoRouter.of(context).goNamed('itemDetails', pathParameters: {
-                  'itemNo': widget.productNo.toString(),
-                  'colorNo': widget.colorNo.toString(),
-                  'markNo': widget.markNo.toString(),
+                  'itemNo': productNo.toString(),
+                  'colorNo': colorNo.toString(),
+                  'markNo': markNo.toString(),
                 });
               },
               child: SizedBox(
                 width: 250.w,
                 height: 180.h,
                 child: CachedNetworkImage(
-                  imageUrl: widget.image,
+                  imageUrl: image,
                   placeholder: (context, url) =>
                       Image.asset('assets/log/LOGO-icon---Black.png'),
                   errorWidget: (context, url, error) =>
@@ -129,7 +114,7 @@ class _WeekDealCardState extends State<WeekDealCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${widget.productOfferPrice}KD',
+                        '$productOfferPrice KD',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,
@@ -139,18 +124,19 @@ class _WeekDealCardState extends State<WeekDealCard> {
                         width: 15.w,
                       ),
                       GestureDetector(
-                          onTap: _toggleCart,
-                          child: isProductInCart
-                              ? Icon(
-                                  Icons.remove_circle,
-                                  size: 27.w,
-                                  color: tdBlack,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/svg/buy.svg',
-                                  width: 27.w,
-                                  fit: BoxFit.fill,
-                                ))
+                        onTap: () => _toggleCart(context),
+                        child: isProductInCart
+                            ? Icon(
+                          Icons.remove_circle,
+                          size: 27.w,
+                          color: tdBlack,
+                        )
+                            : SvgPicture.asset(
+                          'assets/svg/buy.svg',
+                          width: 27.w,
+                          fit: BoxFit.fill,
+                        ),
+                      )
                     ],
                   ),
                   SizedBox(
@@ -183,7 +169,9 @@ class _WeekDealCardState extends State<WeekDealCard> {
                   ),
                   SizedBox(height: 5.h),
                   CountTimerFeatured(
-                      startTime: widget.startDate, endTime: widget.endDate)
+                    startTime: startDate,
+                    endTime: endDate,
+                  )
                 ],
               )
             ],

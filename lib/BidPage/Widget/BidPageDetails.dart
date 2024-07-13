@@ -198,7 +198,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
     BidProvider bidProvider = Provider.of<BidProvider>(context, listen: true);
     var bid = bidProvider.bidById;
     var color = colorById.oneColorByIDBid;
-    var product = productById.productById;
+    var product = productById.productByIdBid;
     var latestBid = bidProvider.latestBid;
     var latestUserBid = bidProvider.latestUserBid;
 

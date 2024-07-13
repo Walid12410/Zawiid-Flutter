@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zawiid/ApiEndPoint.dart';
-import 'package:zawiid/Classes/Product/Products.dart';
 
-Future<List<Product>> fetchProductByCategoryNo(int id) async {
+import '../../Classes/Product/ProductCategory.dart';
+
+Future<List<ProductCategory>> fetchProductByCategoryNo(int id) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/webProduct.php?status=subCategoryProducts&id=$id'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileProductSubCategory.php?id=$id'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      List<Product> products = jsonData.map((json) => Product.fromJson(json)).toList();
-      return products;
+      List<ProductCategory> productsCategory = jsonData.map((json) => ProductCategory.fromJson(json)).toList();
+      return productsCategory;
     } else {
-      throw Exception('Failed to load Products');
+      throw Exception('Failed to load products OF Category');
     }
   } catch (e) {
     throw Exception('Server Error');

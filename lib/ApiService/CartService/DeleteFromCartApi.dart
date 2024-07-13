@@ -8,7 +8,6 @@ import 'package:zawiid/provider/Cart_Provider.dart';
 Future<void> deleteCartItem({
   required int userNo,
   required int productNo,
-  required BuildContext context
 }) async {
   final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webCart.php');
 
@@ -26,7 +25,7 @@ Future<void> deleteCartItem({
     if (responseData['error'] != null) {
       throw Exception(responseData['error']);
     } else {
-      Provider.of<CartProvider>(context, listen: false).removeFromCart(productNo);
+      print('success');
     }
   } else {
     throw Exception('Failed to delete cart item');

@@ -3,29 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/ApiService/MarkColorService/MarkByIdApi.dart';
-import 'package:zawiid/Classes/Cart/Cart.dart';
-import 'package:zawiid/Classes/ColorAndMark/mark.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
-
 import '../../ApiService/CartService/AddCart.dart';
-import '../../ApiService/CartService/CheckProductApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
-import '../../ApiService/MarkColorService/ColorByIdApi.dart';
-import '../../Classes/ColorAndMark/color.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Auth_Provider.dart';
 
-class CartItemView extends StatefulWidget {
-  const CartItemView(
-      {super.key,
-      required this.title,
-      required this.mainPrice,
-      required this.salePrice,
-      required this.image,
-      required this.markNo,
-      required this.colorNo,
-      required this.productNo});
+class CartItemView extends StatelessWidget {
+  const CartItemView({
+    Key? key,
+    required this.title,
+    required this.mainPrice,
+    required this.salePrice,
+    required this.image,
+    required this.markNo,
+    required this.colorNo,
+    required this.productNo,
+    required this.markName,
+    required this.colorName,
+  }) : super(key: key);
 
   final String title;
   final String mainPrice;
@@ -34,70 +30,25 @@ class CartItemView extends StatefulWidget {
   final int markNo;
   final int colorNo;
   final int productNo;
-
-  @override
-  _CartItemViewState createState() => _CartItemViewState();
-}
-
-class _CartItemViewState extends State<CartItemView> {
-  ColorProduct? _colorProduct;
-  Mark? _markProduct;
-  Cart? _productFoundCart;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchColorDetails();
-    _fetchMarkDetails();
-    _fetchCheckCart();
-  }
-
-  Future<void> _fetchColorDetails() async {
-    try {
-      final List<ColorProduct> colorProducts =
-          await fetchColorById(widget.colorNo);
-      setState(() {
-        _colorProduct = colorProducts.isNotEmpty ? colorProducts[0] : null;
-      });
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<void> _fetchCheckCart() async {
-    try {
-      final auth = Provider.of<AuthProvider>(context, listen: false);
-      final List<Cart> productFoundCart =
-          await fetchProductCartFound(auth.userId, widget.productNo);
-      setState(() {
-        _productFoundCart =
-            productFoundCart.isNotEmpty ? productFoundCart[0] : null;
-      });
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<void> _fetchMarkDetails() async {
-    try {
-      final List<Mark> markProducts = await fetchMarkById(widget.markNo);
-      setState(() {
-        _markProduct = markProducts.isNotEmpty ? markProducts[0] : null;
-      });
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  final String markName;
+  final String colorName;
 
   @override
   Widget build(BuildContext context) {
-    final salePrice = double.tryParse(widget.salePrice) ?? 0.0;
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final salePriceValue = double.tryParse(salePrice) ?? 0.0;
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
+
+    double price = salePriceValue > 0.0
+        ? salePriceValue
+        : double.parse(mainPrice);
 
     return GestureDetector(
       onTap: () {
         context.push(
-          '/home/itemDetails/${widget.productNo.toString()}/${widget.colorNo.toString()}/${widget.markNo.toString()}',
+          '/home/itemDetails/$productNo/$colorNo/$markNo',
         );
       },
       child: Container(
@@ -122,7 +73,7 @@ class _CartItemViewState extends State<CartItemView> {
               width: 120.w,
               height: 110.h,
               child: CachedNetworkImage(
-                imageUrl: widget.image,
+                imageUrl: image,
                 placeholder: (context, url) =>
                     Image.asset('assets/log/LOGO-icon---Black.png'),
                 errorWidget: (context, url, error) =>
@@ -133,11 +84,12 @@ class _CartItemViewState extends State<CartItemView> {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20).w,
               child: Text(
-                _markProduct?.markName ?? "",
+                markName,
                 style: TextStyle(
-                    fontSize: 12.sp,
-                    color: tdBlack,
-                    fontWeight: FontWeight.bold),
+                  fontSize: 12.sp,
+                  color: tdBlack,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -146,7 +98,7 @@ class _CartItemViewState extends State<CartItemView> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15).w,
               child: Text(
-                '${widget.title} ${_colorProduct?.colorName ?? ""}',
+                formatDesc('$title $colorName'),
                 style: TextStyle(
                   fontSize: 8.sp,
                   color: tdBlack,
@@ -157,29 +109,29 @@ class _CartItemViewState extends State<CartItemView> {
               ),
             ),
             SizedBox(height: 5.h),
-            if (salePrice > 0.0) ...[
+            if (salePriceValue > 0.0) ...[
               Text(
-                '${widget.salePrice} \$',
+                '$salePrice \$',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
-                    color: Colors.red),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: Colors.red,
+                ),
               ),
               Text(
-                '${widget.mainPrice} \$',
+                '$mainPrice \$',
                 style: TextStyle(
                   fontSize: 10.sp,
                   color: tdBlack,
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.lineThrough,
-                  decorationThickness:
-                      2.5, // Adjust the thickness of the line through
+                  decorationThickness: 2.5,
                   decorationColor: tdGrey,
                 ),
               ),
             ] else ...[
               Text(
-                '${widget.mainPrice} \$',
+                '$mainPrice \$',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp,
@@ -187,7 +139,7 @@ class _CartItemViewState extends State<CartItemView> {
                 ),
               ),
               Text(
-                "",
+                '',
                 style: TextStyle(fontSize: 10.sp),
               ),
             ],
@@ -195,70 +147,78 @@ class _CartItemViewState extends State<CartItemView> {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10).w,
               child: GestureDetector(
-                onTap: () async {
-                  final auth = Provider.of<AuthProvider>(context, listen: false);
-                  if (auth.userId > 0) {
-                    double price = 0.0;
-                    if (double.parse(widget.salePrice) > 0.0) {
-                      price = double.parse(widget.salePrice);
-                    } else {
-                      price = double.parse(widget.mainPrice);
-                    }
-                    if (_productFoundCart == null) {
-                      await addCartItem(
-                        userNo: auth.userId,
-                        productNo: widget.productNo,
-                        productCartQty: 1,
-                        productCartPrice: price,
-                        context: context,
-                      );
-                      _fetchCheckCart();
-                      await cartProvider.getIfCartIsAdded(
-                          auth.userId, widget.productNo);
-                    } else {
-                      await deleteCartItem(
-                        userNo: auth.userId,
-                        productNo: widget.productNo,
-                        context: context,
-                      );
-                      _fetchCheckCart();
-                      await cartProvider.getIfCartIsAdded(
-                          auth.userId, widget.productNo);
-                    }
-                  } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Login or SignUp please.',
-                            style: TextStyle(fontSize: 10.sp, color: tdWhite),
-                          ),
-                          backgroundColor: tdBlack,
-                          duration: const Duration(seconds: 2),
+                onTap: ()  {
+                  if (auth.userId == 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Login or SignUp please.',
+                          style: TextStyle(fontSize: 10.sp, color: tdWhite),
                         ),
-                      );
-                      return;
+                        backgroundColor: tdBlack,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                    return;
+                  } else if (!isProductInCart) {
+                    cartProvider.addToCart(
+                        auth.userId, productNo, 1, price.toString());
+                     addCartItem(
+                      userNo: auth.userId,
+                      productNo: productNo,
+                      productCartQty: 1,
+                      productCartPrice: price,
+                    );
+                  } else if (isProductInCart) {
+                    cartProvider.removeFromCart(productNo);
+                     deleteCartItem(
+                      userNo: auth.userId,
+                      productNo: productNo,
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Login or SignUp please.',
+                          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                        ),
+                        backgroundColor: tdBlack,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                    return;
                   }
                 },
                 child: Container(
                   height: 25.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: tdBlack, borderRadius: BorderRadius.circular(5).w),
+                    color: tdBlack,
+                    borderRadius: BorderRadius.circular(5).w,
+                  ),
                   child: Center(
                     child: Text(
-                      _productFoundCart == null
-                          ? 'Add to cart'
-                          : 'Remove from cart',
+                      isProductInCart ? 'Remove from cart' : 'Add to cart',
                       style: TextStyle(fontSize: 8.sp, color: tdWhite),
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 5.h)
+            SizedBox(height: 5.h),
           ],
         ),
       ),
     );
   }
+}
+String formatDesc(String desc) {
+  final TextPainter textPainter = TextPainter(
+    text: TextSpan(text: desc, style: TextStyle(fontSize: 8.sp)),
+    maxLines: 1,
+    textDirection: TextDirection.ltr,
+  );
+  textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+  final bool isOneLine = textPainter.didExceedMaxLines == false;
+  return isOneLine ? '$desc\n' : desc;
 }

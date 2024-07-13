@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/ApiService/CartService/CartApi.dart';
 import 'package:zawiid/ApiService/CartService/CheckProductApi.dart';
+import 'package:zawiid/ApiService/CartService/UpdateCartApi.dart';
 import 'package:zawiid/Classes/Cart/Cart.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +19,6 @@ class CartProvider with ChangeNotifier {
     _cartUser = res;
     notifyListeners();
   }
-
 
 
   Future<Map<String, dynamic>> validatePromoCode(int userNo, String promoCode, double orderTotal) async {
@@ -85,14 +86,24 @@ class CartProvider with ChangeNotifier {
   }
 
 
-void updateCartItem(int userNo, int productNo, int quantity, double price) {
-    var cartItem = _cartUser.firstWhere(
-          (cart) => cart.userNo == userNo && cart.productNo == productNo
-    );
-    cartItem.productCartQty = quantity;
-    cartItem.productCartPrice = price.toString();
+  void incrementQty(int productId) {
+    var cartItem =
+        _cartUser.where((element) => element.productNo == productId).first;
+    cartItem.productCartQty++;
     notifyListeners();
+  }
+
+  void decrimentQty(int productId) {
+    var cartItem =
+        _cartUser.where((element) => element.productNo == productId).first;
+
+    if (cartItem.productCartQty > 1) {
+      cartItem.productCartQty--;
+    } else {
+     // _shoppingCart.remove(item);
     }
+    notifyListeners();
+  }
 
   double get totalPrice {
     double total = 0.0;
@@ -131,5 +142,8 @@ void updateCartItem(int userNo, int productNo, int quantity, double price) {
     notifyListeners();
   }
 
+  bool isProductInCart(int productNo) {
+    return _cartUser.any((cartItem) => cartItem.productNo == productNo);
+  }
 }
 

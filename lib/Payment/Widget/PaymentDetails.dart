@@ -148,7 +148,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
       if (promoCode != "") {
         await updateCouponUsed(userId, promoCode);
       }
-      await deleteAllCartItemsByUserNo(userId, context);
+      await deleteAllCartItemsByUserNo(userId);
       context.push(context.namedLocation('ThanksPayment'));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -32,113 +32,78 @@ class ItemDetailsPage extends StatefulWidget {
 }
 
 class _ItemDetailsPageState extends State<ItemDetailsPage> {
-  late Future<void> _dataFuture;
-
   @override
   void initState() {
     super.initState();
-    _dataFuture = fetchData();
-  }
-
-  Future<void> fetchData() async {
-    final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
-    final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
-    final cartView = Provider.of<CartProvider>(context, listen: false);
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-
-    await productsProvider.getProductById(widget.productNo);
-    await productsProvider.getProductDetailsById(widget.productNo);
-    await colorMarkProvider.getColorById(widget.colorNo);
-    await colorMarkProvider.getMarkById(widget.markNo);
-    await cartView.getIfCartIsAdded(auth.userId, widget.productNo);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
+      final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
+      final cartView = Provider.of<CartProvider>(context, listen: false);
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+      productsProvider.getProductById(widget.productNo);
+      productsProvider.getProductDetailsById(widget.productNo);
+      colorMarkProvider.getColorById(widget.colorNo);
+      colorMarkProvider.getMarkById(widget.markNo);
+      cartView.getIfCartIsAdded(auth.userId, widget.productNo);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final productsProvider = Provider.of<ProductsProvider>(context);
+    var product = productsProvider.productById;
+    if (product.isEmpty || product[0].productNo != widget.productNo) {
+      return const Center(
+        child: CircularProgressIndicator(color: tdBlack,)
+      );
+    }
+
     return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder<void>(
-          future: _dataFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator(color: tdBlack,));
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Something went wrong, check your connection',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: tdGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              );
-            } else {
-              final productsProvider = Provider.of<ProductsProvider>(context);
-              var product = productsProvider.productById;
-
-              if (product.isEmpty || product[0].productNo != widget.productNo) {
-                return Center(
-                  child: Text(
-                    'Product not found',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: tdGrey,
-                      fontWeight: FontWeight.bold,
+        body: SafeArea(
+            child: SingleChildScrollView(
+      child: Column(
+        children: [
+          const ItemDetailsHead(),
+          Padding(
+            padding: const EdgeInsets.all(8).w,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: 210.w,
+                    height: 250.h,
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
+                      placeholder: (context, url) =>
+                          Image.asset('assets/log/LOGO-icon---Black.png'),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/log/LOGO-icon---Black.png'),
                     ),
                   ),
-                );
-              }
-
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const ItemDetailsHead(),
-                    Padding(
-                      padding: const EdgeInsets.all(8).w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: SizedBox(
-                              width: 210.w,
-                              height: 250.h,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
-                                placeholder: (context, url) =>
-                                    Image.asset('assets/log/LOGO-icon---Black.png'),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset('assets/log/LOGO-icon---Black.png'),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          const ItemTitle(),
-                          SizedBox(height: 10.h),
-                          const ItemPrice(),
-                          SizedBox(height: 10.h),
-                          ItemBottoms(
-                            productNo: product[0].productNo,
-                            productPrice: product[0].price,
-                            productSalePrice: product[0].discountedPrice,
-                          ),
-                          SizedBox(height: 10.h),
-                          const ItemDetail(),
-                          SizedBox(height: 10.h),
-                          const ItemShipping(),
-                          SizedBox(height: 10.h),
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
-              );
-            }
-          },
-        ),
+                SizedBox(height: 10.h),
+                const ItemTitle(),
+                SizedBox(height: 10.h),
+                const ItemPrice(),
+                SizedBox(height: 10.h),
+                ItemBottoms(
+                  productNo: product[0].productNo,
+                  productPrice: product[0].price,
+                  productSalePrice: product[0].discountedPrice,
+                ),
+                SizedBox(height: 10.h),
+                const ItemDetail(),
+                SizedBox(height: 10.h),
+                const ItemShipping(),
+                SizedBox(height: 10.h),
+              ],
+            ),
+          ),
+        ],
       ),
-    );
+    )));
   }
 }

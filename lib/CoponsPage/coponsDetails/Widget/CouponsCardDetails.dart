@@ -21,11 +21,13 @@ class CouponsCardDetails extends StatefulWidget {
 
 class _CouponsCardDetailsState extends State<CouponsCardDetails> {
   late Future<Map<int, int>> _couponUsageMap;
+  late Future<Map<int, String>> _couponStatusMap;
 
   @override
   void initState() {
     super.initState();
     _couponUsageMap = _fetchAllCouponUsage();
+    _couponStatusMap = _fetchAllCouponStatus();
   }
 
   Future<Map<int, int>> _fetchAllCouponUsage() async {
@@ -41,8 +43,19 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
     return usageMap;
   }
 
-  Future<String> _fetchCouponStatus(int userId, int couponNo) {
-    return checkCouponStatus(userId, couponNo);
+  Future<Map<int, String>> _fetchAllCouponStatus() async {
+    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
+    var couponList = couponsProvider.couponsMark;
+    Map<int, String> statusMap = {};
+
+    AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+
+    for (var coupon in couponList) {
+      String status = await checkCouponStatus(auth.userId, coupon.couponNo);
+      statusMap[coupon.couponNo] = status;
+    }
+
+    return statusMap;
   }
 
   @override
@@ -84,166 +97,174 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
             return Center(child: Text('something went wrong. check your connection',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),));
           } else if (snapshot.hasData) {
             var usageMap = snapshot.data!;
-            for (var coupon in couponList) {
-              DateTime expiryDate = coupon.expiryDate;
-              if (expiryDate.isBefore(now)) {
-                continue;
-              }
+            return FutureBuilder<Map<int, String>>(
+              future: _couponStatusMap,
+              builder: (context, statusSnapshot) {
+                if (statusSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator(color: tdBlack,));
+                } else if (statusSnapshot.hasError) {
+                  return Center(child: Text('something went wrong. check your connection',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),));
+                } else if (statusSnapshot.hasData) {
+                  var statusMap = statusSnapshot.data!;
+                  for (var coupon in couponList) {
+                    DateTime expiryDate = coupon.expiryDate;
+                    if (expiryDate.isBefore(now)) {
+                      continue;
+                    }
 
-              int daysLeft = expiryDate.difference(now).inDays;
-              int usageCount = usageMap[coupon.couponNo] ?? 0;
+                    int daysLeft = expiryDate.difference(now).inDays;
+                    int usageCount = usageMap[coupon.couponNo] ?? 0;
+                    String couponStatus = statusMap[coupon.couponNo] ?? 'Unknown';
 
-              rows.add(
-                Padding(
-                  padding: const EdgeInsets.all(4).w,
-                  child: Row(
-                    children: [
+                    rows.add(
                       Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5).w,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(-16214415)),
-                            borderRadius: BorderRadius.circular(5.w),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 5).w,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 2.sp,
-                                ),
-                                Text(
-                                  '${coupon.savings} %',
-                                  style: TextStyle(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(-16214415),
-                                  ),
-                                ),
-                                Text(
-                                  'OFF',
-                                  style: TextStyle(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(-16214415),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5.sp,
-                                ),
-                                Container(
-                                  width: 35.w,
-                                  color: const Color(-16214415),
-                                  child: Center(
-                                    child: Text(
-                                      'Deal',
-                                      style: TextStyle(
-                                        color: tdWhite,
-                                        fontSize: 8.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.sp,
-                      ),
-                      SizedBox(
-                        width: 180.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        padding: const EdgeInsets.all(4).w,
+                        child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(right: 8).w,
-                              child: Text(
-                                '${markDetails[0].markName ?? ""} Member Offer: Up to ${coupon.savings}% off for Member Only ',
-                                style: TextStyle(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: tdBlack,
+                              padding: const EdgeInsets.only(top: 5, bottom: 5).w,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: const Color(-16214415)),
+                                  borderRadius: BorderRadius.circular(5.w),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 5).w,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 2.sp,
+                                      ),
+                                      Text(
+                                        '${coupon.savings} %',
+                                        style: TextStyle(
+                                          fontSize: 8.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(-16214415),
+                                        ),
+                                      ),
+                                      Text(
+                                        'OFF',
+                                        style: TextStyle(
+                                          fontSize: 8.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(-16214415),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5.sp,
+                                      ),
+                                      Container(
+                                        width: 35.w,
+                                        color: const Color(-16214415),
+                                        child: Center(
+                                          child: Text(
+                                            'Deal',
+                                            style: TextStyle(
+                                              color: tdWhite,
+                                              fontSize: 8.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5.h),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 80.w,
-                                  color: tdGold,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 5, bottom: 2, top: 2)
-                                        .w,
-                                    child: Center(
-                                      child: Text(
-                                        '${markDetails[0].markName ?? ""} MEMBER',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: tdWhite,
-                                          fontSize: 8.sp,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
+                            SizedBox(
+                              width: 10.sp,
+                            ),
+                            SizedBox(
+                              width: 180.w,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8).w,
+                                    child: Text(
+                                      '${markDetails[0].markName ?? ""} Member Offer: Up to ${coupon.savings}% off for Member Only ',
+                                      style: TextStyle(
+                                        fontSize: 8.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: tdBlack,
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 5.w,
-                                ),
-                                Text(
-                                  'Expires in $daysLeft days',
-                                  style: TextStyle(
-                                    fontSize: 8.sp,
-                                    color: tdGrey,
+                                  SizedBox(height: 5.h),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 80.w,
+                                        color: tdGold,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 5, right: 5, bottom: 2, top: 2)
+                                              .w,
+                                          child: Center(
+                                            child: Text(
+                                              '${markDetails[0].markName ?? ""} MEMBER',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: tdWhite,
+                                                fontSize: 8.sp,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      Text(
+                                        'Expires in $daysLeft days',
+                                        style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: tdGrey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 5.h),
-                            ReadMoreText(
-                              coupon.couponDesc,
-                              trimMode: TrimMode.Length,
-                              trimLength: 62,
-                              style: TextStyle(fontSize: 8.sp, color: tdGrey),
-                              colorClickableText: tdBlue,
-                              trimCollapsedText: 'More',
-                              trimExpandedText: 'Less',
-                              moreStyle: TextStyle(
-                                fontSize: 8.sp,
-                                color: tdBlue,
-                                fontWeight: FontWeight.bold,
+                                  SizedBox(height: 5.h),
+                                  ReadMoreText(
+                                    coupon.couponDesc,
+                                    trimMode: TrimMode.Length,
+                                    trimLength: 62,
+                                    style: TextStyle(fontSize: 8.sp, color: tdGrey),
+                                    colorClickableText: tdBlue,
+                                    trimCollapsedText: 'More',
+                                    trimExpandedText: 'Less',
+                                    moreStyle: TextStyle(
+                                      fontSize: 8.sp,
+                                      color: tdBlue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    lessStyle: TextStyle(
+                                      fontSize: 8.sp,
+                                      color: tdBlue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              lessStyle: TextStyle(
-                                fontSize: 8.sp,
-                                color: tdBlue,
-                                fontWeight: FontWeight.bold,
-                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            FutureBuilder<String>(
-                              future: _fetchCouponStatus(auth.userId, coupon.couponNo),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return GestureDetector(
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  GestureDetector(
                                     onTap: () {
-                                      if (snapshot.data == 'Show Coupon') {
+                                      if (couponStatus == 'Show Coupon') {
                                         context.push(context.namedLocation('CouponsPromotion',
                                             pathParameters: {
                                               'couponsId': coupon.couponNo.toString(),
                                             }));
-                                      } else if (snapshot.data == 'Get Coupon') {
+                                      } else if (couponStatus == 'Get Coupon') {
                                         _getCoupons(context, auth.userId, coupon.couponNo,coupon.validFor,coupon.code,coupon.minOrderValue,coupon.savings).then((_) {
-                                          _fetchCouponStatus(auth.userId, coupon.couponNo);
+                                          setState(() {
+                                            _couponStatusMap = _fetchAllCouponStatus();
+                                          });
                                         });
                                       }
                                     },
@@ -254,7 +275,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                         padding: const EdgeInsets.all(8.0).w,
                                         child: Center(
                                           child: Text(
-                                            snapshot.data!,
+                                            couponStatus,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: tdWhite,
@@ -264,84 +285,83 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                         ),
                                       ),
                                     ),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Container();
-                                }
-                                return Container();
-                              },
-                            ),
-                            SizedBox(height: 5.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.wifi,
-                                      size: 10.w,
-                                      color: tdGrey,
-                                    ),
-                                    Text(
-                                      ' $usageCount People Used',
-                                      style: TextStyle(
-                                        fontSize: 8.sp,
-                                        color: tdGrey,
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.wifi,
+                                            size: 10.w,
+                                            color: tdGrey,
+                                          ),
+                                          Text(
+                                            ' $usageCount People Used',
+                                            style: TextStyle(
+                                              fontSize: 8.sp,
+                                              color: tdGrey,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 2.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.email,
-                                      size: 10.w,
-                                      color: tdGrey,
-                                    ),
-                                    Text(
-                                      'Email',
-                                      style: TextStyle(
-                                        color: tdBlue,
-                                        fontSize: 8.sp,
+                                    ],
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.email,
+                                            size: 10.w,
+                                            color: tdGrey,
+                                          ),
+                                          Text(
+                                            'Email',
+                                            style: TextStyle(
+                                              color: tdBlue,
+                                              fontSize: 8.sp,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.share,
-                                      size: 10.w,
-                                      color: tdGrey,
-                                    ),
-                                    Text(
-                                      'Share',
-                                      style: TextStyle(
-                                        color: tdBlue,
-                                        fontSize: 8.sp,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.share,
+                                            size: 10.w,
+                                            color: tdGrey,
+                                          ),
+                                          Text(
+                                            'Share',
+                                            style: TextStyle(
+                                              color: tdBlue,
+                                              fontSize: 8.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            }
-            return Column(
-              children: rows,
+                    );
+                  }
+                  return Column(
+                    children: rows,
+                  );
+                } else {
+                  return Container();
+                }
+              },
             );
           } else {
             return Container();
@@ -353,6 +373,9 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
       children: rows,
     );
   }
+
+
+
   Future<void> _getCoupons(BuildContext context, int userId, int couponNo,String validFor,String code,String minOrder,String saving) async {
     return showDialog<void>(
       context: context,

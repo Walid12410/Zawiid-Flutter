@@ -11,17 +11,18 @@ import 'package:provider/provider.dart';
 
 import '../../provider/Cart_Provider.dart';
 
-class TabCard extends StatefulWidget {
-  const TabCard(
-      {super.key,
-      required this.productNo,
-      required this.productName,
-      required this.productDesc,
-      required this.productImage,
-      required this.productPrice,
-      required this.markNo,
-      required this.colorNo,
-      required this.productSalePrice});
+class TabCard extends StatelessWidget {
+  const TabCard({
+    Key? key,
+    required this.productNo,
+    required this.productName,
+    required this.productDesc,
+    required this.productImage,
+    required this.productPrice,
+    required this.markNo,
+    required this.colorNo,
+    required this.productSalePrice,
+  }) : super(key: key);
 
   final int productNo;
   final String productName;
@@ -32,80 +33,66 @@ class TabCard extends StatefulWidget {
   final int colorNo;
   final String productSalePrice;
 
-  @override
-  _TabCardState createState() => _TabCardState();
-}
-
-class _TabCardState extends State<TabCard> {
-  Future<void> _toggleCart() async {
+  void _toggleCart(BuildContext context) async {
     final userID = Provider.of<AuthProvider>(context, listen: false).userId;
     if (userID == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+          content: Text(
+            'Login or SignUp please.',
+            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+          ),
+          backgroundColor: tdBlack,
+          duration: const Duration(seconds: 2),
+        ),
+      );
       return;
     }
 
-    try {
-      final cartProvider = Provider.of<CartProvider>(context, listen: false);
-      final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-          cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
 
-      if (isProductInCart) {
-        await deleteCartItem(
-            userNo: userID, productNo: widget.productNo, context: context);
-        _showSnackBar('Item removed from cart');
-      } else {
-        await addCartItem(
-          userNo: userID,
-          productNo: widget.productNo,
-          productCartQty: 1,
-          productCartPrice: double.parse(widget.productSalePrice) > 0.0
-              ? double.parse(widget.productSalePrice)
-              : double.parse(widget.productPrice),
-          context: context,
-        );
-        _showSnackBar('Item added to cart');
-      }
-      cartProvider.getAllCartOfUser(userID);
-    } catch (e) {
-      throw Exception(e);
+    double price = double.parse(productSalePrice) > 0.0
+        ? double.parse(productSalePrice)
+        : double.parse(productPrice);
+
+    if (!isProductInCart) {
+      cartProvider.addToCart(userID, productNo, 1, price.toString());
+      addCartItem(
+        userNo: userID,
+        productNo: productNo,
+        productCartQty: 1,
+        productCartPrice: price,
+      );
+    } else {
+      cartProvider.removeFromCart(productNo);
+      deleteCartItem(
+        userNo: userID,
+        productNo: productNo,
+      );
     }
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: tdBlack,
-        content: Text(
-          message,
-          style: TextStyle(
-              fontSize: 10.sp, fontWeight: FontWeight.bold, color: tdWhite),
-        ),
-        duration: const Duration(seconds: 1),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final userID = Provider.of<AuthProvider>(context, listen: false).userId;
-    final isProductInCart = cartProvider.cartUser.any((cartItem) =>
-        cartItem.productNo == widget.productNo && cartItem.userNo == userID);
+    final isProductInCart = cartProvider.isProductInCart(productNo);
 
     return GestureDetector(
       onTap: () {
         GoRouter.of(context).goNamed('itemDetails', pathParameters: {
-          'itemNo': widget.productNo.toString(),
-          'colorNo': widget.colorNo.toString(),
-          'markNo': widget.markNo.toString(),
+          'itemNo': productNo.toString(),
+          'colorNo': colorNo.toString(),
+          'markNo': markNo.toString(),
         });
       },
       child: Padding(
-        padding: const EdgeInsets.all(5).w,
+        padding: EdgeInsets.all(5.w),
         child: Container(
           width: 165.w,
           decoration: BoxDecoration(
             color: tdWhite,
-            borderRadius: BorderRadius.circular(5).w,
+            borderRadius: BorderRadius.circular(5.w),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -115,7 +102,7 @@ class _TabCardState extends State<TabCard> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(5.0).w,
+            padding: EdgeInsets.all(5.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +111,7 @@ class _TabCardState extends State<TabCard> {
                   height: 5.h,
                 ),
                 Text(
-                  '${widget.productName} ${widget.productDesc}',
+                  '$productName $productDesc',
                   style: TextStyle(fontSize: 8.sp, color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -136,7 +123,7 @@ class _TabCardState extends State<TabCard> {
                     width: 100.w,
                     height: 130.h,
                     child: CachedNetworkImage(
-                      imageUrl: widget.productImage,
+                      imageUrl: productImage,
                       placeholder: (context, url) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
@@ -151,7 +138,7 @@ class _TabCardState extends State<TabCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${widget.productPrice} KD',
+                      '$productPrice KD',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,
@@ -161,17 +148,19 @@ class _TabCardState extends State<TabCard> {
                       width: 2.w,
                     ),
                     GestureDetector(
-                        onTap: _toggleCart,
-                        child: isProductInCart
-                            ? Icon(
-                                Icons.remove_circle,
-                                size: 27.w,color: tdBlack,
-                              )
-                            : SvgPicture.asset(
-                                'assets/svg/buy.svg',
-                                width: 27.w,
-                                fit: BoxFit.fill,
-                              )),
+                      onTap: () => _toggleCart(context),
+                      child: isProductInCart
+                          ? Icon(
+                        Icons.remove_circle,
+                        size: 27.w,
+                        color: tdBlack,
+                      )
+                          : SvgPicture.asset(
+                        'assets/svg/buy.svg',
+                        width: 27.w,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                     const SizedBox(),
                   ],
                 ),

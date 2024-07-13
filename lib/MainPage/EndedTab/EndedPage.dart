@@ -95,8 +95,9 @@ class _EndedTabState extends State<EndedTab> {
                         productImage:
                             '${ApiEndpoints.localBaseUrl}/${bid.products[0].productImage}',
                         endTime: bid.bidEndDate,
-                        colorNo: bid.products[0].colorNo,
+                        colorNo: bid.products[0].color!.colorNo,
                         soldPrice: bid.soldAtPrice,
+                        colorName: bid.products[0].color!.colorName,
                       ),
                     SizedBox(height: 10.h),
                   ],

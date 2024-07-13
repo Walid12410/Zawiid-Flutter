@@ -26,21 +26,15 @@ class BidPage extends StatefulWidget {
 }
 
 class _BidPageState extends State<BidPage> {
-  late Future<void> _fetchData;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchData = _loadData();
-  }
-
-  Future<void> _loadData() async {
-    final productById = Provider.of<ProductsProvider>(context, listen: false);
-    final colorById = Provider.of<MarkColorProvider>(context, listen: false);
-    final bidProvider = Provider.of<BidProvider>(context, listen: false);
-    final auth = Provider.of<AuthProvider>(context, listen: false);
+  Future<void> _loadData(
+    ProductsProvider productById,
+    MarkColorProvider colorById,
+    BidProvider bidProvider,
+    AuthProvider auth,
+  ) async {
     await bidProvider.getLatestBid(widget.bidNo);
-    await productById.getProductById(widget.productNo);
+    await productById.getProductByIdBid(widget.productNo);
     await colorById.getColorByIdBid(widget.colorNo);
     await bidProvider.getBidById(widget.bidNo);
     await bidProvider.getLatestUserBid(auth.userId, widget.bidNo);
@@ -48,11 +42,16 @@ class _BidPageState extends State<BidPage> {
 
   @override
   Widget build(BuildContext context) {
+    final productById = Provider.of<ProductsProvider>(context, listen: false);
+    final colorById = Provider.of<MarkColorProvider>(context, listen: false);
+    final bidProvider = Provider.of<BidProvider>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
         child: FutureBuilder<void>(
-          future: _fetchData,
+          future: _loadData(productById,colorById,bidProvider,auth),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -62,7 +61,7 @@ class _BidPageState extends State<BidPage> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check you connection.',
+                  'Something went wrong, check your connection.',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12.sp,
@@ -81,7 +80,7 @@ class _BidPageState extends State<BidPage> {
                       const BidPageHead(),
                       const BidPageImage(),
                       const BidPageDetails(),
-                      SizedBox(height: 20.h)
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),

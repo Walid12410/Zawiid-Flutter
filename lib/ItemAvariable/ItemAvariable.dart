@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
+import 'package:zawiid/Classes/Product/ProductCategory.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import '../Classes/Product/Products.dart';
-import '../provider/Cart_Provider.dart';
 import 'Widget/CartItemView.dart';
 import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
@@ -39,7 +39,8 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     await provider.getAllCategoryProducts(widget.categoryId);
   }
 
-  List<Product> getFilteredProducts(List<Product> products, String query) {
+  List<ProductCategory> getFilteredProducts(
+      List<ProductCategory> products, String query) {
     return products
         .where((product) =>
             product.productName.toLowerCase().contains(query.toLowerCase()) ||
@@ -56,14 +57,9 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           future: _fetchProductsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                  child: SizedBox(
-                width: 90.w,
-                height: 100.h,
-                child: Image.asset(
-                  'assets/log/LOGO-icon---Black.png',
-                  fit: BoxFit.contain,
-                ),
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: tdBlack,
               ));
             } else if (snapshot.hasError) {
               return Center(
@@ -126,7 +122,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     );
   }
 
-  List<Widget> _buildProductRows(List<Product> products) {
+  List<Widget> _buildProductRows(List<ProductCategory> products) {
     List<Widget> rows = [];
     for (int i = 0; i < products.length; i += 2) {
       Widget row = Row(
@@ -136,27 +132,32 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           Padding(
             padding: EdgeInsets.all(5.w),
             child: CartItemView(
-                title: products[i].productName,
-                mainPrice: products[i].price,
-                salePrice: products[i].discountedPrice,
-                image:
-                    '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
-                markNo: products[i].markNo,
-                colorNo: products[i].colorNo,
-                productNo: products[i].productNo),
+              title: products[i].productName,
+              mainPrice: products[i].price,
+              salePrice: products[i].discountedPrice,
+              image: '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
+              markNo: products[i].mark!.markNo,
+              colorNo: products[i].color!.colorNo,
+              productNo: products[i].productNo,
+              colorName: products[i].color!.colorName,
+              markName: products[i].mark!.markName,
+            ),
           ),
           if (i + 1 < products.length)
             Padding(
               padding: EdgeInsets.all(5.w),
               child: CartItemView(
-                  title: products[i + 1].productName,
-                  mainPrice: products[i + 1].price,
-                  salePrice: products[i + 1].discountedPrice,
-                  image:
-                      '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
-                  markNo: products[i + 1].markNo,
-                  colorNo: products[i + 1].colorNo,
-                  productNo: products[i + 1].productNo),
+                title: products[i + 1].productName,
+                mainPrice: products[i + 1].price,
+                salePrice: products[i + 1].discountedPrice,
+                image:
+                    '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
+                markNo: products[i + 1].mark!.markNo,
+                colorNo: products[i + 1].color!.colorNo,
+                productNo: products[i + 1].productNo,
+                colorName: products[i + 1].color!.colorName,
+                markName: products[i + 1].mark!.markName,
+              ),
             ),
         ],
       );

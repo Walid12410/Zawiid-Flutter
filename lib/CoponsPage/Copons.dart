@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/ApiEndPoint.dart';
 import '../Color&Icons/color.dart';
 import '../provider/Coupons_Provider.dart';
-import 'Widget/CouponsCard.dart';
 import 'Widget/CouponsHead.dart';
+import 'Widget/CouponsListMark.dart';
 
 class CouponsMain extends StatefulWidget {
   const CouponsMain({Key? key}) : super(key: key);
@@ -55,43 +54,16 @@ class _CouponsMainState extends State<CouponsMain> {
   }
 
   Widget _buildCouponsList() {
-    final couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
-    final allCoupons = couponsProvider.couponsOfMark;
-    final displayedMarks = <int>{};
-    final uniqueCoupons = allCoupons.where((coupon) {
-      if (displayedMarks.contains(coupon.markNo)) {
-        return false;
-      } else {
-        displayedMarks.add(coupon.markNo);
-        return true;
-      }
-    }).toList();
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children:  [
               const CouponsHead(),
               SizedBox(height: 15.h),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: uniqueCoupons.length,
-                itemBuilder: (context, index) {
-                  var coupon = uniqueCoupons[index];
-                  var markImage = coupon.mark.markImage;
-                  return CouponCard(
-                    couponsId: coupon.couponNo,
-                    couponsImage: '${ApiEndpoints.localBaseUrl}/$markImage',
-                    markNo: coupon.markNo,
-                    issueDate: coupon.issueDate,
-                    expiryDate: coupon.expiryDate,
-                  );
-                },
-              ),
+              const CouponsListView(),
             ],
           ),
         ),
@@ -99,3 +71,4 @@ class _CouponsMainState extends State<CouponsMain> {
     );
   }
 }
+

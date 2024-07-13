@@ -32,6 +32,7 @@ class _CartPageState extends State<CartPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final cartProvider = Provider.of<CartProvider>(context, listen: false);
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -65,9 +66,10 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () async {
-                      await deleteAllCartItemsByUserNo(userID, context);
+                    onTap: () {
+                      cartProvider.clearCart();
                       Navigator.of(context).pop();
+                      deleteAllCartItemsByUserNo(userID);
                     },
                     child: Container(
                       width: 100.w,
@@ -156,10 +158,12 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              cartItem.isNotEmpty
-                                  ? _showClearCartDialog(
-                                      context, authProvider.userId)
-                                  : null;
+                              if(cartItem.isNotEmpty){
+                                _showClearCartDialog(
+                                    context, authProvider.userId);
+                              }else{
+                                null;
+                              }
                             },
                             child: Text(
                               'Clear Cart',

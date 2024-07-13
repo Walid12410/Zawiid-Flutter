@@ -5,8 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/Classes/ColorAndMark/color.dart';
-import '../../../ApiService/MarkColorService/ColorByIdApi.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../TimeMethod/CheckWhatDate.dart';
 import '../../../provider/Auth_Provider.dart';
@@ -22,7 +20,8 @@ class DetailsUpComing extends StatefulWidget {
     required this.productName,
     required this.startPrice,
     required this.productImage,
-    required this.colorNo,
+    required this.colorName,
+    required this.colorNo
   }) : super(key: key);
 
   final int bidNo;
@@ -32,6 +31,7 @@ class DetailsUpComing extends StatefulWidget {
   final int productNo;
   final String startPrice;
   final String productImage;
+  final String colorName;
   final int colorNo;
 
   @override
@@ -43,7 +43,6 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
   bool _hasStarted = false;
   bool _hasEnded = false;
   late DateTime _countdownEndTime;
-  ColorProduct? _colorProduct;
 
   @override
   void initState() {
@@ -51,7 +50,6 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
     _updateTimeConditions();
     _timer = Timer.periodic(
         const Duration(seconds: 1), (_) => _updateTimeConditions());
-    _fetchColorDetails();
   }
 
   @override
@@ -69,18 +67,6 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
       _hasEnded = hasEnded;
       _countdownEndTime = _hasStarted ? widget.endTime : widget.startTime;
     });
-  }
-
-  Future<void> _fetchColorDetails() async {
-    try {
-      final List<ColorProduct> colorProducts =
-          await fetchColorById(widget.colorNo);
-      setState(() {
-        _colorProduct =  colorProducts.isNotEmpty ? colorProducts[0] : null;
-      });
-    } catch (e) {
-      print('Error fetching color details: $e');
-    }
   }
 
   @override
@@ -111,7 +97,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
             ),
           ),
           Text(
-            '${widget.productName} / ${_colorProduct?.colorName}',
+            '${widget.productName} / ${widget.colorName}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12.sp,

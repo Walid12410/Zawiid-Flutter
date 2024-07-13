@@ -29,13 +29,15 @@ class ItemCategoriesHead extends StatelessWidget {
               child: Image.asset('assets/img/pop2.png', fit: BoxFit.contain),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10).w,
-            child: Text(title,
-                style: TextStyle(
-                    color: tdBlack,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.sp)),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10).w,
+              child: Text(title,
+                  style: TextStyle(
+                      color: tdBlack,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp),textAlign: TextAlign.center,overflow: TextOverflow.ellipsis,),
+            ),
           ),
           SizedBox(
             width: 20.w,
