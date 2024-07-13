@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/withDrawalService/withDrawalDetailsinertApi.dart';
-import 'package:zawiid/ApiService/withDrawalService/withDrawalMainUpdate.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 
+import '../../ApiService/withDrawalService/withDrawalMainUpdate.dart';
 import '../../provider/WithDrawal_Provider.dart';
 
 class TicketPriceDetails extends StatelessWidget {
@@ -58,7 +58,7 @@ class TicketPriceDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '$numberOfTicketLeft ticket left',
+                      '$numberOfTicketLeft tickets left',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -160,20 +160,40 @@ class TicketPriceDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     GestureDetector(
-                      onTap: () async {
+                      onTap: ()  async {
                         if(ticketsCount == 0){
                           Navigator.pop(context);
                           return;
                         }
-                        await addOrUpdateWithdrawalDetails(
+                         bool status = await addOrUpdateWithdrawalDetails(
                             nbrOfTicketsWithdrawn: ticketsCount,
                             ticketsTotalPrice: totalTicketPrice,
                             withDrawalID: withDrawalNo,
                             userNo: auth.userId,
-                            ticketLeft: numberOfTicketLeft - ticketsCount,
-                            context: context);
-                        await ticketProvider.getAllTicket();
+                            );
                         Navigator.pop(context);
+                        if(status == true){
+                           bool status2 = await  updateNbrOfTicketsLeft(
+                               withdrawalID: withDrawalNo,
+                               nbrOfTicketsLeft: numberOfTicketLeft - ticketsCount);
+                           ticketProvider.getAllTicket();
+                           if(status2 == true){
+                           Navigator.pop(context);
+                         }
+                         }else{
+                           ScaffoldMessenger.of(context).showSnackBar(
+                             SnackBar(
+                               content: Text(
+                                 'Something went wrong',
+                                 style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                               ),
+                               backgroundColor: tdBlack,
+                               duration: const Duration(seconds: 4),
+                             ),
+                           );
+                           Navigator.pop(context);
+                         }
+
                       },
                       child: Container(
                         width: 100.w,
@@ -203,6 +223,10 @@ class TicketPriceDetails extends StatelessWidget {
       );
     }
 
+
+    TicketProvider ticketProvider =
+    Provider.of<TicketProvider>(context, listen: false);
+
     return GestureDetector(
       onTap: (){
         if(auth.userId == 0){
@@ -218,6 +242,7 @@ class TicketPriceDetails extends StatelessWidget {
           );
           return;
         }
+        ticketProvider.getAllTicket();
         showTicketModal();
       },
       child: Container(

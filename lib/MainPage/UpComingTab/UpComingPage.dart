@@ -50,6 +50,7 @@ class _UpComingTabState extends State<UpComingTab> {
                     color: tdGrey,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               );
             } else {

@@ -387,8 +387,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                     SizedBox(height: 35.h),
                     Center(
                       child: GestureDetector(
-                        onTap: () {
-                          addingAddress.userAddress(
+                        onTap: () async {
+                         await addingAddress.userAddress(
                               context,
                               _contactNum.text,
                               selectedGovernorate,

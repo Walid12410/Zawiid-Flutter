@@ -50,6 +50,7 @@ class _EndedTabState extends State<EndedTab> {
                     color: tdGrey,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               );
             } else {

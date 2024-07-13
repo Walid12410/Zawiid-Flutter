@@ -47,15 +47,8 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
       future: _fetchProductsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: SizedBox(
-              width: 90.w,
-              height: 100.h,
-              child: Image.asset(
-                'assets/log/LOGO-icon---Black.png',
-                fit: BoxFit.contain,
-              ),
-            ),
+          return const Center(
+            child: CircularProgressIndicator(color: tdBlack,)
           );
         } else if (snapshot.hasError) {
           return Center(

@@ -319,12 +319,12 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                            fontSize: 21.sp),
+                            fontSize: 17.sp),
                       ),
                       Text(
                         '${finalPrice == 0.0 ? orderTotal.toStringAsFixed(2) :finalPrice.toStringAsFixed(2)} KWD',
                         style: TextStyle(
-                            fontSize: 19.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
