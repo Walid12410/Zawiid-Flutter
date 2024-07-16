@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/ApiService/CartService/CartApi.dart';
 import 'package:zawiid/ApiService/CartService/CheckProductApi.dart';
-import 'package:zawiid/ApiService/CartService/UpdateCartApi.dart';
 import 'package:zawiid/Classes/Cart/Cart.dart';
 import 'package:http/http.dart' as http;
 

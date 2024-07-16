@@ -19,6 +19,7 @@ class AddAddressPage extends StatefulWidget {
 class _AddAddressPageState extends State<AddAddressPage> {
   String? selectedGovernorate;
   String? selectedArea;
+  bool _isAddingAddress = false;
 
   final TextEditingController _contactNum = TextEditingController();
   final TextEditingController _block = TextEditingController();
@@ -36,7 +37,21 @@ class _AddAddressPageState extends State<AddAddressPage> {
     super.initState();
   }
 
-  @override
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+        ),
+        backgroundColor: tdBlack,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+    @override
   Widget build(BuildContext context) {
     UserProvider userDetails = Provider.of<UserProvider>(context, listen: true);
     var userInfo = userDetails.userInfo;
@@ -388,7 +403,14 @@ class _AddAddressPageState extends State<AddAddressPage> {
                     Center(
                       child: GestureDetector(
                         onTap: () async {
-                         await addingAddress.userAddress(
+                          if (_isAddingAddress) return; // Prevent multiple submissions
+
+                          setState(() {
+                            _isAddingAddress = true; // Indicate that the address is being added
+                          });
+
+                          try {
+                            await addingAddress.userAddress(
                               context,
                               _contactNum.text,
                               selectedGovernorate,
@@ -398,7 +420,15 @@ class _AddAddressPageState extends State<AddAddressPage> {
                               _building.text,
                               _floor.text,
                               userInfo[0].userNo,
-                              widget.isCheckOut);
+                              widget.isCheckOut,
+                            );
+                          } catch (e) {
+                            _showErrorSnackBar('An error occurred');
+                          } finally {
+                            setState(() {
+                              _isAddingAddress = false; // Reset the flag
+                            });
+                          }
                         },
                         child: Container(
                           width: 180.w,

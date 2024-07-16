@@ -29,15 +29,25 @@ class AddressDetails extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8).w,
       child: addressUser.isEmpty
-          ? Center(
-              child: Text(
-                'No addresses available',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: tdBlack,
-                ),
+          ? Column(
+            children: [
+              SizedBox(height: 100.h),
+              Padding(
+                padding: const EdgeInsets.all(20).w,
+                child: Center(
+                    child: Text(
+                      'No addresses available. Please add a new address.',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: tdGrey,
+                        fontWeight: FontWeight.bold
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
               ),
-            )
+            ],
+          )
           : Column(
               children: [
                 for (var address in addressUser)

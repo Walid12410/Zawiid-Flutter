@@ -26,6 +26,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   double finalPrice = 0.0;
   double savePrice = 0.0;
   double savingPercent = 0.0;
+  bool _isProcessingOrder = false;
 
   @override
   void initState() {
@@ -133,36 +134,73 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     }
   }
 
-  Future<void> _createOrder(userId,orderTotalPrice,addressNo) async {
+  Future<void> _createOrder(userId, orderTotalPrice, addressNo) async {
+    if (_isProcessingOrder) return;
+
     String promoCode = promoCodeController.text;
     final orderStartDate = DateTime.now();
-    bool orderCreated = await cartProvider.createOrder(
-      userId,
-      orderStartDate.toString(),
-      orderStartDate.toString(),
-      addressNo,
-      promoCode,
-      savingPercent,
-    );
-    if (orderCreated) {
-      if (promoCode != "") {
-        await updateCouponUsed(userId, promoCode);
-      }
-      await deleteAllCartItemsByUserNo(userId);
-      context.push(context.namedLocation('ThanksPayment'));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Something went wrong',
-            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+
+    setState(() {
+      _isProcessingOrder = true;
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: tdBlack,
           ),
-          backgroundColor: tdBlack,
-          duration: const Duration(seconds: 2),
-        ),
+        );
+      },
+    );
+
+    try {
+      bool orderCreated = await cartProvider.createOrder(
+        userId,
+        orderStartDate.toString(),
+        orderStartDate.toString(),
+        addressNo,
+        promoCode,
+        savingPercent,
       );
+
+      Navigator.of(context).pop();
+
+      if (orderCreated) {
+        if (promoCode.isNotEmpty) {
+          await updateCouponUsed(userId, promoCode);
+        }
+        await deleteAllCartItemsByUserNo(userId);
+        cartProvider.clearCart();
+        context.push(context.namedLocation('ThanksPayment'));
+      } else {
+        _showErrorSnackBar('Something went wrong');
+      }
+    } catch (e) {
+      Navigator.of(context).pop();
+      _showErrorSnackBar('An error occurred: $e');
+    } finally {
+      setState(() {
+        _isProcessingOrder = false;
+      });
     }
   }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+        ),
+        backgroundColor: tdBlack,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {

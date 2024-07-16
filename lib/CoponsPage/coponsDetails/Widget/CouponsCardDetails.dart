@@ -11,7 +11,6 @@ import '../../../Color&Icons/color.dart';
 import '../../../provider/Coupons_Provider.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
 
-
 class CouponsCardDetails extends StatefulWidget {
   const CouponsCardDetails({Key? key}) : super(key: key);
 
@@ -31,7 +30,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
   }
 
   Future<Map<int, int>> _fetchAllCouponUsage() async {
-    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
+    CouponsProvider couponsProvider =
+        Provider.of<CouponsProvider>(context, listen: false);
     var couponList = couponsProvider.couponsMark;
     Map<int, int> usageMap = {};
 
@@ -44,7 +44,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
   }
 
   Future<Map<int, String>> _fetchAllCouponStatus() async {
-    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
+    CouponsProvider couponsProvider =
+        Provider.of<CouponsProvider>(context, listen: false);
     var couponList = couponsProvider.couponsMark;
     Map<int, String> statusMap = {};
 
@@ -60,16 +61,19 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
 
   @override
   Widget build(BuildContext context) {
-    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
+    CouponsProvider couponsProvider =
+        Provider.of<CouponsProvider>(context, listen: true);
     var couponList = couponsProvider.couponsMark;
-    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
+    MarkColorProvider markProvider =
+        Provider.of<MarkColorProvider>(context, listen: true);
     var markDetails = markProvider.oneMarkByIDCoupons;
     AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
     List<Widget> rows = [];
 
     DateTime now = DateTime.now();
-    var validCoupons = couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
+    var validCoupons =
+        couponList.where((coupon) => coupon.expiryDate.isAfter(now)).toList();
 
     if (validCoupons.isEmpty || couponList.isEmpty) {
       rows.add(
@@ -92,18 +96,36 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
         future: _couponUsageMap,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: tdBlack,));
+            return const Center(
+                child: CircularProgressIndicator(
+              color: tdBlack,
+            ));
           } else if (snapshot.hasError) {
-            return Center(child: Text('something went wrong. check your connection',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),));
+            return Center(
+                child: Text(
+              'something went wrong. check your connection',
+              style: TextStyle(
+                  fontSize: 12.sp, color: tdGrey, fontWeight: FontWeight.bold),
+            ));
           } else if (snapshot.hasData) {
             var usageMap = snapshot.data!;
             return FutureBuilder<Map<int, String>>(
               future: _couponStatusMap,
               builder: (context, statusSnapshot) {
                 if (statusSnapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: tdBlack,));
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: tdBlack,
+                  ));
                 } else if (statusSnapshot.hasError) {
-                  return Center(child: Text('something went wrong. check your connection',style: TextStyle(fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.bold),));
+                  return Center(
+                      child: Text(
+                    'something went wrong. check your connection',
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: tdGrey,
+                        fontWeight: FontWeight.bold),
+                  ));
                 } else if (statusSnapshot.hasData) {
                   var statusMap = statusSnapshot.data!;
                   for (var coupon in couponList) {
@@ -114,7 +136,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
 
                     int daysLeft = expiryDate.difference(now).inDays;
                     int usageCount = usageMap[coupon.couponNo] ?? 0;
-                    String couponStatus = statusMap[coupon.couponNo] ?? 'Unknown';
+                    String couponStatus =
+                        statusMap[coupon.couponNo] ?? 'Unknown';
 
                     rows.add(
                       Padding(
@@ -122,10 +145,12 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 5, bottom: 5).w,
+                              padding:
+                                  const EdgeInsets.only(top: 5, bottom: 5).w,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: const Color(-16214415)),
+                                  border:
+                                      Border.all(color: const Color(-16214415)),
                                   borderRadius: BorderRadius.circular(5.w),
                                 ),
                                 child: Padding(
@@ -200,7 +225,10 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                         color: tdGold,
                                         child: Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 5, right: 5, bottom: 2, top: 2)
+                                                  left: 5,
+                                                  right: 5,
+                                                  bottom: 2,
+                                                  top: 2)
                                               .w,
                                           child: Center(
                                             child: Text(
@@ -232,7 +260,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                     coupon.couponDesc,
                                     trimMode: TrimMode.Length,
                                     trimLength: 62,
-                                    style: TextStyle(fontSize: 8.sp, color: tdGrey),
+                                    style: TextStyle(
+                                        fontSize: 8.sp, color: tdGrey),
                                     colorClickableText: tdBlue,
                                     trimCollapsedText: 'More',
                                     trimExpandedText: 'Less',
@@ -256,14 +285,25 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                   GestureDetector(
                                     onTap: () {
                                       if (couponStatus == 'Show Coupon') {
-                                        context.push(context.namedLocation('CouponsPromotion',
+                                        context.push(context.namedLocation(
+                                            'CouponsPromotion',
                                             pathParameters: {
-                                              'couponsId': coupon.couponNo.toString(),
+                                              'couponsId':
+                                                  coupon.couponNo.toString(),
                                             }));
                                       } else if (couponStatus == 'Get Coupon') {
-                                        _getCoupons(context, auth.userId, coupon.couponNo,coupon.validFor,coupon.code,coupon.minOrderValue,coupon.savings).then((_) {
+                                        _getCoupons(
+                                                context,
+                                                auth.userId,
+                                                coupon.couponNo,
+                                                coupon.validFor,
+                                                coupon.code,
+                                                coupon.minOrderValue,
+                                                coupon.savings)
+                                            .then((_) {
                                           setState(() {
-                                            _couponStatusMap = _fetchAllCouponStatus();
+                                            _couponStatusMap =
+                                                _fetchAllCouponStatus();
                                           });
                                         });
                                       }
@@ -288,7 +328,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                   ),
                                   SizedBox(height: 5.h),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
@@ -310,8 +351,10 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                   ),
                                   SizedBox(height: 2.h),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -374,9 +417,10 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
     );
   }
 
+  Future<void> _getCoupons(BuildContext context, int userId, int couponNo,
+      String validFor, String code, String minOrder, String saving) async {
+    bool isConfirming = false;
 
-
-  Future<void> _getCoupons(BuildContext context, int userId, int couponNo,String validFor,String code,String minOrder,String saving) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -387,7 +431,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
           ),
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -415,7 +460,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      if(userId == 0){
+                      if (userId == 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: tdBlack,
@@ -429,15 +474,55 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                         Navigator.of(context).pop();
                         return;
                       }
-                      bool success = await getCoupons(userNo: userId, used: 0, couponNo: couponNo,validFor: validFor,code: code,savings: saving,minOrderValue: minOrder );
-                      if (success) {
+
+                      if (isConfirming) return;
+                      isConfirming = true;
+
+                      try {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: tdBlack,
+                              ),
+                            );
+                          },
+                        );
+
+                        bool success = await getCoupons(
+                            userNo: userId,
+                            used: 0,
+                            couponNo: couponNo,
+                            validFor: validFor,
+                            code: code,
+                            savings: saving,
+                            minOrderValue: minOrder);
+                        if (success) {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          setState(() {});
+                        } else {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: tdBlack,
+                              duration: const Duration(seconds: 2),
+                              content: Text(
+                                'Something went wrong. Check your connection',
+                                style:
+                                    TextStyle(fontSize: 10.sp, color: tdWhite),
+                              ),
+                            ),
+                          );
+                        }
+                      } catch (e) {
                         Navigator.of(context).pop();
-                        setState(() {});
-                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: tdBlack,
-                            duration: const Duration(seconds: 1),
+                            duration: const Duration(seconds: 2),
                             content: Text(
                               'Something went wrong. Check your connection',
                               style: TextStyle(fontSize: 10.sp, color: tdWhite),
@@ -445,6 +530,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                           ),
                         );
                       }
+                      isConfirming = false;
                     },
                     child: Container(
                       width: 100.w,
@@ -509,9 +595,4 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
       },
     );
   }
-
-
 }
-
-
-
