@@ -1,0 +1,19 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:zawiid/ApiEndPoint.dart';
+import 'package:zawiid/Classes/Order/OrderDetails.dart';
+
+Future<List<OrderDetails>> fetchOrderByUser(int userId) async {
+  try {
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileOrderUser.php?userNo=$userId'));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<OrderDetails> orderDetails = jsonData.map((json) => OrderDetails.fromJson(json)).toList();
+      return orderDetails;
+    } else {
+      throw Exception('Failed to load order Details');
+    }
+  } catch (e) {
+    throw Exception('Server Error');
+  }
+}

@@ -34,7 +34,21 @@ class ItemDetailsPage extends StatefulWidget {
 class _ItemDetailsPageState extends State<ItemDetailsPage> {
   @override
   void initState() {
+    fetchData();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ItemDetailsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.productNo != oldWidget.productNo ||
+        widget.colorNo != oldWidget.colorNo ||
+        widget.markNo != oldWidget.markNo) {
+      fetchData();
+    }
+  }
+
+  void fetchData() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
       final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
@@ -52,58 +66,64 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
     var product = productsProvider.productById;
+
     if (product.isEmpty || product[0].productNo != widget.productNo) {
-      return const Center(
-        child: CircularProgressIndicator(color: tdBlack,)
+      return const Scaffold(
+        backgroundColor: tdWhite,
+        body: Center(
+            child: CircularProgressIndicator(
+          color: tdBlack,
+        )),
       );
     }
 
     return Scaffold(
+        backgroundColor: tdWhite,
         body: SafeArea(
             child: SingleChildScrollView(
-      child: Column(
-        children: [
-          const ItemDetailsHead(),
-          Padding(
-            padding: const EdgeInsets.all(8).w,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: 210.w,
-                    height: 250.h,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
-                      placeholder: (context, url) =>
-                          Image.asset('assets/log/LOGO-icon---Black.png'),
-                      errorWidget: (context, url, error) =>
-                          Image.asset('assets/log/LOGO-icon---Black.png'),
+          child: Column(
+            children: [
+              const ItemDetailsHead(),
+              Padding(
+                padding: const EdgeInsets.all(8).w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        width: 210.w,
+                        height: 250.h,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
+                          placeholder: (context, url) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 10.h),
+                    const ItemTitle(),
+                    SizedBox(height: 10.h),
+                    const ItemPrice(),
+                    SizedBox(height: 10.h),
+                    ItemBottoms(
+                      productNo: product[0].productNo,
+                      productPrice: product[0].price,
+                      productSalePrice: product[0].discountedPrice,
+                    ),
+                    SizedBox(height: 10.h),
+                    const ItemDetail(),
+                    SizedBox(height: 10.h),
+                    const ItemShipping(),
+                    SizedBox(height: 10.h),
+                  ],
                 ),
-                SizedBox(height: 10.h),
-                const ItemTitle(),
-                SizedBox(height: 10.h),
-                const ItemPrice(),
-                SizedBox(height: 10.h),
-                ItemBottoms(
-                  productNo: product[0].productNo,
-                  productPrice: product[0].price,
-                  productSalePrice: product[0].discountedPrice,
-                ),
-                SizedBox(height: 10.h),
-                const ItemDetail(),
-                SizedBox(height: 10.h),
-                const ItemShipping(),
-                SizedBox(height: 10.h),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    )));
+        )));
   }
 }
