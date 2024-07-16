@@ -157,8 +157,8 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                   SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: () async {
-                      if (isConfirming) return; // Prevent multiple taps
-                      isConfirming = true; // Set confirming state
+                      if (isConfirming) return;
+                      isConfirming = true;
 
                       if (ticketsCount == 0) {
                         Navigator.pop(context);
@@ -180,7 +180,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                         ticketProvider.getAllTicket();
 
                         if (status2) {
-                          Navigator.pop(context); // Close the modal bottom sheet
+                          Navigator.pop(context);
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -195,7 +195,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                         );
                       }
 
-                      isConfirming = false; // Reset confirming state after completion
+                      isConfirming = false;
                     },
                     child: Container(
                       width: 100.w,
