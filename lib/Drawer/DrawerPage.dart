@@ -44,46 +44,51 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
             SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.only(left: 10.w, right: 70.w),
-              child: Container(
-                width: double.infinity,
-                height: 25.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.w),
-                  color: tdWhite,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      blurRadius: 5,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.w),
-                      child: Text(
-                        'Search for products',
-                        style: TextStyle(fontSize: 8.sp),
+              child: GestureDetector(
+                onTap: (){
+                  GoRouter.of(context).goNamed('SearchPage');
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 25.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.w),
+                    color: tdWhite,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        blurRadius: 5,
+                        offset: const Offset(0, 0),
                       ),
-                    ),
-                    Container(
-                      width: 35.w,
-                      height: 25.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20.w),
-                          bottomRight: Radius.circular(20.w),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.w),
+                        child: Text(
+                          'Search for products',
+                          style: TextStyle(fontSize: 8.sp),
                         ),
-                        color: Colors.black,
                       ),
-                      child: Center(
-                        child:
-                            Icon(Icons.search, color: Colors.white, size: 20.w),
-                      ),
-                    )
-                  ],
+                      Container(
+                        width: 35.w,
+                        height: 25.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20.w),
+                            bottomRight: Radius.circular(20.w),
+                          ),
+                          color: Colors.black,
+                        ),
+                        child: Center(
+                          child:
+                              Icon(Icons.search, color: Colors.white, size: 20.w),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

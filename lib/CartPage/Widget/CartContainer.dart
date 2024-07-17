@@ -35,28 +35,29 @@ class _CartContainerState extends State<CartContainer> {
   void initState() {
     super.initState();
     _currentQuantity = widget.cartQuantity;
+    _currentPrice = double.parse(widget.productCartPrice);
     _fetchProductDetails();
   }
 
   Future<void> _fetchProductDetails() async {
     final productProvider =
-        Provider.of<ProductsProvider>(context, listen: false);
+    Provider.of<ProductsProvider>(context, listen: false);
     List<Product> products =
-        await productProvider.getProductOfCartByUserId(widget.productNo);
+    await productProvider.getProductOfCartByUserId(widget.productNo);
     if (products.isNotEmpty) {
       setState(() {
         _product = products[0];
-        _currentPrice = double.parse(widget.productCartPrice);
       });
     }
   }
 
-
   Future<void> _updateCart(int newQuantity) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final userNo = authProvider.userId;
-    final productPrice = _currentPrice;
-    await updateCart(userNo, widget.productNo, newQuantity, productPrice, context);
+    await updateCart(userNo, widget.productNo, newQuantity, _currentPrice, context);
+    setState(() {
+      _currentQuantity = newQuantity;
+    });
   }
 
   @override
@@ -86,7 +87,7 @@ class _CartContainerState extends State<CartContainer> {
                         height: 90.h,
                         child: CachedNetworkImage(
                           imageUrl:
-                              '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
+                          '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
                           placeholder: (context, url) =>
                               Image.asset('assets/log/LOGO-icon---Black.png'),
                           errorWidget: (context, url, error) =>
@@ -161,7 +162,6 @@ class _CartContainerState extends State<CartContainer> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            cartProvider.decrimentQty(widget.productNo);
                             if (_currentQuantity > 1) {
                               _updateCart(_currentQuantity - 1);
                             }
@@ -169,7 +169,7 @@ class _CartContainerState extends State<CartContainer> {
                           child: Icon(Icons.remove, color: tdGrey, size: 12.w),
                         ),
                         Text(
-                          '${widget.cartQuantity}',
+                          '$_currentQuantity',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: tdBlack,
@@ -177,7 +177,6 @@ class _CartContainerState extends State<CartContainer> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            cartProvider.incrementQty(widget.productNo);
                             _updateCart(_currentQuantity + 1);
                           },
                           child: Icon(Icons.add, color: tdGrey, size: 12.w),

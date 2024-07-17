@@ -10,7 +10,6 @@ import 'package:zawiid/Classes/Cart/Cart.dart';
 import 'package:http/http.dart' as http;
 
 class CartProvider with ChangeNotifier {
-
   List<Cart> _cartUser = [];
   List<Cart> get cartUser => _cartUser;
   getAllCartOfUser(int id) async {
@@ -19,8 +18,8 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-  Future<Map<String, dynamic>> validatePromoCode(int userNo, String promoCode, double orderTotal) async {
+  Future<Map<String, dynamic>> validatePromoCode(
+      int userNo, String promoCode, double orderTotal) async {
     final response = await http.post(
       Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCheckPromeCode.php'),
       body: {
@@ -37,12 +36,19 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-
-  Future<bool> createOrder(int userNo, String orderStartDate, String orderSubmitDate, int shipToAddressNo, String? promoCode, double savings) async {
+  Future<bool> createOrder(
+      int userNo,
+      String orderStartDate,
+      String orderSubmitDate,
+      int shipToAddressNo,
+      String? promoCode,
+      double savings) async {
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-    final formattedOrderStartDate = dateFormat.format(DateTime.parse(orderStartDate));
-    final formattedOrderSubmitDate = dateTimeFormat.format(DateTime.parse(orderSubmitDate));
+    final formattedOrderStartDate =
+        dateFormat.format(DateTime.parse(orderStartDate));
+    final formattedOrderSubmitDate =
+        dateTimeFormat.format(DateTime.parse(orderSubmitDate));
     final orderDetails = _cartUser.map((item) {
       double productPrice = double.parse(item.productCartPrice);
       double productDiscountAmt = productPrice * (savings / 100);
@@ -61,7 +67,7 @@ class CartProvider with ChangeNotifier {
           'OrderStartDate': formattedOrderStartDate,
           'UserNo': userNo.toString(),
           'OrderSubmitDate': formattedOrderSubmitDate,
-          'DiscountAmt' : savings.toString(),
+          'DiscountAmt': savings.toString(),
           'ShipToAddressNo': shipToAddressNo.toString(),
           'PromoCode': promoCode ?? '',
           'OrderDetails': json.encode(orderDetails),
@@ -84,26 +90,6 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-
-  void incrementQty(int productId) {
-    var cartItem =
-        _cartUser.where((element) => element.productNo == productId).first;
-    cartItem.productCartQty++;
-    notifyListeners();
-  }
-
-  void decrimentQty(int productId) {
-    var cartItem =
-        _cartUser.where((element) => element.productNo == productId).first;
-
-    if (cartItem.productCartQty > 1) {
-      cartItem.productCartQty--;
-    } else {
-     // _shoppingCart.remove(item);
-    }
-    notifyListeners();
-  }
-
   double get totalPrice {
     double total = 0.0;
     for (var cart in _cartUser) {
@@ -112,10 +98,9 @@ class CartProvider with ChangeNotifier {
     return total;
   }
 
-
   List<Cart> _viewCartFound = [];
   List<Cart> get viewCartFound => _viewCartFound;
-  getIfCartIsAdded(int userId,int productNo) async {
+  getIfCartIsAdded(int userId, int productNo) async {
     final res = await fetchProductCartFound(userId, productNo);
     _viewCartFound = res;
     notifyListeners();
@@ -126,7 +111,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addToCart(int userNo,int productNo, int quantity,String price){
+  void addToCart(int userNo, int productNo, int quantity, String price) {
     _cartUser.add(Cart(
       userNo: userNo,
       productNo: productNo,
@@ -136,7 +121,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearCart(){
+  void clearCart() {
     _cartUser.clear();
     notifyListeners();
   }
@@ -145,4 +130,3 @@ class CartProvider with ChangeNotifier {
     return _cartUser.any((cartItem) => cartItem.productNo == productNo);
   }
 }
-
