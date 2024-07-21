@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zawiid/FirebaseApi/firebase_api.dart';
+import 'package:zawiid/firebase_options.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
@@ -19,10 +22,13 @@ import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import 'Route/RouteNaviagtor.dart';
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int userId = prefs.getInt('userID') ?? 0;
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => CategoryProvider()),
@@ -54,22 +60,28 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      FlutterNativeSplash.remove();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    await Future.delayed(const Duration(seconds: 1));
+    FlutterNativeSplash.remove();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseApi().initNotifications(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        child: MaterialApp.router(
-          title: 'Zawiid',
-          debugShowCheckedModeBanner: false,
-          routerConfig: AppNavigation.router,
-        )
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp.router(
+        title: 'Zawiid',
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppNavigation.router,
+      ),
     );
   }
 }

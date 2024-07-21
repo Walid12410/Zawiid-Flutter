@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../ApiService/AuthService/AuthLogin.dart';
 import '../../Color&Icons/color.dart';
+import '../../FirebaseApi/firebase_api.dart';
 
 class AlertLogin {
   final AuthLoginService _authService = AuthLoginService();
@@ -12,6 +13,7 @@ class AlertLogin {
     final result = await _authService.login(username, password,context);
 
     if (result['success']) {
+      FirebaseApi().initNotifications(context);
       GoRouter.of(context).go("/home");
     } else {
       _showLoginFailedDialog(context, result['message']);

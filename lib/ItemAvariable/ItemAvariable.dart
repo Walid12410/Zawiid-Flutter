@@ -5,7 +5,6 @@ import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Classes/Product/ProductCategory.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
-import '../Classes/Product/Products.dart';
 import 'Widget/CartItemView.dart';
 import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
@@ -33,6 +32,8 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     super.initState();
     _fetchProductsFuture = _fetchProducts();
   }
+
+
 
   Future<void> _fetchProducts() async {
     final provider = Provider.of<ProductsProvider>(context, listen: false);
@@ -66,10 +67,11 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                 child: Text(
                   'Something went wrong, check you connection.',
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 12.sp,
                     color: tdGrey,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               );
             } else {
@@ -85,7 +87,6 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     final provider = Provider.of<ProductsProvider>(context);
     var categoryProducts = provider.categoryProduct;
     var filteredProducts = getFilteredProducts(categoryProducts, searchQuery);
-
     return SingleChildScrollView(
       child: Column(
         children: [

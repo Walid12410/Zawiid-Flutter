@@ -12,7 +12,7 @@ class ProductCategory {
   final ColorProduct? color;
   final String discountedPrice;
   final int isOpenBox;
-  final String? modelNo;
+  final int? modelNo;
   final String productImage;
 
   ProductCategory({
@@ -37,12 +37,12 @@ class ProductCategory {
       productDesc: json['ProductDesc'] ?? '',
       price: json['Price'] ?? '0.0',
       subCategoryNo: json['SubCategoryNo'] ?? 0,
-      mark: json['Mark'] != null ? Mark.fromJson(json['Mark']) : null,
+      mark: json['Mark'] != null ? Mark.fromJson(json['Mark']) : Mark(markNo: 0, markName: "", markDesc: "", markImage: ""), // Handle null case
       size: json['Size'] ?? "",
-      color: json['Color'] != null ? ColorProduct.fromJson(json['Color']) : null,
+      color:  json['Color'] != null ? ColorProduct.fromJson(json['Color']) : ColorProduct(colorNo: 0, colorName: "") ,
       discountedPrice: json['DiscountedPrice'] ?? '0.0',
       isOpenBox: json['IsOpenBox'] ?? 0,
-      modelNo: json['ModelNo'],
+      modelNo: json['ModelNo'] ?? 0,
       productImage: json['ProductImage'] ?? '',
     );
   }

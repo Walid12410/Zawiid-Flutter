@@ -525,7 +525,7 @@ class _HomePageState extends State<HomePage> {
                                           image: DecorationImage(
                                             image: CachedNetworkImageProvider(
                                                 '${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo!}'),
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       )

@@ -5,6 +5,7 @@ import 'package:zawiid/Authentication/Widget/SignInButton.dart';
 import 'package:zawiid/Authentication/Widget/SignInTextfield.dart';
 import 'package:zawiid/Authentication/Widget/Terms&PrivacySignIn.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import '../FirebaseApi/firebase_api.dart';
 import 'AlertDialog/AlertLogin.dart';
 import 'Widget/ForgetPassword.dart';
 
