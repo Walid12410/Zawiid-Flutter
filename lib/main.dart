@@ -13,6 +13,7 @@ import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
+import 'package:zawiid/provider/NotificationProvider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/OrderProvider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
@@ -44,6 +45,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => BidProvider()),
       ChangeNotifierProvider(create: (_) => CouponsProvider()),
       ChangeNotifierProvider(create: (_) => TicketProvider()),
+      ChangeNotifierProvider(create: (_) => NotificationsProvider())
     ],
     child: const MyApp(),
   ));

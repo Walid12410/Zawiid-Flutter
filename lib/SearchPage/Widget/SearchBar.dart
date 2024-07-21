@@ -8,6 +8,7 @@ import 'package:zawiid/HomePage/Homepage.dart';
 import '../../Classes/Product/Products.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Cart_Provider.dart';
+import '../../provider/NotificationProvider.dart';
 
 class SearchBarText extends StatelessWidget {
   const SearchBarText({
@@ -34,6 +35,8 @@ class SearchBarText extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
     var cartLength = cart.cartUser;
+    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    var notLength = notificationProvider.allNotification;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -45,7 +48,7 @@ class SearchBarText extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent: Text(
-              '0',
+              '${notLength.length}',
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),

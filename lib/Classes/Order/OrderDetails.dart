@@ -25,16 +25,16 @@ class OrderDetails {
 
   factory OrderDetails.fromJson(Map<String, dynamic> json) {
     return OrderDetails(
-      userNo: json['UserNo'],
-      orderNo: json['OrderNo'],
-      delivered: json['Delivered'],
-      productNo: json['ProductNo'],
-      productPrice: json['ProductPrice'],
-      productDiscountAmt: json['ProductDiscountAmt'],
-      productQty: json['ProductQty'],
-      productName: json['ProductName'],
-      productDesc: json['ProductDesc'],
-      productImage: json['ProductImage'],
+      userNo: json['UserNo'] ?? 0,
+      orderNo: json['OrderNo'] ?? 0,
+      delivered: json['Delivered'] ?? 0,
+      productNo: json['ProductNo'] ?? 0,
+      productPrice: json['ProductPrice'] ?? "" ,
+      productDiscountAmt: json['ProductDiscountAmt'] ?? "",
+      productQty: json['ProductQty'] ?? 0,
+      productName: json['ProductName'] ?? "",
+      productDesc: json['ProductDesc'] ?? "",
+      productImage: json['ProductImage'] ?? "",
     );
   }
 }

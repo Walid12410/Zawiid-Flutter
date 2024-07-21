@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:intl/intl.dart';
 import '../../Color&Icons/color.dart';
 
 class NotificationContainer extends StatelessWidget {
+  final String title;
+  final String message;
+  final DateTime date;
+
   const NotificationContainer({
     super.key,
+    required this.title,
+    required this.message,
+    required this.date,
   });
 
   @override
@@ -31,18 +38,35 @@ class NotificationContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome to zawwiddd',style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: tdBlack),),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 12.sp, fontWeight: FontWeight.bold, color: tdBlack),
+              ),
+              Text(
+                message,
+                style: TextStyle(fontSize: 10.sp, color: tdBlack),
+              ),
               SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('5 Nov 2024 . 1:30PM',style: TextStyle(fontSize: 10.sp,color: tdBlack),)
+                  Text(
+                    formatDateTime(date),
+                    style: TextStyle(fontSize: 8.sp, color: tdBlack),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  String formatDateTime(DateTime date) {
+    final DateFormat dateFormatter = DateFormat('d MMM yyyy');
+    final DateFormat timeFormatter = DateFormat('h:mm a');
+    return '${dateFormatter.format(date)} . ${timeFormatter.format(date)}';
   }
 }

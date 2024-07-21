@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../../Color&Icons/color.dart';
+import '../../provider/NotificationProvider.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({
@@ -16,6 +17,8 @@ class CustomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
     var cartLength = cart.cartUser;
+    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    var notLength = notificationProvider.allNotification;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -27,7 +30,7 @@ class CustomNavigationBar extends StatelessWidget {
           },
           child: badges.Badge(
             badgeContent: Text(
-              '0',
+              '${notLength.length}',
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),

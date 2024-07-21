@@ -9,7 +9,8 @@ class DeviceInfoHelper {
     try {
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        deviceName = androidInfo.id;
+        deviceName = androidInfo.id + androidInfo.board + androidInfo.fingerprint;
+        print(deviceName);
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         deviceName = iosInfo.utsname.machine;

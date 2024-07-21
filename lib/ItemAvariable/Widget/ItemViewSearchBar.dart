@@ -5,6 +5,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:provider/provider.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Cart_Provider.dart';
+import '../../provider/NotificationProvider.dart';
 
 class ItemSearchBar extends StatelessWidget {
   const ItemSearchBar({
@@ -17,6 +18,8 @@ class ItemSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
     var cartLength = cart.cartUser;
+    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    var notLength = notificationProvider.allNotification;
 
     return Padding(
       padding: const EdgeInsets.only(left: 5, right: 8).w,
@@ -30,7 +33,7 @@ class ItemSearchBar extends StatelessWidget {
             },
             child: badges.Badge(
               badgeContent: Text(
-                '0',
+                '${notLength.length}',
                 style: TextStyle(color: tdWhite, fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
