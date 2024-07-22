@@ -33,6 +33,7 @@ import '../UpdateProfile/updateProfile.dart';
 class AppNavigation {
   AppNavigation._();
 
+
   static String initial = "/home";
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();

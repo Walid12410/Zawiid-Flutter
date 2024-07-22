@@ -31,10 +31,11 @@ class FirebaseApi {
     try {
       if (auth.userId != 0 && deviceName != "Unknown") {
         await _lock.synchronized(() async {
-          bool checkIfFound = await checkDeviceName(userNo: auth.userId, deviceName: deviceName);
-          print(checkIfFound);
+          bool checkIfFound = await checkDeviceName(
+              userNo: auth.userId, deviceName: deviceName);
           if (checkIfFound) {
-            await updateDeviceToken(userNo: auth.userId, deviceName: deviceName);
+            await updateDeviceToken(
+                userNo: auth.userId, deviceName: deviceName);
           } else {
             await addDeviceTokens(
                 userNo: auth.userId,

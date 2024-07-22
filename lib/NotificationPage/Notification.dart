@@ -5,6 +5,7 @@ import 'package:zawiid/ApiService/NotificationService/DeleteAllNotification.dart
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 
+import '../AccountInfoScreen/Widget/GuestView.dart';
 import '../provider/NotificationProvider.dart';
 import 'Widget/NotificationContainer.dart';
 import 'Widget/NotificationHead.dart';
@@ -17,19 +18,20 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-
   void _showClearNotificationDialog(BuildContext context, int userID) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
+        final notificationProvider =
+            Provider.of<NotificationsProvider>(context, listen: false);
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -127,7 +129,8 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    final notificationProvider =
+        Provider.of<NotificationsProvider>(context, listen: true);
     var allNotification = notificationProvider.allNotification;
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
@@ -143,59 +146,77 @@ class _NotificationPageState extends State<NotificationPage> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: tdWhite,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const NotificationHead(),
-              Padding(
-                padding: const EdgeInsets.all(8.0).w,
+    return authProvider.userId != 0
+        ? Scaffold(
+            backgroundColor: tdWhite,
+            body: SafeArea(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            if(authProvider.userId == 0){
-                              null;
-                            }else if(allNotification.isEmpty){
-                              null;
-                            }else{
-                              _showClearNotificationDialog(context, authProvider.userId);
-                            }
-                          },
-                          child: Text(
-                            'Clear notifications',
-                            style: TextStyle(fontSize: 10.sp, color: tdGrey),
+                    const NotificationHead(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0).w,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (authProvider.userId == 0) {
+                                    null;
+                                  } else if (allNotification.isEmpty) {
+                                    null;
+                                  } else {
+                                    _showClearNotificationDialog(
+                                        context, authProvider.userId);
+                                  }
+                                },
+                                child: Text(
+                                  'Clear notifications',
+                                  style:
+                                      TextStyle(fontSize: 10.sp, color: tdGrey),
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    // Display a message if there are no notifications
-                    if (allNotification.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 200).w,
-                        child: Text(
-                          'Nothing to show',
-                          style: TextStyle(fontSize: 12.sp, color: tdGrey),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    else
-                      Column(
-                        children: notificationWidgets,
+                          SizedBox(height: 10.h),
+                          // Display a message if there are no notifications
+                          if (allNotification.isEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 200).w,
+                              child: Text(
+                                'Nothing to show',
+                                style:
+                                    TextStyle(fontSize: 12.sp, color: tdGrey),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          else
+                            Column(
+                              children: notificationWidgets,
+                            ),
+                        ],
                       ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          )
+        : Scaffold(
+            backgroundColor: tdWhite,
+            body: SafeArea(
+              child: Column(
+                children: [
+                  const NotificationHead(),
+                  SizedBox(
+                    height: 180.h,
+                  ),
+                  const GuestViewProfile()
+                ],
+              ),
+            ),
+          );
   }
 }
