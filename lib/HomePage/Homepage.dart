@@ -246,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                                     _handlePageTap(2);
                                   },
                                   child: Text(
-                                    'Top Rated',
+                                    'Latest Drop',
                                     style: TextStyle(
                                       fontSize: 15.sp,
                                       fontWeight: _currentPage1 == 2
