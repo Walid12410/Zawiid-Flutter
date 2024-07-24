@@ -56,30 +56,43 @@ class _HomePageState extends State<HomePage> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final productProvider = Provider.of<ProductsProvider>(context, listen: false);
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
-    OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: false);
-    await Provider.of<CartProvider>(context, listen: false).getAllCartOfUser(authProvider.userId);
-    await categoryProvider.getCategory();
-    await notificationProvider.getAllNotifications(authProvider.userId);
-    await userProvider.getUserInfo(authProvider.userId);
-    await productProvider.getAllFeaturedProduct();
-    await productProvider.getProductsOnSale();
-    await productProvider.getProductsTopRated();
-    await productProvider.getAllFeaturedProductCard();
-    await offerProvider.getAllOffer();
+    final offerProvider = Provider.of<OfferProvider>(context, listen: false);
+    final cart = Provider.of<CartProvider>(context, listen: false);
+
+    try {
+      final List<Future<dynamic>> fetchers = [
+        cart.getAllCartOfUser(authProvider.userId),
+        categoryProvider.getCategory(),
+        notificationProvider.getAllNotifications(authProvider.userId),
+        userProvider.getUserInfo(authProvider.userId),
+        productProvider.getAllFeaturedProduct(),
+        productProvider.getProductsOnSale(),
+        productProvider.getProductsTopRated(),
+        productProvider.getAllFeaturedProductCard(),
+        offerProvider.getAllOffer(),
+      ];
+      final List<dynamic> results = await Future.wait(fetchers);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
+    CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
-    OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: true);
+    OfferProvider offerProvider =
+        Provider.of<OfferProvider>(context, listen: true);
 
     List<Offer> getNewestOfferProducts() {
       List<Offer> offerProducts = offerProvider.allOffer;
       offerProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
       List<Offer> validOfferProducts = offerProducts
-          .where((offer) => offer.startDate.isBefore(DateTime.now()) &&
-          offer.endDate.isAfter(DateTime.now())).toList();
+          .where((offer) =>
+              offer.startDate.isBefore(DateTime.now()) &&
+              offer.endDate.isAfter(DateTime.now()))
+          .toList();
       return validOfferProducts;
     }
 
@@ -95,7 +108,9 @@ class _HomePageState extends State<HomePage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: CircularProgressIndicator(color: tdBlack,),
+                child: CircularProgressIndicator(
+                  color: tdBlack,
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(
@@ -341,13 +356,17 @@ class _HomePageState extends State<HomePage> {
                                     for (var offerProduct
                                         in newestOfferProducts)
                                       WeekDealCard(
-                                        image: '${ApiEndpoints.localBaseUrl}/${offerProduct.products[0].productImage}',
+                                        image:
+                                            '${ApiEndpoints.localBaseUrl}/${offerProduct.products[0].productImage}',
                                         startDate: offerProduct.startDate,
                                         endDate: offerProduct.endDate,
-                                        productNo: offerProduct.products[0].productNo,
-                                        colorNo: offerProduct.products[0].colorNo,
+                                        productNo:
+                                            offerProduct.products[0].productNo,
+                                        colorNo:
+                                            offerProduct.products[0].colorNo,
                                         markNo: offerProduct.products[0].markNo,
-                                        productOfferPrice: offerProduct.productPrice,
+                                        productOfferPrice:
+                                            offerProduct.productPrice,
                                       ),
                                 ],
                               ),

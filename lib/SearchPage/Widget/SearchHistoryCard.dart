@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 import '../../Classes/Product/Products.dart';
 import '../../Color&Icons/color.dart';
 import '../../ApiEndPoint.dart';
@@ -18,7 +19,7 @@ class SearchHistoryCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12, right: 8, bottom: 5,top: 5).w,
       child: GestureDetector(
         onTap: (){
-
+          context.push('/itemDetailsView/${product.productNo}/${product.colorNo}/${product.markNo}');
         },
         child: Container(
           decoration: BoxDecoration(

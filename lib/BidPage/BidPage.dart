@@ -26,18 +26,24 @@ class BidPage extends StatefulWidget {
 }
 
 class _BidPageState extends State<BidPage> {
-
   Future<void> _loadData(
     ProductsProvider productById,
     MarkColorProvider colorById,
     BidProvider bidProvider,
     AuthProvider auth,
   ) async {
-    await bidProvider.getLatestBid(widget.bidNo);
-    await productById.getProductByIdBid(widget.productNo);
-    await colorById.getColorByIdBid(widget.colorNo);
-    await bidProvider.getBidById(widget.bidNo);
-    await bidProvider.getLatestUserBid(auth.userId, widget.bidNo);
+    try {
+      final List<Future<dynamic>> fetchers = [
+        bidProvider.getLatestBid(widget.bidNo),
+        productById.getProductByIdBid(widget.productNo),
+        colorById.getColorByIdBid(widget.colorNo),
+        bidProvider.getBidById(widget.bidNo),
+        bidProvider.getLatestUserBid(auth.userId, widget.bidNo),
+      ];
+      final List<dynamic> results = await Future.wait(fetchers);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -51,7 +57,7 @@ class _BidPageState extends State<BidPage> {
       backgroundColor: tdWhite,
       body: SafeArea(
         child: FutureBuilder<void>(
-          future: _loadData(productById,colorById,bidProvider,auth),
+          future: _loadData(productById, colorById, bidProvider, auth),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

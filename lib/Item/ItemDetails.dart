@@ -43,16 +43,31 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   Future<void> fetchData() async {
     final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
-    final offerCheck = Provider.of<OfferProvider>(context, listen: false);
+    final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
-    final cartView = Provider.of<CartProvider>(context, listen: false);
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-    await productsProvider.getProductById(widget.productNo);
-    await offerCheck.getOfferCheck(widget.productNo);
-    await productsProvider.getProductDetailsById(widget.productNo);
-    await colorMarkProvider.getColorById(widget.colorNo);
-    await colorMarkProvider.getMarkById(widget.markNo);
-    await cartView.getIfCartIsAdded(auth.userId, widget.productNo);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    final productNo = widget.productNo;
+    final colorNo = widget.colorNo;
+    final markNo = widget.markNo;
+    final userId = authProvider.userId;
+
+
+    try {
+      final List<Future<dynamic>> fetchers = [
+        productsProvider.getProductById(productNo),
+        offerProvider.getOfferCheck(productNo),
+        productsProvider.getProductDetailsById(productNo),
+        colorMarkProvider.getColorById(colorNo),
+        colorMarkProvider.getMarkById(markNo),
+        cartProvider.getIfCartIsAdded(userId, productNo),
+      ];
+      final List<dynamic> results = await Future.wait(fetchers);
+
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -84,17 +99,17 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check your connection.',
+                  'Something went wrong, check your connection.${snapshot.error}',
                   style: TextStyle(
-                      color: tdGrey,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold),
+                    color: tdGrey,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               );
             } else {
-              final productsProvider =
-                  Provider.of<ProductsProvider>(context, listen: true);
+              final productsProvider = Provider.of<ProductsProvider>(context, listen: true);
               var product = productsProvider.productById;
 
               if (product.isEmpty || product[0].productNo != widget.productNo) {
@@ -102,9 +117,10 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                   child: Text(
                     'Product not found',
                     style: TextStyle(
-                        color: tdBlack,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold),
+                      color: tdBlack,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 );
@@ -115,7 +131,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                   children: [
                     const ItemDetailsHead(),
                     Padding(
-                      padding: const EdgeInsets.all(8).w,
+                      padding: EdgeInsets.all(8.w),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,13 +141,13 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                               width: 210.w,
                               height: 250.h,
                               child: CachedNetworkImage(
-                                imageUrl:
-                                    '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
+                                imageUrl: '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
                                 placeholder: (context, url) => Image.asset(
-                                    'assets/log/LOGO-icon---Black.png'),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                        'assets/log/LOGO-icon---Black.png'),
+                                  'assets/log/LOGO-icon---Black.png',
+                                ),
+                                errorWidget: (context, url, error) => Image.asset(
+                                  'assets/log/LOGO-icon---Black.png',
+                                ),
                               ),
                             ),
                           ),
