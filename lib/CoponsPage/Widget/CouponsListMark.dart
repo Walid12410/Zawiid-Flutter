@@ -12,8 +12,17 @@ class CouponsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final couponsProvider = Provider.of<CouponsProvider>(context);
     final allCoupons = couponsProvider.couponsOfMark;
+
+    final now = DateTime.now();
+
+    final validCoupons = allCoupons.where((coupon) {
+      final issueDate = DateTime.parse(coupon.issueDate.toString());
+      final expiryDate = DateTime.parse(coupon.expiryDate.toString());
+      return now.isAfter(issueDate) && now.isBefore(expiryDate);
+    }).toList();
+
     final displayedMarks = <int>{};
-    final uniqueCoupons = allCoupons.where((coupon) {
+    final uniqueCoupons = validCoupons.where((coupon) {
       if (displayedMarks.contains(coupon.markNo)) {
         return false;
       } else {
