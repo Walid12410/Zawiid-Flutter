@@ -39,24 +39,24 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
     maxTickets = widget.numberOfTicketLeft;
   }
 
-  void showTicketModal(BuildContext context) {
+  void showTicketDialog(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context, listen: false);
     TicketProvider ticketProvider = Provider.of<TicketProvider>(context, listen: false);
 
-    showModalBottomSheet(
-      backgroundColor: tdWhite,
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             double totalTicketPrice = ticketsCount * price;
 
-            return Container(
-              height: 250.h,
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+            return AlertDialog(
+              backgroundColor: tdWhite,
+              contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              title: Column(
                 children: <Widget>[
                   Text(
                     '${price.toStringAsFixed(2)}KD PER TICKET',
@@ -74,6 +74,11 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                       color: tdGrey,
                     ),
                   ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
                   SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -154,73 +159,89 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  GestureDetector(
-                    onTap: () async {
-                      if (isConfirming) return;
-                      isConfirming = true;
-
-                      if (ticketsCount == 0) {
-                        Navigator.pop(context);
-                        return;
-                      }
-
-                      bool status = await addOrUpdateWithdrawalDetails(
-                        nbrOfTicketsWithdrawn: ticketsCount,
-                        ticketsTotalPrice: totalTicketPrice,
-                        withDrawalID: widget.withDrawalNo,
-                        userNo: auth.userId,
-                      );
-
-                      if (status) {
-                        bool status2 = await updateNbrOfTicketsLeft(
-                          withdrawalID: widget.withDrawalNo,
-                          nbrOfTicketsLeft: widget.numberOfTicketLeft - ticketsCount,
-                        );
-                        ticketProvider.getAllTicket();
-
-                        if (status2) {
-                          Navigator.pop(context);
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Something went wrong',
-                              style: TextStyle(fontSize: 10.sp, color: tdWhite),
-                            ),
-                            backgroundColor: tdBlack,
-                            duration: const Duration(seconds: 4),
-                          ),
-                        );
-                      }
-
-                      isConfirming = false;
-                    },
-                    child: Container(
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(200).w,
-                        color: tdBlack,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5).w,
-                        child: Center(
-                          child: Text(
-                            'Confirm',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: tdWhite,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () async {
+                    if (isConfirming) return;
+                    isConfirming = true;
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: tdBlack,
+                          ),
+                        );
+                      },
+                    );
+
+                    if (ticketsCount == 0) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      return;
+                    }
+
+                    bool status = await addOrUpdateWithdrawalDetails(
+                      nbrOfTicketsWithdrawn: ticketsCount,
+                      ticketsTotalPrice: totalTicketPrice,
+                      withDrawalID: widget.withDrawalNo,
+                      userNo: auth.userId,
+                    );
+
+                    if (status) {
+                      bool status2 = await updateNbrOfTicketsLeft(
+                        withdrawalID: widget.withDrawalNo,
+                        nbrOfTicketsLeft: widget.numberOfTicketLeft - ticketsCount,
+                      );
+                      ticketProvider.getAllTicket();
+                      if (status2) {
+                        ticketProvider.getAllTicket();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Something went wrong',
+                            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                          ),
+                          backgroundColor: tdBlack,
+                          duration: const Duration(seconds: 4),
+                        ),
+                      );
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
+
+                    isConfirming = false;
+                  },
+                  child: Text(
+                    'Confirm',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: tdBlack,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: tdGrey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         );
@@ -249,7 +270,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
           return;
         }
         ticketProvider.getAllTicket();
-        showTicketModal(context);
+        showTicketDialog(context);
       },
       child: Container(
         width: 200.w,
