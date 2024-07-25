@@ -6,9 +6,9 @@ import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
-import '../../ApiService/CartService/UpdateCartApi.dart';
 import '../../Classes/Product/Products.dart';
 import '../../provider/Auth_Provider.dart';
+import 'DeleteProductFromCart.dart';
 
 class CartContainer extends StatefulWidget {
   const CartContainer({
@@ -41,9 +41,9 @@ class _CartContainerState extends State<CartContainer> {
 
   Future<void> _fetchProductDetails() async {
     final productProvider =
-    Provider.of<ProductsProvider>(context, listen: false);
+        Provider.of<ProductsProvider>(context, listen: false);
     List<Product> products =
-    await productProvider.getProductOfCartByUserId(widget.productNo);
+        await productProvider.getProductOfCartByUserId(widget.productNo);
     if (products.isNotEmpty) {
       setState(() {
         _product = products[0];
@@ -53,8 +53,10 @@ class _CartContainerState extends State<CartContainer> {
 
   Future<void> _updateCart(int newQuantity) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final userNo = authProvider.userId;
-    await updateCart(userNo, widget.productNo, newQuantity, _currentPrice, context);
+    await cartProvider.updateCartItem(
+        userNo, widget.productNo, newQuantity, _currentPrice);
     setState(() {
       _currentQuantity = newQuantity;
     });
@@ -62,10 +64,10 @@ class _CartContainerState extends State<CartContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     if (_product == null) {
-      return const Center(child: CircularProgressIndicator(color: tdBlack,));
+      return const Center(child: CircularProgressIndicator(color: tdBlack));
     }
 
     return Padding(
@@ -87,7 +89,7 @@ class _CartContainerState extends State<CartContainer> {
                         height: 90.h,
                         child: CachedNetworkImage(
                           imageUrl:
-                          '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
+                              '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
                           placeholder: (context, url) =>
                               Image.asset('assets/log/LOGO-icon---Black.png'),
                           errorWidget: (context, url, error) =>
@@ -164,6 +166,10 @@ class _CartContainerState extends State<CartContainer> {
                           onTap: () {
                             if (_currentQuantity > 1) {
                               _updateCart(_currentQuantity - 1);
+                            } else {
+                              showDeleteConfirmationDialog(context,
+                                  authProvider.userId, widget.productNo);
+                              setState(() {});
                             }
                           },
                           child: Icon(Icons.remove, color: tdGrey, size: 12.w),

@@ -8,6 +8,7 @@ import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../../ApiService/CartService/DeleteAllCartByUserApi.dart';
+import '../../ApiService/CouponsService/ValidPromoCode.dart';
 import '../../Color&Icons/color.dart';
 
 class PaymentDetails extends StatefulWidget {
@@ -104,7 +105,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   void _applyPromoCode(String promoCode, userId) async {
     if (promoCode.isNotEmpty) {
       Map<String, dynamic> promoResult =
-      await cartProvider.validatePromoCode(userId, promoCode, orderTotal);
+      await validatePromoCode(userId, promoCode, orderTotal);
       if (promoResult['valid']) {
         double savingsPercent = double.parse(promoResult['savings']);
         double savingsAmount = (savingsPercent / 100) * orderTotal;

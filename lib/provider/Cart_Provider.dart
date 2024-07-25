@@ -9,7 +9,12 @@ import 'package:zawiid/ApiService/CartService/CheckProductApi.dart';
 import 'package:zawiid/Classes/Cart/Cart.dart';
 import 'package:http/http.dart' as http;
 
+import '../ApiService/CartService/DeleteOneCartApi.dart';
+import '../ApiService/CartService/UpdateCartApi.dart';
+
 class CartProvider with ChangeNotifier {
+
+
   List<Cart> _cartUser = [];
   List<Cart> get cartUser => _cartUser;
   getAllCartOfUser(int id) async {
@@ -18,23 +23,34 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> validatePromoCode(
-      int userNo, String promoCode, double orderTotal) async {
-    final response = await http.post(
-      Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCheckPromeCode.php'),
-      body: {
-        'UserNo': userNo.toString(),
-        'PromoCode': promoCode.toString(),
-        'OrderTotal': orderTotal.toString(),
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      return {'valid': false};
+  Future<void> updateCartItem(int userNo, int productNo, int quantity, double price) async {
+    try {
+      await updateCart(userNo, productNo, quantity, price);
+      final index = _cartUser.indexWhere((item) => item.productNo == productNo);
+      if (index != -1) {
+        _cartUser[index].productCartQty = quantity;
+        _cartUser[index].productCartPrice = price.toString();
+        notifyListeners();
+      }
+    } catch (error) {
+      throw Exception('Failed to update cart item: $error');
     }
   }
+
+  Future<void> deleteCartItem(int userNo, int productNo) async {
+    try {
+      final success = await deleteCart(userNo, productNo);
+      if (success) {
+        _cartUser.removeWhere((cart) => cart.productNo == productNo);
+        notifyListeners();
+      } else {
+        throw Exception('Failed to delete cart item');
+      }
+    } catch (error) {
+      throw Exception('Failed to delete cart item: $error');
+    }
+  }
+
 
   Future<bool> createOrder(
       int userNo,
@@ -45,10 +61,8 @@ class CartProvider with ChangeNotifier {
       double savings) async {
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-    final formattedOrderStartDate =
-        dateFormat.format(DateTime.parse(orderStartDate));
-    final formattedOrderSubmitDate =
-        dateTimeFormat.format(DateTime.parse(orderSubmitDate));
+    final formattedOrderStartDate = dateFormat.format(DateTime.parse(orderStartDate));
+    final formattedOrderSubmitDate = dateTimeFormat.format(DateTime.parse(orderSubmitDate));
     final orderDetails = _cartUser.map((item) {
       double productPrice = double.parse(item.productCartPrice);
       double productDiscountAmt = productPrice * (savings / 100);
@@ -129,4 +143,5 @@ class CartProvider with ChangeNotifier {
   bool isProductInCart(int productNo) {
     return _cartUser.any((cartItem) => cartItem.productNo == productNo);
   }
+
 }

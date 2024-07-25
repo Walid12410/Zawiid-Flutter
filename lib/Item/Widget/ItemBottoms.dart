@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
-import '../../ApiService/CartService/AddCart.dart';
+import '../../ApiService/CartService/AddCartApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Cart_Provider.dart';
