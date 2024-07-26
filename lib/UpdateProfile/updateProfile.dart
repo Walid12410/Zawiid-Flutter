@@ -506,7 +506,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             _isUpdating = true;
                           });
                           bool isUpdated = await updateUserProfile(
-                            context,
                             authProvider.userId,
                             firstNameController.text,
                             lastNameController.text,

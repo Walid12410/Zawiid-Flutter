@@ -254,14 +254,14 @@ class _BidPageDetailsState extends State<BidPageDetails> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${latestBid.isNotEmpty ? latestBid[0].zawidAmt : bid[0].startPrice} KD',
+                '${latestBid.isNotEmpty ? latestBid[0].zawidAmt : bid[0].startPrice} \$',
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: tdBlack,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                '${latestUserBid.isNotEmpty ? latestUserBid[0].zawidAmt : 0} KD',
+                '${latestUserBid.isNotEmpty ? latestUserBid[0].zawidAmt : 0} \$',
                 style: TextStyle(fontSize: 14.sp, color: tdGrey),
               )
             ],

@@ -59,7 +59,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
               title: Column(
                 children: <Widget>[
                   Text(
-                    '${price.toStringAsFixed(2)}KD PER TICKET',
+                    '${price.toStringAsFixed(2)}\$ PER TICKET',
                     style: TextStyle(
                       color: tdGrey,
                       fontSize: 15.sp,
@@ -152,7 +152,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    'Total Price: ${totalTicketPrice.toStringAsFixed(2)}KD',
+                    'Total Price: ${totalTicketPrice.toStringAsFixed(2)}\$',
                     style: TextStyle(
                       color: tdGrey,
                       fontSize: 12.sp,
@@ -288,7 +288,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
         ),
         child: Center(
           child: Text(
-            '${price.toStringAsFixed(2)}KD TICKET',
+            '${price.toStringAsFixed(2)}\$ TICKET',
             style: TextStyle(
               color: tdGrey,
               fontSize: 14.sp,

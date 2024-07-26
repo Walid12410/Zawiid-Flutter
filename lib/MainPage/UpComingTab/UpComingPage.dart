@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
+import 'package:zawiid/Classes/Bid/Bid.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'Widget/DetailsCard.dart';
@@ -54,8 +55,7 @@ class _UpComingTabState extends State<UpComingTab> {
                 ),
               );
             } else {
-              BidProvider bidProvider =
-              Provider.of<BidProvider>(context, listen: true);
+              BidProvider bidProvider = Provider.of<BidProvider>(context, listen: true);
               var bidData = bidProvider.bidView;
 
               if (bidData.isEmpty) {
@@ -67,9 +67,19 @@ class _UpComingTabState extends State<UpComingTab> {
                 );
               }
 
+              // Filter bids to include only those not yet sold
               var filteredBids = bidData
                   .where((bid) => bid.soldToUserNo == 0 || bid.soldToUserNo == null)
                   .toList();
+
+              // Sort bids: ended bids should come last
+              filteredBids.sort((a, b) {
+                bool aEnded = DateTime.now().isAfter(a.bidEndDate);
+                bool bEnded = DateTime.now().isAfter(b.bidEndDate);
+                if (aEnded && !bEnded) return 1;
+                if (!aEnded && bEnded) return -1;
+                return 0;
+              });
 
               return SingleChildScrollView(
                 child: Column(
@@ -93,6 +103,7 @@ class _UpComingTabState extends State<UpComingTab> {
                   ],
                 ),
               );
+
             }
           },
         ),

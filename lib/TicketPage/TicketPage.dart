@@ -26,6 +26,37 @@ class _TicketMainState extends State<TicketMain> {
   bool _showDetails = true;
   bool _showDetailsBottom = true;
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchInitialData();
+  }
+
+  Future<void> _fetchInitialData() async {
+    final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+    final markColorProvider = Provider.of<MarkColorProvider>(context, listen: false);
+    final productProvider = Provider.of<ProductsProvider>(context, listen: false);
+    await ticketProvider.getAllTicket();
+
+    final allTickets = ticketProvider.allTicket;
+    if (allTickets.isNotEmpty) {
+      final now = DateTime.now();
+      final startedTickets = allTickets
+          .where((ticket) => ticket.startDate.isBefore(now) && ticket.endDate.isAfter(now))
+          .toList();
+      if (startedTickets.isNotEmpty) {
+        final latestStartedTicket = startedTickets.first;
+        await productProvider.getProductByIdTicket(latestStartedTicket.productNo);
+
+        final productDetails = productProvider.productByIdTicket;
+        if (productDetails.isNotEmpty) {
+          await markColorProvider.getMarkByIdTicket(productDetails[0].markNo);
+          await markColorProvider.getColorByIdTicket(productDetails[0].colorNo);
+        }
+      }
+    }
+  }
+
   void toggleVisibility() {
     setState(() {
       _showDetails = !_showDetails;
@@ -34,71 +65,31 @@ class _TicketMainState extends State<TicketMain> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      TicketProvider ticketProvider =
-          Provider.of<TicketProvider>(context, listen: false);
-      ticketProvider.getAllTicket();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    TicketProvider ticketProvider = Provider.of<TicketProvider>(context, listen: true);
-    ProductsProvider productData = Provider.of<ProductsProvider>(context, listen: true);
-    MarkColorProvider markColorProvider = Provider.of<MarkColorProvider>(context, listen: true);
+    final ticketProvider = Provider.of<TicketProvider>(context);
+    final productData = Provider.of<ProductsProvider>(context);
+    final markColorProvider = Provider.of<MarkColorProvider>(context);
 
-    var allTickets = ticketProvider.allTicket;
-    var now = DateTime.now();
+    final allTickets = ticketProvider.allTicket;
+    final now = DateTime.now();
 
     if (allTickets.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(color: tdBlack),
-      );
+      return _buildLoadingScreen();
     }
 
-    var startedTickets = allTickets
-        .where((ticket) =>
-            ticket.startDate.isBefore(now) && ticket.endDate.isAfter(now))
+    final startedTickets = allTickets
+        .where((ticket) => ticket.startDate.isBefore(now) && ticket.endDate.isAfter(now))
         .toList();
-    var notStartedTickets = allTickets.where((ticket) => ticket.startDate.isAfter(now)).toList();
-    var endedTickets = allTickets.where((ticket) => ticket.endDate.isBefore(now)).toList();
+    final notStartedTickets = allTickets.where((ticket) => ticket.startDate.isAfter(now)).toList();
+    final endedTickets = allTickets.where((ticket) => ticket.endDate.isBefore(now)).toList();
 
     if (startedTickets.isNotEmpty) {
       startedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
-      var latestStartedTicket = startedTickets.first;
+      final latestStartedTicket = startedTickets.first;
+      final productDetails = productData.productByIdTicket;
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ProductsProvider productProvider =
-            Provider.of<ProductsProvider>(context, listen: false);
-        productProvider.getProductByIdTicket(latestStartedTicket.productNo);
-      });
-
-      var productDetails = productData.productByIdTicket;
-
-      if (productDetails.isEmpty) {
-        return const Center(
-          child: CircularProgressIndicator(color: tdBlack),
-        );
-      }
-
-      if (productDetails != null || productDetails.isNotEmpty) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          MarkColorProvider markProvider =
-              Provider.of<MarkColorProvider>(context, listen: false);
-          markProvider.getMarkByIdTicket(productDetails[0].markNo);
-          markProvider.getColorByIdTicket(productDetails[0].colorNo);
-        });
-      }
-
-      var color = markColorProvider.oneColorByIDTicket;
-      var mark = markColorProvider.oneMarkByIDTicket;
-
-      if (color.isEmpty || mark.isEmpty) {
-        return const Center(
-          child: CircularProgressIndicator(color: tdBlack),
-        );
+      if (productDetails.isEmpty || markColorProvider.oneColorByIDTicket.isEmpty || markColorProvider.oneMarkByIDTicket.isEmpty) {
+        return _buildLoadingScreen();
       }
 
       return Scaffold(
@@ -109,42 +100,37 @@ class _TicketMainState extends State<TicketMain> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                 PageHeadView(title: 'Ticket',onPressed: (){
-                  GoRouter.of(context).go("/home");
-                 }),
-                TicketImage(
-                  ticketImage:
-                      '${ApiEndpoints.localBaseUrl}/${productDetails[0].productImage}',
+                PageHeadView(
+                  title: 'Ticket',
+                  onPressed: () => GoRouter.of(context).go("/home"),
                 ),
-                if (_showDetails)
-                  SizedBox(
-                    height: 30.h,
-                  ),
+                TicketImage(
+                  ticketImage: '${ApiEndpoints.localBaseUrl}/${productDetails[0].productImage}',
+                ),
+                if (_showDetails) SizedBox(height: 30.h),
                 if (_showDetailsBottom)
                   TicketDetailsBottom(onTap: toggleVisibility),
                 if (_showDetails) ...[
-                  SizedBox(
-                    height: 10.h,
+                  SizedBox(height: 10.h),
+                  TicketDetailsText(
+                    ticketPrice: latestStartedTicket.ticketPrice,
+                    ticketTitle: latestStartedTicket.ticketTitle,
                   ),
-                   TicketDetailsText(ticketPrice: latestStartedTicket.ticketPrice,ticketTitle: latestStartedTicket.ticketTitle,),
-                  SizedBox(
-                    height: 15.h,
-                  ),
+                  SizedBox(height: 15.h),
                   TicketPriceDetails(
-                      ticketPrice: latestStartedTicket.ticketPrice,
-                  numberOfTicketLeft: latestStartedTicket.nbrOfTicketsLeft,
-                  withDrawalNo: latestStartedTicket.withdrawalID,)
+                    ticketPrice: latestStartedTicket.ticketPrice,
+                    numberOfTicketLeft: latestStartedTicket.nbrOfTicketsLeft,
+                    withDrawalNo: latestStartedTicket.withdrawalID,
+                  )
                 ],
                 if (!_showDetails)
                   TicketDetails(
                     onTap: toggleVisibility,
-                    color: color[0].colorName,
-                    mark: mark[0].markName,
+                    color: markColorProvider.oneColorByIDTicket[0].colorName,
+                    mark: markColorProvider.oneMarkByIDTicket[0].markName,
                     productName: productDetails[0].productName,
                   ),
-                SizedBox(
-                  height: 15.h,
-                )
+                SizedBox(height: 15.h),
               ],
             ),
           ),
@@ -152,9 +138,8 @@ class _TicketMainState extends State<TicketMain> {
       );
     } else if (notStartedTickets.isNotEmpty) {
       notStartedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
-      var nextTicket = notStartedTickets.first;
-      String formattedStartTime =
-          DateFormat('dd MMMM yyyy hh:mm a').format(nextTicket.startDate);
+      final nextTicket = notStartedTickets.first;
+      final formattedStartTime = DateFormat('dd MMMM yyyy hh:mm a').format(nextTicket.startDate);
 
       return Scaffold(
         backgroundColor: tdWhite,
@@ -163,30 +148,15 @@ class _TicketMainState extends State<TicketMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: SizedBox(
-                  width: 50.w,
-                  height: 70.h,
-                  child: Image.asset(
-                    'assets/log/LOGO-icon---Black.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              _buildLogo(),
               Text(
                 'Ticket Ended',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10.sp,
-                    color: tdGrey),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),
               Text(
                 'Next ticket starts at $formattedStartTime',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
-                    color: tdGrey),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -201,37 +171,40 @@ class _TicketMainState extends State<TicketMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: SizedBox(
-                  width: 50.w,
-                  height: 70.h,
-                  child: Image.asset(
-                    'assets/log/LOGO-icon---Black.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              _buildLogo(),
               Text(
                 'Ticket Ended',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10.sp,
-                    color: tdGrey),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),
               Text(
-                  'New Ticket Is Upcoming Soon',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.sp,
-                      color: tdGrey),
-                  textAlign: TextAlign.center,
-                ),
-
+                'New Ticket Is Upcoming Soon',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
       );
     }
+  }
+
+  Widget _buildLoadingScreen() {
+    return const Center(
+      child: CircularProgressIndicator(color: tdBlack),
+    );
+  }
+
+  Widget _buildLogo() {
+    return Center(
+      child: SizedBox(
+        width: 50.w,
+        height: 70.h,
+        child: Image.asset(
+          'assets/log/LOGO-icon---Black.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 }

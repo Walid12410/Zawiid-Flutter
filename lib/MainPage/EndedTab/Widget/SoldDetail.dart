@@ -71,7 +71,7 @@ class _SoldDetailsState extends State<SoldDetails> {
           ),
           SizedBox(height: 2.h),
            Text(
-            'SOLD AT: ${widget.soldPrice}KD',
+            'SOLD AT: ${widget.soldPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),

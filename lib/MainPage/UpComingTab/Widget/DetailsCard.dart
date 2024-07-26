@@ -121,7 +121,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
             ],
           ),
           Text(
-            'Starting Price: ${widget.startPrice}KD',
+            'Starting Price: ${widget.startPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),

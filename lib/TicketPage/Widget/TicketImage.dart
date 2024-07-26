@@ -21,7 +21,7 @@ class TicketImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.w),
           image: DecorationImage(
             image: CachedNetworkImageProvider(ticketImage),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
       ),
