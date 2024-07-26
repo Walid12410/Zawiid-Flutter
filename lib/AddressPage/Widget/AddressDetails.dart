@@ -101,7 +101,7 @@ class AddressDetails extends StatelessWidget {
                                 ),
                                 SizedBox(height: 5.h),
                                 Text(
-                                  '+961 ${address.contactPhoneNumber}',
+                                  address.contactPhoneNumber,
                                   style: TextStyle(
                                     fontSize: 10.sp,
                                     color: tdBlack,

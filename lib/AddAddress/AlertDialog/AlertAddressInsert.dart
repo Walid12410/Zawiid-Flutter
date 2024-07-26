@@ -17,10 +17,11 @@ class AlertUserAddressAdded {
       String building,
       String floor,
       int userNo,
+      String countryCode,
       int isCheckOut) async {
 
     final result = await addingAddress.insertAddress(
-        contactPhoneNum, gov, area, block, street, building, floor, userNo);
+        '$countryCode $contactPhoneNum', gov, area, block, street, building, floor, userNo);
     if (result['success']) {
       if (isCheckOut == 1) {
         context.push(context.namedLocation('shippingAddress'));

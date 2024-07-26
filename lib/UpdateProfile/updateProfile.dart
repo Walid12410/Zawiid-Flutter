@@ -20,6 +20,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   bool _isChecked = false;
   String? selectedGovernorate;
   String? selectedArea;
+  bool _isUpdating = false;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   TextEditingController birthDateController = TextEditingController();
@@ -68,6 +69,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GovAreaProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -75,9 +77,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PageHeadView(title: 'My Profile', onPressed: (){
-                GoRouter.of(context).go("/Profile");
-              }),
+              PageHeadView(
+                  title: 'My Profile',
+                  onPressed: () {
+                    GoRouter.of(context).go("/Profile");
+                  }),
               Padding(
                 padding: const EdgeInsets.all(8.0).w,
                 child: Column(
@@ -126,6 +130,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               padding:
                                   const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
+                                cursorColor: tdBlack, // Color of the cursor
                                 controller: firstNameController,
                                 style: TextStyle(fontSize: 12.sp),
                                 decoration: const InputDecoration(
@@ -155,6 +160,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               padding:
                                   const EdgeInsets.only(left: 5, right: 5).w,
                               child: TextFormField(
+                                cursorColor: tdBlack,
                                 controller: lastNameController,
                                 style: TextStyle(fontSize: 12.sp),
                                 decoration: const InputDecoration(
@@ -390,8 +396,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           return DropdownMenuItem<String>(
                             value: governorate.governerateId.toString(),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 5,top: 5).w,
-                              child: Text(governorate.governerateName,style: TextStyle(fontSize: 12.sp,color: tdBlack),),
+                              padding: const EdgeInsets.only(left: 5, top: 5).w,
+                              child: Text(
+                                governorate.governerateName,
+                                style:
+                                    TextStyle(fontSize: 12.sp, color: tdBlack),
+                              ),
                             ),
                           );
                         }).toList(),
@@ -449,8 +459,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           return DropdownMenuItem<String>(
                             value: area.areaId.toString(),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 5,top: 5).w,
-                              child: Text(area.areaName,style: TextStyle(fontSize: 12.sp,color: tdBlack),),
+                              padding: const EdgeInsets.only(left: 5, top: 5).w,
+                              child: Text(
+                                area.areaName,
+                                style:
+                                    TextStyle(fontSize: 12.sp, color: tdBlack),
+                              ),
                             ),
                           );
                         }).toList(),
@@ -461,8 +475,21 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     ),
                     Center(
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          if (_isUpdating) return;
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: tdBlack,
+                                ),
+                              );
+                            },
+                          );
                           if (selectedGovernorate == null || selectedArea == null) {
+                            Navigator.pop(context); // Close the progress dialog if selections are missing
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -475,16 +502,50 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             );
                             return;
                           }
-                          updateProfile(
-                            context: context,
-                            userId: authProvider.userId,
-                            firstName: firstNameController.text,
-                            lastName: lastNameController.text,
-                            birthDate: birthDateController.text,
-                            gender: _isChecked ? 'male' : 'female',
-                            govNo: selectedGovernorate.toString(),
-                            areaNo: selectedArea.toString(),
+                          setState(() {
+                            _isUpdating = true;
+                          });
+                          bool isUpdated = await updateUserProfile(
+                            context,
+                            authProvider.userId,
+                            firstNameController.text,
+                            lastNameController.text,
+                            birthDateController.text,
+                            _isChecked ? 'male' : 'female',
+                            selectedGovernorate.toString(),
+                            selectedArea.toString(),
                           );
+                          Navigator.of(context, rootNavigator: true).pop();
+                          if (isUpdated) {
+                            await userProvider.getUserInfo(authProvider.userId);
+                            GoRouter.of(context).go('/Profile');
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Profile updated successfully',
+                                    style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                                  ),
+                                  backgroundColor: tdBlack,
+                                ),
+                              );
+                            });
+                          } else {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Failed to update profile',
+                                    style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                                  ),
+                                  backgroundColor: tdBlack,
+                                ),
+                              );
+                            });
+                          }
+                          setState(() {
+                            _isUpdating = false;
+                          });
                         },
                         child: Container(
                           width: 180.w,
@@ -523,39 +584,5 @@ class _UpdateProfileState extends State<UpdateProfile> {
         ),
       ),
     );
-  }
-
-  void updateProfile({
-    required BuildContext context,
-    required int userId,
-    required String firstName,
-    required String lastName,
-    required String birthDate,
-    required String gender,
-    required String govNo,
-    required String areaNo,
-  }) async {
-    try {
-      await updateUserProfile(
-        context,
-        userId,
-        firstName,
-        lastName,
-        birthDate,
-        gender,
-        govNo,
-        areaNo,
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile updated successfully',style: TextStyle(fontSize: 10.sp,
-        color: tdWhite),),backgroundColor: tdBlack,),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update profile',style: TextStyle(fontSize: 10.sp,
-            color: tdWhite),),backgroundColor: tdBlack,),
-      );
-    }
   }
 }
