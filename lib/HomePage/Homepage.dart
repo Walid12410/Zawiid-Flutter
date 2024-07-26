@@ -59,7 +59,6 @@ class _HomePageState extends State<HomePage> {
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
-    final deliveryProvider = Provider.of<DeliveryProvider>(context, listen: false);
 
     try {
       final List<Future<dynamic>> fetchers = [
@@ -72,7 +71,6 @@ class _HomePageState extends State<HomePage> {
         productProvider.getProductsTopRated(),
         productProvider.getAllFeaturedProductCard(),
         offerProvider.getAllOffer(),
-        deliveryProvider.getAllDeliveryOptions()
       ];
       final List<dynamic> results = await Future.wait(fetchers);
     } catch (e) {

@@ -4,11 +4,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/AccountInfoScreen/Widget/GuestView.dart';
+import 'package:zawiid/Classes/Delivery/Delivery.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../provider/Auth_Provider.dart';
+import '../provider/Delivery_Provider.dart';
+import 'DeliveryOptions.dart';
 import 'Widget/CartContainer.dart';
 
 class CartPage extends StatefulWidget {
@@ -19,6 +22,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+
+
   @override
   void initState() {
     super.initState();
@@ -139,9 +144,47 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double price = 0.0;
+
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    var cartItem = cartProvider.cartUser;
     final authProvider = Provider.of<AuthProvider>(context, listen: true);
+    final deliveryOptions = Provider.of<DeliveryProvider>(context, listen: true);
+    var cartItem = cartProvider.cartUser;
+
+    var deliveryPrice = deliveryOptions.oneDeliveryOptions.isNotEmpty
+        ? deliveryOptions.oneDeliveryOptions.first
+        : null;
+
+    var allDeliveryOptions = deliveryOptions.allDeliveryOpt.isNotEmpty
+        ? deliveryOptions.allDeliveryOpt.first
+        : null;
+
+    try {
+      if (deliveryOptions.optionsSelected == 0) {
+        if (allDeliveryOptions != null &&
+            allDeliveryOptions.additionalCost.isNotEmpty &&
+            double.tryParse(allDeliveryOptions.additionalCost) != null &&
+            double.parse(allDeliveryOptions.additionalCost) > 0) {
+          price = double.parse(allDeliveryOptions.additionalCost);
+        } else {
+          price = 0.0;
+        }
+      } else {
+        if (deliveryPrice != null &&
+            deliveryPrice.additionalCost.isNotEmpty &&
+            double.tryParse(deliveryPrice.additionalCost) != null &&
+            double.parse(deliveryPrice.additionalCost) > 0) {
+          price = double.parse(deliveryPrice.additionalCost);
+        } else {
+          price = 0.0;
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+
+
 
     return authProvider.userId != 0
         ? Scaffold(
@@ -242,7 +285,7 @@ class _CartPageState extends State<CartPage> {
                                     TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
                               Text(
-                                '${cartProvider.totalPrice.toStringAsFixed(2)} KD',
+                                '${cartProvider.totalPrice.toStringAsFixed(2)} \$',
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.bold,
@@ -259,7 +302,7 @@ class _CartPageState extends State<CartPage> {
                                     TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
                               Text(
-                                '0',
+                                '$price \$',
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.bold,
@@ -275,7 +318,7 @@ class _CartPageState extends State<CartPage> {
                                 style: TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
                               Text(
-                                '${cartProvider.totalPrice.toStringAsFixed(2)} KD',
+                                '${double.parse(cartProvider.totalPrice.toStringAsFixed(2)) + price} \$',
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.bold,
@@ -332,8 +375,13 @@ class _CartPageState extends State<CartPage> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: (){
-
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeliveryOptionDialog();
+                                    },
+                                  );
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
