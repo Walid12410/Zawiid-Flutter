@@ -125,8 +125,8 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                 ),
               ),
               value: selectedOptionID == option.shippingOptionID,
-              activeColor: Colors.black, // Checkbox color when checked
-              checkColor: Colors.white, // Color of the checkmark
+              activeColor: tdBlack, // Checkbox color when checked
+              checkColor: tdWhite, // Color of the checkmark
               onChanged: (bool? value) {
                 if (value == true) {
                   setState(() {
