@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/ApiService/Bid/BidZawidApi.dart';
+import 'package:zawiid/ApiService/BidService//BidZawidApi.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Bid_Provider.dart';

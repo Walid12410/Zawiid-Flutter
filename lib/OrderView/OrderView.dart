@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/OrderProvider.dart';
 
 import 'Widget/OrderViewDetails.dart';
-import 'Widget/OrderViewHeader.dart';
 
 class OrderView extends StatefulWidget {
   const OrderView({super.key});
@@ -55,11 +56,13 @@ class _OrderViewState extends State<OrderView> {
                     ),
                   );
                 } else {
-                  return const SingleChildScrollView(
+                  return  SingleChildScrollView(
                     child: Column(
                       children: [
-                        OrderViewHeader(),
-                        OrderViewDetails(),
+                        PageHeadView(title: 'All My Orders',onPressed: (){
+                          GoRouter.of(context).go("/Profile");
+                        },),
+                        const OrderViewDetails(),
                       ],
                     ),
                   );

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import '../../provider/SelectionMarkColor_Provider.dart';
 import 'Widget/CouponsCardDetails.dart';
-import 'Widget/CouponsCardHead.dart';
 import 'Widget/TitleAndDescriptionCoupons.dart';
 
 class CouponsDetails extends StatefulWidget {
@@ -33,7 +34,8 @@ class _CouponsDetailsState extends State<CouponsDetails> {
 
   Future<void> _fetchData() async {
     final markProvider = Provider.of<MarkColorProvider>(context, listen: false);
-    final couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
+    final couponsProvider =
+        Provider.of<CouponsProvider>(context, listen: false);
     await markProvider.getMarkByIdCoupons(widget.markId);
     await couponsProvider.getCouponsByMarkId(widget.markId);
   }
@@ -47,7 +49,10 @@ class _CouponsDetailsState extends State<CouponsDetails> {
           future: _fetchDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator(color: tdBlack,));
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: tdBlack,
+              ));
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -75,7 +80,11 @@ class _CouponsDetailsState extends State<CouponsDetails> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CouponsCardHead(),
+          PageHeadView(
+              title: 'Coupons',
+              onPressed: () {
+                GoRouter.of(context).go("/Coupons");
+              }),
           const TitleAndDescription(),
           Padding(
             padding: const EdgeInsets.all(5).w,
@@ -94,7 +103,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
               child: Padding(
                 padding: const EdgeInsets.all(5).w,
                 child: Column(
-                  children:  [
+                  children: [
                     const CouponsCardDetails(),
                     SizedBox(height: 10.h),
                   ],

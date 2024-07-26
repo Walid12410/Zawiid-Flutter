@@ -97,8 +97,6 @@ flutter:
     - assets/svg/001-mail.svg
     - assets/log/LOGO-icon---Black.png
     - assets/img/pop.png
-    - assets/img/adidas.png
-    - assets/img/iphone.png
     - assets/img/User.png
     - assets/img/PrivacyAndTermsImage/PrivacyAndPolicy.png
     - assets/img/PrivacyAndTermsImage/TermsofService.png
@@ -130,6 +128,7 @@ flutter:
     - assets/img/master.png
     - assets/img/pop3.png
     - assets/svg/close.svg
+    - assets/svg/delivery.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

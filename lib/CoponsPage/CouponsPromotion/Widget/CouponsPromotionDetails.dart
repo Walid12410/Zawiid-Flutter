@@ -40,7 +40,7 @@ class CouponsPromotionDetails extends StatelessWidget {
       Clipboard.setData(ClipboardData(text: text));
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
-          content: Text('Coupon code copied',style: TextStyle(fontSize: 12.sp,color: tdWhite),),
+          content: Text('Coupon code copied',style: TextStyle(fontSize: 10.sp,color: tdWhite),),
           duration: const Duration(seconds: 2),
           backgroundColor: tdBlack,
         ),
@@ -81,11 +81,6 @@ class CouponsPromotionDetails extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            'adidas.com.kw',
-            style: TextStyle(
-                fontSize: 5.sp, color: tdBlue, fontWeight: FontWeight.bold),
-          ),
           SizedBox(
             height: 10.h,
           ),
@@ -104,7 +99,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 27.sp,
                         fontWeight: FontWeight.bold,
-                        color: tdBlack),
+                        color: tdBlack),overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

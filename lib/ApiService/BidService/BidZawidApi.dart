@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 
-import '../../Color&Icons/color.dart';
+import 'package:zawiid/Color&Icons/color.dart';
+
 
 Future<void> addBidZawid(
     BuildContext context, int bidNo, int userNo, String zawidAmt) async {
@@ -29,7 +30,7 @@ Future<void> addBidZawid(
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            jsonResponse['message'],
+            'Bid entry has been successfully added.',
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
           ),
           backgroundColor: tdBlack,

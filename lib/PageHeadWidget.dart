@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../Color&Icons/color.dart';
 
-class AddressViewHeading extends StatelessWidget {
-  const AddressViewHeading({
-    super.key,
-  });
+class PageHeadView extends StatelessWidget {
+  const PageHeadView({super.key,required this.title, required this.onPressed});
+
+
+  final VoidCallback onPressed;
+  final String title;
 
 
   @override
@@ -19,7 +20,7 @@ class AddressViewHeading extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.pop();
+              onPressed();
             },
             child: SizedBox(
               width: 20.w,
@@ -30,7 +31,7 @@ class AddressViewHeading extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10).w,
             child: Text(
-                'Shipping Address',
+                title,
                 style: TextStyle(
                     color: tdBlack, fontWeight: FontWeight.bold, fontSize: 12.sp)
             ),
@@ -41,3 +42,4 @@ class AddressViewHeading extends StatelessWidget {
     );
   }
 }
+

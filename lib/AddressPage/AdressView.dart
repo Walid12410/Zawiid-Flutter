@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import '../provider/Auth_Provider.dart';
 import '../provider/GovArea_Provider.dart';
 import 'Widget/AddAddressBottom.dart';
 import 'Widget/AddressDetails.dart';
-import 'Widget/AddressViewHeading.dart';
 
 class AddressView extends StatefulWidget {
   const AddressView({Key? key, required this.showBottom}) : super(key: key);
@@ -119,7 +119,9 @@ class _AddressViewState extends State<AddressView> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const AddressViewHeading(),
+                    PageHeadView(title: 'Shipping Address', onPressed: (){
+                      context.pop();
+                    }),
                     SizedBox(height: 5.h),
                     AddAddressBottom(showCheckOut: widget.showBottom),
                     const AddressDetails(),

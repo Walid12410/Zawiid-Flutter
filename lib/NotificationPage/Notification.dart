@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/NotificationService/DeleteAllNotification.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 
 import '../AccountInfoScreen/Widget/GuestView.dart';
 import '../provider/NotificationProvider.dart';
 import 'Widget/NotificationContainer.dart';
-import 'Widget/NotificationHead.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -153,7 +154,9 @@ class _NotificationPageState extends State<NotificationPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const NotificationHead(),
+                    PageHeadView(title: 'Notification', onPressed: (){
+                      GoRouter.of(context).go("/home");
+                    }),
                     Padding(
                       padding: const EdgeInsets.all(8.0).w,
                       child: Column(
@@ -209,7 +212,9 @@ class _NotificationPageState extends State<NotificationPage> {
             body: SafeArea(
               child: Column(
                 children: [
-                  const NotificationHead(),
+                  PageHeadView(title: 'Notification', onPressed: (){
+                    GoRouter.of(context).go("/home");
+                  }),
                   SizedBox(
                     height: 180.h,
                   ),

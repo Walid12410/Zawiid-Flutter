@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import 'Widget/ShowDetails.dart';
-import 'Widget/TicketBackArrow.dart';
 import 'Widget/TicketDetailsBottom.dart';
 import 'Widget/TicketDetailsText.dart';
 import 'Widget/TicketImage.dart';
@@ -108,7 +109,9 @@ class _TicketMainState extends State<TicketMain> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TicketBackArrow(),
+                 PageHeadView(title: 'Ticket',onPressed: (){
+                  GoRouter.of(context).go("/home");
+                 }),
                 TicketImage(
                   ticketImage:
                       '${ApiEndpoints.localBaseUrl}/${productDetails[0].productImage}',

@@ -7,6 +7,7 @@ import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/Delivery_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
@@ -58,6 +59,7 @@ class _HomePageState extends State<HomePage> {
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
+    final deliveryProvider = Provider.of<DeliveryProvider>(context, listen: false);
 
     try {
       final List<Future<dynamic>> fetchers = [
@@ -70,6 +72,7 @@ class _HomePageState extends State<HomePage> {
         productProvider.getProductsTopRated(),
         productProvider.getAllFeaturedProductCard(),
         offerProvider.getAllOffer(),
+        deliveryProvider.getAllDeliveryOptions()
       ];
       final List<dynamic> results = await Future.wait(fetchers);
     } catch (e) {
@@ -79,8 +82,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryProvider categoryProvider =
-        Provider.of<CategoryProvider>(context, listen: true);
+    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
     OfferProvider offerProvider =
         Provider.of<OfferProvider>(context, listen: true);

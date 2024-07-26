@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
-import 'Widget/LegalHeader.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'Widget/LegalInfoImage.dart';
 
 
@@ -24,7 +23,10 @@ class _TermsOfServicesState extends State<TermsOfServices> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const LegalHeader(),
+              //Legal Information
+              PageHeadView(title: 'Legal Information', onPressed: (){
+                GoRouter.of(context).go("/Profile");
+              }),
               SizedBox(height: 5.h,),
               const LegalInformationImage()
             ],

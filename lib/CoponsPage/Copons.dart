@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import '../Color&Icons/color.dart';
 import '../provider/Coupons_Provider.dart';
-import 'Widget/CouponsHead.dart';
 import 'Widget/CouponsListMark.dart';
 
 class CouponsMain extends StatefulWidget {
@@ -55,13 +56,16 @@ class _CouponsMainState extends State<CouponsMain> {
 
   Widget _buildCouponsList() {
     return Scaffold(
+      backgroundColor: tdWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children:  [
-              const CouponsHead(),
+              PageHeadView(title: 'Coupons', onPressed: (){
+                GoRouter.of(context).go("/home");
+              }),
               SizedBox(height: 15.h),
               const CouponsListView(),
             ],

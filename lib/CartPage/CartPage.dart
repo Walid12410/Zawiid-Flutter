@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/AccountInfoScreen/Widget/GuestView.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../provider/Auth_Provider.dart';
 import 'Widget/CartContainer.dart';
-import 'Widget/CartPageHead.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -39,7 +40,8 @@ class _CartPageState extends State<CartPage> {
           ),
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -141,7 +143,6 @@ class _CartPageState extends State<CartPage> {
     var cartItem = cartProvider.cartUser;
     final authProvider = Provider.of<AuthProvider>(context, listen: true);
 
-
     return authProvider.userId != 0
         ? Scaffold(
             backgroundColor: tdWhite,
@@ -149,7 +150,9 @@ class _CartPageState extends State<CartPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const CartPageHead(),
+                    PageHeadView(title: 'Cart',onPressed: (){
+                      context.pop();
+                    },),
                     SizedBox(height: 5.h),
                     Padding(
                       padding: const EdgeInsets.only(right: 8).w,
@@ -158,10 +161,10 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if(cartItem.isNotEmpty){
+                              if (cartItem.isNotEmpty) {
                                 _showClearCartDialog(
                                     context, authProvider.userId);
-                              }else{
+                              } else {
                                 null;
                               }
                             },
@@ -269,8 +272,7 @@ class _CartPageState extends State<CartPage> {
                             children: [
                               Text(
                                 'EST. Total:',
-                                style:
-                                    TextStyle(color: tdBlack, fontSize: 12.sp),
+                                style: TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
                               Text(
                                 '${cartProvider.totalPrice.toStringAsFixed(2)} KD',
@@ -285,41 +287,88 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                     Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          if(cartItem.isEmpty){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Cart is empty!',
-                                  style: TextStyle(fontSize: 10.sp, color: tdWhite),
-                                ),
-                                backgroundColor: tdBlack,
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                            return;
-                          }
-                          context.push(context.namedLocation('shippingAddress'));
-                        },
-                        child: Container(
+                      child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50).w,
                             border: Border.all(color: tdBlack),
-                            color: tdWhite,
+                            color: tdBlack,
                           ),
-                          child: Center(
-                            child: Text(
-                              'Select Address',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: tdBlack,
-                                  fontSize: 12.sp),
-                            ),
-                          ),
-                        ),
-                      ),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: (){
+                                  if(cartItem.isEmpty){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Cart is empty!',
+                                          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                                        ),
+                                        backgroundColor: tdBlack,
+                                        duration: const Duration(seconds: 2),
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  context.push(context.namedLocation('shippingAddress'));
+                                },
+                                child: Container(
+                                  width: 220.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50).w,
+                                    border: Border.all(color: tdBlack),
+                                    color: tdWhite,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Select Address',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: tdBlack,
+                                          fontSize: 12.sp),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: const Radius.circular(50).w,
+                                      topRight:const  Radius.circular(50).w
+                                    ),
+                                    border: Border.all(color: tdBlack),
+                                    color: tdBlack,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10,top: 5).w,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                            width: 25.w,
+                                            height: 25.w,
+                                            child: SvgPicture.asset('assets/svg/delivery.svg',fit: BoxFit.fill,color: tdWhite,)),
+                                        Center(
+                                          child: Text(
+                                            'Delivery Options',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: tdWhite,
+                                                fontSize: 10.sp),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
                     )
                   ],
                 ),
@@ -331,7 +380,9 @@ class _CartPageState extends State<CartPage> {
             body: SafeArea(
               child: Column(
                 children: [
-                  const CartPageHead(),
+                   PageHeadView(title: 'Cart',onPressed: (){
+                    context.pop();
+                  },),
                   SizedBox(
                     height: 180.h,
                   ),

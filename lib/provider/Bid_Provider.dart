@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:zawiid/ApiService/Bid/BidApi.dart';
-import 'package:zawiid/ApiService/Bid/BidByIdApi.dart';
-import 'package:zawiid/ApiService/Bid/BidZawidLastAmtApi.dart';
+import 'package:zawiid/ApiService/BidService//BidApi.dart';
+import 'package:zawiid/ApiService/BidService/BidByIdApi.dart';
+import 'package:zawiid/ApiService/BidService/BidZawidLastAmtApi.dart';
 import 'package:zawiid/Classes/Bid/BIdZawid.dart';
 import 'package:zawiid/Classes/Bid/Bid.dart';
 import 'package:zawiid/Classes/Bid/bidProduct.dart';
 
-import '../ApiService/Bid/UserLatestBid.dart';
+import '../ApiService/BidService/UserLatestBid.dart';
 
 
 class BidProvider with ChangeNotifier {

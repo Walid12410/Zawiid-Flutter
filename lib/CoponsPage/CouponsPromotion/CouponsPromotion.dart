@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/PageHeadWidget.dart';
 import '../../provider/Coupons_Provider.dart';
 import 'Widget/CouponsPromotionDetails.dart';
-import 'Widget/CouponsPromotionHead.dart';
 
 
 class CouponsPromotion extends StatefulWidget {
@@ -42,7 +43,9 @@ class _CouponsPromotionState extends State<CouponsPromotion> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CouponsPromotionHead(),
+            PageHeadView(title: 'Coupons', onPressed: (){
+              context.pop();
+            }),
             SizedBox(height: 2.h,),
             const CouponsPromotionDetails()
           ],
