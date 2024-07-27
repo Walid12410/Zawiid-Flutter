@@ -7,7 +7,6 @@ import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
-import 'package:zawiid/provider/Delivery_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';

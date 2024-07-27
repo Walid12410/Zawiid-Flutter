@@ -29,6 +29,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   double savingPercent = 0.0;
   bool _isProcessingOrder = false;
 
+  String promoCodeShow = 'You Have A Promo Code';
+
   @override
   void initState() {
     super.initState();
@@ -102,10 +104,108 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     );
   }
 
+  void _showPromoCodeDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        authProvider = Provider.of<AuthProvider>(context, listen: false);
+        return AlertDialog(
+          backgroundColor: tdWhite,
+          surfaceTintColor: tdWhite,
+          title: Text('Enter Promo Code',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp,color: tdBlack),),
+          content: TextField(
+            controller: promoCodeController,
+            decoration:  InputDecoration(
+              hintText: 'Promo Code',
+              hintStyle: TextStyle(color: tdBlack,fontSize: 10.sp),
+              enabledBorder:const  OutlineInputBorder(
+                borderSide: BorderSide(color: tdBlack),
+              ),
+              focusedBorder:const OutlineInputBorder(
+                borderSide: BorderSide(color: tdBlack),
+              ),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(color: tdBlack),
+              ),
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _applyPromoCode(promoCodeController.text, authProvider.userId);
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    width: 100.w,
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(200),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Apply',
+                        style: TextStyle(
+                          fontSize: 9.sp,
+                          color: tdBlack,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10.w),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    width: 100.w,
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(200),
+                      color: tdBlack,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 9.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
   void _applyPromoCode(String promoCode, userId) async {
     if (promoCode.isNotEmpty) {
       Map<String, dynamic> promoResult =
-      await validatePromoCode(userId, promoCode, orderTotal);
+          await validatePromoCode(userId, promoCode, orderTotal);
       if (promoResult['valid']) {
         double savingsPercent = double.parse(promoResult['savings']);
         double savingsAmount = (savingsPercent / 100) * orderTotal;
@@ -123,6 +223,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           ),
         );
         setState(() {
+          promoCodeShow = promoCodeController.text;
           finalPrice = orderTotal - savingsAmount;
           savePrice = savingsAmount;
         });
@@ -202,7 +303,6 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     cartProvider = Provider.of<CartProvider>(context, listen: true);
@@ -254,12 +354,12 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                            fontSize: 19.sp),
+                            fontSize: 17.sp),
                       ),
                       Text(
-                        '${cartProvider.totalPrice.toStringAsFixed(2)} KWD',
+                        '${cartProvider.totalPrice.toStringAsFixed(2)} \$',
                         style: TextStyle(
-                            fontSize: 19.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
@@ -270,51 +370,30 @@ class _PaymentDetailsState extends State<PaymentDetails> {
             ),
           ),
           SizedBox(height: 20.h),
-          TextField(
-            controller: promoCodeController,
-            style: TextStyle(color: tdBlack, fontSize: 12.sp),
-            decoration: InputDecoration(
-              hintText: 'You Have A Promo Code',
-              hintStyle: TextStyle(color: tdBlack, fontSize: 12.sp),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(color: tdBlack),
-                borderRadius: BorderRadius.circular(15.0).w,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: tdBlack),
-                borderRadius: BorderRadius.circular(15.0).w,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: tdBlack),
-                borderRadius: BorderRadius.circular(15.0).w,
-              ),
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  _applyPromoCode(promoCodeController.text,authProvider.userId);
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(5.w),
-                  child: Container(
-                    width: 70.w,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: tdBlack),
-                      color: tdBlack,
-                      borderRadius: BorderRadius.circular(200),
+          GestureDetector(
+            onTap: (){
+              _showPromoCodeDialog();
+            },
+            child: Container(
+              width: double.infinity,
+              height: 40.h,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15).w,
+                  color: tdWhite,
+                  border: Border.all(color: tdBlack)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                 Padding(
+                   padding: const EdgeInsets.only(left: 15).w,
+                   child: Text(
+                     promoCodeShow,
+                      style: TextStyle(
+                          fontSize: 12.sp, color: tdBlack, fontWeight: FontWeight.bold),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.w),
-                      child: Center(
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: tdWhite,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                 )
+                ],
               ),
             ),
           ),
@@ -326,7 +405,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
               borderRadius: BorderRadius.circular(15).w,
             ),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15.w, 20.h, 15.w, 5.h),
+              padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 10.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -349,23 +428,23 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 15.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${savePrice.toStringAsFixed(2)} KWD',
+                        '${savePrice.toStringAsFixed(2)} \$',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: tdBlack,
                             fontSize: 17.sp),
                       ),
                       Text(
-                        '${finalPrice == 0.0 ? orderTotal.toStringAsFixed(2) :finalPrice.toStringAsFixed(2)} KWD',
+                        '${finalPrice == 0.0 ? orderTotal.toStringAsFixed(2) : finalPrice.toStringAsFixed(2)} \$',
                         style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                            color: tdBlack),
                       ),
                     ],
                   ),
@@ -376,7 +455,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           SizedBox(height: 70.h),
           GestureDetector(
             onTap: () {
-              _createOrder(authProvider.userId, orderTotal, addressProvider.defaultAddressNo);
+              _createOrder(authProvider.userId, orderTotal,
+                  addressProvider.defaultAddressNo);
             },
             child: Container(
               width: double.infinity,
@@ -398,7 +478,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           SizedBox(height: 10.h),
           GestureDetector(
             onTap: () {
-              _createOrder(authProvider.userId, orderTotal, addressProvider.defaultAddressNo);
+              _createOrder(authProvider.userId, orderTotal,
+                  addressProvider.defaultAddressNo);
             },
             child: Container(
               width: double.infinity,
@@ -440,7 +521,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           SizedBox(height: 10.h),
           GestureDetector(
             onTap: () {
-              _createOrder(authProvider.userId, orderTotal, addressProvider.defaultAddressNo);
+              _createOrder(authProvider.userId, orderTotal,
+                  addressProvider.defaultAddressNo);
             },
             child: Container(
               width: double.infinity,

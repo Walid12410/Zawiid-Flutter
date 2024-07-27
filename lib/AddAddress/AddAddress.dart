@@ -60,8 +60,6 @@ class _AddAddressPageState extends State<AddAddressPage> {
     UserProvider userDetails = Provider.of<UserProvider>(context, listen: true);
     var userInfo = userDetails.userInfo;
     final provider = Provider.of<GovAreaProvider>(context);
-    print(_countryCode);
-
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
