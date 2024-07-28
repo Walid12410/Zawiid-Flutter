@@ -5,7 +5,7 @@ import 'package:zawiid/ApiService/DeviceTokenService/AddDeviceApi.dart';
 import 'package:zawiid/ApiService/DeviceTokenService/CheckDeviceApi.dart';
 import 'package:zawiid/ApiService/DeviceTokenService/UpdateDeviceApi.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
-import '../DeviceName.dart';
+import '../DeviceName/DeviceName.dart';
 import 'package:synchronized/synchronized.dart';
 
 // Handle background messages

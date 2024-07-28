@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../Color&Icons/color.dart';
+import '../../../Color&Icons/color.dart';
 
 class PageHeadView extends StatelessWidget {
   const PageHeadView({super.key,required this.title, required this.onPressed});

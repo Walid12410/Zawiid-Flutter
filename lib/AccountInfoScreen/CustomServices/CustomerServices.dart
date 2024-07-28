@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-import 'package:zawiid/PageHeadWidget.dart';
+import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'Widget/CustomServicesContainer.dart';
 
 class CustomerPage extends StatefulWidget {

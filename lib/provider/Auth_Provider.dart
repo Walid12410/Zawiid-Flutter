@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawiid/ApiService/DeviceTokenService/DeleteDeviceApi.dart';
 
-import '../DeviceName.dart';
+import '../DeviceName/DeviceName.dart';
 
 class AuthProvider with ChangeNotifier {
 

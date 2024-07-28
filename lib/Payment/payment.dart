@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
-import '../PageHeadWidget.dart';
+import '../Widget/PageHeadWidget.dart';
 import 'Widget/PaymentDetails.dart';
 
 class PaymentPage extends StatefulWidget {

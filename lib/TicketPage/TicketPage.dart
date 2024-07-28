@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -5,10 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-import 'package:zawiid/PageHeadWidget.dart';
+import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
+import '../ConnectivityCheck.dart';
 import 'Widget/ShowDetails.dart';
 import 'Widget/TicketDetailsBottom.dart';
 import 'Widget/TicketDetailsText.dart';
@@ -25,11 +28,26 @@ class TicketMain extends StatefulWidget {
 class _TicketMainState extends State<TicketMain> {
   bool _showDetails = true;
   bool _showDetailsBottom = true;
+  late StreamSubscription _connectionChangeStream;
+  bool isOffline = false;
 
   @override
   void initState() {
     super.initState();
+    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    connectionStatus.initialize();
+    _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
     _fetchInitialData();
+  }
+
+
+  void connectionChanged(dynamic hasConnection) {
+    setState(() {
+      isOffline = !hasConnection;
+      if (!isOffline) {
+        _fetchInitialData();
+      }
+    });
   }
 
   Future<void> _fetchInitialData() async {

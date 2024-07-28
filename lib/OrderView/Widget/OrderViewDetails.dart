@@ -17,8 +17,6 @@ class OrderViewDetails extends StatelessWidget {
     final orderProvider = Provider.of<OrderProvider>(context, listen: true);
     var orders = orderProvider.orderUser;
 
-    print('Orders: $orders');
-
     return Column(
       children: [
         if (orders.isEmpty)
@@ -84,7 +82,7 @@ class OrderViewDetails extends StatelessWidget {
                                 Text('QTY: ${order.productQty}',style: TextStyle(fontSize: 8.sp,color: tdBlack,fontWeight: FontWeight.bold),),
                                 SizedBox(height: 15.h),
                                 Text(
-                                  '\$${order.productPrice}', // Assuming productPrice is a double
+                                  '\$${double.parse(order.productPrice) * order.productQty}', // Assuming productPrice is a double
                                   style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.bold,

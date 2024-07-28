@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/NotificationService/DeleteAllNotification.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-import 'package:zawiid/PageHeadWidget.dart';
+import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 
 import '../AccountInfoScreen/Widget/GuestView.dart';

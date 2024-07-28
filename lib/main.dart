@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawiid/FirebaseApi/firebase_api.dart';
-import 'package:zawiid/firebase_options.dart';
+import 'package:zawiid/FirebaseApi/firebase_options.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
@@ -22,6 +22,7 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
+import 'ConnectivityCheck.dart';
 import 'Route/RouteNaviagtor.dart';
 
 Future<void> main() async {
@@ -32,6 +33,8 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+  ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+  connectionStatus.initialize();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int userId = prefs.getInt('userID') ?? 0;
   runApp(MultiProvider(

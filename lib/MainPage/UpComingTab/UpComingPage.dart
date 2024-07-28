@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
-import 'package:zawiid/Classes/Bid/Bid.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
+import '../../ConnectivityCheck.dart';
 import 'Widget/DetailsCard.dart';
 
 class UpComingTab extends StatefulWidget {
@@ -16,11 +18,25 @@ class UpComingTab extends StatefulWidget {
 
 class _UpComingTabState extends State<UpComingTab> {
   late Future<void> _bidFuture;
+  late StreamSubscription _connectionChangeStream;
+  bool isOffline = false;
 
   @override
   void initState() {
     super.initState();
+    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    connectionStatus.initialize();
+    _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
     _bidFuture = _fetchBids();
+  }
+
+  void connectionChanged(dynamic hasConnection) {
+    setState(() {
+      isOffline = !hasConnection;
+      if (!isOffline) {
+        _bidFuture = _fetchBids();
+      }
+    });
   }
 
   Future<void> _fetchBids() async {

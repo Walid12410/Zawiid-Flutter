@@ -112,16 +112,21 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         return AlertDialog(
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          title: Text('Enter Promo Code',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp,color: tdBlack),),
+          title: Text(
+            'Enter Promo Code',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdBlack),
+          ),
           content: TextField(
             controller: promoCodeController,
-            decoration:  InputDecoration(
+            cursorColor: tdBlack,
+            decoration: InputDecoration(
               hintText: 'Promo Code',
-              hintStyle: TextStyle(color: tdBlack,fontSize: 10.sp),
-              enabledBorder:const  OutlineInputBorder(
+              hintStyle: TextStyle(color: tdBlack, fontSize: 10.sp),
+              enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: tdBlack),
               ),
-              focusedBorder:const OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: tdBlack),
               ),
               border: const OutlineInputBorder(
@@ -135,7 +140,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    _applyPromoCode(promoCodeController.text, authProvider.userId);
+                    _applyPromoCode(
+                        promoCodeController.text, authProvider.userId);
                     Navigator.of(context).pop();
                   },
                   child: Container(
@@ -195,7 +201,6 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                 ),
               ],
             ),
-
           ],
         );
       },
@@ -371,7 +376,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           ),
           SizedBox(height: 20.h),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               _showPromoCodeDialog();
             },
             child: Container(
@@ -385,14 +390,16 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 Padding(
-                   padding: const EdgeInsets.only(left: 15).w,
-                   child: Text(
-                     promoCodeShow,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15).w,
+                    child: Text(
+                      promoCodeShow,
                       style: TextStyle(
-                          fontSize: 12.sp, color: tdBlack, fontWeight: FontWeight.bold),
+                          fontSize: 12.sp,
+                          color: tdBlack,
+                          fontWeight: FontWeight.bold),
                     ),
-                 )
+                  )
                 ],
               ),
             ),

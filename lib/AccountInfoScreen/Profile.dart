@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import '../ConnectivityCheck.dart';
 import '../provider/Auth_Provider.dart';
 import '../provider/User_Provider.dart';
 import 'Widget/GuestView.dart';
@@ -16,13 +19,29 @@ class ProfileMain extends StatefulWidget {
 
 class _ProfileMainState extends State<ProfileMain> {
   late Future<void> _fetchUserInfoFuture;
+  late StreamSubscription _connectionChangeStream;
+  bool isOffline = false;
 
   @override
   void initState() {
     super.initState();
+    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    connectionStatus.initialize();
+    _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
     UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
     _fetchUserInfoFuture = userDetails.getUserInfo(authProvider.userId);
+  }
+
+  void connectionChanged(dynamic hasConnection) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
+    setState(() {
+      isOffline = !hasConnection;
+      if (!isOffline) {
+        _fetchUserInfoFuture = userDetails.getUserInfo(authProvider.userId);
+      }
+    });
   }
 
   @override
@@ -44,7 +63,7 @@ class _ProfileMainState extends State<ProfileMain> {
                 'Something went wrong. check your connection',
                 style: TextStyle(
                   fontSize: 15.sp,
-                  color: tdBlack,
+                  color: tdGrey,
                   fontWeight: FontWeight.bold,
                 ),
               ),

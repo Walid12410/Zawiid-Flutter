@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/AccountInfoScreen/Widget/GuestView.dart';
 import 'package:zawiid/Classes/Delivery/Delivery.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-import 'package:zawiid/PageHeadWidget.dart';
+import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../provider/Auth_Provider.dart';
