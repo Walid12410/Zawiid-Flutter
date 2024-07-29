@@ -79,7 +79,6 @@ class CartProvider with ChangeNotifier {
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 
-    // Parse and format dates
     DateTime startDate;
     DateTime submitDate;
 
@@ -87,23 +86,20 @@ class CartProvider with ChangeNotifier {
       startDate = DateTime.parse(orderStartDate);
       submitDate = DateTime.parse(orderSubmitDate);
     } catch (e) {
-      print('Date parsing error: $e');
       return false;
     }
 
     final formattedOrderStartDate = dateFormat.format(startDate);
     final formattedOrderSubmitDate = dateTimeFormat.format(submitDate);
 
-    // Generate order details
     final orderDetails = _cartDetailsUser.map((item) {
       double productPrice;
       try {
         productPrice = double.parse(item.productCartPrice);
         if (productPrice < 0) {
-          throw FormatException('Negative price');
+          throw const FormatException('Negative price');
         }
       } catch (e) {
-        print('Price parsing error for ProductNo ${item.productNo}: $e');
         productPrice = 0; // Default to 0 or handle as needed
       }
 
@@ -144,15 +140,12 @@ class CartProvider with ChangeNotifier {
           clearCartDetails();
           return true;
         } else {
-          print('Order creation failed: $message');
           return false;
         }
       } else {
-        print('HTTP request failed with status: ${response.statusCode}');
         return false;
       }
     } catch (e) {
-      print('Request error: $e');
       return false;
     }
   }
@@ -180,9 +173,6 @@ class CartProvider with ChangeNotifier {
   }
 
   void addToCart(int userNo, int productNo, int quantity, String price) {
-    print(price);
-    print('asdsdsd');
-    print('asdasdasd');
     _cartUser.add(Cart(
       userNo: userNo,
       productNo: productNo,
