@@ -12,6 +12,7 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import '../ConnectivityCheck.dart';
+import '../provider/Auth_Provider.dart';
 import 'Widget/ShowDetails.dart';
 import 'Widget/TicketDetailsBottom.dart';
 import 'Widget/TicketDetailsText.dart';
@@ -54,6 +55,7 @@ class _TicketMainState extends State<TicketMain> {
     final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
     final markColorProvider = Provider.of<MarkColorProvider>(context, listen: false);
     final productProvider = Provider.of<ProductsProvider>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
     await ticketProvider.getAllTicket();
 
     final allTickets = ticketProvider.allTicket;
@@ -65,7 +67,7 @@ class _TicketMainState extends State<TicketMain> {
       if (startedTickets.isNotEmpty) {
         final latestStartedTicket = startedTickets.first;
         await productProvider.getProductByIdTicket(latestStartedTicket.productNo);
-
+        await ticketProvider.getTotalWithDrawlByUser(auth.userId, latestStartedTicket.withdrawalID);
         final productDetails = productProvider.productByIdTicket;
         if (productDetails.isNotEmpty) {
           await markColorProvider.getMarkByIdTicket(productDetails[0].markNo);

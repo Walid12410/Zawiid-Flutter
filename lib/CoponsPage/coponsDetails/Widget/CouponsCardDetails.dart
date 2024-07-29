@@ -148,6 +148,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                               padding:
                                   const EdgeInsets.only(top: 5, bottom: 5).w,
                               child: Container(
+                                width: 40.w,
                                 decoration: BoxDecoration(
                                   border:
                                       Border.all(color: const Color(-16214415)),
@@ -180,7 +181,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                         height: 5.sp,
                                       ),
                                       Container(
-                                        width: 35.w,
+                                        width: double.infinity,
                                         color: const Color(-16214415),
                                         child: Center(
                                           child: Text(
@@ -256,24 +257,27 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                     ],
                                   ),
                                   SizedBox(height: 5.h),
-                                  ReadMoreText(
-                                    coupon.couponDesc,
-                                    trimMode: TrimMode.Length,
-                                    trimLength: 62,
-                                    style: TextStyle(
-                                        fontSize: 8.sp, color: tdGrey),
-                                    colorClickableText: tdBlue,
-                                    trimCollapsedText: 'More',
-                                    trimExpandedText: 'Less',
-                                    moreStyle: TextStyle(
-                                      fontSize: 8.sp,
-                                      color: tdBlue,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    lessStyle: TextStyle(
-                                      fontSize: 8.sp,
-                                      color: tdBlue,
-                                      fontWeight: FontWeight.bold,
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8).w,
+                                    child: ReadMoreText(
+                                      coupon.couponDesc,
+                                      trimMode: TrimMode.Length,
+                                      trimLength: 62,
+                                      style: TextStyle(
+                                          fontSize: 8.sp, color: tdGrey),
+                                      colorClickableText: tdBlue,
+                                      trimCollapsedText: 'More',
+                                      trimExpandedText: 'Less',
+                                      moreStyle: TextStyle(
+                                        fontSize: 8.sp,
+                                        color: tdBlue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      lessStyle: TextStyle(
+                                        fontSize: 8.sp,
+                                        color: tdBlue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -299,7 +303,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                                 coupon.validFor,
                                                 coupon.code,
                                                 coupon.minOrderValue,
-                                                coupon.savings)
+                                                coupon.savings,
+                                                coupon.expiryDate.toString())
                                             .then((_) {
                                           setState(() {
                                             _couponStatusMap =
@@ -417,8 +422,28 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
     );
   }
 
-  Future<void> _getCoupons(BuildContext context, int userId, int couponNo,
-      String validFor, String code, String minOrder, String saving) async {
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+        ),
+        backgroundColor: tdBlack,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  Future<void> _getCoupons(
+      BuildContext context,
+      int userId,
+      int couponNo,
+      String validFor,
+      String code,
+      String minOrder,
+      String saving,
+      String expiryDate) async {
     bool isConfirming = false;
 
     return showDialog<void>(
@@ -474,10 +499,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                         Navigator.of(context).pop();
                         return;
                       }
-
                       if (isConfirming) return;
                       isConfirming = true;
-
                       try {
                         showDialog(
                           context: context,
@@ -490,47 +513,33 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                             );
                           },
                         );
-
                         bool success = await getCoupons(
                             userNo: userId,
+                            expiryDate: expiryDate,
                             used: 0,
                             couponNo: couponNo,
                             validFor: validFor,
                             code: code,
                             savings: saving,
                             minOrderValue: minOrder);
-                        if (success) {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          setState(() {});
-                        } else {
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: tdBlack,
-                              duration: const Duration(seconds: 2),
-                              content: Text(
-                                'Something went wrong. Check your connection',
-                                style:
-                                    TextStyle(fontSize: 10.sp, color: tdWhite),
-                              ),
-                            ),
-                          );
+                        if (!success) {
+                          _showErrorSnackBar(
+                              'Something went wrong. Check your connection');
                         }
                       } catch (e) {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: tdBlack,
-                            duration: const Duration(seconds: 2),
-                            content: Text(
-                              'Something went wrong. Check your connection',
-                              style: TextStyle(fontSize: 10.sp, color: tdWhite),
-                            ),
-                          ),
-                        );
+                        setState(() {
+                          isConfirming = false;
+                          Navigator.of(context).pop();
+                          _showErrorSnackBar(
+                              'Something went wrong. Check your connection');
+                        });
+                      } finally {
+                        setState(() {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          isConfirming = false;
+                        });
                       }
-                      isConfirming = false;
                     },
                     child: Container(
                       width: 100.w,

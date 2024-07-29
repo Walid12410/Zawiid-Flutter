@@ -6,8 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/ApiService/CartService/CartApi.dart';
 import 'package:zawiid/ApiService/CartService/CheckProductApi.dart';
+import 'package:zawiid/ApiService/CartService/GetAllCartDetailsApi.dart';
 import 'package:zawiid/Classes/Cart/Cart.dart';
 import 'package:http/http.dart' as http;
+import 'package:zawiid/Classes/Cart/CartDetails.dart';
 
 import '../ApiService/CartService/DeleteOneCartApi.dart';
 import '../ApiService/CartService/UpdateCartApi.dart';
@@ -25,7 +27,7 @@ class CartProvider with ChangeNotifier {
 
   Future<void> updateCartItem(int userNo, int productNo, int quantity, double price) async {
     try {
-      await updateCart(userNo, productNo, quantity, price);
+      await updateCart(userNo, productNo, quantity);
       final index = _cartUser.indexWhere((item) => item.productNo == productNo);
       if (index != -1) {
         _cartUser[index].productCartQty = quantity;
@@ -51,6 +53,19 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  List<CartDetails> _cartDetailsUser = [];
+  List<CartDetails> get cartDetailsUser => _cartDetailsUser;
+  getAllCartDetailsOfUser(int id) async {
+    final res = await fetchAllCartDetailsByUser(id);
+    _cartDetailsUser = res;
+    notifyListeners();
+  }
+
+  void clearCartDetails() {
+    _cartDetailsUser.clear();
+    notifyListeners();
+  }
+
 
   Future<bool> createOrder(
       int userNo,
@@ -58,30 +73,63 @@ class CartProvider with ChangeNotifier {
       String orderSubmitDate,
       int shipToAddressNo,
       String? promoCode,
-      double savings) async {
+      double savings,
+      String validFor) async {
+
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-    final formattedOrderStartDate = dateFormat.format(DateTime.parse(orderStartDate));
-    final formattedOrderSubmitDate = dateTimeFormat.format(DateTime.parse(orderSubmitDate));
-    final orderDetails = _cartUser.map((item) {
-      double productPrice = double.parse(item.productCartPrice);
-      double productDiscountAmt = productPrice * (savings / 100);
+
+    // Parse and format dates
+    DateTime startDate;
+    DateTime submitDate;
+
+    try {
+      startDate = DateTime.parse(orderStartDate);
+      submitDate = DateTime.parse(orderSubmitDate);
+    } catch (e) {
+      print('Date parsing error: $e');
+      return false;
+    }
+
+    final formattedOrderStartDate = dateFormat.format(startDate);
+    final formattedOrderSubmitDate = dateTimeFormat.format(submitDate);
+
+    // Generate order details
+    final orderDetails = _cartDetailsUser.map((item) {
+      double productPrice;
+      try {
+        productPrice = double.parse(item.productCartPrice);
+        if (productPrice < 0) {
+          throw FormatException('Negative price');
+        }
+      } catch (e) {
+        print('Price parsing error for ProductNo ${item.productNo}: $e');
+        productPrice = 0; // Default to 0 or handle as needed
+      }
+
+      double productDiscountAmt = 0;
+      if (validFor == "Everything" || validFor == item.markName) {
+        productDiscountAmt = productPrice * (savings / 100);
+      }
+
       return {
-        'ProductNo': item.productNo,
-        'ProductPrice': productPrice.toString(),
-        'ProductDiscountAmt': productDiscountAmt.toString(),
+        'ProductNo': item.productNo.toString(),
+        'ProductPrice': productPrice.toStringAsFixed(2), // Format price to 2 decimal places
+        'ProductDiscountAmt': productDiscountAmt.toStringAsFixed(2), // Format discount to 2 decimal places
         'ProductQty': item.productCartQty.toString(),
       };
     }).toList();
 
+    // Make HTTP request
     try {
       final response = await http.post(
         Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCreateOrder.php'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}, // Added headers for form encoding
         body: {
           'OrderStartDate': formattedOrderStartDate,
           'UserNo': userNo.toString(),
           'OrderSubmitDate': formattedOrderSubmitDate,
-          'DiscountAmt': savings.toString(),
+          'DiscountAmt': savings.toStringAsFixed(2),
           'ShipToAddressNo': shipToAddressNo.toString(),
           'PromoCode': promoCode ?? '',
           'OrderDetails': json.encode(orderDetails),
@@ -91,18 +139,24 @@ class CartProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        if (data['message'].contains('successfully added')) {
+        final message = data['message'] ?? '';
+        if (message.contains('successfully added')) {
+          clearCartDetails();
           return true;
         } else {
+          print('Order creation failed: $message');
           return false;
         }
       } else {
+        print('HTTP request failed with status: ${response.statusCode}');
         return false;
       }
     } catch (e) {
+      print('Request error: $e');
       return false;
     }
   }
+
 
   double get totalPrice {
     double total = 0.0;
@@ -126,6 +180,9 @@ class CartProvider with ChangeNotifier {
   }
 
   void addToCart(int userNo, int productNo, int quantity, String price) {
+    print(price);
+    print('asdsdsd');
+    print('asdasdasd');
     _cartUser.add(Cart(
       userNo: userNo,
       productNo: productNo,

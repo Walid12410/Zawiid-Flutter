@@ -5,7 +5,7 @@ import 'package:zawiid/ApiEndPoint.dart';
 
 Future<bool> getCoupons({
   required int userNo,
-  //required String expiryDate,
+  required String expiryDate,
   required int used,
   required int couponNo,
   required String code,
@@ -23,7 +23,7 @@ Future<bool> getCoupons({
     body: {
       'UserNo': userNo.toString(),
       'GetDate': getDate,
-       // 'ExpiryDate': expiryDate,
+      'ExpiryDate': expiryDate,
       'Used': used.toString(),
       'CouponNo': couponNo.toString(),
       'Code' : code.toString(),

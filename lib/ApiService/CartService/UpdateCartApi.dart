@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zawiid/ApiEndPoint.dart';
 
-Future<void> updateCart(int userNo, int productNo, int quantity, double price) async {
+Future<void> updateCart(int userNo, int productNo, int quantity) async {
   final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webCart.php');
   try {
     final response = await http.post(
@@ -12,7 +12,6 @@ Future<void> updateCart(int userNo, int productNo, int quantity, double price) a
         'UserNo': userNo.toString(),
         'ProductNo': productNo.toString(),
         'ProductCartQty': quantity.toString(),
-        'ProductCartPrice': price.toString(),
       },
     );
     if (response.statusCode == 200) {

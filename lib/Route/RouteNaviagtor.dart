@@ -33,7 +33,6 @@ import '../UpdateProfile/updateProfile.dart';
 class AppNavigation {
   AppNavigation._();
 
-
   static String initial = "/home";
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -236,7 +235,7 @@ class AppNavigation {
                 path: "/coupons",
                 name: "Coupons",
                 builder: (BuildContext context, GoRouterState state) =>
-                    const CouponsMain(),
+                     const CouponsMain(),
                 routes: [
                   GoRoute(
                     path: 'CouponsDetails/:markId/:couponsId',
@@ -258,7 +257,8 @@ class AppNavigation {
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
                       child: CouponsPromotion(
-                        getCouponsID: int.parse(state.pathParameters['couponsId']!),
+                        getCouponsID:
+                            int.parse(state.pathParameters['couponsId']!),
                       ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>

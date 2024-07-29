@@ -28,7 +28,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   double savePrice = 0.0;
   double savingPercent = 0.0;
   bool _isProcessingOrder = false;
-
+  String validForCoupons = "";
   String promoCodeShow = 'You Have A Promo Code';
 
   @override
@@ -214,7 +214,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
       if (promoResult['valid']) {
         double savingsPercent = double.parse(promoResult['savings']);
         double savingsAmount = (savingsPercent / 100) * orderTotal;
+        String validFor = promoResult['validFor'];
+
         setState(() {
+          validForCoupons = validFor;
           savingPercent = double.parse(promoResult['savings']);
         });
         _showErrorSnackBar('Promo code applied successfully');
@@ -262,6 +265,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         addressNo,
         promoCode,
         savingPercent,
+        validForCoupons
       );
 
       if (orderCreated) {

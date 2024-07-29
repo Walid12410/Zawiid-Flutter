@@ -41,10 +41,13 @@ class _CouponsMainState extends State<CouponsMain> {
     });
   }
 
+
   Future<void> _fetchCoupons() async {
     final couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
     await couponsProvider.getAllCouponsMark();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
