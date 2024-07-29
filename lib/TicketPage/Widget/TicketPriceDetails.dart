@@ -34,12 +34,17 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+      ticketProvider.getTotalWithDrawlByUser(auth.userId, widget.withDrawalNo);
+    });
     price = double.parse(widget.ticketPrice);
     minTickets = 0;
     maxTickets = widget.numberOfTicketLeft;
   }
 
-  void showTicketDialog(BuildContext context) {
+  void showTicketDialog(BuildContext context, int totalWithDrawl) {
     final auth = Provider.of<AuthProvider>(context, listen: false);
     TicketProvider ticketProvider = Provider.of<TicketProvider>(context, listen: false);
 
@@ -52,17 +57,26 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
 
             return AlertDialog(
               backgroundColor: tdWhite,
+              surfaceTintColor: tdWhite,
               contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
               title: Column(
                 children: <Widget>[
+                  totalWithDrawl != 0 ? Text(
+                    '$totalWithDrawl Your Total Withdrawn Tickets',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp,
+                      color: tdGrey,
+                    ),
+                  ) : const SizedBox(),
                   Text(
                     '${price.toStringAsFixed(2)}\$ PER TICKET',
                     style: TextStyle(
                       color: tdGrey,
-                      fontSize: 15.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -162,84 +176,103 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                 ],
               ),
               actions: <Widget>[
-                TextButton(
-                  onPressed: () async {
-                    if (isConfirming) return;
-                    isConfirming = true;
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: tdBlack,
-                          ),
-                        );
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: isConfirming ? null : () async {
+                        setState((){
+                          isConfirming = true;
+                        });
+                        try{
+                          if (ticketsCount == 0) {
+                            Navigator.pop(context);
+                            return;
+                          }
+                          bool status = await addOrUpdateWithdrawalDetails(
+                            nbrOfTicketsWithdrawn: ticketsCount,
+                            ticketsTotalPrice: totalTicketPrice,
+                            withDrawalID: widget.withDrawalNo,
+                            userNo: auth.userId,
+                          );
+                          if (status) {
+                            bool status2 = await updateNbrOfTicketsLeft(
+                              withdrawalID: widget.withDrawalNo,
+                              nbrOfTicketsLeft: widget.numberOfTicketLeft - ticketsCount,
+                            );
+                            if (!status2) {
+                              _showErrorSnackBar('Something went wrong');
+                            }
+                          } else {
+                            _showErrorSnackBar('Something went wrong');
+                          }
+                        }catch(e) {
+                          _showErrorSnackBar('Failed to enter the withDraw');
+                        }finally{
+                          setState((){
+                            Navigator.pop(context);
+                            ticketProvider.getTotalWithDrawlByUser(auth.userId, widget.withDrawalNo);
+                            ticketProvider.getAllTicket();
+                            isConfirming = false;
+                          });
+                        }
                       },
-                    );
-
-                    if (ticketsCount == 0) {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      return;
-                    }
-
-                    bool status = await addOrUpdateWithdrawalDetails(
-                      nbrOfTicketsWithdrawn: ticketsCount,
-                      ticketsTotalPrice: totalTicketPrice,
-                      withDrawalID: widget.withDrawalNo,
-                      userNo: auth.userId,
-                    );
-
-                    if (status) {
-                      bool status2 = await updateNbrOfTicketsLeft(
-                        withdrawalID: widget.withDrawalNo,
-                        nbrOfTicketsLeft: widget.numberOfTicketLeft - ticketsCount,
-                      );
-                      ticketProvider.getAllTicket();
-                      if (status2) {
-                        ticketProvider.getAllTicket();
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Something went wrong',
-                            style: TextStyle(fontSize: 10.sp, color: tdWhite),
-                          ),
-                          backgroundColor: tdBlack,
-                          duration: const Duration(seconds: 4),
+                      child: Container(
+                        width: 100.w,
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
                         ),
-                      );
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    }
-
-                    isConfirming = false;
-                  },
-                  child: Text(
-                    'Confirm',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: tdBlack,
-                      fontWeight: FontWeight.bold,
+                        child: Center(
+                          child: Text(
+                            isConfirming ? 'Processing...' : 'Confirm',
+                            style: TextStyle(
+                              fontSize: 9.sp,
+                              color: tdBlack,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: tdGrey,
-                      fontWeight: FontWeight.bold,
+                    SizedBox(width: 10.w),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        width: 100.w,
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200),
+                          color: tdBlack,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             );
@@ -249,10 +282,32 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
     );
   }
 
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+        ),
+        backgroundColor: tdBlack,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
     TicketProvider ticketProvider = Provider.of<TicketProvider>(context, listen: true);
+
+    int totalWithDrawl = 0;
+    final totalWithDrawlByUser = ticketProvider.totalWithDL;
+
+    if(totalWithDrawlByUser.isNotEmpty){
+      totalWithDrawl = totalWithDrawlByUser[0].totalTicketsWithdrawn;
+    }else{
+      totalWithDrawl = 0;
+    }
 
     return GestureDetector(
       onTap: () {
@@ -270,7 +325,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
           return;
         }
         ticketProvider.getAllTicket();
-        showTicketDialog(context);
+        showTicketDialog(context,totalWithDrawl);
       },
       child: Container(
         width: 200.w,

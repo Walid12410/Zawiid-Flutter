@@ -217,16 +217,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         setState(() {
           savingPercent = double.parse(promoResult['savings']);
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Promo code applied successfully.',
-              style: TextStyle(fontSize: 10.sp, color: tdWhite),
-            ),
-            backgroundColor: tdBlack,
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        _showErrorSnackBar('Promo code applied successfully');
         setState(() {
           promoCodeShow = promoCodeController.text;
           finalPrice = orderTotal - savingsAmount;
@@ -273,8 +264,6 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         savingPercent,
       );
 
-      Navigator.of(context).pop();
-
       if (orderCreated) {
         if (promoCode.isNotEmpty) {
           await updateCouponUsed(userId, promoCode);
@@ -286,10 +275,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         _showErrorSnackBar('Something went wrong');
       }
     } catch (e) {
-      Navigator.of(context).pop();
-      _showErrorSnackBar('An error occurred: $e');
+      _showErrorSnackBar('An error occurred');
     } finally {
       setState(() {
+        Navigator.of(context).pop();
         _isProcessingOrder = false;
       });
     }

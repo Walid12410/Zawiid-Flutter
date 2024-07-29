@@ -54,15 +54,11 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
 
                         try {
                           await cartProvider.deleteCartItem(userID, productId);
-                          Navigator.of(context).pop();
                         } catch (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Failed to delete cart item.'),
-                            ),
-                          );
+                          _showErrorSnackBar(context,'Failed to delete cart item.');
                         } finally {
                           setState(() {
+                            Navigator.of(context).pop();
                             isDeleting = false;
                           });
                         }
@@ -130,5 +126,17 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
         },
       );
     },
+  );
+}
+void _showErrorSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(fontSize: 10.sp, color: tdWhite),
+      ),
+      backgroundColor: tdBlack,
+      duration: const Duration(seconds: 2),
+    ),
   );
 }
