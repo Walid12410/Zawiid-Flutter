@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/ApiService/CouponsService/GetCouponsApi.dart';
+import 'package:zawiid/ApiService/ShareService/ShareCoupons.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../../ApiService/CouponsService/CouponsCheck.dart';
 import '../../../ApiService/CouponsService/CouponsUsageApi.dart';
@@ -61,13 +63,12 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
 
   @override
   Widget build(BuildContext context) {
-    CouponsProvider couponsProvider =
-        Provider.of<CouponsProvider>(context, listen: true);
-    var couponList = couponsProvider.couponsMark;
-    MarkColorProvider markProvider =
-        Provider.of<MarkColorProvider>(context, listen: true);
-    var markDetails = markProvider.oneMarkByIDCoupons;
+    CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
+    MarkColorProvider markProvider = Provider.of<MarkColorProvider>(context, listen: true);
     AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+
+    var couponList = couponsProvider.couponsMark;
+    var markDetails = markProvider.oneMarkByIDCoupons;
 
     List<Widget> rows = [];
 
@@ -306,10 +307,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                                 coupon.savings,
                                                 coupon.expiryDate.toString())
                                             .then((_) {
-                                          setState(() {
                                             _couponStatusMap =
                                                 _fetchAllCouponStatus();
-                                          });
                                         });
                                       }
                                     },
@@ -379,16 +378,26 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                       ),
                                       Row(
                                         children: [
-                                          Icon(
-                                            Icons.share,
-                                            size: 10.w,
-                                            color: tdGrey,
+                                          GestureDetector(
+                                            onTap:(){
+                                              shareCoupon(coupon.couponDesc,'${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}' );
+                                            },
+                                            child: Icon(
+                                              Icons.share,
+                                              size: 10.w,
+                                              color: tdGrey,
+                                            ),
                                           ),
-                                          Text(
-                                            'Share',
-                                            style: TextStyle(
-                                              color: tdBlue,
-                                              fontSize: 8.sp,
+                                          GestureDetector(
+                                            onTap: (){
+                                              shareCoupon(coupon.couponDesc, '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}' );
+                                            },
+                                            child: Text(
+                                              'Share',
+                                              style: TextStyle(
+                                                color: tdBlue,
+                                                fontSize: 8.sp,
+                                              ),
                                             ),
                                           ),
                                         ],
