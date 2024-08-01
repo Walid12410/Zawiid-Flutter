@@ -61,6 +61,9 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
     return statusMap;
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);

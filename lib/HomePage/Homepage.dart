@@ -130,6 +130,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: tdWhite,
       body: SafeArea(
         child: RefreshIndicator(
+          backgroundColor: tdWhite,
           onRefresh: _fetchData,
           color: tdBlack,
           child: FutureBuilder(
