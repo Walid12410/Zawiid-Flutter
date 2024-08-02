@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/ApiService/AuthService/AuthSignUp.dart';
-
 import '../../Color&Icons/color.dart';
 
 class AlertSignUp {
   final AuthSignUpService _authService = AuthSignUpService();
+  bool _isRegistering = false;
 
-  Future<void> register(
-      BuildContext context, String email, String password) async {
-    final result =
-    await _authService.register(email: email, password: password);
+  Future<void> register(BuildContext context, String email, String password) async {
+    if (_isRegistering) return;
 
-    if (result['success']) {
-      _showSuccessDialog(context);
-    } else {
-      _showFailureDialog(context, result['msg']);
+    _isRegistering = true;
+
+    try {
+      final result = await _authService.register(email: email, password: password);
+
+      if (result['success']) {
+        _showSuccessDialog(context);
+      } else {
+        _showFailureDialog(context, result['msg']);
+      }
+    } finally {
+      _isRegistering = false;
     }
   }
 

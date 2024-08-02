@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/ApiService/CouponsService/GetCouponsApi.dart';
-import 'package:zawiid/ApiService/ShareService/ShareCoupons.dart';
+import 'package:zawiid/EmailService/EmailShareCoupons.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../../ApiService/CouponsService/CouponsCheck.dart';
 import '../../../ApiService/CouponsService/CouponsUsageApi.dart';
@@ -62,7 +63,51 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
   }
 
 
+  bool _isSharing = false;
 
+  Future<void> _shareCoupon(String title) async {
+
+    final message = 'Check out this coupon!\n$title\nzawiid: ${ApiEndpoints.shareCouponsLink}';
+
+    if (!_isSharing) {
+      setState(() {
+        _isSharing = true;
+      });
+
+      await Share.share(message);
+
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          _isSharing = false;
+        });
+      });
+    }
+  }
+
+  bool _isSending = false;
+
+  Future<void> _sendEmail(String subject, String body) async {
+    if (!_isSending) {
+      setState(() {
+        _isSending = true;
+      });
+
+      try {
+        await sendEmail(subject, body);
+
+        Future.delayed(const Duration(seconds: 1), () {
+          setState(() {
+            _isSending = false;
+          });
+        });
+      } catch (e) {
+        setState(() {
+          _isSending = false;
+        });
+       throw Exception(e);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -310,8 +355,10 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                                 coupon.savings,
                                                 coupon.expiryDate.toString())
                                             .then((_) {
-                                            _couponStatusMap =
-                                                _fetchAllCouponStatus();
+                                              setState(() {
+                                                _couponStatusMap =
+                                                    _fetchAllCouponStatus();
+                                              });
                                         });
                                       }
                                     },
@@ -365,16 +412,26 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(
-                                            Icons.email,
-                                            size: 10.w,
-                                            color: tdGrey,
+                                          GestureDetector(
+                                            onTap: (){
+                                              _sendEmail('Check out this coupons', '${coupon.couponDesc.toString()}\n discount: ${coupon.savings}%');
+                                            },
+                                            child: Icon(
+                                              Icons.email,
+                                              size: 10.w,
+                                              color: tdGrey,
+                                            ),
                                           ),
-                                          Text(
-                                            'Email',
-                                            style: TextStyle(
-                                              color: tdBlue,
-                                              fontSize: 8.sp,
+                                          GestureDetector(
+                                            onTap: (){
+                                              _sendEmail('Check out this coupons', '${coupon.couponDesc.toString()}\n discount: ${coupon.savings}%');
+                                            },
+                                            child: Text(
+                                              'Email',
+                                              style: TextStyle(
+                                                color: tdBlue,
+                                                fontSize: 8.sp,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -383,7 +440,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                         children: [
                                           GestureDetector(
                                             onTap:(){
-                                              shareCoupon(coupon.couponDesc,'${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}' );
+                                              _shareCoupon("${coupon.couponDesc}\ndiscount: ${coupon.savings}%");
                                             },
                                             child: Icon(
                                               Icons.share,
@@ -393,7 +450,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                           ),
                                           GestureDetector(
                                             onTap: (){
-                                              shareCoupon(coupon.couponDesc, '${ApiEndpoints.localBaseUrl}/${markDetails[0].markImage}' );
+                                              _shareCoupon("${coupon.couponDesc}\ndiscount: ${coupon.savings}%");
                                             },
                                             child: Text(
                                               'Share',

@@ -8,15 +8,24 @@ import '../../FirebaseApi/firebase_api.dart';
 
 class AlertLogin {
   final AuthLoginService _authService = AuthLoginService();
+  bool _isLoggingIn = false;
 
   Future<void> login(BuildContext context, String username, String password) async {
-    final result = await _authService.login(username, password,context);
+    if (_isLoggingIn) return;
 
-    if (result['success']) {
-      FirebaseApi().initNotifications(context);
-      GoRouter.of(context).go("/home");
-    } else {
-      _showLoginFailedDialog(context, result['message']);
+    _isLoggingIn = true;
+
+    try {
+      final result = await _authService.login(username, password, context);
+
+      if (result['success']) {
+        FirebaseApi().initNotifications(context);
+        GoRouter.of(context).go("/home");
+      } else {
+        _showLoginFailedDialog(context, result['message']);
+      }
+    } finally {
+      _isLoggingIn = false;
     }
   }
 

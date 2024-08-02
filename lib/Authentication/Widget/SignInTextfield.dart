@@ -42,6 +42,7 @@ class SignInTextFieldWidget extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       controller: emailController,
+                      cursorColor: tdGreen,
                       style: TextStyle(fontSize: 9.sp),
                       decoration: InputDecoration(
                         labelText: 'EMAIL',
@@ -71,6 +72,7 @@ class SignInTextFieldWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      cursorColor: tdGreen,
                       controller: passwordController,
                       obscureText: true,
                       style: TextStyle(fontSize: 9.sp),

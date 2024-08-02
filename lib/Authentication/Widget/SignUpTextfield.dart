@@ -45,8 +45,9 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                     child: TextFormField(
                       style: TextStyle(fontSize: 9.sp),
                       controller: emailController,
+                      cursorColor: tdGreen,
                       decoration: InputDecoration(
-                        labelText: 'EMAIL/PHONE NUMBER',
+                        labelText: 'EMAIL',
                         labelStyle: TextStyle(fontSize: 9.sp, color: tdGrey),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -75,6 +76,7 @@ class TextFieldWidgetSignUp extends StatelessWidget {
                     child: TextFormField(
                       controller: passwordController,
                       obscureText: true,
+                      cursorColor: tdGreen,
                       style: TextStyle(fontSize: 9.sp),
                       decoration: InputDecoration(
                         labelText: 'PASSWORD',
