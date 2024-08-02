@@ -19,6 +19,7 @@ import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 import '../AddAddress/AddAddress.dart';
 import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
+import '../ChatServicePages/ChatView/ChatViewPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../ForgetPassword/CodeReceive/CodeReceivePage.dart';
 import '../ForgetPassword/ForgetPasswordPage.dart';
@@ -235,7 +236,7 @@ class AppNavigation {
                 path: "/coupons",
                 name: "Coupons",
                 builder: (BuildContext context, GoRouterState state) =>
-                     const CouponsMain(),
+                    const CouponsMain(),
                 routes: [
                   GoRoute(
                     path: 'CouponsDetails/:markId/:couponsId',
@@ -271,6 +272,25 @@ class AppNavigation {
           ),
         ],
       ),
+      GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: '/CustomerPage',
+          name: 'CustomerPage',
+          builder: (BuildContext context, GoRouterState state) =>
+          const CustomerPage(),
+          routes: [
+            GoRoute(
+              path: 'ChatViewPage',
+              name: 'ChatViewPage',
+              pageBuilder: (context, state) => CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const ChatViewPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+              ),
+            ),
+          ]),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/SignIn',
@@ -311,13 +331,7 @@ class AppNavigation {
           builder: (context, state) => TermsOfServices(
                 key: state.pageKey,
               )),
-      GoRoute(
-          parentNavigatorKey: _rootNavigatorKey,
-          path: '/CustomerPage',
-          name: 'CustomerPage',
-          builder: (context, state) => CustomerPage(
-                key: state.pageKey,
-              )),
+
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/CartPage',

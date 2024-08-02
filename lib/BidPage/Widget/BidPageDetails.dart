@@ -21,7 +21,7 @@ class BidPageDetails extends StatefulWidget {
 
 class _BidPageDetailsState extends State<BidPageDetails> {
   final TextEditingController _bidPriceController = TextEditingController();
-
+  bool _isLoading = false;
 
 
   Future<void> _showConfirmationDialog(String bidAmount, int bidNo, int userNo) async {
@@ -33,12 +33,12 @@ class _BidPageDetailsState extends State<BidPageDetails> {
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
           title:  Text('Confirm Your Bid',style: TextStyle(fontSize: 12.sp
-          ,color: tdBlack,fontWeight: FontWeight.bold),),
+              ,color: tdBlack,fontWeight: FontWeight.bold),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('Are you sure you want to place a bid of $bidAmount KD?',style: TextStyle(
-                  fontSize: 10.sp,color: tdBlack
+                    fontSize: 10.sp,color: tdBlack
                 ),),
               ],
             ),
@@ -51,8 +51,8 @@ class _BidPageDetailsState extends State<BidPageDetails> {
               child: Container(
                 width: 75.w,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100).w,
-                    color: tdWhite,
+                  borderRadius: BorderRadius.circular(100).w,
+                  color: tdWhite,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -68,8 +68,11 @@ class _BidPageDetailsState extends State<BidPageDetails> {
             ),
             GestureDetector(
               onTap: () async{
-               await addBidZawid(context,bidNo, userNo, bidAmount);
-               Navigator.of(context).pop();
+                await addBidZawid(context,bidNo, userNo, bidAmount);
+                Navigator.of(context).pop();
+                setState(() {
+                  _isLoading = false;
+                });
               },
               child: Container(
                 width: 75.w,
@@ -313,7 +316,9 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () async {
+                    onTap: _isLoading
+                        ? null
+                        : () async {
                       String bidAmount = _bidPriceController.text;
                       final auth = Provider.of<AuthProvider>(context, listen: false);
                       if(auth.userId == 0){
@@ -329,25 +334,35 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                         );
                         return;
                       }
-                      if(bidAmount.isEmpty){
-                        _emptyController();
-                      }else{
-                        await bidProvider.getLatestBid(bid[0].bidNo);
-                        double currentBid = 0;
-                        if (latestBid.isNotEmpty) {
-                          currentBid = double.parse(latestBid[0].zawidAmt);
-                        } else {
-                          currentBid = double.parse(bid[0].startPrice);
-                        }
-                        if(double.parse(bidAmount) > currentBid){
-                          await _showConfirmationDialog(bidAmount,bid[0].bidNo,auth.userId);
-                          await bidProvider.getLatestUserBid(auth.userId, bid[0].bidNo);
-                          await bidProvider.getLatestBid(bid[0].bidNo);
+                      try{
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        if(bidAmount.isEmpty){
+                          _emptyController();
                         }else{
-                          _higherBid();
                           await bidProvider.getLatestBid(bid[0].bidNo);
+                          double currentBid = 0;
+                          if (latestBid.isNotEmpty) {
+                            currentBid = double.parse(latestBid[0].zawidAmt);
+                          } else {
+                            currentBid = double.parse(bid[0].startPrice);
+                          }
+                          if(double.parse(bidAmount) > currentBid){
+                            await _showConfirmationDialog(bidAmount,bid[0].bidNo,auth.userId);
+                            await bidProvider.getLatestUserBid(auth.userId, bid[0].bidNo);
+                            await bidProvider.getLatestBid(bid[0].bidNo);
+                          }else{
+                            _higherBid();
+                            await bidProvider.getLatestBid(bid[0].bidNo);
+                          }
                         }
-
+                      }catch(e){
+                        throw Exception(e);
+                      }finally{
+                        setState(() {
+                          _isLoading = false;
+                        });
                       }
                     },
                     child: Container(
@@ -360,13 +375,14 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                         color: tdBlack,
                       ),
                       child: Center(
-                        child: Text(
-                          'Bid Now',
-                          style: TextStyle(fontSize: 8.sp, color: tdWhite,fontWeight: FontWeight.bold),
+                        child: _isLoading
+                            ? Text('confirming....', style: TextStyle(fontWeight: FontWeight.bold, color: tdWhite, fontSize: 8.sp),) : Text(
+                          'BID NOW',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: tdWhite, fontSize: 8.sp),
+                        ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

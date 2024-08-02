@@ -5,7 +5,7 @@ import 'package:zawiid/Classes/Bid/BIdZawid.dart';
 
 Future<List<BidZawid>> fetchLatestUserBid(int userNo, int bidNo) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileBidZawid.php?status=LastBidUser&UserNo=$userNo&BidNo=$bidNo'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileBidZawid.php?status=LastBidUser&UserNo=$userNo&BidNo=$bidNo'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<BidZawid> userLatestBid = jsonData.map((json) => BidZawid.fromJson(json)).toList();

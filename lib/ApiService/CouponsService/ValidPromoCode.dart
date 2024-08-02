@@ -7,7 +7,7 @@ import '../../ApiEndPoint.dart';
 Future<Map<String, dynamic>> validatePromoCode(
     int userNo, String promoCode, double orderTotal) async {
   final response = await http.post(
-    Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCheckPromeCode.php'),
+    Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileCheckPromeCode.php'),
     body: {
       'UserNo': userNo.toString(),
       'PromoCode': promoCode.toString(),

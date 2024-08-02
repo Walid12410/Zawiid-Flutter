@@ -5,7 +5,7 @@ import '../../Classes/Categories/Category.dart';
 
 Future<List<Categories>> fetchCategories() async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCategory.php'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileCategory.php'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<Categories> categories = jsonData.map((json) => Categories.fromJson(json)).toList();

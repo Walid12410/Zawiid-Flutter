@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../Color&Icons/color.dart';
 
@@ -91,7 +92,9 @@ class ServiceOptionCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5.sp),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.push(context.namedLocation('ChatViewPage'));
+                    },
                     child: Container(
                       width: 140.w,
                       height: 35.h,

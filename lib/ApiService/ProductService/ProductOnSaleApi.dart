@@ -5,7 +5,7 @@ import 'package:zawiid/Classes/Product/Products.dart';
 
 Future<List<Product>> fetchProductOnSale() async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileProductOperation.php?operation=topDiscounted'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductOperation.php?operation=topDiscounted'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<Product> productsOnSale = jsonData.map((json) => Product.fromJson(json)).toList();

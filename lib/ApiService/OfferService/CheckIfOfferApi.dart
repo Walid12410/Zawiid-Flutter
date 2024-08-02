@@ -11,7 +11,7 @@ Future<OffersData> fetchOfferCheck(int id) async {
   String formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
 
-  final url = '${ApiEndpoints.localBaseUrl}/mobileCheckOffer.php?status=checkOffer&ProductNo=$id&currentTime=$formattedDate';
+  final url = '${ApiEndpoints.localBaseUrl}/MobileApi/mobileCheckOffer.php?status=checkOffer&ProductNo=$id&currentTime=$formattedDate';
 
   try {
     final response = await http.get(Uri.parse(url));

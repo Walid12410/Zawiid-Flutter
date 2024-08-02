@@ -5,7 +5,7 @@ import 'package:zawiid/Classes/Bid/bidProduct.dart';
 
 Future<List<BidProduct>> fetchAllBid() async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileBid.php'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileBid.php'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<BidProduct> bidData = jsonData.map((json) => BidProduct.fromJson(json)).toList();

@@ -62,8 +62,7 @@ class ProfileMainWidget extends StatelessWidget {
             context.push(context.namedLocation('PrivacyPage'));
           },
           onTap2: () {
-            context
-                .push(context.namedLocation('TermsOfServices'));
+            context.push(context.namedLocation('TermsOfServices'));
           },
           isWhatsapp: false,
         ),

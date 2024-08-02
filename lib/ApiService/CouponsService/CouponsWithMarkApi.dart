@@ -5,7 +5,7 @@ import '../../Classes/Coupons/CouponsMark.dart';
 
 Future<List<CouponMark>> fetchAllCouponsWithMark() async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCoupons.php'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileCoupons.php'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<CouponMark> couponsOfMark = jsonData.map((json) => CouponMark.fromJson(json)).toList();
