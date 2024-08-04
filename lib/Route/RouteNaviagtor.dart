@@ -19,6 +19,7 @@ import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 import '../AddAddress/AddAddress.dart';
 import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
+import '../ChatServicePages/ChatMessage/ChatMessage.dart';
 import '../ChatServicePages/ChatView/ChatViewPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../ForgetPassword/CodeReceive/CodeReceivePage.dart';
@@ -277,7 +278,7 @@ class AppNavigation {
           path: '/CustomerPage',
           name: 'CustomerPage',
           builder: (BuildContext context, GoRouterState state) =>
-          const CustomerPage(),
+              const CustomerPage(),
           routes: [
             GoRoute(
               path: 'ChatViewPage',
@@ -287,8 +288,21 @@ class AppNavigation {
                 child: const ChatViewPage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    FadeTransition(opacity: animation, child: child),
+                        FadeTransition(opacity: animation, child: child),
               ),
+            ),
+            GoRoute(
+              path: 'ChatPage/:chatRoomId',
+              name: 'ChatPage',
+              pageBuilder: (context, state) {
+                final chatRoomId = int.parse(state.pathParameters['chatRoomId']!);
+                return CustomTransitionPage<void>(
+                  key: state.pageKey,
+                  child: ChatPage(chatRoomId: chatRoomId),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+                );
+              },
             ),
           ]),
       GoRoute(
@@ -331,7 +345,6 @@ class AppNavigation {
           builder: (context, state) => TermsOfServices(
                 key: state.pageKey,
               )),
-
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: '/CartPage',

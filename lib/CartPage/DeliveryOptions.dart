@@ -109,7 +109,7 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
             } else {
               price = 0.0;
             }
-            return CheckboxListTile(
+            return RadioListTile<int>(
               title: Text(
                 option.optionName,
                 style: TextStyle(
@@ -124,15 +124,13 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                   color: tdGrey,
                 ),
               ),
-              value: selectedOptionID == option.shippingOptionID,
-              activeColor: tdBlack, // Checkbox color when checked
-              checkColor: tdWhite, // Color of the checkmark
-              onChanged: (bool? value) {
-                if (value == true) {
-                  setState(() {
-                    selectedOptionID = option.shippingOptionID; // Update the selected option
-                  });
-                }
+              value: option.shippingOptionID,
+              groupValue: selectedOptionID,
+              activeColor: tdBlack, // Radio button color when selected
+              onChanged: (int? value) {
+                setState(() {
+                  selectedOptionID = value!; // Update the selected option
+                });
               },
             );
           }).toList(),

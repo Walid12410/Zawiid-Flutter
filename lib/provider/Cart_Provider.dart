@@ -119,7 +119,7 @@ class CartProvider with ChangeNotifier {
     // Make HTTP request
     try {
       final response = await http.post(
-        Uri.parse('${ApiEndpoints.localBaseUrl}/mobileCreateOrder.php'),
+        Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileCreateOrder.php'),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}, // Added headers for form encoding
         body: {
           'OrderStartDate': formattedOrderStartDate,

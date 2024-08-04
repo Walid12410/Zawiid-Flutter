@@ -66,7 +66,7 @@ class _SearchPageState extends State<SearchPage> {
 
     try {
       final response = await http.get(Uri.parse(
-          '${ApiEndpoints.localBaseUrl}/mobileSearch.php?productName=$query'));
+          '${ApiEndpoints.localBaseUrl}/MobileApi/mobileSearch.php?productName=$query'));
 
       if (response.statusCode == 200) {
         List<dynamic> body = jsonDecode(response.body);
@@ -123,7 +123,7 @@ class _SearchPageState extends State<SearchPage> {
                 onSearchResults: _updateSearchResults,
               ),
               SizedBox(height: 25.h),
-              if (!_isSearching)
+              if (!_isSearching && _searchHistory.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(left: 12, right: 8).w,
                   child: Row(

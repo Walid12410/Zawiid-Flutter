@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/AccountInfoScreen/Widget/GuestView.dart';
-import 'package:zawiid/Classes/Delivery/Delivery.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
