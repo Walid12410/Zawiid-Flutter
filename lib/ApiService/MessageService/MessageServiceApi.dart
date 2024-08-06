@@ -50,10 +50,10 @@ class MessageService {
         List<Message> message = jsonData.map((json) => Message.fromJson(json)).toList();
         return message;
       } else {
-        throw Exception('Failed to load order Details');
+        throw Exception('Failed to load message');
       }
     } catch (e) {
-      throw Exception('Server Error $e sa');
+      throw Exception('Server Error $e');
     }
   }
 }

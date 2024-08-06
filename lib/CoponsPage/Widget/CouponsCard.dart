@@ -49,7 +49,7 @@ class CouponCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-                width: 131.w,
+                width: 130.w,
                 height: 130.h,
                 child:  CachedNetworkImage(
                   imageUrl: couponsImage,

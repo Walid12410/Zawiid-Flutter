@@ -1,19 +1,25 @@
+
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:zawiid/ApiEndPoint.dart';
+
+import '../../ApiEndPoint.dart';
 import '../../Classes/ChatSupport/ChatRoom.dart';
 
-Future<List<ChatRoom>> fetchChatRoom(int id) async {
+Future<List<ChatRoom>> fetchChatRoomUser(int userID) async {
+
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/webChatRoom.php?status=byUser&UserID=$id'));
+    final response = await http.get(
+      Uri.parse('${ApiEndpoints.localBaseUrl}/webChatRoom.php?status=byUser&UserID=$userID'),
+    );
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      List<ChatRoom> userRoomChat = jsonData.map((json) => ChatRoom.fromJson(json)).toList();
-      return userRoomChat;
+      List<ChatRoom> chatRoom = jsonData.map((json) => ChatRoom.fromJson(json)).toList();
+      return chatRoom;
     } else {
-      throw Exception('Failed to load user room chat');
+      throw Exception('Failed to load chat Room');
     }
   } catch (e) {
-    throw Exception('Server Error');
+    throw Exception('Server Error $e');
   }
 }

@@ -18,8 +18,10 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
-  late ChatSupportProvider chatSupportProvider;
   final FocusNode _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+
+  late ChatSupportProvider chatSupportProvider;
 
   @override
   void initState() {
@@ -29,28 +31,22 @@ class _ChatPageState extends State<ChatPage> {
       chatSupportProvider.fetchMessages(widget.chatRoomId);
       chatSupportProvider.startFetchingMessages(widget.chatRoomId);
       _focusNode.requestFocus();
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      chatSupportProvider.fetchMessages(widget.chatRoomId);
-      chatSupportProvider.startFetchingMessages(widget.chatRoomId);
+      _scrollToBottom();
     });
   }
 
   @override
   void dispose() {
     chatSupportProvider.stopFetchingMessages();
+
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final chatSupportProvider = Provider.of<ChatSupportProvider>(context, listen: true);
+    final chatSupportProvider = Provider.of<ChatSupportProvider>(context,listen: true);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
@@ -64,12 +60,12 @@ class _ChatPageState extends State<ChatPage> {
         ),
         leading: IconButton(
           icon: Image.asset(
-            'assets/img/pop.png', // Replace with your image asset path
+            'assets/img/pop.png',
             width: 20.w,
             height: 18.h,
           ),
           onPressed: () {
-            GoRouter.of(context).goNamed('ChatViewPage');
+            context.pop();
           },
         ),
       ),
@@ -77,24 +73,23 @@ class _ChatPageState extends State<ChatPage> {
         child: Column(
           children: [
             Expanded(
-              child: chatSupportProvider.messages.isEmpty || chatSupportProvider.messages.any((msg) => msg.chatRoomId != widget.chatRoomId)
+              child: chatSupportProvider.messages.isEmpty ||
+                  chatSupportProvider.messages.any((msg) => msg.chatRoomId != widget.chatRoomId)
                   ? Center(
                 child: Text(
-                  chatSupportProvider.messages.isEmpty
-                      ? 'No messages yet'
-                      : 'Invalid chat room',
+                  'No messages yet',
                   style: TextStyle(fontSize: 16.sp, color: tdBlack),
                 ),
               )
                   : ListView.builder(
+                controller: _scrollController,
                 reverse: true,
                 itemCount: chatSupportProvider.messages.length,
                 itemBuilder: (context, index) {
                   if (index == chatSupportProvider.messages.length - 1) {
                     return Column(
                       children: [
-                        _buildDateHeader(
-                            chatSupportProvider.messages[index].sentAt),
+                        _buildDateHeader(chatSupportProvider.messages[index].sentAt),
                         _buildMessage(chatSupportProvider, authProvider, index),
                       ],
                     );
@@ -108,8 +103,7 @@ class _ChatPageState extends State<ChatPage> {
                   return Column(
                     children: [
                       if (isNewDay)
-                        _buildDateHeader(
-                            chatSupportProvider.messages[index].sentAt),
+                        _buildDateHeader(chatSupportProvider.messages[index].sentAt),
                       _buildMessage(chatSupportProvider, authProvider, index),
                     ],
                   );
@@ -152,8 +146,7 @@ class _ChatPageState extends State<ChatPage> {
           style: TextStyle(
               fontSize: 12.sp,
               color: tdGrey,
-              fontWeight: FontWeight.bold
-          ),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -170,12 +163,13 @@ class _ChatPageState extends State<ChatPage> {
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         decoration: BoxDecoration(
-            color: isMe ? tdBlack : tdWhiteNav,
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(15).w,
-              topRight: const Radius.circular(15).w,
-              bottomLeft: const Radius.circular(15).w,
-            )),
+          color: isMe ? tdBlack : tdWhiteNav,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(15).w,
+            topRight:const Radius.circular(15).w,
+            bottomLeft:const Radius.circular(15).w,
+          ),
+        ),
         padding: const EdgeInsets.all(8).w,
         margin: const EdgeInsets.all(3).w,
         child: Column(
@@ -191,7 +185,7 @@ class _ChatPageState extends State<ChatPage> {
             Text(
               formattedTime,
               style: TextStyle(
-                  color: isMe ? Colors.white70 : Colors.black54,
+                  color: isMe ? tdWhite : tdBlack,
                   fontSize: 8.sp),
             ),
           ],
@@ -213,27 +207,26 @@ class _ChatPageState extends State<ChatPage> {
                 focusNode: _focusNode,
                 controller: _controller,
                 cursorColor: tdWhite,
-                style:  TextStyle(color: tdWhite,fontSize: 12.sp), // Text color
+                style: TextStyle(color: tdWhite, fontSize: 12.sp),
                 decoration: InputDecoration(
                   hintText: 'Type a message',
-                  hintStyle: TextStyle(color: tdWhite,fontSize: 12.sp,fontWeight: FontWeight.bold), // Hint text color
+                  hintStyle: TextStyle(color: tdWhite, fontSize: 12.sp, fontWeight: FontWeight.bold),
                   filled: true,
-                  fillColor: tdBlack, // Background color
+                  fillColor: tdBlack,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10).w,
-                    borderSide: const BorderSide(color: tdBlack), // Border color
+                    borderSide: const BorderSide(color: tdBlack),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10).w,
-                    borderSide: const BorderSide(color: tdBlack), // Border color when enabled
+                    borderSide: const BorderSide(color: tdBlack),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10).w,
-                    borderSide:const BorderSide(color: tdBlack), // Border color when focused
+                    borderSide: const BorderSide(color: tdBlack),
                   ),
                 ),
               )
-
           ),
           IconButton(
             icon: Icon(
@@ -245,15 +238,28 @@ class _ChatPageState extends State<ChatPage> {
               if (_controller.text.isNotEmpty) {
                 chatSupportProvider.sendMessage(
                   widget.chatRoomId,
-                  authProvider.userId, // Adjust senderId as needed
+                  authProvider.userId,
                   _controller.text,
                 );
                 _controller.clear();
+                _scrollToBottom();
               }
             },
           ),
         ],
       ),
     );
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 }

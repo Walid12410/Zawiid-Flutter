@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/ApiService/MessageService/CheckChatRoomApi.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
@@ -82,7 +83,9 @@ class _HomePageState extends State<HomePage> {
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
-
+    if(authProvider.userId != 0){
+      checkChatFound(authProvider.userId, "User Chat Room");
+    }
     try {
       final List<Future<dynamic>> fetchers = [
         cart.getAllCartOfUser(authProvider.userId),

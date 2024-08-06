@@ -74,7 +74,8 @@ class CartProvider with ChangeNotifier {
       int shipToAddressNo,
       String? promoCode,
       double savings,
-      String validFor) async {
+      String validFor,
+      int deliveryOption) async {
 
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
@@ -130,6 +131,7 @@ class CartProvider with ChangeNotifier {
           'PromoCode': promoCode ?? '',
           'OrderDetails': json.encode(orderDetails),
           'Status': 'new',
+          if (deliveryOption != 0) 'DeliveryOptions': deliveryOption.toString(),
         },
       );
 

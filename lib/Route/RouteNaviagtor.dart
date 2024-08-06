@@ -20,7 +20,6 @@ import '../AddAddress/AddAddress.dart';
 import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
 import '../ChatServicePages/ChatMessage/ChatMessage.dart';
-import '../ChatServicePages/ChatView/ChatViewPage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../ForgetPassword/CodeReceive/CodeReceivePage.dart';
 import '../ForgetPassword/ForgetPasswordPage.dart';
@@ -280,17 +279,6 @@ class AppNavigation {
           builder: (BuildContext context, GoRouterState state) =>
               const CustomerPage(),
           routes: [
-            GoRoute(
-              path: 'ChatViewPage',
-              name: 'ChatViewPage',
-              pageBuilder: (context, state) => CustomTransitionPage<void>(
-                key: state.pageKey,
-                child: const ChatViewPage(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) =>
-                        FadeTransition(opacity: animation, child: child),
-              ),
-            ),
             GoRoute(
               path: 'ChatPage/:chatRoomId',
               name: 'ChatPage',

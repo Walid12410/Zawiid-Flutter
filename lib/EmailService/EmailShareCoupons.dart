@@ -11,7 +11,7 @@ Future<void> sendEmail(String subject, String body) async {
       scheme: 'mailto',
       path: '',
       query:
-          'subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(formattedBody)}',
+      'subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(formattedBody)}',
     );
 
     await launchUrl(emailLaunchUri);

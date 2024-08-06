@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/ChatSupport_Provider.dart';
 import '../ConnectivityCheck.dart';
 import '../provider/Auth_Provider.dart';
 import '../provider/User_Provider.dart';
@@ -29,7 +30,9 @@ class _ProfileMainState extends State<ProfileMain> {
     connectionStatus.initialize();
     _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    ChatSupportProvider chat = Provider.of<ChatSupportProvider>(context, listen: false);
     UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
+    chat.getChatRoom(authProvider.userId);
     _fetchUserInfoFuture = userDetails.getUserInfo(authProvider.userId);
   }
 

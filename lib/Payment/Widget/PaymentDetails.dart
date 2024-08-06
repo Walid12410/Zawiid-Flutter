@@ -7,6 +7,7 @@ import 'package:zawiid/ApiService/CouponsService/UpdateUsedCouponsApi.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
+import 'package:zawiid/provider/Delivery_Provider.dart';
 import '../../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../../ApiService/CouponsService/ValidPromoCode.dart';
 import '../../Color&Icons/color.dart';
@@ -23,6 +24,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   late CartProvider cartProvider;
   late AddressProvider addressProvider;
   late AuthProvider authProvider;
+  late DeliveryProvider deliveryProvider;
   double orderTotal = 0.0;
   double finalPrice = 0.0;
   double savePrice = 0.0;
@@ -235,7 +237,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     }
   }
 
-  Future<void> _createOrder(userId, orderTotalPrice, addressNo) async {
+  Future<void> _createOrder(userId, orderTotalPrice, addressNo,deliveryOption) async {
     if (_isProcessingOrder) return;
 
     String promoCode = promoCodeController.text;
@@ -265,7 +267,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         addressNo,
         promoCode,
         savingPercent,
-        validForCoupons
+        validForCoupons,
+        deliveryOption
       );
 
       if (orderCreated) {
@@ -274,7 +277,9 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         }
         await deleteAllCartItemsByUserNo(userId);
         cartProvider.clearCart();
-        context.push(context.namedLocation('ThanksPayment'));
+        setState(() {
+          context.push(context.namedLocation('ThanksPayment'));
+        });
       } else {
         _showErrorSnackBar('Something went wrong');
       }
@@ -306,6 +311,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     cartProvider = Provider.of<CartProvider>(context, listen: true);
     addressProvider = Provider.of<AddressProvider>(context, listen: true);
     authProvider = Provider.of<AuthProvider>(context, listen: false);
+    deliveryProvider = Provider.of<DeliveryProvider>(context, listen: true);
     orderTotal = cartProvider.totalPrice;
 
     return Padding(
@@ -456,7 +462,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           GestureDetector(
             onTap: () {
               _createOrder(authProvider.userId, orderTotal,
-                  addressProvider.defaultAddressNo);
+                  addressProvider.defaultAddressNo,deliveryProvider.optionsSelected);
             },
             child: Container(
               width: double.infinity,
@@ -479,7 +485,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           GestureDetector(
             onTap: () {
               _createOrder(authProvider.userId, orderTotal,
-                  addressProvider.defaultAddressNo);
+                  addressProvider.defaultAddressNo,deliveryProvider.optionsSelected);
             },
             child: Container(
               width: double.infinity,
@@ -522,7 +528,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           GestureDetector(
             onTap: () {
               _createOrder(authProvider.userId, orderTotal,
-                  addressProvider.defaultAddressNo);
+                  addressProvider.defaultAddressNo,deliveryProvider.optionsSelected);
             },
             child: Container(
               width: double.infinity,
