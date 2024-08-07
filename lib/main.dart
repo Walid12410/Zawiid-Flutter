@@ -30,7 +30,8 @@ import 'Route/RouteNaviagtor.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final notificationService = NotificationService();
+  final GoRouter router = AppNavigation.router;
+  final notificationService = NotificationService(router);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   SystemChrome.setPreferredOrientations([

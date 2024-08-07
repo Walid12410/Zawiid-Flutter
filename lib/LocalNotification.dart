@@ -6,8 +6,9 @@ import 'package:timezone/timezone.dart' as tz;
 class NotificationService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
+  final GoRouter _router;
 
-  NotificationService() {
+  NotificationService(this._router){
     _initializeNotifications();
   }
 
@@ -25,10 +26,19 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) {
-        final String? payload = notificationResponse.payload;
-        // Handle the payload and navigate to the appropriate screen
+        print('Notification received with payload: ${notificationResponse.payload}');
+        _handleNotificationResponse();
       },
     );
+  }
+
+  void _handleNotificationResponse() {
+    if (_router != null) {
+      print('Navigating to /mainPage');
+      _router.go('/mainPage');
+    } else {
+      print('Router is null');
+    }
   }
 
   Future<void> scheduleNotification({
@@ -40,7 +50,7 @@ class NotificationService {
     const AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails(
       '1512351515', // Your channel ID
-      'ZawidLocalNotification', // Your channel name
+      'ZawiidLocalNotification', // Your channel name
       importance: Importance.max,
       priority: Priority.high,
     );
