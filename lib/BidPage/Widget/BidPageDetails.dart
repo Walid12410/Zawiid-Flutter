@@ -299,6 +299,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5, right: 5).w,
                         child: TextField(
+                          cursorColor: tdBlack,
                           controller: _bidPriceController,
                           keyboardType: const TextInputType.numberWithOptions(decimal: true),
                           inputFormatters: [

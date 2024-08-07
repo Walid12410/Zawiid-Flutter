@@ -83,6 +83,7 @@ class SearchBarText extends StatelessWidget {
                   child: TextField(
                     controller: controller,
                     focusNode: _focusNode,
+                    cursorColor: tdBlack,
                     style: TextStyle(fontSize: 9.sp, color: tdBlack),
                     decoration: InputDecoration(
                       hintText: 'Search for products',

@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/LocalNotification.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../TimeMethod/CheckWhatDate.dart';
 import '../../../provider/Auth_Provider.dart';
@@ -43,11 +44,13 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
   bool _hasStarted = false;
   bool _hasEnded = false;
   late DateTime _countdownEndTime;
+  bool _isNotified = false;
 
   @override
   void initState() {
     super.initState();
     _updateTimeConditions();
+    _checkIfNotified();
     _timer = Timer.periodic(
         const Duration(seconds: 1), (_) => _updateTimeConditions());
   }
@@ -67,6 +70,66 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
       _hasEnded = hasEnded;
       _countdownEndTime = _hasStarted ? widget.endTime : widget.startTime;
     });
+  }
+
+  void _checkIfNotified() async {
+    final notificationService = Provider.of<NotificationService>(context, listen: false);
+    _isNotified = await notificationService.isNotificationScheduled(widget.bidNo);
+    setState(() {});
+  }
+
+  void _handleNotifyMe() async {
+    final notificationService = Provider.of<NotificationService>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
+    if (auth.userId == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Login or SignUp to enter this bid.',
+            style: TextStyle(fontSize: 10.sp, color: Colors.white),
+          ),
+          backgroundColor: Colors.black,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
+    if (_isNotified) {
+      // Cancel the notification
+      await notificationService.cancelNotification(widget.bidNo);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Notification canceled!',
+            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+          ),
+          backgroundColor: tdBlack,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Schedule the notification
+      await notificationService.scheduleNotification(
+        id: widget.bidNo,
+        title: 'Bid Start',
+        body: 'Your bid for ${widget.productName} is starting at ${DateFormat('hh:mm a').format(widget.startTime)}',
+        scheduledTime: widget.startTime,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Notification scheduled for bid start!',
+            style: TextStyle(fontSize: 10.sp, color: tdWhite),
+          ),
+          backgroundColor: tdBlack,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+
+    _checkIfNotified(); // Update the button state
   }
 
   @override
@@ -186,7 +249,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                       ),
                     )
                   : GestureDetector(
-                      onTap: () {},
+                      onTap: _handleNotifyMe,
                       child: Container(
                         width: 180.w,
                         height: 20.h,
@@ -199,16 +262,18 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.notifications_active_outlined,
-                              color: tdBlack,
+                              _isNotified
+                                  ? Icons.notifications_off_outlined
+                                  : Icons.notifications_active_outlined,
+                              color: Colors.black,
                               size: 15.w,
                             ),
                             Text(
-                              'Notify Me!',
+                              _isNotified ? 'Cancel Notification' : 'Notify Me!',
                               style: TextStyle(
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.bold,
-                                color: tdBlack,
+                                color: Colors.black,
                               ),
                             ),
                           ],

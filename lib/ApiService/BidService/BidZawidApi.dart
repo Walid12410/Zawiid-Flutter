@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:zawiid/ApiEndPoint.dart';
+import 'package:zawiid/ApiService/BidService/BidAmtUpdateApi.dart';
 
 import 'package:zawiid/Color&Icons/color.dart';
 
@@ -27,6 +28,7 @@ Future<void> addBidZawid(
 
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200 && jsonResponse['message'] != null) {
+      updateBidAmt(bidNo, zawidAmt);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

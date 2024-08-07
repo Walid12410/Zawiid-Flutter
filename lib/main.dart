@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawiid/FirebaseApi/firebase_api.dart';
@@ -24,10 +25,12 @@ import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import 'ConnectivityCheck.dart';
+import 'LocalNotification.dart';
 import 'Route/RouteNaviagtor.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final notificationService = NotificationService();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   SystemChrome.setPreferredOrientations([
@@ -56,6 +59,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => CouponsProvider()),
       ChangeNotifierProvider(create: (_) => TicketProvider()),
       ChangeNotifierProvider(create: (_) => DeliveryProvider()),
+      Provider<NotificationService>.value(value: notificationService), // Provide the NotificationService
     ],
     child: const MyApp(),
   ));

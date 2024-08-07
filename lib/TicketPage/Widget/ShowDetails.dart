@@ -8,13 +8,15 @@ class TicketDetails extends StatelessWidget {
       required this.onTap,
       required this.mark,
       required this.color,
-      required this.productName})
+      required this.productName,
+      required this.size})
       : super(key: key);
 
   final VoidCallback onTap;
   final String color;
   final String mark;
   final String productName;
+  final String size;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,11 @@ class TicketDetails extends StatelessWidget {
             color,
             style: TextStyle(fontSize: 12.sp, color: tdGrey),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 15.h),
+          Text(
+            size,
+            style: TextStyle(fontSize: 12.sp, color: tdGrey),
+          ),
         ],
       ),
     );

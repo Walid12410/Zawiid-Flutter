@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -8,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
-import 'package:zawiid/provider/Products_Provider.dart';
-import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import '../ConnectivityCheck.dart';
 import '../provider/Auth_Provider.dart';
@@ -53,8 +50,6 @@ class _TicketMainState extends State<TicketMain> {
 
   Future<void> _fetchInitialData() async {
     final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
-    final markColorProvider = Provider.of<MarkColorProvider>(context, listen: false);
-    final productProvider = Provider.of<ProductsProvider>(context, listen: false);
     final auth = Provider.of<AuthProvider>(context, listen: false);
     await ticketProvider.getAllTicket();
 
@@ -66,13 +61,7 @@ class _TicketMainState extends State<TicketMain> {
           .toList();
       if (startedTickets.isNotEmpty) {
         final latestStartedTicket = startedTickets.first;
-        await productProvider.getProductByIdTicket(latestStartedTicket.productNo);
         await ticketProvider.getTotalWithDrawlByUser(auth.userId, latestStartedTicket.withdrawalID);
-        final productDetails = productProvider.productByIdTicket;
-        if (productDetails.isNotEmpty) {
-          await markColorProvider.getMarkByIdTicket(productDetails[0].markNo);
-          await markColorProvider.getColorByIdTicket(productDetails[0].colorNo);
-        }
       }
     }
   }
@@ -87,8 +76,6 @@ class _TicketMainState extends State<TicketMain> {
   @override
   Widget build(BuildContext context) {
     final ticketProvider = Provider.of<TicketProvider>(context);
-    final productData = Provider.of<ProductsProvider>(context);
-    final markColorProvider = Provider.of<MarkColorProvider>(context);
 
     final allTickets = ticketProvider.allTicket;
     final now = DateTime.now();
@@ -107,11 +94,7 @@ class _TicketMainState extends State<TicketMain> {
     if (startedTickets.isNotEmpty) {
       startedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
       final latestStartedTicket = startedTickets.first;
-      final productDetails = productData.productByIdTicket;
 
-      if (productDetails.isEmpty || markColorProvider.oneColorByIDTicket.isEmpty || markColorProvider.oneMarkByIDTicket.isEmpty) {
-        return _buildLoadingScreen();
-      }
 
       return Scaffold(
         backgroundColor: tdWhite,
@@ -126,7 +109,7 @@ class _TicketMainState extends State<TicketMain> {
                   onPressed: () => GoRouter.of(context).go("/home"),
                 ),
                 TicketImage(
-                  ticketImage: '${ApiEndpoints.localBaseUrl}/${productDetails[0].productImage}',
+                  ticketImage: '${ApiEndpoints.localBaseUrl}/${latestStartedTicket.image}',
                 ),
                 if (_showDetails) SizedBox(height: 30.h),
                 if (_showDetailsBottom)
@@ -147,9 +130,10 @@ class _TicketMainState extends State<TicketMain> {
                 if (!_showDetails)
                   TicketDetails(
                     onTap: toggleVisibility,
-                    color: markColorProvider.oneColorByIDTicket[0].colorName,
-                    mark: markColorProvider.oneMarkByIDTicket[0].markName,
-                    productName: productDetails[0].productName,
+                    color: latestStartedTicket.colorName,
+                    mark: latestStartedTicket.markName,
+                    productName: latestStartedTicket.productName,
+                    size: latestStartedTicket.size,
                   ),
                 SizedBox(height: 15.h),
               ],

@@ -519,155 +519,160 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          backgroundColor: tdWhite,
-          surfaceTintColor: tdWhite,
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Get Coupon',
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+        return WillPopScope(
+          onWillPop: () async {
+            return Future.value(false);
+          },
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            backgroundColor: tdWhite,
+            surfaceTintColor: tdWhite,
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Get Coupon',
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Do you want to get this coupon?',
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                Text(
+                  'Do you want to get this coupon?',
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      if (userId == 0) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: tdBlack,
-                            duration: const Duration(seconds: 2),
-                            content: Text(
-                              'Login please to get this coupon',
-                              style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        if (userId == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: tdBlack,
+                              duration: const Duration(seconds: 2),
+                              content: Text(
+                                'Login please to get this coupon',
+                                style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                              ),
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                          return;
+                        }
+                        if (isConfirming) return;
+                        isConfirming = true;
+                        try {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: tdBlack,
+                                ),
+                              );
+                            },
+                          );
+                          bool success = await getCoupons(
+                              userNo: userId,
+                              expiryDate: expiryDate,
+                              used: 0,
+                              couponNo: couponNo,
+                              validFor: validFor,
+                              code: code,
+                              savings: saving,
+                              minOrderValue: minOrder);
+                          if (!success) {
+                            _showErrorSnackBar(
+                                'Something went wrong. Check your connection');
+                          }
+                        } catch (e) {
+                          setState(() {
+                            isConfirming = false;
+                            Navigator.of(context).pop();
+                            _showErrorSnackBar(
+                                'Something went wrong. Check your connection');
+                          });
+                        } finally {
+                          setState(() {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            isConfirming = false;
+                          });
+                        }
+                      },
+                      child: Container(
+                        width: 100.w,
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'YES',
+                            style: TextStyle(
+                              fontSize: 9.sp,
+                              color: tdBlack,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        );
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    GestureDetector(
+                      onTap: () {
                         Navigator.of(context).pop();
-                        return;
-                      }
-                      if (isConfirming) return;
-                      isConfirming = true;
-                      try {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: tdBlack,
-                              ),
-                            );
-                          },
-                        );
-                        bool success = await getCoupons(
-                            userNo: userId,
-                            expiryDate: expiryDate,
-                            used: 0,
-                            couponNo: couponNo,
-                            validFor: validFor,
-                            code: code,
-                            savings: saving,
-                            minOrderValue: minOrder);
-                        if (!success) {
-                          _showErrorSnackBar(
-                              'Something went wrong. Check your connection');
-                        }
-                      } catch (e) {
-                        setState(() {
-                          isConfirming = false;
-                          Navigator.of(context).pop();
-                          _showErrorSnackBar(
-                              'Something went wrong. Check your connection');
-                        });
-                      } finally {
-                        setState(() {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          isConfirming = false;
-                        });
-                      }
-                    },
-                    child: Container(
-                      width: 100.w,
-                      padding: EdgeInsets.all(8.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(200),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'YES',
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: tdBlack,
-                            fontWeight: FontWeight.bold,
+                      },
+                      child: Container(
+                        width: 100.w,
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200),
+                          color: tdBlack,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'NO',
+                            style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 10.w),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      width: 100.w,
-                      padding: EdgeInsets.all(8.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(200),
-                        color: tdBlack,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'NO',
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },

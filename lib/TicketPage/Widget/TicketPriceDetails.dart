@@ -101,6 +101,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
+
                             if (ticketsCount > minTickets) {
                               setState(() {
                                 ticketsCount--;
@@ -183,14 +184,14 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                     children: [
                       GestureDetector(
                         onTap: isConfirming ? null : () async {
+                          if (ticketsCount == 0) {
+                            Navigator.pop(context);
+                            return;
+                          }
                           setState(() {
                             isConfirming = true;
                           });
                           try {
-                            if (ticketsCount == 0) {
-                              Navigator.pop(context);
-                              return;
-                            }
                             bool status = await addOrUpdateWithdrawalDetails(
                               nbrOfTicketsWithdrawn: ticketsCount,
                               ticketsTotalPrice: totalTicketPrice,

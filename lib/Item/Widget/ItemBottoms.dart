@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../ApiService/CartService/AddCartApi.dart';
@@ -53,13 +54,13 @@ class ItemBottoms extends StatelessWidget {
                 productCartQty: 1,
                 productCartPrice: price,
               );
-            } else if(isProductInCart) {
+            } else if (isProductInCart) {
               cartView.removeFromCart(productNo);
               await deleteCartItem(
                 userNo: auth.userId,
                 productNo: productNo,
               );
-            }else{
+            } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -94,8 +95,32 @@ class ItemBottoms extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
         GestureDetector(
-          onTap: () {
-            // Buy action
+          onTap: () async {
+            if (auth.userId == 0) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Login or SignUp please.',
+                    style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                  ),
+                  backgroundColor: tdBlack,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+              return;
+            }
+            if (!isProductInCart) {
+              context.push(context.namedLocation('CartPage'));
+              cartView.addToCart(auth.userId, productNo, 1, price.toString());
+              await addCartItem(
+                userNo: auth.userId,
+                productNo: productNo,
+                productCartQty: 1,
+                productCartPrice: price,
+              );
+            }else{
+              context.push(context.namedLocation('CartPage'));
+            }
           },
           child: Container(
             width: 110.w,
