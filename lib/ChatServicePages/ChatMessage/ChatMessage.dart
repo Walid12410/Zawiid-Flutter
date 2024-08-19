@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/Color&Icons/color.dart';
-import 'package:zawiid/provider/Auth_Provider.dart';
-import '../../provider/ChatSupport_Provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:intl/intl.dart'; // For formatting time
+
+import '../../Color&Icons/color.dart';
+import '../../provider/User_Provider.dart';
 
 class ChatPage extends StatefulWidget {
   final int chatRoomId;
@@ -17,37 +18,86 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _controller = TextEditingController();
+  IO.Socket? socket;
+  final TextEditingController _messageController = TextEditingController();
+  final List<Map<String, String>> _messages = []; // Store messages with text, username, and time
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
-
-  late ChatSupportProvider chatSupportProvider;
 
   @override
   void initState() {
     super.initState();
-    chatSupportProvider = Provider.of<ChatSupportProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      chatSupportProvider.fetchMessages(widget.chatRoomId);
-      chatSupportProvider.startFetchingMessages(widget.chatRoomId);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userDetails = userProvider.userInfo.first; // Assuming 'username' is a field in UserProvider
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _focusNode.requestFocus();
       _scrollToBottom();
     });
+    _connectSocket('${userDetails.firstName} ${userDetails.lastName}');
   }
 
-  @override
-  void dispose() {
-    chatSupportProvider.stopFetchingMessages();
+  void _connectSocket(String name) {
+    socket = IO.io('http://10.0.2.2:3000', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
 
-    _controller.dispose();
-    _scrollController.dispose();
-    super.dispose();
+    socket?.connect();
+
+    socket?.onConnect((_) {
+      socket?.emit('joinRoom', {
+        'username': name,
+        'room': widget.chatRoomId.toString(),
+      });
+    });
+
+    socket?.on('message', (data) {
+      print('Message received: $data'); // Debug to check the structure of data
+
+      // Check if the received data is in the expected map format
+      if (data is Map<String, dynamic> &&
+          data.containsKey('text') &&
+          data.containsKey('username') &&
+          data.containsKey('time')) {
+        setState(() {
+          _messages.add({
+            'username': data['username'],
+            'text': data['text'],
+            'time': data['time'],
+          });
+        });
+      } else {
+        print(
+            'Unexpected message format: $data'); // Fallback for unexpected data structure
+      }
+    });
+
+    socket?.onDisconnect((_) {
+      print('Disconnected');
+    });
+
+    socket?.onError((error) {
+      print('Socket error: $error');
+    });
+  }
+
+  void _sendMessage() {
+    if (_messageController.text.isNotEmpty) {
+      String formattedTime = DateFormat('hh:mm a')
+          .format(DateTime.now()); // Format time as '01:09 AM'
+
+      socket?.emit('chatMessage', _messageController.text);
+
+      _messageController.clear();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final chatSupportProvider = Provider.of<ChatSupportProvider>(context,listen: true);
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userDetails = userProvider
+        .userInfo.first; // Assuming 'username' is a field in UserProvider
+    String currentUser = '${userDetails.firstName} ${userDetails.lastName}';
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -69,183 +119,119 @@ class _ChatPageState extends State<ChatPage> {
           },
         ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: chatSupportProvider.messages.isEmpty ||
-                  chatSupportProvider.messages.any((msg) => msg.chatRoomId != widget.chatRoomId)
-                  ? Center(
-                child: Text(
-                  'No messages yet',
-                  style: TextStyle(fontSize: 16.sp, color: tdBlack),
-                ),
-              )
-                  : ListView.builder(
-                controller: _scrollController,
-                reverse: true,
-                itemCount: chatSupportProvider.messages.length,
-                itemBuilder: (context, index) {
-                  if (index == chatSupportProvider.messages.length - 1) {
-                    return Column(
-                      children: [
-                        _buildDateHeader(chatSupportProvider.messages[index].sentAt),
-                        _buildMessage(chatSupportProvider, authProvider, index),
-                      ],
-                    );
-                  }
-
-                  bool isNewDay = _isNewDay(
-                    chatSupportProvider.messages[index].sentAt,
-                    chatSupportProvider.messages[index + 1].sentAt,
-                  );
-
-                  return Column(
-                    children: [
-                      if (isNewDay)
-                        _buildDateHeader(chatSupportProvider.messages[index].sentAt),
-                      _buildMessage(chatSupportProvider, authProvider, index),
-                    ],
-                  );
-                },
-              ),
-            ),
-            _buildMessageInput()
-          ],
-        ),
-      ),
-    );
-  }
-
-  bool _isNewDay(DateTime currentMessageDate, DateTime nextMessageDate) {
-    return currentMessageDate.day != nextMessageDate.day ||
-        currentMessageDate.month != nextMessageDate.month ||
-        currentMessageDate.year != nextMessageDate.year;
-  }
-
-  Widget _buildDateHeader(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(const Duration(days: 1));
-    final messageDate = DateTime(date.year, date.month, date.day);
-
-    String dateText;
-    if (messageDate == today) {
-      dateText = 'Today';
-    } else if (messageDate == yesterday) {
-      dateText = 'Yesterday';
-    } else {
-      dateText = DateFormat.yMMMd().format(date);
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10).w,
-      child: Center(
-        child: Text(
-          dateText,
-          style: TextStyle(
-              fontSize: 12.sp,
-              color: tdGrey,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMessage(ChatSupportProvider chatSupportProvider,
-      AuthProvider authProvider, int index) {
-    final message = chatSupportProvider.messages[index];
-    final isMe = message.senderId == authProvider.userId;
-    final DateTime sentAtDateTime = DateTime.parse(message.sentAt.toString());
-    final String formattedTime = DateFormat.jm().format(sentAtDateTime);
-
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        decoration: BoxDecoration(
-          color: isMe ? tdBlack : tdWhiteNav,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(15).w,
-            topRight:const Radius.circular(15).w,
-            bottomLeft:const Radius.circular(15).w,
-          ),
-        ),
-        padding: const EdgeInsets.all(8).w,
-        margin: const EdgeInsets.all(3).w,
-        child: Column(
-          crossAxisAlignment:
-          isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            Text(
-              message.messageText,
-              style:
-              TextStyle(color: isMe ? tdWhite : tdBlack, fontSize: 10.sp),
-            ),
-            SizedBox(height: 2.h),
-            Text(
-              formattedTime,
-              style: TextStyle(
-                  color: isMe ? tdWhite : tdBlack,
-                  fontSize: 8.sp),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMessageInput() {
-    final chatSupportProvider = Provider.of<ChatSupportProvider>(context, listen: false);
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-    return Padding(
-      padding: const EdgeInsets.all(5.0).w,
-      child: Row(
-        children: [
+      body: Column(
+        children: <Widget>[
           Expanded(
-              child: TextField(
-                focusNode: _focusNode,
-                controller: _controller,
-                cursorColor: tdWhite,
-                style: TextStyle(color: tdWhite, fontSize: 12.sp),
-                decoration: InputDecoration(
-                  hintText: 'Type a message',
-                  hintStyle: TextStyle(color: tdWhite, fontSize: 12.sp, fontWeight: FontWeight.bold),
-                  filled: true,
-                  fillColor: tdBlack,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10).w,
-                    borderSide: const BorderSide(color: tdBlack),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                final isCurrentUser = message['username'] == currentUser;
+
+                return Align(
+                  alignment: isCurrentUser
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 3.0,
+                      horizontal: 7.0,
+                    ).w,
+                    padding: const EdgeInsets.all(7.0).w,
+                    decoration: BoxDecoration(
+                      color: isCurrentUser ? tdBlack : tdWhiteNav,
+                      borderRadius: isCurrentUser
+                          ? BorderRadius.only(
+                              topLeft: const Radius.circular(15).w,
+                              topRight: const Radius.circular(15).w,
+                              bottomLeft: const Radius.circular(15).w,
+                            )
+                          : BorderRadius.only(
+                              topLeft: const Radius.circular(15).w,
+                              topRight: const Radius.circular(15).w,
+                              bottomRight: const Radius.circular(15).w,
+                            ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: isCurrentUser
+                          ? CrossAxisAlignment.end
+                          : CrossAxisAlignment.start,
+                      children: [
+                        if (!isCurrentUser)
+                          Text(
+                            message['username']!,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
+                                fontSize: 12.sp),
+                          ),
+                        Text(
+                          message['text']!,
+                          style: TextStyle(
+                              color: isCurrentUser ? tdWhite : tdBlack,
+                              fontSize: 12.sp),
+                        ),
+                        SizedBox(height: 2.0.h),
+                        Text(
+                          message['time']!,
+                          style: TextStyle(
+                            fontSize: 7.sp,
+                            color: tdGrey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10).w,
-                    borderSide: const BorderSide(color: tdBlack),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10).w,
-                    borderSide: const BorderSide(color: tdBlack),
-                  ),
-                ),
-              )
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.send,
-              color: tdBlack,
-              size: 20.w,
-            ),
-            onPressed: () {
-              if (_controller.text.isNotEmpty) {
-                chatSupportProvider.sendMessage(
-                  widget.chatRoomId,
-                  authProvider.userId,
-                  _controller.text,
                 );
-                _controller.clear();
-                _scrollToBottom();
-              }
-            },
+              },
+            ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(5.0).w,
+            child: Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  focusNode: _focusNode,
+                  controller: _messageController,
+                  cursorColor: tdWhite,
+                  style: TextStyle(color: tdWhite, fontSize: 12.sp),
+                  decoration: InputDecoration(
+                    hintText: 'Type a message',
+                    hintStyle: TextStyle(
+                        color: tdWhite,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold),
+                    filled: true,
+                    fillColor: tdBlack,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10).w,
+                      borderSide: const BorderSide(color: tdBlack),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10).w,
+                      borderSide: const BorderSide(color: tdBlack),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10).w,
+                      borderSide: const BorderSide(color: tdBlack),
+                    ),
+                  ),
+                )),
+                IconButton(
+                  icon: Icon(
+                    Icons.send,
+                    color: tdBlack,
+                    size: 20.w,
+                  ),
+                  onPressed: () {
+                    _sendMessage();
+                  },
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -261,5 +247,12 @@ class _ChatPageState extends State<ChatPage> {
         );
       }
     });
+  }
+
+  @override
+  void dispose() {
+    socket?.disconnect();
+    socket?.dispose();
+    super.dispose();
   }
 }
