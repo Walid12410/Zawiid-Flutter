@@ -43,7 +43,7 @@ Future<void> addBidZawid(
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            jsonResponse['message'] ?? 'Something went wrong, try again later',
+            'Something went wrong, try again later',
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
           ),
           backgroundColor: tdBlack,

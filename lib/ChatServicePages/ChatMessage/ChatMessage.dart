@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:intl/intl.dart'; // For formatting time
-
 import '../../Color&Icons/color.dart';
 import '../../provider/User_Provider.dart';
 
@@ -28,7 +26,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final userDetails = userProvider.userInfo.first; // Assuming 'username' is a field in UserProvider
+    final userDetails = userProvider.userInfo.first;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _focusNode.requestFocus();
       _scrollToBottom();
@@ -37,9 +35,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _connectSocket(String name) {
-    socket = IO.io('http://10.0.2.2:3000', <String, dynamic>{
+    socket = IO.io('http://jawaher.app:49152', <String, dynamic>{
       'transports': ['websocket'],
-      'autoConnect': false,
+      'autoConnect': true, // Disable auto connection
     });
 
     socket?.connect();
@@ -54,7 +52,6 @@ class _ChatPageState extends State<ChatPage> {
     socket?.on('message', (data) {
       print('Message received: $data'); // Debug to check the structure of data
 
-      // Check if the received data is in the expected map format
       if (data is Map<String, dynamic> &&
           data.containsKey('text') &&
           data.containsKey('username') &&
@@ -67,8 +64,7 @@ class _ChatPageState extends State<ChatPage> {
           });
         });
       } else {
-        print(
-            'Unexpected message format: $data'); // Fallback for unexpected data structure
+        print('Unexpected message format: $data');
       }
     });
 
@@ -83,11 +79,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _sendMessage() {
     if (_messageController.text.isNotEmpty) {
-      String formattedTime = DateFormat('hh:mm a')
-          .format(DateTime.now()); // Format time as '01:09 AM'
-
       socket?.emit('chatMessage', _messageController.text);
-
       _messageController.clear();
     }
   }
@@ -95,8 +87,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final userDetails = userProvider
-        .userInfo.first; // Assuming 'username' is a field in UserProvider
+    final userDetails = userProvider.userInfo.first;
     String currentUser = '${userDetails.firstName} ${userDetails.lastName}';
 
     return Scaffold(
