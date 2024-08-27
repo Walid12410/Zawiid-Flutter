@@ -49,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     socket?.onConnect((_) {
       socket?.emit('joinRoom', {
         'username': name,
-        'room': 21.toString(),
+        'room': widget.chatRoomId.toString(),
       });
     });
 
@@ -95,12 +95,11 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final messageHistory =
-        Provider.of<ChatSupportProvider>(context, listen: false);
+        Provider.of<ChatSupportProvider>(context, listen: true);
     final userDetails = userProvider.userInfo.first;
     String currentUser = '${userDetails.firstName} ${userDetails.lastName}';
     var oldMessage = messageHistory.messagesHistory;
 
-    // Combine old messages and real-time messages into a single list
     List<dynamic> combinedMessages = [...oldMessage, ..._messages];
 
     return Scaffold(

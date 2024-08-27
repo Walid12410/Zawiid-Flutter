@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/ChatSupport_Provider.dart';
+import '../ApiService/MessageService/CheckChatRoomApi.dart';
 import '../ConnectivityCheck.dart';
 import '../provider/Auth_Provider.dart';
 import '../provider/User_Provider.dart';
@@ -26,19 +27,26 @@ class _ProfileMainState extends State<ProfileMain> {
   @override
   void initState() {
     super.initState();
-    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    ConnectionStatusSingleton connectionStatus =
+        ConnectionStatusSingleton.getInstance();
     connectionStatus.initialize();
-    _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
-    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-    ChatSupportProvider chat = Provider.of<ChatSupportProvider>(context, listen: false);
-    UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
+    _connectionChangeStream =
+        connectionStatus.connectionChange.listen(connectionChanged);
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    ChatSupportProvider chat =
+        Provider.of<ChatSupportProvider>(context, listen: false);
+    UserProvider userDetails =
+        Provider.of<UserProvider>(context, listen: false);
     chat.getChatRoom(authProvider.userId);
     _fetchUserInfoFuture = userDetails.getUserInfo(authProvider.userId);
   }
 
   void connectionChanged(dynamic hasConnection) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-    UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    UserProvider userDetails =
+        Provider.of<UserProvider>(context, listen: false);
     setState(() {
       isOffline = !hasConnection;
       if (!isOffline) {
@@ -53,7 +61,7 @@ class _ProfileMainState extends State<ProfileMain> {
       future: _fetchUserInfoFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return  const Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: tdBlack,
             ),
@@ -73,7 +81,8 @@ class _ProfileMainState extends State<ProfileMain> {
             ),
           );
         } else {
-          UserProvider userDetails = Provider.of<UserProvider>(context, listen: false);
+          UserProvider userDetails =
+              Provider.of<UserProvider>(context, listen: false);
           var userInfo = userDetails.userInfo;
           if (userInfo.isEmpty || userInfo[0].userNo == 0) {
             return const Scaffold(
@@ -100,5 +109,3 @@ class _ProfileMainState extends State<ProfileMain> {
     );
   }
 }
-
-

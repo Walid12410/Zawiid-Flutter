@@ -88,9 +88,6 @@ class _HomePageState extends State<HomePage> {
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
-    if(authProvider.userId != 0){
-      checkChatFound(authProvider.userId, "User Chat Room");
-    }
     try {
       final List<Future<dynamic>> fetchers = [
         cart.getAllCartOfUser(authProvider.userId),
@@ -109,14 +106,19 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       throw Exception(e);
     }
+    if (userProvider.userInfo.first.userNo != 0) {
+      if (userProvider.userInfo.first.firstName != "" &&
+          userProvider.userInfo.first.lastName != "") {
+        checkChatFound(authProvider.userId,"${userProvider.userInfo.first.firstName} ${userProvider.userInfo.first.lastName}");
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
-    OfferProvider offerProvider =
-        Provider.of<OfferProvider>(context, listen: true);
+    OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: true);
 
     List<Offer> getNewestOfferProducts() {
       List<Offer> offerProducts = offerProvider.allOffer;

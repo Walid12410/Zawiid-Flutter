@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Color&Icons/color.dart';
 import '../../../EmailService/EmailService.dart';
 import '../../../provider/ChatSupport_Provider.dart';
+import '../../../provider/User_Provider.dart';
 
 class ServiceOptionCard extends StatelessWidget {
   const ServiceOptionCard({
@@ -15,6 +15,20 @@ class ServiceOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ChatSupportProvider chat = Provider.of<ChatSupportProvider>(context, listen: true);
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    var userDetails = userProvider.userInfo.first;
+
+     void errorMessage(String text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(text,style: TextStyle(fontSize: 10.sp,color: tdWhite),),
+          duration: const Duration(seconds: 2),
+          backgroundColor: tdBlack,
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.all(5.0).w,
       child: Row(
@@ -99,7 +113,21 @@ class ServiceOptionCard extends StatelessWidget {
                   SizedBox(height: 5.sp),
                   GestureDetector(
                     onTap: () {
-                      showCustomDialog(context);
+                      var chatRoom = chat.chatRoom;
+                      if(chatRoom.isNotEmpty){
+                        if(userDetails.firstName != "" && userDetails.lastName != ""){
+                          context.push(context.namedLocation(
+                              'ChatPage',
+                              pathParameters: {
+                                'chatRoomId':
+                                chatRoom[0].chatRoomID.toString()
+                              }));
+                        }else{
+                          errorMessage("Please update your profile with your first and last name.");
+                        }
+                      }else{
+                        errorMessage('Please update your profile with your first and last name.');
+                      }
                     },
                     child: Container(
                       width: 140.w,
@@ -126,58 +154,4 @@ class ServiceOptionCard extends StatelessWidget {
       ),
     );
   }
-  void showCustomDialog(BuildContext context) {
-    ChatSupportProvider chat = Provider.of<ChatSupportProvider>(context, listen: false);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          surfaceTintColor: tdWhite,
-          backgroundColor: tdWhite,
-          title: Text('Contact Us',style: TextStyle(fontSize: 15.sp,color: tdBlack,fontWeight: FontWeight.bold),),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: SvgPicture.asset('assets/svg-profile/whatsapp.svg',width: 18.w,height: 20.h,
-                  fit: BoxFit.cover,color: tdGreen,),
-                  title: Text('Chat on WhatsApp',style: TextStyle(fontWeight: FontWeight.bold,
-                      fontSize: 12.sp,color: tdBlack),),
-                  onTap: () {
-                    // Add action to open WhatsApp
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.chat_outlined, color: tdBlack,size: 20.w,),
-                  title: Text('Start In-App Chat',style: TextStyle(fontWeight: FontWeight.bold,
-                  fontSize: 12.sp,color: tdBlack),),
-                  onTap: () {
-                    var chatRoom = chat.chatRoom;
-                    if(chatRoom.isNotEmpty){
-                      context.push(context.namedLocation(
-                          'ChatPage',
-                          pathParameters: {
-                            'chatRoomId':
-                            chatRoom[0].chatRoomID.toString()
-                          }));
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 12.sp),),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
 }

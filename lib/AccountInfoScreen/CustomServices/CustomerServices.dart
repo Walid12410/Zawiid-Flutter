@@ -12,18 +12,20 @@ class CustomerPage extends StatefulWidget {
 }
 
 class _CustomerPageState extends State<CustomerPage> {
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PageHeadView(title: 'Customer Services', onPressed: (){
-                GoRouter.of(context).go("/Profile");
-              }),
+              PageHeadView(
+                  title: 'Customer Services',
+                  onPressed: () {
+                    GoRouter.of(context).go("/Profile");
+                  }),
               const CustomServicesContainer(),
             ],
           ),
@@ -32,8 +34,3 @@ class _CustomerPageState extends State<CustomerPage> {
     );
   }
 }
-
-
-
-
-

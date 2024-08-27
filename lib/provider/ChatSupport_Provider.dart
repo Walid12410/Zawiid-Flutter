@@ -31,7 +31,7 @@ List<Message> _messagesHistory = [];
       final List<Message> fetchedMessages = await _messageService.fetchMessages(chatRoomId);
       if (fetchedMessages.isNotEmpty) {
         _messagesHistory = [..._messagesHistory, ...fetchedMessages.where((msg) => !_messagesHistory.any((m) => m.messageId == msg.messageId))];
-        _messagesHistory.sort((a, b) => b.sentAt.compareTo(a.sentAt));
+        _messagesHistory.sort((a, b) => a.sentAt.compareTo(b.sentAt));
         notifyListeners();
       }
     } catch (e) {

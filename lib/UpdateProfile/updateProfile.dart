@@ -9,6 +9,8 @@ import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 
+import '../ApiService/MessageService/CheckChatRoomApi.dart';
+
 class UpdateProfile extends StatefulWidget {
   const UpdateProfile({super.key});
 
