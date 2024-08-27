@@ -1,11 +1,11 @@
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> sendEmailSupport() async {
+Future<void> sendEmailSupport(String email) async {
   try {
 
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
-      path: '',
+      path: email,
     );
 
     await launchUrl(emailLaunchUri);

@@ -9,6 +9,7 @@ import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/MessageService/CheckChatRoomApi.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
@@ -58,6 +59,8 @@ class _HomePageState extends State<HomePage> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       GoRouter.of(context).goNamed('NotificationPage');
     });
+    final setting = Provider.of<SettingsProvider>(context, listen: false);
+    setting.loadSettings();
     ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
     connectionStatus.initialize();
     _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);

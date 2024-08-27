@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawiid/FirebaseApi/firebase_api.dart';
 import 'package:zawiid/FirebaseApi/firebase_options.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
+import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
@@ -50,6 +51,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ChangeNotifierProvider(create: (_) => NotificationsProvider()),
+      ChangeNotifierProvider(create: (_) => SettingsProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider()),
       ChangeNotifierProvider(create: (_) => ProductsProvider()),
       ChangeNotifierProvider(create: (_) => OfferProvider()),

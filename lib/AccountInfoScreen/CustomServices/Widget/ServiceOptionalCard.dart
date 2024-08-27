@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../Color&Icons/color.dart';
 import '../../../EmailService/EmailService.dart';
+import '../../../provider/AppSetting_Provider.dart';
 import '../../../provider/ChatSupport_Provider.dart';
 import '../../../provider/User_Provider.dart';
 
@@ -16,6 +17,8 @@ class ServiceOptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatSupportProvider chat = Provider.of<ChatSupportProvider>(context, listen: true);
+    final setting = Provider.of<SettingsProvider>(context, listen: true);
+    var appSetting = setting.settings.first;
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     var userDetails = userProvider.userInfo.first;
 
@@ -62,7 +65,7 @@ class ServiceOptionCard extends StatelessWidget {
                   SizedBox(height: 5.h),
                   GestureDetector(
                     onTap: () {
-                      sendEmailSupport();
+                      sendEmailSupport(appSetting.email);
                     },
                     child: Container(
                       width: 140.w,

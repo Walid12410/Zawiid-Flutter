@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Color&Icons/color.dart';
-
+import '../../../provider/AppSetting_Provider.dart';
 
 class ServiceCallUs extends StatelessWidget {
   const ServiceCallUs({
     super.key,
   });
 
+  Future<void> _launchDialer(String phoneNumber) async {
+    try {
+      final Uri launchUri = Uri(
+        scheme: 'tel',
+        path: phoneNumber,
+      );
+      await launchUrl(launchUri);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final setting = Provider.of<SettingsProvider>(context, listen: true);
+    var appSetting = setting.settings.first;
+
     return Padding(
       padding: const EdgeInsets.all(5).w,
       child: Container(
@@ -35,30 +51,50 @@ class ServiceCallUs extends StatelessWidget {
               child: SizedBox(
                 height: 35.h,
                 width: 35.w,
-                child: Image.asset('assets/img/CustomerService/Group.png',fit: BoxFit.fill,),
+                child: Image.asset(
+                  'assets/img/CustomerService/Group.png',
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(5.0).w,
               child: GestureDetector(
-                onTap: (){
-                  //calluse
+                onTap: () {
+                  _launchDialer(appSetting.phoneNumber);
                 },
                 child: Container(
                   decoration: BoxDecoration(
                       color: tdWhiteNav,
-                      borderRadius: BorderRadius.circular(20).w
-                  ),
+                      borderRadius: BorderRadius.circular(20).w),
                   child: Padding(
                     padding: const EdgeInsets.all(5).w,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(width: 5.w,),
-                        Text('Call Us',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.sp,color: tdBlack),),
-                        SizedBox(width: 20.w,),
-                        Text('+965 6037 8430',style: TextStyle(color: tdBlue,fontSize:  17.sp,fontWeight: FontWeight.bold),),
-                        SizedBox(width: 5.w,),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          'Call Us',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.sp,
+                              color: tdBlack),
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Text(
+                          appSetting.phoneNumber,
+                          style: TextStyle(
+                              color: tdBlue,
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
                       ],
                     ),
                   ),
