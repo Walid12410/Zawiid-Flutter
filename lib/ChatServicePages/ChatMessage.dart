@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import '../../Color&Icons/color.dart';
-import '../../provider/User_Provider.dart';
+import 'package:zawiid/provider/ChatSupport_Provider.dart';
+import '../Color&Icons/color.dart';
+import '../provider/User_Provider.dart';
 
 class ChatPage extends StatefulWidget {
   final int chatRoomId;
@@ -18,15 +20,17 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   IO.Socket? socket;
   final TextEditingController _messageController = TextEditingController();
-  final List<Map<String, String>> _messages = []; // Store messages with text, username, and time
+  final List<Map<String, String>> _messages = []; // Store real-time messages
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    final messageHistory = Provider.of<ChatSupportProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userDetails = userProvider.userInfo.first;
+    messageHistory.fetchMessages(widget.chatRoomId);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _focusNode.requestFocus();
       _scrollToBottom();
@@ -35,9 +39,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _connectSocket(String name) {
-    socket = IO.io('http://jawaher.app:49152', <String, dynamic>{
+    socket = IO.io('http://10.0.2.2:3000', <String, dynamic>{
       'transports': ['websocket'],
-      'autoConnect': true, // Disable auto connection
+      'autoConnect': true,
     });
 
     socket?.connect();
@@ -50,8 +54,6 @@ class _ChatPageState extends State<ChatPage> {
     });
 
     socket?.on('message', (data) {
-      print('Message received: $data'); // Debug to check the structure of data
-
       if (data is Map<String, dynamic> &&
           data.containsKey('text') &&
           data.containsKey('username') &&
@@ -63,8 +65,7 @@ class _ChatPageState extends State<ChatPage> {
             'time': data['time'],
           });
         });
-      } else {
-        print('Unexpected message format: $data');
+        _scrollToBottom(); // Scroll to bottom when a new message is received
       }
     });
 
@@ -87,8 +88,14 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final messageHistory =
+    Provider.of<ChatSupportProvider>(context, listen: false);
     final userDetails = userProvider.userInfo.first;
     String currentUser = '${userDetails.firstName} ${userDetails.lastName}';
+    var oldMessage = messageHistory.messagesHistory;
+
+    // Combine old messages and real-time messages into a single list
+    List<dynamic> combinedMessages = [...oldMessage, ..._messages];
 
     return Scaffold(
       backgroundColor: tdWhite,
@@ -111,14 +118,32 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
-              itemCount: _messages.length,
+              itemCount: combinedMessages.length,
               itemBuilder: (context, index) {
-                final message = _messages[index];
-                final isCurrentUser = message['username'] == currentUser;
+                final message = combinedMessages[index];
+
+                // Check if the message is from oldMessage (message object) or real-time (map)
+                final isOldMessage = index < oldMessage.length;
+
+                final bool isCurrentUser = isOldMessage
+                    ? message.senderId == userDetails.userNo
+                    : message['username'] == currentUser;
+
+                final String messageText = isOldMessage
+                    ? message.messageText
+                    : message['text'] ?? '';
+
+                final String messageSender = isOldMessage
+                    ? currentUser // Use currentUser for old messages
+                    : message['username'] ?? '';
+
+                final String messageTime = isOldMessage
+                    ? "agfadg" // Format time for old messages
+                    : message['time'] ?? ''; // Already formatted time for real-time messages
 
                 return Align(
                   alignment: isCurrentUser
@@ -134,15 +159,15 @@ class _ChatPageState extends State<ChatPage> {
                       color: isCurrentUser ? tdBlack : tdWhiteNav,
                       borderRadius: isCurrentUser
                           ? BorderRadius.only(
-                              topLeft: const Radius.circular(15).w,
-                              topRight: const Radius.circular(15).w,
-                              bottomLeft: const Radius.circular(15).w,
-                            )
+                        topLeft: const Radius.circular(15).w,
+                        topRight: const Radius.circular(15).w,
+                        bottomLeft: const Radius.circular(15).w,
+                      )
                           : BorderRadius.only(
-                              topLeft: const Radius.circular(15).w,
-                              topRight: const Radius.circular(15).w,
-                              bottomRight: const Radius.circular(15).w,
-                            ),
+                        topLeft: const Radius.circular(15).w,
+                        topRight: const Radius.circular(15).w,
+                        bottomRight: const Radius.circular(15).w,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: isCurrentUser
@@ -151,21 +176,21 @@ class _ChatPageState extends State<ChatPage> {
                       children: [
                         if (!isCurrentUser)
                           Text(
-                            message['username']!,
+                            messageSender,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black54,
                                 fontSize: 12.sp),
                           ),
                         Text(
-                          message['text']!,
+                          messageText,
                           style: TextStyle(
                               color: isCurrentUser ? tdWhite : tdBlack,
                               fontSize: 12.sp),
                         ),
                         SizedBox(height: 2.0.h),
                         Text(
-                          message['time']!,
+                          messageTime,
                           style: TextStyle(
                             fontSize: 7.sp,
                             color: tdGrey,
@@ -184,32 +209,32 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Expanded(
                     child: TextField(
-                  focusNode: _focusNode,
-                  controller: _messageController,
-                  cursorColor: tdWhite,
-                  style: TextStyle(color: tdWhite, fontSize: 12.sp),
-                  decoration: InputDecoration(
-                    hintText: 'Type a message',
-                    hintStyle: TextStyle(
-                        color: tdWhite,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold),
-                    filled: true,
-                    fillColor: tdBlack,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10).w,
-                      borderSide: const BorderSide(color: tdBlack),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10).w,
-                      borderSide: const BorderSide(color: tdBlack),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10).w,
-                      borderSide: const BorderSide(color: tdBlack),
-                    ),
-                  ),
-                )),
+                      focusNode: _focusNode,
+                      controller: _messageController,
+                      cursorColor: tdWhite,
+                      style: TextStyle(color: tdWhite, fontSize: 12.sp),
+                      decoration: InputDecoration(
+                        hintText: 'Type a message',
+                        hintStyle: TextStyle(
+                            color: tdWhite,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold),
+                        filled: true,
+                        fillColor: tdBlack,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10).w,
+                          borderSide: const BorderSide(color: tdBlack),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10).w,
+                          borderSide: const BorderSide(color: tdBlack),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10).w,
+                          borderSide: const BorderSide(color: tdBlack),
+                        ),
+                      ),
+                    )),
                 IconButton(
                   icon: Icon(
                     Icons.send,

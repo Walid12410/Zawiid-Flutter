@@ -25,7 +25,6 @@ class FirebaseApi {
     await _firebaseMessage.requestPermission();
     final fCMToken = await _firebaseMessage.getToken();
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-
     String deviceName = await DeviceInfoHelper.getDeviceInfo();
 
     try {

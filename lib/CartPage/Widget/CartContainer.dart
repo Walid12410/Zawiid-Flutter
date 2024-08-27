@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
-import 'package:zawiid/provider/Products_Provider.dart';
-import '../../Classes/Product/Products.dart';
 import '../../provider/Auth_Provider.dart';
 import 'DeleteProductFromCart.dart';
 
@@ -16,11 +14,17 @@ class CartContainer extends StatefulWidget {
     required this.productNo,
     required this.productCartPrice,
     required this.cartQuantity,
+    required this.productName,
+    required this.productDesc,
+    required this.productImage
   }) : super(key: key);
 
   final int productNo;
   final String productCartPrice;
   final int cartQuantity;
+  final String productName;
+  final String productDesc;
+  final String productImage;
 
   @override
   _CartContainerState createState() => _CartContainerState();
@@ -29,46 +33,33 @@ class CartContainer extends StatefulWidget {
 class _CartContainerState extends State<CartContainer> {
   late int _currentQuantity;
   late double _currentPrice;
-  Product? _product;
 
   @override
   void initState() {
     super.initState();
     _currentQuantity = widget.cartQuantity;
     _currentPrice = double.parse(widget.productCartPrice);
-    _fetchProductDetails();
   }
 
-  Future<void> _fetchProductDetails() async {
-    final productProvider =
-        Provider.of<ProductsProvider>(context, listen: false);
-    List<Product> products =
-        await productProvider.getProductOfCartByUserId(widget.productNo);
-    if (products.isNotEmpty) {
+
+  Future<void> _updateCart(int newQuantity) async {
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      final userNo = authProvider.userId;
+      await cartProvider.updateCartItem(userNo, widget.productNo, newQuantity, _currentPrice);
       setState(() {
-        _product = products[0];
+        _currentQuantity = newQuantity;
       });
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
-  Future<void> _updateCart(int newQuantity) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final userNo = authProvider.userId;
-    await cartProvider.updateCartItem(
-        userNo, widget.productNo, newQuantity, _currentPrice);
-    setState(() {
-      _currentQuantity = newQuantity;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-    if (_product == null) {
-      return const Center(child: CircularProgressIndicator(color: tdBlack));
-    }
 
     return Padding(
       padding: EdgeInsets.only(right: 10.w),
@@ -88,12 +79,9 @@ class _CartContainerState extends State<CartContainer> {
                         width: 70.w,
                         height: 90.h,
                         child: CachedNetworkImage(
-                          imageUrl:
-                              '${ApiEndpoints.localBaseUrl}/${_product!.productImage}',
-                          placeholder: (context, url) =>
-                              Image.asset('assets/log/LOGO-icon---Black.png'),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/log/LOGO-icon---Black.png'),
+                          imageUrl: '${ApiEndpoints.localBaseUrl}/${widget.productImage}',
+                          placeholder: (context, url) => Image.asset('assets/log/LOGO-icon---Black.png'),
+                          errorWidget: (context, url, error) => Image.asset('assets/log/LOGO-icon---Black.png'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -101,44 +89,28 @@ class _CartContainerState extends State<CartContainer> {
                     SizedBox(
                       width: 110.h,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _product!.productName,
-                            style: TextStyle(
-                              fontSize: 10.sp,
-                              color: tdBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            widget.productName,
+                            style: TextStyle(fontSize: 10.sp, color: tdBlack, fontWeight: FontWeight.bold),
                             overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
                             width: 90.h,
                             child: Text(
-                              _product!.productDesc,
-                              style: TextStyle(
-                                fontSize: 10.sp,
-                                color: tdBlack,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              widget.productDesc,
+                              style: TextStyle(fontSize: 10.sp, color: tdBlack, fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           SizedBox(height: 5.h),
                           Text(
                             '${_currentPrice * _currentQuantity} KD',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: tdBlack,
-                              fontSize: 12.sp,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: tdBlack, fontSize: 12.sp),
                           ),
                           SizedBox(height: 5.h),
-                          Text(
-                            'SKU: FT00962',
-                            style: TextStyle(fontSize: 4.sp, color: tdGrey),
-                          )
+                          Text('SKU: FT00962', style: TextStyle(fontSize: 4.sp, color: tdGrey)),
                         ],
                       ),
                     ),
@@ -150,13 +122,7 @@ class _CartContainerState extends State<CartContainer> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.w),
                     color: tdWhite,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 5,
-                        offset: const Offset(0, 0),
-                      ),
-                    ],
+                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 5)],
                   ),
                   child: Center(
                     child: Row(
@@ -167,19 +133,14 @@ class _CartContainerState extends State<CartContainer> {
                             if (_currentQuantity > 1) {
                               _updateCart(_currentQuantity - 1);
                             } else {
-                              showDeleteConfirmationDialog(context,
-                                  authProvider.userId, widget.productNo);
-                              setState(() {});
+                              showDeleteConfirmationDialog(context, authProvider.userId, widget.productNo);
                             }
                           },
                           child: Icon(Icons.remove, color: tdGrey, size: 12.w),
                         ),
                         Text(
                           '$_currentQuantity',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: tdBlack,
-                              fontSize: 10.sp),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: tdBlack, fontSize: 10.sp),
                         ),
                         GestureDetector(
                           onTap: () {

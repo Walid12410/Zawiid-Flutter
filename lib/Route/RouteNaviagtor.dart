@@ -19,7 +19,7 @@ import '../AccountInfoScreen/TermsOfService/TermsOfServices.dart';
 import '../AddAddress/AddAddress.dart';
 import '../BidPage/BidPage.dart';
 import '../CartPage/CartPage.dart';
-import '../ChatServicePages/ChatMessage/ChatMessage.dart';
+import '../ChatServicePages/ChatMessage.dart';
 import '../CoponsPage/CouponsPromotion/CouponsPromotion.dart';
 import '../ForgetPassword/CodeReceive/CodeReceivePage.dart';
 import '../ForgetPassword/ForgetPasswordPage.dart';

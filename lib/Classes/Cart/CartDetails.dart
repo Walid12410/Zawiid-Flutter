@@ -5,6 +5,9 @@ class CartDetails {
   final String productCartPrice;
   final int markNo;
   final String markName;
+  final String productName;
+  final String productDesc;
+  final String productImage;
 
   CartDetails({
     required this.userNo,
@@ -13,6 +16,9 @@ class CartDetails {
     required this.productCartPrice,
     required this.markNo,
     required this.markName,
+    required this.productName,
+    required this.productDesc,
+    required this.productImage
   });
 
   factory CartDetails.fromJson(Map<String, dynamic> json) {
@@ -23,6 +29,9 @@ class CartDetails {
       productCartPrice: json['ProductCartPrice'] ?? "",
       markNo: json['MarkNo'] ?? 0,
       markName: json['MarkName'] ?? "",
+      productName: json['ProductName'] ?? "",
+      productDesc: json['ProductDesc'] ?? "",
+      productImage: json['ProductImage'] ?? ""
     );
   }
 }

@@ -53,6 +53,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                         });
 
                         try {
+                          cartProvider.removeFromCart(productId);
                           await cartProvider.deleteCartItem(userID, productId);
                         } catch (error) {
                           _showErrorSnackBar(context,'Failed to delete cart item.');

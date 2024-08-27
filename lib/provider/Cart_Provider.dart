@@ -43,7 +43,7 @@ class CartProvider with ChangeNotifier {
     try {
       final success = await deleteCart(userNo, productNo);
       if (success) {
-        _cartUser.removeWhere((cart) => cart.productNo == productNo);
+        _cartDetailsUser.removeWhere((cart) => cart.productNo == productNo);
         notifyListeners();
       } else {
         throw Exception('Failed to delete cart item');
@@ -184,10 +184,17 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearCartsDetails() {
+    _cartDetailsUser.clear();
+    notifyListeners();
+  }
+
   void clearCart() {
     _cartUser.clear();
     notifyListeners();
   }
+
+
 
   bool isProductInCart(int productNo) {
     return _cartUser.any((cartItem) => cartItem.productNo == productNo);

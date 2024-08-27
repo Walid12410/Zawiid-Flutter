@@ -19,7 +19,9 @@ class Notifications {
       userId: json['UserID'] ?? 0,
       notificationTitle: json['NotificationTitle'] ?? "",
       notificationMessage: json['NotificationMessage'] ?? "",
-      sentAt: DateTime.parse(json['SentAt']['date']),
+      sentAt: json['SentAt'] != null && json['SentAt']['date'] != null
+          ? DateTime.parse(json['SentAt']['date'])
+          : DateTime(1900, 1, 1),
     );
   }
 }

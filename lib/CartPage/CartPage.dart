@@ -30,6 +30,7 @@ class _CartPageState extends State<CartPage> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       cartProvider.getAllCartOfUser(authProvider.userId);
+      cartProvider.getAllCartDetailsOfUser(authProvider.userId);
     });
   }
 
@@ -73,6 +74,7 @@ class _CartPageState extends State<CartPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      cartProvider.clearCartsDetails();
                       cartProvider.clearCart();
                       Navigator.of(context).pop();
                       deleteAllCartItemsByUserNo(userID);
@@ -149,7 +151,7 @@ class _CartPageState extends State<CartPage> {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
     final authProvider = Provider.of<AuthProvider>(context, listen: true);
     final deliveryOptions = Provider.of<DeliveryProvider>(context, listen: true);
-    var cartItem = cartProvider.cartUser;
+    var cartItem = cartProvider.cartDetailsUser;
 
     var deliveryPrice = deliveryOptions.oneDeliveryOptions.isNotEmpty
         ? deliveryOptions.oneDeliveryOptions.first
@@ -232,6 +234,9 @@ class _CartPageState extends State<CartPage> {
                                 productNo: cart.productNo,
                                 productCartPrice: cart.productCartPrice,
                                 cartQuantity: cart.productCartQty,
+                                productName: cart.productName,
+                                productDesc: cart.productDesc,
+                                productImage: cart.productImage,
                               );
                             },
                           )
