@@ -23,14 +23,14 @@ class _ChatPageState extends State<ChatPage> {
   final List<Map<String, String>> _messages = []; // Store real-time messages
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  late Future<void> _fetchDataFuture;
 
   @override
   void initState() {
     super.initState();
-    final messageHistory = Provider.of<ChatSupportProvider>(context, listen: false);
+    _fetchDataFuture = _fetchData();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userDetails = userProvider.userInfo.first;
-    messageHistory.fetchMessages(widget.chatRoomId);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _focusNode.requestFocus();
       _scrollToBottom();
@@ -49,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     socket?.onConnect((_) {
       socket?.emit('joinRoom', {
         'username': name,
-        'room': widget.chatRoomId.toString(),
+        'room': 21.toString(),
       });
     });
 
@@ -85,11 +85,17 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  Future<void> _fetchData() async {
+    final messageHistory =
+        Provider.of<ChatSupportProvider>(context, listen: false);
+    messageHistory.fetchMessages(widget.chatRoomId);
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final messageHistory =
-    Provider.of<ChatSupportProvider>(context, listen: false);
+        Provider.of<ChatSupportProvider>(context, listen: false);
     final userDetails = userProvider.userInfo.first;
     String currentUser = '${userDetails.firstName} ${userDetails.lastName}';
     var oldMessage = messageHistory.messagesHistory;
@@ -100,6 +106,9 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       backgroundColor: tdWhite,
       appBar: AppBar(
+        surfaceTintColor: tdWhite,
+        backgroundColor: tdWhite,
+        shadowColor: tdWhite,
         centerTitle: true,
         title: Text(
           'Customer Support',
@@ -117,139 +126,164 @@ class _ChatPageState extends State<ChatPage> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: combinedMessages.length,
-              itemBuilder: (context, index) {
-                final message = combinedMessages[index];
+      body: FutureBuilder(
+          future: _fetchDataFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: tdBlack,
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  'Something went wrong, check your connection.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.sp,
+                    color: tdGrey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: combinedMessages.length,
+                      itemBuilder: (context, index) {
+                        final message = combinedMessages[index];
 
-                // Check if the message is from oldMessage (message object) or real-time (map)
-                final isOldMessage = index < oldMessage.length;
+                        final isOldMessage = index < oldMessage.length;
 
-                final bool isCurrentUser = isOldMessage
-                    ? message.senderId == userDetails.userNo
-                    : message['username'] == currentUser;
+                        final bool isCurrentUser = isOldMessage
+                            ? message.senderId == userDetails.userNo
+                            : message['username'] == currentUser;
 
-                final String messageText = isOldMessage
-                    ? message.messageText
-                    : message['text'] ?? '';
+                        final String messageText = isOldMessage
+                            ? message.messageText
+                            : message['text'] ?? '';
 
-                final String messageSender = isOldMessage
-                    ? currentUser // Use currentUser for old messages
-                    : message['username'] ?? '';
+                        final String messageSender = isOldMessage
+                            ? "Support"
+                            : message['username'] ?? '';
 
-                final String messageTime = isOldMessage
-                    ? "agfadg" // Format time for old messages
-                    : message['time'] ?? ''; // Already formatted time for real-time messages
+                        final String messageTime = isOldMessage
+                            ? DateFormat('HH:mm').format(message.sentAt)
+                            : message['time'] ?? '';
 
-                return Align(
-                  alignment: isCurrentUser
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 3.0,
-                      horizontal: 7.0,
-                    ).w,
-                    padding: const EdgeInsets.all(7.0).w,
-                    decoration: BoxDecoration(
-                      color: isCurrentUser ? tdBlack : tdWhiteNav,
-                      borderRadius: isCurrentUser
-                          ? BorderRadius.only(
-                        topLeft: const Radius.circular(15).w,
-                        topRight: const Radius.circular(15).w,
-                        bottomLeft: const Radius.circular(15).w,
-                      )
-                          : BorderRadius.only(
-                        topLeft: const Radius.circular(15).w,
-                        topRight: const Radius.circular(15).w,
-                        bottomRight: const Radius.circular(15).w,
-                      ),
+                        return Align(
+                          alignment: isCurrentUser
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 3.0,
+                              horizontal: 7.0,
+                            ).w,
+                            padding: const EdgeInsets.all(7.0).w,
+                            decoration: BoxDecoration(
+                              color: isCurrentUser ? tdBlack : tdWhiteNav,
+                              borderRadius: isCurrentUser
+                                  ? BorderRadius.only(
+                                      topLeft: const Radius.circular(15).w,
+                                      topRight: const Radius.circular(15).w,
+                                      bottomLeft: const Radius.circular(15).w,
+                                    )
+                                  : BorderRadius.only(
+                                      topLeft: const Radius.circular(15).w,
+                                      topRight: const Radius.circular(15).w,
+                                      bottomRight: const Radius.circular(15).w,
+                                    ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: isCurrentUser
+                                  ? CrossAxisAlignment.end
+                                  : CrossAxisAlignment.start,
+                              children: [
+                                if (!isCurrentUser)
+                                  Text(
+                                    messageSender,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black54,
+                                        fontSize: 12.sp),
+                                  ),
+                                Text(
+                                  messageText,
+                                  style: TextStyle(
+                                      color: isCurrentUser ? tdWhite : tdBlack,
+                                      fontSize: 12.sp),
+                                ),
+                                SizedBox(height: 2.0.h),
+                                Text(
+                                  messageTime,
+                                  style: TextStyle(
+                                    fontSize: 7.sp,
+                                    color: tdGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    child: Column(
-                      crossAxisAlignment: isCurrentUser
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.start,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0).w,
+                    child: Row(
                       children: [
-                        if (!isCurrentUser)
-                          Text(
-                            messageSender,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                                fontSize: 12.sp),
+                        Expanded(
+                            child: TextField(
+                          focusNode: _focusNode,
+                          controller: _messageController,
+                          cursorColor: tdWhite,
+                          style: TextStyle(color: tdWhite, fontSize: 12.sp),
+                          decoration: InputDecoration(
+                            hintText: 'Type a message',
+                            hintStyle: TextStyle(
+                                color: tdWhite,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold),
+                            filled: true,
+                            fillColor: tdBlack,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10).w,
+                              borderSide: const BorderSide(color: tdBlack),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10).w,
+                              borderSide: const BorderSide(color: tdBlack),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10).w,
+                              borderSide: const BorderSide(color: tdBlack),
+                            ),
                           ),
-                        Text(
-                          messageText,
-                          style: TextStyle(
-                              color: isCurrentUser ? tdWhite : tdBlack,
-                              fontSize: 12.sp),
-                        ),
-                        SizedBox(height: 2.0.h),
-                        Text(
-                          messageTime,
-                          style: TextStyle(
-                            fontSize: 7.sp,
-                            color: tdGrey,
+                        )),
+                        IconButton(
+                          icon: Icon(
+                            Icons.send,
+                            color: tdBlack,
+                            size: 20.w,
                           ),
+                          onPressed: () {
+                            messageHistory.sendMessage(widget.chatRoomId,
+                                userDetails.userNo, _messageController.text);
+                            _sendMessage();
+                          },
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0).w,
-            child: Row(
-              children: [
-                Expanded(
-                    child: TextField(
-                      focusNode: _focusNode,
-                      controller: _messageController,
-                      cursorColor: tdWhite,
-                      style: TextStyle(color: tdWhite, fontSize: 12.sp),
-                      decoration: InputDecoration(
-                        hintText: 'Type a message',
-                        hintStyle: TextStyle(
-                            color: tdWhite,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold),
-                        filled: true,
-                        fillColor: tdBlack,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10).w,
-                          borderSide: const BorderSide(color: tdBlack),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10).w,
-                          borderSide: const BorderSide(color: tdBlack),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10).w,
-                          borderSide: const BorderSide(color: tdBlack),
-                        ),
-                      ),
-                    )),
-                IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: tdBlack,
-                    size: 20.w,
-                  ),
-                  onPressed: () {
-                    _sendMessage();
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+                  )
+                ],
+              );
+            }
+          }),
     );
   }
 
