@@ -39,7 +39,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _connectSocket(String name) {
-    socket = IO.io('http://10.0.2.2:3000', <String, dynamic>{
+    socket = IO.io('http://jawaher.app:49152', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
     });
@@ -49,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     socket?.onConnect((_) {
       socket?.emit('joinRoom', {
         'username': name,
-        'room': widget.chatRoomId.toString(),
+        'room': 21.toString(),
       });
     });
 
