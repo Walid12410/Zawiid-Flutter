@@ -59,8 +59,6 @@ class _HomePageState extends State<HomePage> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       GoRouter.of(context).goNamed('NotificationPage');
     });
-    final setting = Provider.of<SettingsProvider>(context, listen: false);
-    setting.loadSettings();
     ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
     connectionStatus.initialize();
     _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
@@ -91,10 +89,12 @@ class _HomePageState extends State<HomePage> {
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
+    final setting = Provider.of<SettingsProvider>(context, listen: false);
     try {
       final List<Future<dynamic>> fetchers = [
         cart.getAllCartOfUser(authProvider.userId),
         categoryProvider.getCategory(),
+        setting.loadSettings(),
         notificationProvider.getAllNotifications(authProvider.userId),
         userProvider.getUserInfo(authProvider.userId),
         productProvider.getAllFeaturedProduct(),

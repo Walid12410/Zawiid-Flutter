@@ -49,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     socket?.onConnect((_) {
       socket?.emit('joinRoom', {
         'username': name,
-        'room': widget.chatRoomId.toString(),
+        'room': 21.toString(),
       });
     });
 
