@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/Color&Icons/color.dart';
 
 import '../../ApiEndPoint.dart';
 import '../../provider/Coupons_Provider.dart';
@@ -30,6 +32,23 @@ class CouponsListView extends StatelessWidget {
         return true;
       }
     }).toList();
+
+    if (uniqueCoupons.isEmpty) {
+      return Column(
+        children: [
+          SizedBox(
+            height: 150.h,
+          ),
+          Center(
+              child: Text(
+            'No coupons added yet.',
+            style: TextStyle(
+                fontSize: 15.sp, color: tdGrey, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ))
+        ],
+      );
+    }
 
     return ListView.builder(
       shrinkWrap: true,
