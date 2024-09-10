@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/NotificationProvider.dart';
+import 'package:intl/intl.dart';
+
+import 'package:zawiid/generated/l10n.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({
@@ -17,7 +20,8 @@ class CustomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
     var cartLength = cart.cartUser;
-    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    final notificationProvider =
+        Provider.of<NotificationsProvider>(context, listen: true);
     var notLength = notificationProvider.allNotification;
 
     return Row(
@@ -34,7 +38,9 @@ class CustomNavigationBar extends StatelessWidget {
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-            position: badges.BadgePosition.custom(bottom: -7, end: -5),
+            position: isArabic()
+                ? badges.BadgePosition.custom(bottom: -5, start: -7)
+                : badges.BadgePosition.custom(bottom: -7, end: -5),
             child: Image.asset(
               'assets/svg/notification.png',
               width: 25.w,
@@ -72,7 +78,7 @@ class CustomNavigationBar extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            'Search for products',
+                            S.of(context).searchTitle,
                             style: TextStyle(fontSize: 7.sp, color: tdGrey),
                           ),
                         ),
@@ -91,10 +97,15 @@ class CustomNavigationBar extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     border: const Border(left: BorderSide(color: Colors.black)),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      bottomRight: Radius.circular(50.0),
-                    ).w,
+                    borderRadius: isArabic()
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            bottomLeft: Radius.circular(50.0),
+                          ).w
+                        : const BorderRadius.only(
+                            topRight: Radius.circular(50),
+                            bottomRight: Radius.circular(50.0),
+                          ).w,
                     color: tdBlack,
                   ),
                   child: Center(
@@ -107,7 +118,7 @@ class CustomNavigationBar extends StatelessWidget {
                         children: [
                           SizedBox(width: 5.w),
                           Text(
-                            'All Categories',
+                            S.of(context).allCategories,
                             style: TextStyle(fontSize: 9.sp, color: tdWhite),
                           ),
                           SizedBox(
@@ -147,7 +158,9 @@ class CustomNavigationBar extends StatelessWidget {
               style: TextStyle(color: tdWhite, fontSize: 10.sp),
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-            position: badges.BadgePosition.custom(bottom: -7, end: -5),
+            position: isArabic()
+                ? badges.BadgePosition.custom(bottom: -5, start: -7)
+                : badges.BadgePosition.custom(bottom: -7, end: -5),
             child: Image.asset(
               'assets/svg/cart.png',
               width: 25.w,
@@ -160,4 +173,8 @@ class CustomNavigationBar extends StatelessWidget {
       ],
     );
   }
+}
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

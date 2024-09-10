@@ -3,6 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Cart_Provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 void showDeleteConfirmationDialog(BuildContext context, int userID, int productId) {
   showDialog(
@@ -16,7 +23,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
         builder: (context, setState) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(20).w,
             ),
             backgroundColor: tdWhite,
             surfaceTintColor: tdWhite,
@@ -25,7 +32,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Are you sure you want',
+                  S.of(context).areYouSure,
                   style: TextStyle(
                     fontSize: 10.sp,
                     color: Colors.black,
@@ -34,7 +41,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  'to remove this item from the cart?',
+                  S.of(context).toRemoveItem,
                   style: TextStyle(
                     fontSize: 10.sp,
                     color: Colors.black,
@@ -56,7 +63,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                           cartProvider.removeFromCart(productId);
                           await cartProvider.deleteCartItem(userID, productId);
                         } catch (error) {
-                          _showErrorSnackBar(context,'Failed to delete cart item.');
+                          _showErrorSnackBar(context,S.of(context).failedToDelete);
                         } finally {
                           setState(() {
                             Navigator.of(context).pop();
@@ -79,7 +86,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                         ),
                         child: Center(
                           child: Text(
-                            isDeleting ? 'Processing...' : 'YES',
+                            isDeleting ? S.of(context).processing : S.of(context).yes,
                             style: TextStyle(
                               fontSize: 9.sp,
                               color: tdBlack,
@@ -109,7 +116,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                         ),
                         child: Center(
                           child: Text(
-                            'NO',
+                            S.of(context).no,
                             style: TextStyle(
                               fontSize: 9.sp,
                               color: Colors.white,

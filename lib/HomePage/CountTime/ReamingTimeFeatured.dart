@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../Widget/TimeWeekDeal.dart';
 
 
@@ -19,9 +19,9 @@ class CountTimeReamingFeatured extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TimerWeekDeal(name: 'Day', value: days),
-        TimerWeekDeal(name: 'Hours', value: hours),
-        TimerWeekDeal(name: 'Minutes', value: minutes),
+        TimerWeekDeal(name: S.of(context).day, value: days),
+        TimerWeekDeal(name: S.of(context).hour, value: hours),
+        TimerWeekDeal(name: S.of(context).minutes, value: minutes),
       ],
     );
   }

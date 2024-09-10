@@ -30,6 +30,8 @@ import 'Widget/TabView/OnSalePage.dart';
 import 'Widget/TabView/TopRatedPage.dart';
 import 'Widget/WeekDealCard.dart';
 import 'ExploreProduct/ProductOfSubCatHomePage.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -158,7 +160,7 @@ class _HomePageState extends State<HomePage> {
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text(
-                    'Something went wrong, check your connection.',
+                    S.of(context).errorConnection,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
@@ -242,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                       _handlePageTap(0);
                                     },
                                     child: Text(
-                                      'Featured',
+                                      S.of(context).featured,
                                       style: TextStyle(
                                         fontSize: 15.sp,
                                         fontWeight: _currentPage1 == 0
@@ -273,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                                       _handlePageTap(1);
                                     },
                                     child: Text(
-                                      'On Sale',
+                                      S.of(context).onSale,
                                       style: TextStyle(
                                         fontSize: 15.sp,
                                         fontWeight: _currentPage1 == 1
@@ -304,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                                       _handlePageTap(2);
                                     },
                                     child: Text(
-                                      'Latest Drop',
+                                      S.of(context).latestDrop,
                                       style: TextStyle(
                                         fontSize: 15.sp,
                                         fontWeight: _currentPage1 == 2
@@ -361,7 +363,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 SizedBox(height: 3.h),
                                 Text(
-                                  'Week Deals Limited, Just now',
+                                  S.of(context).weekDeals,
                                   style:
                                       TextStyle(fontSize: 12.sp, color: tdBlack),
                                 ),
@@ -387,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                                       SizedBox(
                                         child: Center(
                                           child: Text(
-                                            'No featured products available',
+                                            S.of(context).noOfferAvailable,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: tdGrey,
@@ -423,13 +425,13 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
+                                  padding: isArabic() ? const EdgeInsets.only(left: 5, right: 10).w:
                                       const EdgeInsets.only(left: 10, right: 5).w,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Explore Our Product Range',
+                                        S.of(context).exploreProduct,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10.sp),
@@ -490,11 +492,7 @@ class _HomePageState extends State<HomePage> {
                                                             : null,
                                                   ),
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 10)
-                                                            .w,
+                                                    padding: const EdgeInsets.only(left: 10, right: 10).w,
                                                     child: Center(
                                                       child: Text(
                                                         categories[index]
@@ -612,7 +610,7 @@ class _HomePageState extends State<HomePage> {
                                                   .subCarNo)
                                       : Center(
                                           child: Text(
-                                            'No products added yet',
+                                            S.of(context).noProductFound,
                                             style: TextStyle(
                                                 fontSize: 15.sp,
                                                 fontWeight: FontWeight.bold,
@@ -651,4 +649,9 @@ class _HomePageState extends State<HomePage> {
       _currentPage1 = page;
     });
   }
+}
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

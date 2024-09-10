@@ -15,6 +15,13 @@ import 'Widget/ItemHead.dart';
 import 'Widget/ItemPrice.dart';
 import 'Widget/ItemShipping.dart';
 import 'Widget/ItemTitle.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class ItemDetailsPage extends StatefulWidget {
   const ItemDetailsPage({
@@ -99,7 +106,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check your connection.${snapshot.error}',
+                  S.of(context).errorConnection,
                   style: TextStyle(
                     color: tdGrey,
                     fontSize: 12.sp,
@@ -115,7 +122,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
               if (product.isEmpty || product[0].productNo != widget.productNo) {
                 return Center(
                   child: Text(
-                    'Product not found',
+                    S.of(context).productNotFound,
                     style: TextStyle(
                       color: tdBlack,
                       fontSize: 12.sp,

@@ -4,6 +4,13 @@ import 'package:provider/provider.dart';
 
 import '../../Color&Icons/color.dart';
 import '../../provider/Delivery_Provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class ItemShipping extends StatelessWidget {
   const ItemShipping({
@@ -24,7 +31,7 @@ class ItemShipping extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Shipping',
+          S.of(context).shipping,
           style: TextStyle(
               fontSize: 17.sp, fontWeight: FontWeight.bold, color: tdBlack),
         ),

@@ -8,6 +8,8 @@ import '../../ApiService/CartService/AddCartApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../provider/Auth_Provider.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 import '../../provider/Cart_Provider.dart';
 
@@ -39,7 +41,7 @@ class TabCard extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
           content: Text(
-            'Login or SignUp please.',
+            S.of(context).loginError,
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
           ),
           backgroundColor: tdBlack,
@@ -112,7 +114,7 @@ class TabCard extends StatelessWidget {
                 ),
                 Text(
                   '$productName $productDesc',
-                  style: TextStyle(fontSize: 8.sp, color: Colors.black),
+                  style: TextStyle(fontSize: 8.sp, color: tdBlack),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
@@ -138,7 +140,7 @@ class TabCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$productPrice KD',
+                      '$productPrice \$',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,
@@ -169,11 +171,11 @@ class TabCard extends StatelessWidget {
                 ),
                 const Divider(),
                 Text(
-                  'SKU: FT00962',
+                  '${S.of(context).productCode}: FT00962',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 10.sp,
-                      color: Colors.grey),
+                      color: tdGrey),
                 ),
               ],
             ),
@@ -182,4 +184,7 @@ class TabCard extends StatelessWidget {
       ),
     );
   }
+}
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

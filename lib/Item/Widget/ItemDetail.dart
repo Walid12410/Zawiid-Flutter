@@ -4,6 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../../Color&Icons/color.dart';
 import '../../provider/Products_Provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class ItemDetail extends StatelessWidget {
   const ItemDetail({super.key});
@@ -18,13 +24,13 @@ class ItemDetail extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Product Details',
+          S.of(context).productDetails,
           style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: tdBlack),
         ),
         SizedBox(height: 18.h),
         if (productDetails.isEmpty)
           Text(
-            'No details added yet.',
+            S.of(context).noProductDetails,
             style: TextStyle(fontSize: 12.sp, color: tdBlack),
           )
         else

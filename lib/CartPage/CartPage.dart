@@ -12,6 +12,12 @@ import '../provider/Auth_Provider.dart';
 import '../provider/Delivery_Provider.dart';
 import 'DeliveryOptions.dart';
 import 'Widget/CartContainer.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -21,8 +27,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-
-
   @override
   void initState() {
     super.initState();
@@ -41,7 +45,7 @@ class _CartPageState extends State<CartPage> {
         final cartProvider = Provider.of<CartProvider>(context, listen: false);
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(20).w,
           ),
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
@@ -51,19 +55,19 @@ class _CartPageState extends State<CartPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Are you sure you want',
+                S.of(context).areYouSure,
                 style: TextStyle(
                   fontSize: 10.sp,
-                  color: Colors.black,
+                  color: tdBlack,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
               Text(
-                'to clear your cart?',
+                S.of(context).toClearCart,
                 style: TextStyle(
                   fontSize: 10.sp,
-                  color: Colors.black,
+                  color: tdBlack,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -84,7 +88,7 @@ class _CartPageState extends State<CartPage> {
                       padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(200),
-                        color: Colors.white,
+                        color: tdWhite,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -94,7 +98,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                       child: Center(
                         child: Text(
-                          'YES',
+                          S.of(context).yes,
                           style: TextStyle(
                             fontSize: 9.sp,
                             color: tdBlack,
@@ -124,10 +128,10 @@ class _CartPageState extends State<CartPage> {
                       ),
                       child: Center(
                         child: Text(
-                          'NO',
+                          S.of(context).no,
                           style: TextStyle(
                             fontSize: 9.sp,
-                            color: Colors.white,
+                            color: tdWhite,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -145,12 +149,12 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-
     double price = 0.0;
 
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
     final authProvider = Provider.of<AuthProvider>(context, listen: true);
-    final deliveryOptions = Provider.of<DeliveryProvider>(context, listen: true);
+    final deliveryOptions =
+        Provider.of<DeliveryProvider>(context, listen: true);
     var cartItem = cartProvider.cartDetailsUser;
 
     var deliveryPrice = deliveryOptions.oneDeliveryOptions.isNotEmpty
@@ -185,8 +189,6 @@ class _CartPageState extends State<CartPage> {
       throw Exception(e);
     }
 
-
-
     return authProvider.userId != 0
         ? Scaffold(
             backgroundColor: tdWhite,
@@ -194,12 +196,17 @@ class _CartPageState extends State<CartPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    PageHeadView(title: 'Cart',onPressed: (){
-                      context.pop();
-                    },),
+                    PageHeadView(
+                      title: S.of(context).cart,
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
                     SizedBox(height: 5.h),
                     Padding(
-                      padding: const EdgeInsets.only(right: 8).w,
+                      padding: isArabic()
+                          ? const EdgeInsets.only(left: 8).w
+                          : const EdgeInsets.only(right: 8).w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -213,7 +220,7 @@ class _CartPageState extends State<CartPage> {
                               }
                             },
                             child: Text(
-                              'Clear Cart',
+                              S.of(context).clearCart,
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   color: tdBlack,
@@ -245,7 +252,7 @@ class _CartPageState extends State<CartPage> {
                               SizedBox(height: 200.h),
                               Center(
                                 child: Text(
-                                  'Your cart is empty!',
+                                  S.of(context).cartEmpty,
                                   style:
                                       TextStyle(fontSize: 12.sp, color: tdGrey),
                                   textAlign: TextAlign.center,
@@ -284,7 +291,7 @@ class _CartPageState extends State<CartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Sub-Total:',
+                                S.of(context).subtotal,
                                 style:
                                     TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
@@ -301,7 +308,7 @@ class _CartPageState extends State<CartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Delivery:',
+                                S.of(context).delivery,
                                 style:
                                     TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
@@ -318,8 +325,9 @@ class _CartPageState extends State<CartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'EST. Total:',
-                                style: TextStyle(color: tdBlack, fontSize: 12.sp),
+                                S.of(context).totalEstimation,
+                                style:
+                                    TextStyle(color: tdBlack, fontSize: 12.sp),
                               ),
                               Text(
                                 '${double.parse(cartProvider.totalPrice.toStringAsFixed(2)) + price} \$',
@@ -344,13 +352,14 @@ class _CartPageState extends State<CartPage> {
                           child: Row(
                             children: [
                               GestureDetector(
-                                onTap: (){
-                                  if(cartItem.isEmpty){
+                                onTap: () {
+                                  if (cartItem.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Cart is empty!',
-                                          style: TextStyle(fontSize: 10.sp, color: tdWhite),
+                                          S.of(context).cartEmpty,
+                                          style: TextStyle(
+                                              fontSize: 10.sp, color: tdWhite),
                                         ),
                                         backgroundColor: tdBlack,
                                         duration: const Duration(seconds: 2),
@@ -358,7 +367,8 @@ class _CartPageState extends State<CartPage> {
                                     );
                                     return;
                                   }
-                                  context.push(context.namedLocation('shippingAddress'));
+                                  context.push(
+                                      context.namedLocation('shippingAddress'));
                                 },
                                 child: Container(
                                   width: 220.w,
@@ -369,7 +379,7 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      'Select Address',
+                                      S.of(context).selectAddress,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: tdBlack,
@@ -389,31 +399,44 @@ class _CartPageState extends State<CartPage> {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: const Radius.circular(50).w,
-                                      topRight:const  Radius.circular(50).w
-                                    ),
+                                    borderRadius: isArabic()
+                                        ? BorderRadius.only(
+                                            bottomLeft:
+                                                const Radius.circular(50).w,
+                                            topLeft:
+                                                const Radius.circular(50).w)
+                                        : BorderRadius.only(
+                                            bottomRight:
+                                                const Radius.circular(50).w,
+                                            topRight:
+                                                const Radius.circular(50).w),
                                     border: Border.all(color: tdBlack),
                                     color: tdBlack,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 10,top: 5).w,
+                                    padding: isArabic()? const EdgeInsets.only(right: 10, top: 5)
+                                        .w:
+                                        const EdgeInsets.only(left: 10, top: 5)
+                                            .w,
                                     child: Column(
                                       children: [
                                         SizedBox(
                                             width: 25.w,
                                             height: 25.w,
-                                            child: SvgPicture.asset('assets/svg/delivery.svg',fit: BoxFit.fill,color: tdWhite,)),
+                                            child: SvgPicture.asset(
+                                              'assets/svg/delivery.svg',
+                                              fit: BoxFit.fill,
+                                              color: tdWhite,
+                                            )),
                                         Center(
                                           child: Text(
-                                            'Delivery Options',
+                                            S.of(context).deliveryOptions,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: tdWhite,
                                                 fontSize: 10.sp),
                                           ),
                                         ),
-
                                       ],
                                     ),
                                   ),
@@ -432,9 +455,12 @@ class _CartPageState extends State<CartPage> {
             body: SafeArea(
               child: Column(
                 children: [
-                   PageHeadView(title: 'Cart',onPressed: (){
-                    context.pop();
-                  },),
+                  PageHeadView(
+                    title: S.of(context).cart,
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
                   SizedBox(
                     height: 180.h,
                   ),

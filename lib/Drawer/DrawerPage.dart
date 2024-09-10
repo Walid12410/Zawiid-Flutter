@@ -3,9 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 import '../Color&Icons/color.dart';
 import '../provider/Categories_Provider.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class DrawerWithDropdown extends StatefulWidget {
   @override
@@ -45,7 +50,7 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
             Padding(
               padding: EdgeInsets.only(left: 10.w, right: 70.w),
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   GoRouter.of(context).goNamed('SearchPage');
                 },
                 child: Container(
@@ -66,9 +71,11 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 10.w),
+                        padding: isArabic()
+                            ? EdgeInsets.only(right: 10.w)
+                            : EdgeInsets.only(left: 10.w),
                         child: Text(
-                          'Search for products',
+                          S.of(context).searchTitle,
                           style: TextStyle(fontSize: 8.sp),
                         ),
                       ),
@@ -76,15 +83,19 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                         width: 35.w,
                         height: 25.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20.w),
-                            bottomRight: Radius.circular(20.w),
-                          ),
-                          color: Colors.black,
+                          borderRadius: isArabic()
+                              ? BorderRadius.only(
+                                  topLeft: Radius.circular(20.w),
+                                  bottomLeft: Radius.circular(20.w),
+                                )
+                              : BorderRadius.only(
+                                  topRight: Radius.circular(20.w),
+                                  bottomRight: Radius.circular(20.w),
+                                ),
+                          color: tdBlack,
                         ),
                         child: Center(
-                          child:
-                              Icon(Icons.search, color: Colors.white, size: 20.w),
+                          child: Icon(Icons.search, color: tdWhite, size: 20.w),
                         ),
                       )
                     ],
@@ -131,7 +142,9 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                         dense: true,
                       ),
                       child: ExpansionTile(
-                        tilePadding: EdgeInsets.only(left: 15.w, right: 10.w),
+                        tilePadding: isArabic()
+                            ? EdgeInsets.only(left: 10.w, right: 15.w)
+                            : EdgeInsets.only(left: 15.w, right: 10.w),
                         collapsedShape: const RoundedRectangleBorder(
                           side: BorderSide.none,
                         ),
@@ -169,7 +182,8 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                                       'ItemViewCategories',
                                       pathParameters: {
                                         'title': subcategory.subCatName,
-                                        'categoryId': subcategory.subCarNo.toString()
+                                        'categoryId':
+                                            subcategory.subCarNo.toString()
                                       });
                                 },
                                 child: Container(
@@ -203,14 +217,15 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
                               color: tdWhiteNav,
                               width: double.infinity,
                               child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 15.w, right: 10.w),
+                                padding: isArabic()
+                                    ? EdgeInsets.only(right: 15.w, left: 10.w)
+                                    : EdgeInsets.only(left: 15.w, right: 10.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'No subcategories available',
+                                      S.of(context).noSubCategories,
                                       style: TextStyle(
                                           fontSize: 13.sp, color: tdBlack),
                                     ),

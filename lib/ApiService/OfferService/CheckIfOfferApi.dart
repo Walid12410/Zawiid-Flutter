@@ -8,8 +8,7 @@ import '../../Classes/CheckOffer/OfferCheck.dart';
 Future<OffersData> fetchOfferCheck(int id) async {
 
   DateTime now = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-
+  String formattedDate = DateFormat('yyyy-MM-dd', 'en_US').format(now);
 
   final url = '${ApiEndpoints.localBaseUrl}/MobileApi/mobileCheckOffer.php?status=checkOffer&ProductNo=$id&currentTime=$formattedDate';
 

@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -29,6 +28,8 @@ import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import 'ConnectivityCheck.dart';
 import 'LocalNotification.dart';
 import 'Route/RouteNaviagtor.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,7 @@ Future<void> main() async {
   connectionStatus.initialize();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int userId = prefs.getInt('userID') ?? 0;
+  // Locale savedLocale = Locale(prefs.getString('language_code') ?? 'en');
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AuthProvider()..setUserId(userId)),
@@ -99,6 +101,14 @@ class _MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp.router(
+        locale: const Locale('ar'),
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         title: 'Zawiid',
         debugShowCheckedModeBanner: false,
         routerConfig: AppNavigation.router,

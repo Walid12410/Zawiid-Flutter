@@ -7,17 +7,23 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import '../../provider/Auth_Provider.dart';
 import 'DeleteProductFromCart.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class CartContainer extends StatefulWidget {
-  const CartContainer({
-    Key? key,
-    required this.productNo,
-    required this.productCartPrice,
-    required this.cartQuantity,
-    required this.productName,
-    required this.productDesc,
-    required this.productImage
-  }) : super(key: key);
+  const CartContainer(
+      {Key? key,
+      required this.productNo,
+      required this.productCartPrice,
+      required this.cartQuantity,
+      required this.productName,
+      required this.productDesc,
+      required this.productImage})
+      : super(key: key);
 
   final int productNo;
   final String productCartPrice;
@@ -41,13 +47,13 @@ class _CartContainerState extends State<CartContainer> {
     _currentPrice = double.parse(widget.productCartPrice);
   }
 
-
   Future<void> _updateCart(int newQuantity) async {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       final userNo = authProvider.userId;
-      await cartProvider.updateCartItem(userNo, widget.productNo, newQuantity, _currentPrice);
+      await cartProvider.updateCartItem(
+          userNo, widget.productNo, newQuantity, _currentPrice);
       setState(() {
         _currentQuantity = newQuantity;
       });
@@ -56,13 +62,13 @@ class _CartContainerState extends State<CartContainer> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Padding(
-      padding: EdgeInsets.only(right: 10.w),
+      padding: isArabic()? EdgeInsets.only(left: 10.w) :
+      EdgeInsets.only(right: 10.w),
       child: SizedBox(
         width: double.infinity,
         child: Column(
@@ -74,14 +80,19 @@ class _CartContainerState extends State<CartContainer> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 10.w, left: 2.w),
+                      padding: isArabic()
+                          ? EdgeInsets.only(left: 10.w, right: 2.w)
+                          : EdgeInsets.only(right: 10.w, left: 2.w),
                       child: SizedBox(
                         width: 70.w,
                         height: 90.h,
                         child: CachedNetworkImage(
-                          imageUrl: '${ApiEndpoints.localBaseUrl}/${widget.productImage}',
-                          placeholder: (context, url) => Image.asset('assets/log/LOGO-icon---Black.png'),
-                          errorWidget: (context, url, error) => Image.asset('assets/log/LOGO-icon---Black.png'),
+                          imageUrl:
+                              '${ApiEndpoints.localBaseUrl}/${widget.productImage}',
+                          placeholder: (context, url) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/log/LOGO-icon---Black.png'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -93,24 +104,34 @@ class _CartContainerState extends State<CartContainer> {
                         children: [
                           Text(
                             widget.productName,
-                            style: TextStyle(fontSize: 10.sp, color: tdBlack, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                color: tdBlack,
+                                fontWeight: FontWeight.bold),
                             overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
                             width: 90.h,
                             child: Text(
                               widget.productDesc,
-                              style: TextStyle(fontSize: 10.sp, color: tdBlack, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: tdBlack,
+                                  fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           SizedBox(height: 5.h),
                           Text(
-                            '${_currentPrice * _currentQuantity} KD',
-                            style: TextStyle(fontWeight: FontWeight.bold, color: tdBlack, fontSize: 12.sp),
+                            '${_currentPrice * _currentQuantity} \$',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: tdBlack,
+                                fontSize: 12.sp),
                           ),
                           SizedBox(height: 5.h),
-                          Text('SKU: FT00962', style: TextStyle(fontSize: 4.sp, color: tdGrey)),
+                          Text('${S.of(context).productCode}: FT00962',
+                              style: TextStyle(fontSize: 4.sp, color: tdGrey)),
                         ],
                       ),
                     ),
@@ -122,7 +143,10 @@ class _CartContainerState extends State<CartContainer> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.w),
                     color: tdWhite,
-                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 5)],
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.5), blurRadius: 5)
+                    ],
                   ),
                   child: Center(
                     child: Row(
@@ -133,14 +157,18 @@ class _CartContainerState extends State<CartContainer> {
                             if (_currentQuantity > 1) {
                               _updateCart(_currentQuantity - 1);
                             } else {
-                              showDeleteConfirmationDialog(context, authProvider.userId, widget.productNo);
+                              showDeleteConfirmationDialog(context,
+                                  authProvider.userId, widget.productNo);
                             }
                           },
                           child: Icon(Icons.remove, color: tdGrey, size: 12.w),
                         ),
                         Text(
                           '$_currentQuantity',
-                          style: TextStyle(fontWeight: FontWeight.bold, color: tdBlack, fontSize: 10.sp),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tdBlack,
+                              fontSize: 10.sp),
                         ),
                         GestureDetector(
                           onTap: () {

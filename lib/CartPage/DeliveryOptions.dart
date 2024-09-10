@@ -5,6 +5,12 @@ import 'package:zawiid/Color&Icons/color.dart';
 
 import '../Classes/Delivery/Delivery.dart';
 import '../provider/Delivery_Provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class DeliveryOptionDialog extends StatefulWidget {
   @override
@@ -19,14 +25,17 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     deliveryOptions = Provider.of<DeliveryProvider>(context).allDeliveryOpt;
-    final optionsSelected = Provider.of<DeliveryProvider>(context).optionsSelected;
+    final optionsSelected =
+        Provider.of<DeliveryProvider>(context).optionsSelected;
 
     if (deliveryOptions.isNotEmpty) {
       selectedOptionID = optionsSelected == 0
-          ? deliveryOptions.firstWhere(
-            (option) => option.isDefault == 1,
-        orElse: () => deliveryOptions.first,
-      ).shippingOptionID
+          ? deliveryOptions
+              .firstWhere(
+                (option) => option.isDefault == 1,
+                orElse: () => deliveryOptions.first,
+              )
+              .shippingOptionID
           : optionsSelected;
     }
   }
@@ -40,7 +49,7 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
         backgroundColor: tdWhite,
         surfaceTintColor: tdWhite,
         title: Text(
-          'Delivery Information',
+          S.of(context).deliveryOptions,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15.sp,
@@ -48,7 +57,7 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
           ),
         ),
         content: Text(
-          'Delivery is free.',
+          S.of(context).deliveryFree,
           style: TextStyle(
             fontSize: 12.sp,
             color: tdBlack,
@@ -68,10 +77,16 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                 color: tdBlack,
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25, top: 5, bottom: 5).w,
+                padding: isArabic()
+                    ? const EdgeInsets.only(
+                            right: 25, left: 25, top: 5, bottom: 5)
+                        .w
+                    : const EdgeInsets.only(
+                            left: 25, right: 25, top: 5, bottom: 5)
+                        .w,
                 child: Center(
                   child: Text(
-                    'OK',
+                    S.of(context).ok,
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: tdWhite,
@@ -90,7 +105,7 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
       backgroundColor: tdWhite,
       surfaceTintColor: tdWhite,
       title: Text(
-        'Select Delivery Option',
+        S.of(context).selectDelivery,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 15.sp,
@@ -153,10 +168,12 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                   color: tdWhite,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 25, right: 25, top: 5, bottom: 5).w,
+                  padding: const EdgeInsets.only(
+                          left: 25, right: 25, top: 5, bottom: 5)
+                      .w,
                   child: Center(
                     child: Text(
-                      'Cancel',
+                      S.of(context).cancel,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: tdBlack,
@@ -181,10 +198,12 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                   color: tdBlack,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 25, right: 25, top: 5, bottom: 5).w,
+                  padding: const EdgeInsets.only(
+                          left: 25, right: 25, top: 5, bottom: 5)
+                      .w,
                   child: Center(
                     child: Text(
-                      'Save',
+                      S.of(context).save,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: tdWhite,

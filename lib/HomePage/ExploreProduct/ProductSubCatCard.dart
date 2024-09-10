@@ -9,6 +9,8 @@ import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Auth_Provider.dart';
 import '../../provider/Cart_Provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class ProductSubCategoriesHomePageCard extends StatelessWidget {
   const ProductSubCategoriesHomePageCard({
@@ -38,7 +40,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
           content: Text(
-            'Login or SignUp please.',
+            S.of(context).loginError,
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
           ),
           backgroundColor: tdBlack,
@@ -78,7 +80,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
     final isProductInCart = cartProvider.isProductInCart(productNo);
 
     return Padding(
-      padding: EdgeInsets.all(5).w,
+      padding: const EdgeInsets.all(5).w,
       child: GestureDetector(
         onTap: () {
           GoRouter.of(context).goNamed('itemDetails', pathParameters: {
@@ -101,7 +103,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.all(5.0).w,
+            padding: const EdgeInsets.all(5.0).w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,10 +139,10 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$mainPrice KD',
+                      '$mainPrice \$',
                       style: TextStyle(
                           fontSize: 15.sp,
-                          color: Colors.grey,
+                          color: tdGrey,
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
@@ -168,11 +170,11 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                 ),
                 const Divider(),
                 Text(
-                  'SKU: FT00962',
+                  '${S.of(context).productCode} FT00962',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 10.sp,
-                      color: Colors.grey),
+                      color: tdGrey),
                 ),
               ],
             ),
@@ -181,4 +183,9 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
       ),
     );
   }
+}
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

@@ -10,6 +10,8 @@ import '../../provider/Auth_Provider.dart';
 import '../../provider/Cart_Provider.dart';
 import '../CountTime/CountTimerFeatured.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class WeekDealCard extends StatelessWidget {
   const WeekDealCard({
@@ -37,7 +39,7 @@ class WeekDealCard extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
           content: Text(
-            'Login or SignUp please.',
+            S.of(context).loginError,
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
           ),
           backgroundColor: tdBlack,
@@ -114,7 +116,7 @@ class WeekDealCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$productOfferPrice KD',
+                        '$productOfferPrice \$',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,
@@ -151,7 +153,7 @@ class WeekDealCard extends StatelessWidget {
                     height: 10.h,
                   ),
                   Text(
-                    'SKU: FT00962',
+                    '${S.of(context).productCode}: FT00962',
                     style: TextStyle(fontSize: 10.sp, color: tdGrey),
                   )
                 ],
@@ -164,7 +166,7 @@ class WeekDealCard extends StatelessWidget {
                     height: 5.h,
                   ),
                   Text(
-                    'Hurry Up! Offer ends in:',
+                    S.of(context).hurryUpOffer,
                     style: TextStyle(fontSize: 12.sp, color: tdGrey),
                   ),
                   SizedBox(height: 5.h),
@@ -180,4 +182,9 @@ class WeekDealCard extends StatelessWidget {
       ),
     );
   }
+}
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

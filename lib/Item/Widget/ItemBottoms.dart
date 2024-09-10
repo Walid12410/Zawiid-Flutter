@@ -7,6 +7,12 @@ import '../../ApiService/CartService/AddCartApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Cart_Provider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class ItemBottoms extends StatelessWidget {
   const ItemBottoms({
@@ -38,7 +44,7 @@ class ItemBottoms extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Login or SignUp please.',
+                    S.of(context).loginError,
                     style: TextStyle(fontSize: 10.sp, color: tdWhite),
                   ),
                   backgroundColor: tdBlack,
@@ -64,7 +70,7 @@ class ItemBottoms extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Login or SignUp please.',
+                    S.of(context).loginError,
                     style: TextStyle(fontSize: 10.sp, color: tdWhite),
                   ),
                   backgroundColor: tdBlack,
@@ -83,7 +89,7 @@ class ItemBottoms extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                isProductInCart ? 'Remove from cart' : 'Add to cart',
+                isProductInCart ? S.of(context).removeFromCart: S.of(context).addToCart,
                 style: TextStyle(
                   color: tdBlack,
                   fontWeight: FontWeight.bold,
@@ -100,7 +106,7 @@ class ItemBottoms extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Login or SignUp please.',
+                   S.of(context).loginError,
                     style: TextStyle(fontSize: 10.sp, color: tdWhite),
                   ),
                   backgroundColor: tdBlack,
@@ -131,7 +137,7 @@ class ItemBottoms extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Buy',
+                S.of(context).buy,
                 style: TextStyle(
                   color: tdBlack,
                   fontWeight: FontWeight.bold,
