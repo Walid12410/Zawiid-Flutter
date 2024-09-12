@@ -1,19 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:zawiid/ApiEndPoint.dart';
-import 'package:zawiid/ApiService/BidService/BidAmtUpdateApi.dart';
+import 'BidAmtUpdateApi.dart';
 
-import 'package:zawiid/Color&Icons/color.dart';
+Future<bool> addBid(BuildContext context, int bidNo, int userNo, String zawidAmt) async {
 
-
-Future<void> addBidZawid(
-    BuildContext context, int bidNo, int userNo, String zawidAmt) async {
-  String url = '${ApiEndpoints.localBaseUrl}/webBidzawid.php?status=new';
-
-  String zawidDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+  String url = '${ApiEndpoints.localBaseUrl}/MobileApi/mobileAddToBid.php';
+  String date = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').format(DateTime.now());
 
   try {
     final response = await http.post(
@@ -22,45 +17,22 @@ Future<void> addBidZawid(
         'BidNo': bidNo.toString(),
         'UserNo': userNo.toString(),
         'ZawidAmt': zawidAmt,
-        'ZawidDate': zawidDate,
+        'ZawidDate': date,
       },
     );
 
-    final jsonResponse = json.decode(response.body);
-    if (response.statusCode == 200 && jsonResponse['message'] != null) {
-      updateBidAmt(bidNo, zawidAmt);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Bid entry has been successfully added.',
-            style: TextStyle(fontSize: 10.sp, color: tdWhite),
-          ),
-          backgroundColor: tdBlack,
-          duration: const Duration(seconds: 5),
-        ),
-      );
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse['error'] == false && jsonResponse['message'] != null) {
+        updateBidAmt(bidNo, zawidAmt);
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Something went wrong, try again later',
-            style: TextStyle(fontSize: 10.sp, color: tdWhite),
-          ),
-          backgroundColor: tdBlack,
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      return false;
     }
   } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Something went wrong, try again later',
-          style: TextStyle(fontSize: 10.sp, color: tdWhite),
-        ),
-        backgroundColor: tdBlack,
-        duration: const Duration(seconds: 5),
-      ),
-    );
+    return false;
   }
 }

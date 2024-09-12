@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:zawiid/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +61,7 @@ class _UpComingTabState extends State<UpComingTab> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check your connection.',
+                  S.of(context).errorConnection,
                   style: TextStyle(
                     fontSize: 15.sp,
                     color: tdGrey,
@@ -77,7 +77,7 @@ class _UpComingTabState extends State<UpComingTab> {
               if (bidData.isEmpty) {
                 return Center(
                   child: Text(
-                    "No bid added yet",
+                    S.of(context).noBid,
                     style: TextStyle(fontSize: 15.sp, color: tdGrey),
                   ),
                 );

@@ -8,6 +8,7 @@ import '../../ApiService/CartService/AddCartApi.dart';
 import '../../ApiService/CartService/DeleteFromCartApi.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Auth_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class CartItemView extends StatelessWidget {
   const CartItemView({
@@ -40,10 +41,8 @@ class CartItemView extends StatelessWidget {
     final isProductInCart = cartProvider.isProductInCart(productNo);
     final auth = Provider.of<AuthProvider>(context, listen: false);
 
-
-    double price = salePriceValue > 0.0
-        ? salePriceValue
-        : double.parse(mainPrice);
+    double price =
+        salePriceValue > 0.0 ? salePriceValue : double.parse(mainPrice);
 
     return GestureDetector(
       onTap: () {
@@ -147,12 +146,12 @@ class CartItemView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10).w,
               child: GestureDetector(
-                onTap: ()  {
+                onTap: () {
                   if (auth.userId == 0) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Login or SignUp please.',
+                          S.of(context).loginError,
                           style: TextStyle(fontSize: 10.sp, color: tdWhite),
                         ),
                         backgroundColor: tdBlack,
@@ -163,7 +162,7 @@ class CartItemView extends StatelessWidget {
                   } else if (!isProductInCart) {
                     cartProvider.addToCart(
                         auth.userId, productNo, 1, price.toString());
-                     addCartItem(
+                    addCartItem(
                       userNo: auth.userId,
                       productNo: productNo,
                       productCartQty: 1,
@@ -171,7 +170,7 @@ class CartItemView extends StatelessWidget {
                     );
                   } else if (isProductInCart) {
                     cartProvider.removeFromCart(productNo);
-                     deleteCartItem(
+                    deleteCartItem(
                       userNo: auth.userId,
                       productNo: productNo,
                     );
@@ -179,7 +178,7 @@ class CartItemView extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Login or SignUp please.',
+                          S.of(context).loginError,
                           style: TextStyle(fontSize: 10.sp, color: tdWhite),
                         ),
                         backgroundColor: tdBlack,
@@ -198,7 +197,9 @@ class CartItemView extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      isProductInCart ? 'Remove from cart' : 'Add to cart',
+                      isProductInCart
+                          ? S.of(context).removeFromCart
+                          : S.of(context).addToCart,
                       style: TextStyle(fontSize: 8.sp, color: tdWhite),
                     ),
                   ),
@@ -212,6 +213,7 @@ class CartItemView extends StatelessWidget {
     );
   }
 }
+
 String formatDesc(String desc) {
   final TextPainter textPainter = TextPainter(
     text: TextSpan(text: desc, style: TextStyle(fontSize: 8.sp)),

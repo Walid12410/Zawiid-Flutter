@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../../Color&Icons/color.dart';
 import 'ServiceCall.dart';
 import 'ServiceOptionalCard.dart';
@@ -32,7 +32,7 @@ class OptionContainer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8).w,
               child: Text(
-                'We’re here to help you at every step. Please look Through the options below and select what you’re looking for.',
+                S.of(context).supportDetails,
                 style: TextStyle(
                     color: tdBlack,
                     fontSize: 14.sp),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/UserInformationService/UpdateProfileApi.dart';
 import 'package:zawiid/Color&Icons/color.dart';
@@ -8,8 +9,11 @@ import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
 
-import '../ApiService/MessageService/CheckChatRoomApi.dart';
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class UpdateProfile extends StatefulWidget {
   const UpdateProfile({super.key});
@@ -80,7 +84,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
           child: Column(
             children: [
               PageHeadView(
-                  title: 'My Profile',
+                  title: S.of(context).myProfile,
                   onPressed: () {
                     GoRouter.of(context).go("/Profile");
                   }),
@@ -94,14 +98,14 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'First Name',
+                          S.of(context).firstName,
                           style: TextStyle(
                               fontSize: 12.sp,
                               color: tdBlack,
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          'Last Name',
+                         S.of(context).lastName,
                           style: TextStyle(
                               fontSize: 12.sp,
                               color: tdBlack,
@@ -178,7 +182,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      'Birthdate',
+                      S.of(context).birthDate,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12.sp,
@@ -204,13 +208,13 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         child: TextFormField(
                           readOnly: true,
                           controller: birthDateController,
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
-                            hintText: 'Select Birth Date',
-                            hintStyle: TextStyle(color: tdBlack),
+                            hintText: S.of(context).selectBirth,
+                            hintStyle:  TextStyle(color: tdBlack,fontSize: 10.sp),
                           ),
                           onTap: () async {
                             DateTime? picked = await showDatePicker(
@@ -245,7 +249,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         )),
                     SizedBox(height: 10.h),
                     Text(
-                      'Gender',
+                      S.of(context).gender,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12.sp,
@@ -292,7 +296,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                     ),
                                   ),
                                   Text(
-                                    'Male',
+                                   S.of(context).male,
                                     style: TextStyle(
                                         fontSize: 12.sp, color: tdBlack),
                                   )
@@ -337,7 +341,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                     ),
                                   ),
                                   Text(
-                                    'Female',
+                                    S.of(context).female,
                                     style: TextStyle(
                                         fontSize: 12.sp, color: tdBlack),
                                   )
@@ -352,7 +356,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       height: 10.h,
                     ),
                     Text(
-                      'Select Governorate',
+                      S.of(context).gov,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12.sp,
@@ -398,7 +402,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           return DropdownMenuItem<String>(
                             value: governorate.governerateId.toString(),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 5, top: 5).w,
+                              padding:isArabic()?  const EdgeInsets.only(right: 5, top: 5).w :
+                              const EdgeInsets.only(left: 5, top: 5).w,
                               child: Text(
                                 governorate.governerateName,
                                 style:
@@ -413,7 +418,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       height: 10.h,
                     ),
                     Text(
-                      'Area',
+                      S.of(context).area,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12.sp,
@@ -461,7 +466,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           return DropdownMenuItem<String>(
                             value: area.areaId.toString(),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 5, top: 5).w,
+                              padding: isArabic()?  const EdgeInsets.only(right: 5, top: 5).w :
+                              const EdgeInsets.only(left: 5, top: 5).w,
                               child: Text(
                                 area.areaName,
                                 style:
@@ -495,7 +501,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Please select Governorate and Area',
+                                 S.of(context).pleaseSelectArea,
                                   style: TextStyle(fontSize: 10.sp, color: tdWhite),
                                 ),
                                 backgroundColor: tdBlack,
@@ -524,7 +530,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Profile updated successfully',
+                                    S.of(context).updateSuccessfully,
                                     style: TextStyle(fontSize: 10.sp, color: tdWhite),
                                   ),
                                   backgroundColor: tdBlack,
@@ -536,7 +542,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Failed to update profile',
+                                    S.of(context).failedToUpdate,
                                     style: TextStyle(fontSize: 10.sp, color: tdWhite),
                                   ),
                                   backgroundColor: tdBlack,
@@ -565,7 +571,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           child: Padding(
                             padding: const EdgeInsets.all(10).w,
                             child: Text(
-                              'Save',
+                              S.of(context).save,
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: tdBlack,

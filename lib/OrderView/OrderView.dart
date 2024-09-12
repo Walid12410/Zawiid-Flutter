@@ -6,7 +6,7 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/OrderProvider.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import 'Widget/OrderViewDetails.dart';
 
 class OrderView extends StatefulWidget {
@@ -29,7 +29,6 @@ class _OrderViewState extends State<OrderView> {
     final auth = Provider.of<AuthProvider>(context, listen: false);
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     await orderProvider.getOrderByUser(auth.userId);
-    print('asdadsasd');
   }
 
   @override
@@ -46,7 +45,7 @@ class _OrderViewState extends State<OrderView> {
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text(
-                      'Something went wrong. Check your connection',
+                      S.of(context).errorConnection,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15.sp,
@@ -59,7 +58,7 @@ class _OrderViewState extends State<OrderView> {
                   return  SingleChildScrollView(
                     child: Column(
                       children: [
-                        PageHeadView(title: 'All My Orders',onPressed: (){
+                        PageHeadView(title: S.of(context).allMyOrders,onPressed: (){
                           GoRouter.of(context).go("/Profile");
                         },),
                         const OrderViewDetails(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../provider/AppSetting_Provider.dart';
 
@@ -76,7 +76,7 @@ class ServiceCallUs extends StatelessWidget {
                           width: 5.w,
                         ),
                         Text(
-                          'Call Us',
+                          S.of(context).callUs,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17.sp,

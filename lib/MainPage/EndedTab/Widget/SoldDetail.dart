@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../Color&Icons/color.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class SoldDetails extends StatefulWidget {
   const SoldDetails({
@@ -71,7 +72,7 @@ class _SoldDetailsState extends State<SoldDetails> {
           ),
           SizedBox(height: 2.h),
            Text(
-            'SOLD AT: ${widget.soldPrice}\$',
+            '${S.of(context).soldAt} ${widget.soldPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),
@@ -83,7 +84,7 @@ class _SoldDetailsState extends State<SoldDetails> {
               border: Border.all(color: tdBlack),
             ),
             child: Center(
-              child: Text('SOLD',
+              child: Text(S.of(context).sold,
                 style: TextStyle(
                   fontSize: 10.sp,
                   fontWeight: FontWeight.bold,

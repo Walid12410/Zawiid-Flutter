@@ -18,6 +18,7 @@ import 'package:zawiid/provider/ChatSupport_Provider.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import 'package:zawiid/provider/Delivery_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
+import 'package:zawiid/provider/Localization_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/OrderProvider.dart';
@@ -45,7 +46,10 @@ Future<void> main() async {
   connectionStatus.initialize();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int userId = prefs.getInt('userID') ?? 0;
-  // Locale savedLocale = Locale(prefs.getString('language_code') ?? 'en');
+
+  final localeProvider = LocaleProvider();
+  await localeProvider.loadSavedLocale(); 
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AuthProvider()..setUserId(userId)),
@@ -65,7 +69,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => CouponsProvider()),
       ChangeNotifierProvider(create: (_) => TicketProvider()),
       ChangeNotifierProvider(create: (_) => DeliveryProvider()),
-      Provider<NotificationService>.value(value: notificationService), // Provide the NotificationService
+      ChangeNotifierProvider(create: (_) => localeProvider),
+      Provider<NotificationService>.value(value: notificationService),
     ],
     child: const MyApp(),
   ));
@@ -96,12 +101,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final localeProvider = Provider.of<LocaleProvider>(context);
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp.router(
-        locale: const Locale('ar'),
+        locale: localeProvider.locale,
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,

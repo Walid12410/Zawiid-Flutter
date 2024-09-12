@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
@@ -15,6 +14,12 @@ import 'Widget/TicketDetailsBottom.dart';
 import 'Widget/TicketDetailsText.dart';
 import 'Widget/TicketImage.dart';
 import 'Widget/TicketPriceDetails.dart';
+import 'package:zawiid/generated/l10n.dart';
+import 'package:intl/intl.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class TicketMain extends StatefulWidget {
   const TicketMain({super.key});
@@ -105,7 +110,7 @@ class _TicketMainState extends State<TicketMain> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 PageHeadView(
-                  title: 'Ticket',
+                  title: S.of(context).ticket,
                   onPressed: () => GoRouter.of(context).go("/home"),
                 ),
                 TicketImage(
@@ -155,12 +160,12 @@ class _TicketMainState extends State<TicketMain> {
             children: [
               _buildLogo(),
               Text(
-                'Ticket Ended',
+                S.of(context).ticketEnd,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Next ticket starts at $formattedStartTime',
+                '${S.of(context).nextTicket} $formattedStartTime',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),
@@ -178,12 +183,12 @@ class _TicketMainState extends State<TicketMain> {
             children: [
               _buildLogo(),
               Text(
-                'Ticket Ended',
+                S.of(context).ticketEnd,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),
               Text(
-                'New Ticket Is Upcoming Soon',
+               S.of(context).newTicket,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
                 textAlign: TextAlign.center,
               ),

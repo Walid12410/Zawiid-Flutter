@@ -2,10 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 import '../../ApiEndPoint.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/OrderProvider.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class OrderViewDetails extends StatelessWidget {
   const OrderViewDetails({
@@ -22,10 +27,15 @@ class OrderViewDetails extends StatelessWidget {
         if (orders.isEmpty)
           Column(
             children: [
-              SizedBox(height: 100.h,),
+              SizedBox(
+                height: 100.h,
+              ),
               Text(
-                'no order added yet',
-                style: TextStyle(fontSize: 12.sp, color: tdGrey,fontWeight: FontWeight.bold),
+                S.of(context).noOrderYet,
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    color: tdGrey,
+                    fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -34,75 +44,84 @@ class OrderViewDetails extends StatelessWidget {
           Column(
             children: [
               for (var order in orderProvider.orderUser)
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 10.w, left: 2.w),
-                            child: SizedBox(
-                              width: 70.w,
-                              height: 90.h,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                '${ApiEndpoints.localBaseUrl}/${order.productImage}',
-                                placeholder: (context, url) => Image.asset(
-                                    'assets/log/LOGO-icon---Black.png'),
-                                errorWidget: (context, url, error) => Image.asset(
-                                    'assets/log/LOGO-icon---Black.png'),
-                                fit: BoxFit.fill,
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: isArabic()
+                              ? EdgeInsets.only(left: 10.w, right: 2.w)
+                              : EdgeInsets.only(right: 10.w, left: 2.w),
+                          child: SizedBox(
+                            width: 70.w,
+                            height: 90.h,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  '${ApiEndpoints.localBaseUrl}/${order.productImage}',
+                              placeholder: (context, url) => Image.asset(
+                                  'assets/log/LOGO-icon---Black.png'),
+                              errorWidget: (context, url, error) => Image.asset(
+                                  'assets/log/LOGO-icon---Black.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                order.productName,
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: tdBlack,
+                                ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.productName,
+                              Padding(
+                                padding: isArabic()
+                                    ? EdgeInsets.only(left: 170.w)
+                                    : EdgeInsets.only(right: 170.w),
+                                child: Text(
+                                  order.productDesc,
                                   style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 10.sp,
-                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                              Text(
+                                '${S.of(context).qty}: ${order.productQty}',
+                                style: TextStyle(
+                                    fontSize: 8.sp,
                                     color: tdBlack,
-                                  ),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 15.h),
+                              Text(
+                                '\$${double.parse(order.productPrice) * order.productQty}', // Assuming productPrice is a double
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: tdGrey,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 170.w),
-                                  child: Text(
-                                    order.productDesc,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10.sp,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                Text('QTY: ${order.productQty}',style: TextStyle(fontSize: 8.sp,color: tdBlack,fontWeight: FontWeight.bold),),
-                                SizedBox(height: 15.h),
-                                Text(
-                                  '\$${double.parse(order.productPrice) * order.productQty}', // Assuming productPrice is a double
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: tdGrey,
-                                  ),
-                                ),
-                                SizedBox(height: 5.h),
-                                Text(
-                                  'SKU: FT00962',
-                                  style: TextStyle(fontSize: 4.sp, color: tdGrey),
-                                ),
-                              ],
-                            ),
-
+                              ),
+                              SizedBox(height: 5.h),
+                              Text(
+                                '${S.of(context).productCode}: FT00962',
+                                style: TextStyle(fontSize: 4.sp, color: tdGrey),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      const Divider(),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                  ],
+                ),
             ],
           ),
       ],

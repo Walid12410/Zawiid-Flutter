@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class TicketDetailsText extends StatelessWidget {
   const TicketDetailsText({super.key,required this.ticketPrice,required this.ticketTitle});
@@ -16,7 +22,7 @@ class TicketDetailsText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Buy a ${price.toStringAsFixed(2)}\$ ticket and enter',
+          '${S.of(context).buy} ${price.toStringAsFixed(2)}\$ ${S.of(context).ticketEnter}',
           style: TextStyle(
             fontSize: 12.sp,
             color: tdGrey,
@@ -25,7 +31,7 @@ class TicketDetailsText extends StatelessWidget {
         ),
         RichText(
           text: TextSpan(
-            text: 'A withdrawal on a ',
+            text: S.of(context).withDrawl,
             style: TextStyle(
               fontSize: 12.sp,
               color: tdGrey,

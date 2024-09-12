@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import 'Widget/PrivacyPolicyImage.dart';
 
 class PolicyPrivacy extends StatefulWidget {
@@ -24,8 +24,7 @@ class _PolicyPrivacyState extends State<PolicyPrivacy> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //Privacy Policy
-              PageHeadView(title: 'Privacy Policy', onPressed: (){
+              PageHeadView(title: S.of(context).privacyPolicy, onPressed: (){
                 GoRouter.of(context).go("/Profile");
               }),
               SizedBox(height: 5.h),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/withDrawalService/withDrawalDetailsinertApi.dart';
 import 'package:zawiid/Color&Icons/color.dart';
@@ -7,6 +8,11 @@ import 'package:zawiid/provider/Auth_Provider.dart';
 
 import '../../ApiService/withDrawalService/withDrawalMainUpdate.dart';
 import '../../provider/WithDrawal_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class TicketPriceDetails extends StatefulWidget {
   const TicketPriceDetails({
@@ -66,7 +72,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                   children: <Widget>[
                     totalWithDrawl != 0
                         ? Text(
-                      '$totalWithDrawl Your Total Withdrawn Tickets',
+                      '$totalWithDrawl ${S.of(context).totalWithDraw}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12.sp,
@@ -75,7 +81,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                     )
                         : const SizedBox(),
                     Text(
-                      '${price.toStringAsFixed(2)}\$ PER TICKET',
+                      '${price.toStringAsFixed(2)}\$ ${S.of(context).perTicket}',
                       style: TextStyle(
                         color: tdGrey,
                         fontSize: 12.sp,
@@ -83,7 +89,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                       ),
                     ),
                     Text(
-                      '${widget.numberOfTicketLeft} tickets left',
+                      '${widget.numberOfTicketLeft} ${S.of(context).ticketLeft}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12.sp,
@@ -169,7 +175,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      'Total Price: ${totalTicketPrice.toStringAsFixed(2)}\$',
+                      '${S.of(context).totalPrice} ${totalTicketPrice.toStringAsFixed(2)}\$',
                       style: TextStyle(
                         color: tdGrey,
                         fontSize: 12.sp,
@@ -204,13 +210,13 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                                 nbrOfTicketsLeft: widget.numberOfTicketLeft - ticketsCount,
                               );
                               if (!status2) {
-                                _showErrorSnackBar('Something went wrong');
+                                _showErrorSnackBar(S.of(context).errorConnection);
                               }
                             } else {
-                              _showErrorSnackBar('Something went wrong');
+                              _showErrorSnackBar(S.of(context).errorConnection);
                             }
                           } catch (e) {
-                            _showErrorSnackBar('Failed to enter the withdrawal');
+                            _showErrorSnackBar(S.of(context).failedToWithDrawl);
                           } finally {
                             setState(() {
                               Navigator.pop(context);
@@ -225,7 +231,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                           padding: EdgeInsets.all(8.w),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(200),
-                            color: Colors.white,
+                            color: tdWhite,
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
@@ -235,7 +241,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                           ),
                           child: Center(
                             child: Text(
-                              isConfirming ? 'Processing...' : 'Confirm',
+                              isConfirming ? S.of(context).processing : S.of(context).confirm,
                               style: TextStyle(
                                 fontSize: 9.sp,
                                 color: tdBlack,
@@ -265,10 +271,10 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                           ),
                           child: Center(
                             child: Text(
-                              'Cancel',
+                              S.of(context).cancel,
                               style: TextStyle(
                                 fontSize: 9.sp,
-                                color: Colors.white,
+                                color: tdWhite,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -319,7 +325,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Login or SignUp please.',
+                S.of(context).loginError,
                 style: TextStyle(fontSize: 10.sp, color: tdWhite),
               ),
               backgroundColor: tdBlack,
@@ -347,7 +353,7 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
         ),
         child: Center(
           child: Text(
-            '${price.toStringAsFixed(2)}\$ TICKET',
+            '${price.toStringAsFixed(2)}\$ ${S.of(context).ticket}',
             style: TextStyle(
               color: tdGrey,
               fontSize: 14.sp,

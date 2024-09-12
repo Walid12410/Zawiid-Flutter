@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
 
-String getDateCategory(DateTime date) {
+String getDateCategory(BuildContext context, DateTime date) {
   DateTime now = DateTime.now();
   DateTime tomorrow = now.add(const Duration(days: 1));
   DateTime startOfToday = DateTime(now.year, now.month, now.day);
@@ -13,15 +15,15 @@ String getDateCategory(DateTime date) {
   DateTime startOfNextYear = DateTime(now.year + 1, 1, 1);
 
   if (date.isAfter(startOfToday) && date.isBefore(startOfTomorrow)) {
-    return 'Today';
+    return S.of(context).today;
   } else if (date.isAfter(startOfTomorrow) && date.isBefore(startOfTomorrow.add(const Duration(days: 1)))) {
-    return 'Tomorrow';
+    return S.of(context).tomorrow;
   } else if (date.isAfter(startOfToday) && date.isBefore(startOfNextWeek)) {
-    return 'This Week';
+    return S.of(context).thisWeek;
   } else if (date.isAfter(startOfMonth) && date.isBefore(startOfNextMonth)) {
-    return 'This Month';
+    return S.of(context).thisMonth;
   } else if (date.isAfter(startOfYear) && date.isBefore(startOfNextYear)) {
-    return 'This Year';
+    return S.of(context).thisYear;
   } else {
     return DateFormat('d MMMM, yyyy').format(date);
   }

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import '../../Color&Icons/color.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class TicketDetailsBottom extends StatelessWidget {
   const TicketDetailsBottom({
@@ -19,7 +25,7 @@ class TicketDetailsBottom extends StatelessWidget {
         height: 25.h,
         decoration: BoxDecoration(
           color: tdWhite,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15).w,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -30,7 +36,7 @@ class TicketDetailsBottom extends StatelessWidget {
         ),
         child:  Center(
           child: Text(
-            'Details',
+            S.of(context).details,
             style: TextStyle(fontSize: 12.sp, color: tdBlack),
           ),
         ),

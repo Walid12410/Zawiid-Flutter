@@ -4,6 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'EndedTab/EndedPage.dart';
 import 'UpComingTab/UpComingPage.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -28,7 +34,8 @@ class _MainPageState extends State<MainPage> {
           children: [
             SizedBox(height: 5.h),
             Padding(
-              padding:  const EdgeInsets.only(left: 20, right: 40,top: 10).w,
+              padding: isArabic()? const EdgeInsets.only(right: 20, left: 40,top: 10).w :
+              const EdgeInsets.only(left: 20, right: 40,top: 10).w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -47,11 +54,11 @@ class _MainPageState extends State<MainPage> {
                       _handlePageTap(0);
                     },
                     child: Text(
-                      'Upcoming',
+                      S.of(context).upComing,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: _currentPage == 0 ? FontWeight.bold : FontWeight.normal,
-                        color: _currentPage == 0 ? Colors.black : Colors.grey,
+                        color: _currentPage == 0 ? tdBlack : tdGrey,
                       ),
                     ),
                   ),
@@ -60,11 +67,11 @@ class _MainPageState extends State<MainPage> {
                       _handlePageTap(1);
                     },
                     child: Text(
-                      'Ended',
+                      S.of(context).ended,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: _currentPage == 1 ? FontWeight.bold : FontWeight.normal,
-                        color: _currentPage == 1 ? Colors.black : Colors.grey,
+                        color: _currentPage == 1 ? tdBlack : tdGrey,
                       ),
                     ),
                   ),

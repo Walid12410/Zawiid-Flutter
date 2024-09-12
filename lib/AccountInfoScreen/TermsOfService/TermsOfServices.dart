@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'Widget/LegalInfoImage.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 
 class TermsOfServices extends StatefulWidget {
@@ -24,7 +25,7 @@ class _TermsOfServicesState extends State<TermsOfServices> {
           child: Column(
             children: [
               //Legal Information
-              PageHeadView(title: 'Legal Information', onPressed: (){
+              PageHeadView(title: S.of(context).legalInformation, onPressed: (){
                 GoRouter.of(context).go("/Profile");
               }),
               SizedBox(height: 5.h,),

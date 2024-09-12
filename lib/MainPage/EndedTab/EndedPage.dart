@@ -5,6 +5,7 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import '../../ApiEndPoint.dart';
 import 'Widget/SoldDetail.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class EndedTab extends StatefulWidget {
   const EndedTab({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _EndedTabState extends State<EndedTab> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check your connection.',
+                  S.of(context).errorConnection,
                   style: TextStyle(
                     fontSize: 15.sp,
                     color: tdGrey,
@@ -61,7 +62,7 @@ class _EndedTabState extends State<EndedTab> {
               if (bidData.isEmpty) {
                 return Center(
                   child: Text(
-                    "No bid added yet",
+                    S.of(context).noBid,
                     style: TextStyle(fontSize: 15.sp, color: tdGrey),
                   ),
                 );
@@ -73,7 +74,7 @@ class _EndedTabState extends State<EndedTab> {
               if (filteredBids.isEmpty) {
                 return Center(
                   child: Text(
-                    "Nothing sold yet",
+                    S.of(context).nothingSold,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: tdGrey,

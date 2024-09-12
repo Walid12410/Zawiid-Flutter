@@ -11,13 +11,13 @@ Future<bool> addOrUpdateWithdrawalDetails({
 }) async {
   String apiUrl = '${ApiEndpoints.localBaseUrl}/webWithDrawalDetails.php?status=new';
 
-  String detDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+  String date = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').format(DateTime.now());
 
   try {
     final response = await http.post(
       Uri.parse(apiUrl),
       body: {
-        'WithDetDate': detDate,
+        'WithDetDate': date,
         'NbrOfTicketsWithdrawn': nbrOfTicketsWithdrawn.toString(),
         'TicketsTotalPrice': ticketsTotalPrice.toString(),
         'WithDrawalID': withDrawalID.toString(),

@@ -5,6 +5,13 @@ import 'package:provider/provider.dart';
 
 import '../../Color&Icons/color.dart';
 import '../../provider/User_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
+import 'package:intl/intl.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class UserProfileCard extends StatelessWidget {
   const UserProfileCard({
@@ -17,7 +24,8 @@ class UserProfileCard extends StatelessWidget {
     var userInfo = userDetails.userInfo;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 15, left: 8).w,
+      padding:isArabic()? const EdgeInsets.only(left: 15, right: 8).w :
+      const EdgeInsets.only(right: 15, left: 8).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -56,7 +64,7 @@ class UserProfileCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15).w),
                   child: Center(
                     child: Text(
-                      'EDIT PROFILE',
+                     S.of(context).editProfile,
                       style: TextStyle(
                           fontSize: 9.sp,
                           color: tdGrey,

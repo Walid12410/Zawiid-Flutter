@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'TimeContainer.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class CountdownDisplay extends StatelessWidget {
   final Duration remainingTime;
@@ -16,10 +17,10 @@ class CountdownDisplay extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TimeContainer(label: 'Days', value: days),
-        TimeContainer(label: 'Hours', value: hours),
-        TimeContainer(label: 'Minutes', value: minutes),
-        TimeContainer(label: 'Seconds', value: seconds),
+        TimeContainer(label: S.of(context).day, value: days),
+        TimeContainer(label: S.of(context).hour, value: hours),
+        TimeContainer(label: S.of(context).minutes, value: minutes),
+        TimeContainer(label: S.of(context).second, value: seconds),
       ],
     );
   }

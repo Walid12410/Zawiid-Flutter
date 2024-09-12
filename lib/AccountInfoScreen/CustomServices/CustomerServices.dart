@@ -6,6 +6,8 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
 import '../../provider/AppSetting_Provider.dart';
 import 'Widget/CustomServicesContainer.dart';
+import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class CustomerPage extends StatefulWidget {
   const CustomerPage({Key? key}) : super(key: key);
@@ -37,7 +39,7 @@ class _CustomerPageState extends State<CustomerPage> {
           children: [
             Center(
               child: Text(
-                'Something went wrong, try again later',
+                S.of(context).errorConnection,
                 style: TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),textAlign: TextAlign.center,
               ),
@@ -54,7 +56,7 @@ class _CustomerPageState extends State<CustomerPage> {
           child: Column(
             children: [
               PageHeadView(
-                  title: 'Customer Services',
+                  title: S.of(context).customerSupport,
                   onPressed: () {
                     GoRouter.of(context).go("/Profile");
                   }),

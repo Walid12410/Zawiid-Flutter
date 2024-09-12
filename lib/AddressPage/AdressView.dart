@@ -9,6 +9,7 @@ import '../provider/Auth_Provider.dart';
 import '../provider/GovArea_Provider.dart';
 import 'Widget/AddAddressBottom.dart';
 import 'Widget/AddressDetails.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class AddressView extends StatefulWidget {
   const AddressView({Key? key, required this.showBottom}) : super(key: key);
@@ -45,12 +46,12 @@ class _AddressViewState extends State<AddressView> {
         return AlertDialog(
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          title:  Text('Select Address',style: TextStyle(fontSize: 12.sp
+          title:  Text(S.of(context).selectAddress,style: TextStyle(fontSize: 12.sp
               ,color: tdBlack,fontWeight: FontWeight.bold),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Pick your shipping address to complete your order.',style: TextStyle(
+                Text(S.of(context).pickAddress,style: TextStyle(
                     fontSize: 10.sp,color: tdBlack
                 ),),
               ],
@@ -75,7 +76,7 @@ class _AddressViewState extends State<AddressView> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5).w,
-                  child: Center(child: Text('OK',style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
+                  child: Center(child: Text(S.of(context).ok,style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
                 ),
               ),
             )
@@ -102,7 +103,7 @@ class _AddressViewState extends State<AddressView> {
             backgroundColor: tdWhite,
             body: Center(
               child: Text(
-                'Something went wrong. Please check your connection.',
+                S.of(context).errorConnection,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15.sp,
@@ -119,7 +120,7 @@ class _AddressViewState extends State<AddressView> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    PageHeadView(title: 'Shipping Address', onPressed: (){
+                    PageHeadView(title: S.of(context).shippingAddress, onPressed: (){
                       context.pop();
                     }),
                     SizedBox(height: 5.h),
@@ -150,7 +151,7 @@ class _AddressViewState extends State<AddressView> {
                         ),
                         child: Center(
                           child: Text(
-                            'Proceed to checkout',
+                            S.of(context).proceedCheckOut,
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: tdBlack,

@@ -8,6 +8,7 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import 'Widget/CartItemView.dart';
 import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class ItemViewCategories extends StatefulWidget {
   const ItemViewCategories(
@@ -65,7 +66,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check you connection.',
+                  S.of(context).errorConnection,
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: tdGrey,
@@ -106,7 +107,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
               padding: EdgeInsets.all(20.w),
               child: Center(
                 child: Text(
-                  'No products found',
+                 S.of(context).noProductFound,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: tdGrey,

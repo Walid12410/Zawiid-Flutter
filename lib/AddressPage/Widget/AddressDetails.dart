@@ -5,6 +5,7 @@ import '../../ApiService/AddressService/DeleteAddress.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Address_Provider.dart';
 import '../../provider/GovArea_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class AddressDetails extends StatelessWidget {
   const AddressDetails({super.key});
@@ -20,7 +21,6 @@ class AddressDetails extends StatelessWidget {
     var governorates = govAreaProvider.gov;
     var areas = govAreaProvider.area;
 
-    print(addressProvider.defaultAddressNo);
     var governorateMap = {
       for (var gov in governorates) gov.governerateId: gov.governerateName
     };
@@ -36,7 +36,7 @@ class AddressDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(20).w,
                 child: Center(
                     child: Text(
-                      'No addresses available. Please add a new address.',
+                     S.of(context).noAddressAvailable,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: tdGrey,
@@ -93,7 +93,7 @@ class AddressDetails extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'Building ${address.building}',
+                                  '${S.of(context).building} ${address.building}',
                                   style: TextStyle(
                                     color: tdBlack,
                                     fontSize: 10.sp,
@@ -125,8 +125,8 @@ class AddressDetails extends StatelessWidget {
                                   child: Text(
                                     addressProvider.defaultAddressNo ==
                                             address.addressNo
-                                        ? 'default'
-                                        : 'Use as default',
+                                        ? S.of(context).defaults
+                                        : S.of(context).useDefault,
                                     style: TextStyle(
                                       fontSize: 12.h,
                                       color: addressProvider.defaultAddressNo ==
@@ -144,7 +144,7 @@ class AddressDetails extends StatelessWidget {
                                         .deleteAddress(address.addressNo);
                                   },
                                   child: Text(
-                                    'Delete',
+                                   S.of(context).delete,
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       color: tdGrey,

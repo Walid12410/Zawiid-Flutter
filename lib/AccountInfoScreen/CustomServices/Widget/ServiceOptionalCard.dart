@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../EmailService/EmailService.dart';
 import '../../../provider/AppSetting_Provider.dart';
@@ -75,7 +75,7 @@ class ServiceOptionCard extends StatelessWidget {
                           color: tdWhiteNav),
                       child: Center(
                         child: Text(
-                          'Email Us',
+                          S.of(context).emailUs,
                           style: TextStyle(
                               fontSize: 18.sp,
                               color: tdBlack,
@@ -140,7 +140,7 @@ class ServiceOptionCard extends StatelessWidget {
                           color: tdWhiteNav),
                       child: Center(
                         child: Text(
-                          'Chat Now',
+                          S.of(context).chatNow,
                           style: TextStyle(
                               fontSize: 18.sp,
                               color: tdBlack,

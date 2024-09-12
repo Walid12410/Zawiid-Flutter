@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../Color&Icons/color.dart';
 
 class GuestViewProfile extends StatelessWidget {
@@ -17,7 +17,7 @@ class GuestViewProfile extends StatelessWidget {
       children: [
         Center(
           child: Text(
-            'Please log in or sign up',
+            S.of(context).loginError,
             style: TextStyle(
               fontSize: 15.sp,
               color: tdBlack,
@@ -46,7 +46,7 @@ class GuestViewProfile extends StatelessWidget {
                   color: tdBlack,
                 ),
                 Text(
-                  'Login',
+                  S.of(context).logIn,
                   style: TextStyle(
                     fontSize: 9.sp,
                     color: tdBlack,
@@ -82,7 +82,7 @@ class GuestViewProfile extends StatelessWidget {
                   color: tdWhite,
                 ),
                 Text(
-                  'Signup',
+                  S.of(context).signUp,
                   style: TextStyle(
                     fontSize: 9.sp,
                     color: tdWhite,

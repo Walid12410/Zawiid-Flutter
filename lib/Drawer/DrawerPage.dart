@@ -48,7 +48,8 @@ class _DrawerWithDropdownState extends State<DrawerWithDropdown> {
           children: [
             SizedBox(height: 30.h),
             Padding(
-              padding: EdgeInsets.only(left: 10.w, right: 70.w),
+              padding:isArabic()? EdgeInsets.only(right: 10.w, left: 70.w):
+              EdgeInsets.only(left: 10.w, right: 70.w),
               child: GestureDetector(
                 onTap: () {
                   GoRouter.of(context).goNamed('SearchPage');

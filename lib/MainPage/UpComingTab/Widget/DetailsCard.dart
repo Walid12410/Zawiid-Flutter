@@ -6,10 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/LocalNotification.dart';
+import 'package:zawiid/Widget/SnackBar.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../TimeMethod/CheckWhatDate.dart';
 import '../../../provider/Auth_Provider.dart';
 import '../../WatchDown/WatchCount.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class DetailsUpComing extends StatefulWidget {
   const DetailsUpComing({
@@ -83,59 +85,34 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
     final auth = Provider.of<AuthProvider>(context, listen: false);
 
     if (auth.userId == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Login or SignUp to enter this bid.',
-            style: TextStyle(fontSize: 10.sp, color: Colors.white),
-          ),
-          backgroundColor: Colors.black,
-          duration: const Duration(seconds: 2),
-        ),
-      );
+      showSnackBar(context,  S.of(context).loginError);
       return;
     }
 
     if (_isNotified) {
-      // Cancel the notification
       await notificationService.cancelNotification(widget.bidNo);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Notification canceled!',
-            style: TextStyle(fontSize: 10.sp, color: tdWhite),
-          ),
-          backgroundColor: tdBlack,
-          duration: const Duration(seconds: 2),
-        ),
-      );
+      setState(() {
+        showSnackBar(context,  S.of(context).notificationCancel);
+      });
     } else {
       // Schedule the notification
       await notificationService.scheduleNotification(
         id: widget.bidNo,
-        title: 'Bid Start',
-        body: 'Your bid for ${widget.productName} is starting at ${DateFormat('hh:mm a').format(widget.startTime)}',
+        title: S.of(context).bidStart,
+        body: '${S.of(context).bidFor} ${widget.productName} ${S.of(context).startAt} ${DateFormat('hh:mm a').format(widget.startTime)}',
         scheduledTime: widget.startTime,
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Notification scheduled for bid start!',
-            style: TextStyle(fontSize: 10.sp, color: tdWhite),
-          ),
-          backgroundColor: tdBlack,
-          duration: const Duration(seconds: 2),
-        ),
-      );
+      setState(() {
+        showSnackBar(context, S.of(context).notificationScheduled);
+      });
     }
-
-    _checkIfNotified(); // Update the button state
+    _checkIfNotified();
   }
 
   @override
   Widget build(BuildContext context) {
     String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.startTime);
-    String dateCategory = getDateCategory(widget.startTime);
+    String dateCategory = getDateCategory(context, widget.startTime);
     AuthProvider auth  = Provider.of<AuthProvider>(context, listen: false);
 
     return Padding(
@@ -184,7 +161,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
             ],
           ),
           Text(
-            'Starting Price: ${widget.startPrice}\$',
+            '${S.of(context).startPrice} ${widget.startPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),
@@ -198,7 +175,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                   ),
                   child: Center(
                     child: Text(
-                      'Bid Ended',
+                      S.of(context).bidEnded,
                       style: TextStyle(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.bold,
@@ -214,7 +191,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                'Login or SignUp to enter this bid.',
+                                S.of(context).loginError,
                                 style: TextStyle(fontSize: 10.sp, color: tdWhite),
                               ),
                               backgroundColor: tdBlack,
@@ -238,7 +215,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                         ),
                         child: Center(
                           child: Text(
-                            'Zawiiidddd',
+                            S.of(context).zawiid,
                             style: TextStyle(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.bold,
@@ -265,15 +242,15 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                               _isNotified
                                   ? Icons.notifications_off_outlined
                                   : Icons.notifications_active_outlined,
-                              color: Colors.black,
+                              color: tdBlack,
                               size: 15.w,
                             ),
                             Text(
-                              _isNotified ? 'Cancel Notification' : 'Notify Me!',
+                              _isNotified ? S.of(context).cancelNotify : S.of(context).notifyMe,
                               style: TextStyle(
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: tdBlack,
                               ),
                             ),
                           ],

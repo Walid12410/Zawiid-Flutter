@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../provider/Auth_Provider.dart';
 
 class LogoutWidget extends StatelessWidget {
@@ -32,7 +32,7 @@ class LogoutWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(15).w),
         child: Center(
           child: Text(
-            'LOG OUT',
+            S.of(context).logOut,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 9.sp,

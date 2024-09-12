@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiService/BidService//BidZawidApi.dart';
+import 'package:zawiid/Widget/SnackBar.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Bid_Provider.dart';
@@ -67,9 +68,19 @@ class _BidPageDetailsState extends State<BidPageDetails> {
               ),
             ),
             GestureDetector(
-              onTap: () async{
-                await addBidZawid(context,bidNo, userNo, bidAmount);
-                Navigator.of(context).pop();
+              onTap: () async {
+                setState(() {
+                  _isLoading = true;
+                });
+                bool success = await addBid(context, bidNo, userNo, bidAmount);
+                if (success) {
+                  showSnackBar(context, 'Bid entry has been successfully added.');
+                  setState(() {
+                    Navigator.of(context).pop();  // Close the current screen/modal
+                  });
+                } else {
+                  showSnackBar(context, 'Failed to add bid. Try again later.');
+                }
                 setState(() {
                   _isLoading = false;
                 });

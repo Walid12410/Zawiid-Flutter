@@ -6,23 +6,30 @@ import 'package:provider/provider.dart';
 import '../../Color&Icons/color.dart';
 import '../../provider/Cart_Provider.dart';
 import '../../provider/NotificationProvider.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class ItemSearchBar extends StatelessWidget {
-  const ItemSearchBar({
-    super.key,required this.controller,required this.onSearch
-  });
+  const ItemSearchBar(
+      {super.key, required this.controller, required this.onSearch});
   final TextEditingController controller;
   final Function(String) onSearch;
 
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
-    var cartLength = cart.cartUser;
     final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    var cartLength = cart.cartUser;
     var notLength = notificationProvider.allNotification;
 
     return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 8).w,
+      padding: isArabic()
+          ? const EdgeInsets.only(right: 5, left: 8).w
+          : const EdgeInsets.only(left: 5, right: 8).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,10 +44,12 @@ class ItemSearchBar extends StatelessWidget {
                 style: TextStyle(color: tdWhite, fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-              position: badges.BadgePosition.custom(bottom: -7,end: -5),
+              position: isArabic()
+                  ? badges.BadgePosition.custom(bottom: -7, start: -5)
+                  : badges.BadgePosition.custom(bottom: -7, end: -5),
               child: Image.asset(
                 'assets/svg/notification.png',
-                width:  25.w,
+                width: 25.w,
                 height: 22.h,
                 fit: BoxFit.fill,
                 color: tdBlack,
@@ -51,7 +60,7 @@ class ItemSearchBar extends StatelessWidget {
           Container(
             height: 30.h,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+              border: Border.all(color: tdBlack),
               borderRadius: BorderRadius.circular(50).w,
             ),
             child: Row(
@@ -68,12 +77,12 @@ class ItemSearchBar extends StatelessWidget {
                     child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
-                        hintText: 'Search for products',
+                        hintText: S.of(context).searchTitle,
                         hintStyle: TextStyle(fontSize: 9.sp, color: tdGrey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
                         isDense:
-                        true, // To reduce the inner padding of the TextField
+                            true, // To reduce the inner padding of the TextField
                       ),
                       style: TextStyle(fontSize: 12.sp),
                       onChanged: onSearch,
@@ -85,9 +94,13 @@ class ItemSearchBar extends StatelessWidget {
                   height: 30.h,
                   decoration: BoxDecoration(
                       color: tdBlack,
-                      borderRadius: BorderRadius.only(
-                          topRight: const Radius.circular(20).w,
-                          bottomRight: const Radius.circular(20).w)),
+                      borderRadius: isArabic()
+                          ? BorderRadius.only(
+                              topLeft: const Radius.circular(20).w,
+                              bottomLeft: const Radius.circular(20).w)
+                          : BorderRadius.only(
+                              topRight: const Radius.circular(20).w,
+                              bottomRight: const Radius.circular(20).w)),
                   child: Center(
                     child: Icon(Icons.search, color: tdWhite, size: 20.w),
                   ),
@@ -101,14 +114,16 @@ class ItemSearchBar extends StatelessWidget {
             },
             child: badges.Badge(
               badgeContent: Text(
-              '${cartLength.length}',
+                '${cartLength.length}',
                 style: TextStyle(color: tdWhite, fontSize: 10.sp),
               ),
               badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
-              position: badges.BadgePosition.custom(bottom: -7,end: -5),
+              position: isArabic()
+                  ? badges.BadgePosition.custom(bottom: -7, start: -5)
+                  : badges.BadgePosition.custom(bottom: -7, end: -5),
               child: Image.asset(
                 'assets/svg/cart.png',
-                width:  25.w,
+                width: 25.w,
                 height: 22.h,
                 fit: BoxFit.fill,
                 color: tdBlack,

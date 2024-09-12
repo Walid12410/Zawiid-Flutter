@@ -1,16 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/ChatSupport_Provider.dart';
-import '../ApiService/MessageService/CheckChatRoomApi.dart';
 import '../ConnectivityCheck.dart';
 import '../provider/Auth_Provider.dart';
 import '../provider/User_Provider.dart';
 import 'Widget/GuestView.dart';
 import 'Widget/ProfileMainWidget.dart';
+import 'package:zawiid/generated/l10n.dart';
+
 
 class ProfileMain extends StatefulWidget {
   const ProfileMain({super.key});
@@ -71,7 +71,7 @@ class _ProfileMainState extends State<ProfileMain> {
             backgroundColor: tdWhite,
             body: Center(
               child: Text(
-                'Something went wrong. check your connection',
+                S.of(context).errorConnection,
                 style: TextStyle(
                   fontSize: 15.sp,
                   color: tdGrey,
