@@ -10,6 +10,12 @@ import '../../provider/Bid_Provider.dart';
 import '../../provider/Products_Provider.dart';
 import '../../provider/SelectionMarkColor_Provider.dart';
 import '../WatchDown/WatchCount2.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class BidPageDetails extends StatefulWidget {
   const BidPageDetails({
@@ -33,12 +39,12 @@ class _BidPageDetailsState extends State<BidPageDetails> {
         return AlertDialog(
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          title:  Text('Confirm Your Bid',style: TextStyle(fontSize: 12.sp
+          title:  Text(S.of(context).confirmBid,style: TextStyle(fontSize: 12.sp
               ,color: tdBlack,fontWeight: FontWeight.bold),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure you want to place a bid of $bidAmount KD?',style: TextStyle(
+                Text('${S.of(context).placeBid} $bidAmount \$?',style: TextStyle(
                     fontSize: 10.sp,color: tdBlack
                 ),),
               ],
@@ -63,7 +69,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5).w,
-                  child: Center(child: Text('Cancel',style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 10.sp),)),
+                  child: Center(child: Text(S.of(context).cancel,style: TextStyle(fontWeight: FontWeight.bold,color: tdBlack,fontSize: 10.sp),)),
                 ),
               ),
             ),
@@ -74,12 +80,14 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                 });
                 bool success = await addBid(context, bidNo, userNo, bidAmount);
                 if (success) {
-                  showSnackBar(context, 'Bid entry has been successfully added.');
                   setState(() {
-                    Navigator.of(context).pop();  // Close the current screen/modal
+                    showSnackBar(context, S.of(context).bidEntry);
+                    Navigator.of(context).pop();
                   });
                 } else {
-                  showSnackBar(context, 'Failed to add bid. Try again later.');
+                  setState(() {
+                    showSnackBar(context,S.of(context).failedToAddBid);
+                  });
                 }
                 setState(() {
                   _isLoading = false;
@@ -99,7 +107,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5).w,
-                  child: Center(child: Text('Confirm',style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
+                  child: Center(child: Text(S.of(context).confirm,style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
                 ),
               ),
             )
@@ -117,12 +125,12 @@ class _BidPageDetailsState extends State<BidPageDetails> {
         return AlertDialog(
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          title:  Text('Empty Field',style: TextStyle(fontSize: 12.sp
+          title:  Text(S.of(context).emptyField,style: TextStyle(fontSize: 12.sp
               ,color: tdBlack,fontWeight: FontWeight.bold),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Enter your bid price',style: TextStyle(
+                Text(S.of(context).enterBidPrice,style: TextStyle(
                     fontSize: 10.sp,color: tdBlack
                 ),),
               ],
@@ -147,7 +155,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5).w,
-                  child: Center(child: Text('OK',style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
+                  child: Center(child: Text(S.of(context).ok,style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
                 ),
               ),
             )
@@ -165,12 +173,12 @@ class _BidPageDetailsState extends State<BidPageDetails> {
         return AlertDialog(
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
-          title:  Text('Place a Higher Bid',style: TextStyle(fontSize: 12.sp
+          title:  Text(S.of(context).placeHighBid,style: TextStyle(fontSize: 12.sp
               ,color: tdBlack,fontWeight: FontWeight.bold),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Your current bid is too low. Please increase your bid price above the current bid to improve your chances of winning.',style: TextStyle(
+                Text(S.of(context).placeHighBidMsg,style: TextStyle(
                     fontSize: 10.sp,color: tdBlack
                 ),),
               ],
@@ -195,7 +203,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5).w,
-                  child: Center(child: Text('OK',style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
+                  child: Center(child: Text(S.of(context).ok,style: TextStyle(fontWeight: FontWeight.bold,color: tdWhite,fontSize: 10.sp),)),
                 ),
               ),
             )
@@ -248,16 +256,17 @@ class _BidPageDetailsState extends State<BidPageDetails> {
           ),
           SizedBox(height: 30.h),
           Padding(
-            padding: const EdgeInsets.only(right: 6).w,
+            padding:isArabic()? const EdgeInsets.only(left: 6).w :
+            const EdgeInsets.only(right: 6).w,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Current Bid',
+                  S.of(context).currentBid,
                   style: TextStyle(fontSize: 12.sp, color: tdGrey),
                 ),
                 Text(
-                  'Your Last Bid',
+                  S.of(context).lastBid,
                   style: TextStyle(fontSize: 12.sp, color: tdGrey),
                 ),
               ],
@@ -318,7 +327,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                           ],
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Enter Bid Price',
+                            hintText: S.of(context).enterBidPrice,
                             hintStyle: TextStyle(fontSize: 10.sp, color: tdGrey),
                           ),
                           style: TextStyle(fontSize: 10.sp, color: tdBlack),
@@ -337,7 +346,7 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Login or SignUp please.',
+                              S.of(context).loginError,
                               style: TextStyle(fontSize: 10.sp, color: tdWhite),
                             ),
                             backgroundColor: tdBlack,
@@ -380,7 +389,10 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                     child: Container(
                       width: 80.w,
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
+                        borderRadius:isArabic()? const BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          bottomLeft: Radius.circular(50),
+                        ).w : const BorderRadius.only(
                           topRight: Radius.circular(50),
                           bottomRight: Radius.circular(50),
                         ).w,
@@ -388,8 +400,8 @@ class _BidPageDetailsState extends State<BidPageDetails> {
                       ),
                       child: Center(
                         child: _isLoading
-                            ? Text('confirming....', style: TextStyle(fontWeight: FontWeight.bold, color: tdWhite, fontSize: 8.sp),) : Text(
-                          'BID NOW',
+                            ? Text(S.of(context).processing, style: TextStyle(fontWeight: FontWeight.bold, color: tdWhite, fontSize: 8.sp),) : Text(
+                           S.of(context).bidNow,
                           style: TextStyle(fontWeight: FontWeight.bold, color: tdWhite, fontSize: 8.sp),
                         ),
                         ),

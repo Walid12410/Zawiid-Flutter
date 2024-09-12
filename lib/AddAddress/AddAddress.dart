@@ -7,6 +7,7 @@ import '../provider/GovArea_Provider.dart';
 import '../provider/User_Provider.dart';
 import 'AlertDialog/AlertAddressInsert.dart';
 import 'Widget/AddAddressHead.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class AddAddressPage extends StatefulWidget {
   const AddAddressPage({super.key, required this.isCheckOut});
@@ -78,7 +79,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Contact Number',
+                        S.of(context).contactNumber,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12.sp,
@@ -149,7 +150,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         height: 10.h,
                       ),
                       Text(
-                        'Select Governorate',
+                        S.of(context).gov,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: tdBlack,
@@ -175,7 +176,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               hint: Text(
-                                'Governorate',
+                                S.of(context).governorate,
                                 style: TextStyle(fontSize: 12.sp, color: tdBlack),
                               ),
                               value: selectedGovernorate,
@@ -208,7 +209,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        'Select Area',
+                        S.of(context).selectArea,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: tdBlack,
@@ -234,7 +235,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               hint: Text(
-                                'Area',
+                                S.of(context).area,
                                 style: TextStyle(fontSize: 12.sp, color: tdBlack),
                               ),
                               value: selectedArea,
@@ -269,7 +270,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         height: 10.h,
                       ),
                       Text(
-                        'Block',
+                       S.of(context).block,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12.sp,
@@ -309,7 +310,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         height: 10.h,
                       ),
                       Text(
-                        'Street',
+                        S.of(context).street,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12.sp,
@@ -352,7 +353,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Building',
+                            S.of(context).building,
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: tdBlack,
@@ -360,7 +361,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           ),
                           const SizedBox(),
                           Text(
-                            'Floor / Door',
+                            S.of(context).floorDoor,
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: tdBlack,
@@ -460,7 +461,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
                                 widget.isCheckOut,
                               );
                             } catch (e) {
-                              _showErrorSnackBar('An error occurred');
+                              setState(() {
+                                _showErrorSnackBar(S.of(context).errorOccurred);
+                              });
                             } finally {
                               setState(() {
                                 _isAddingAddress = false; // Reset the flag
@@ -483,7 +486,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(10).w,
                               child: Text(
-                                'Save',
+                               S.of(context).save,
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     color: tdBlack,

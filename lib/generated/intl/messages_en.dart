@@ -30,11 +30,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Are you sure you want"),
         "area": MessageLookupByLibrary.simpleMessage("Area"),
         "bidEnded": MessageLookupByLibrary.simpleMessage("Bid Ended"),
+        "bidEntry": MessageLookupByLibrary.simpleMessage(
+            "Bid entry has been successfully added."),
         "bidFor": MessageLookupByLibrary.simpleMessage("Your bid for"),
+        "bidNow": MessageLookupByLibrary.simpleMessage("BID NOW"),
+        "bidPrice":
+            MessageLookupByLibrary.simpleMessage("Enter your bid price"),
         "bidStart": MessageLookupByLibrary.simpleMessage("Bid Start"),
         "birthDate": MessageLookupByLibrary.simpleMessage("Birthdate"),
+        "block": MessageLookupByLibrary.simpleMessage("Block"),
         "building": MessageLookupByLibrary.simpleMessage("Building"),
-        "buy": MessageLookupByLibrary.simpleMessage("But"),
+        "buy": MessageLookupByLibrary.simpleMessage("Buy"),
         "callUs": MessageLookupByLibrary.simpleMessage("Call Us"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelNotify":
@@ -44,7 +50,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Your cart is empty!"),
         "chatNow": MessageLookupByLibrary.simpleMessage("Chat Now"),
         "clearCart": MessageLookupByLibrary.simpleMessage("Clear Cart"),
+        "clearNotify":
+            MessageLookupByLibrary.simpleMessage("Clear notifications"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "confirmBid": MessageLookupByLibrary.simpleMessage("Confirm Your Bid"),
+        "contactNumber": MessageLookupByLibrary.simpleMessage("Contact Number"),
+        "currentBid": MessageLookupByLibrary.simpleMessage("Current Bid"),
         "customerSupport":
             MessageLookupByLibrary.simpleMessage("Customer Support"),
         "day": MessageLookupByLibrary.simpleMessage("Day"),
@@ -60,11 +71,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "editProfile": MessageLookupByLibrary.simpleMessage("EDIT PROFILE"),
         "emailUs": MessageLookupByLibrary.simpleMessage("Email Us"),
+        "emptyField": MessageLookupByLibrary.simpleMessage("Empty Field"),
         "ended": MessageLookupByLibrary.simpleMessage("Ended"),
+        "enterBidPrice":
+            MessageLookupByLibrary.simpleMessage("Enter Bid Price"),
         "errorConnection": MessageLookupByLibrary.simpleMessage(
             "Something went wrong, check your connection."),
+        "errorOccurred":
+            MessageLookupByLibrary.simpleMessage("An error occurred"),
         "exploreProduct":
             MessageLookupByLibrary.simpleMessage("Explore Our Product Range"),
+        "failedToAddBid": MessageLookupByLibrary.simpleMessage(
+            "Failed to add bid. Try again later."),
         "failedToDelete":
             MessageLookupByLibrary.simpleMessage("Failed to delete cart item"),
         "failedToUpdate":
@@ -74,12 +92,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "featured": MessageLookupByLibrary.simpleMessage("Featured"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
+        "floorDoor": MessageLookupByLibrary.simpleMessage("Floor / Door"),
         "gender": MessageLookupByLibrary.simpleMessage("Gender"),
         "gov": MessageLookupByLibrary.simpleMessage("Select Governorate"),
+        "governorate": MessageLookupByLibrary.simpleMessage("Governorate"),
         "hour": MessageLookupByLibrary.simpleMessage("Hour"),
         "hurryUpOffer":
             MessageLookupByLibrary.simpleMessage("Hurry Up! Offer ends in:"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "lastBid": MessageLookupByLibrary.simpleMessage("Your Last Bid"),
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "latestDrop": MessageLookupByLibrary.simpleMessage("Latest Drop"),
         "legalInformation":
@@ -110,6 +131,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "noSubCategories":
             MessageLookupByLibrary.simpleMessage("No subcategories available"),
         "nothingSold": MessageLookupByLibrary.simpleMessage("Nothing sold yet"),
+        "nothingToShow":
+            MessageLookupByLibrary.simpleMessage("Nothing to show"),
+        "notification": MessageLookupByLibrary.simpleMessage("Notification"),
         "notificationCancel":
             MessageLookupByLibrary.simpleMessage("Notification canceled!"),
         "notificationScheduled": MessageLookupByLibrary.simpleMessage(
@@ -120,6 +144,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "perTicket": MessageLookupByLibrary.simpleMessage("PER TICKET"),
         "pickAddress": MessageLookupByLibrary.simpleMessage(
             "Pick your shipping address to complete your order."),
+        "placeBid": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to place a bid of"),
+        "placeHighBid":
+            MessageLookupByLibrary.simpleMessage("Place a Higher Bid"),
+        "placeHighBidMsg": MessageLookupByLibrary.simpleMessage(
+            "Your current bid is too low. Please increase your bid price above the current bid to improve your chances of winning."),
         "pleaseSelectArea": MessageLookupByLibrary.simpleMessage(
             "Please select Governorate and Area"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
@@ -139,6 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search for products"),
         "second": MessageLookupByLibrary.simpleMessage("Seconds"),
         "selectAddress": MessageLookupByLibrary.simpleMessage("Select Address"),
+        "selectArea": MessageLookupByLibrary.simpleMessage("Select Area"),
         "selectBirth":
             MessageLookupByLibrary.simpleMessage("Select Birth Date"),
         "selectDelivery":
@@ -151,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "soldAt": MessageLookupByLibrary.simpleMessage("SOLD AT:"),
         "startAt": MessageLookupByLibrary.simpleMessage("is starting at"),
         "startPrice": MessageLookupByLibrary.simpleMessage("Starting Price"),
+        "street": MessageLookupByLibrary.simpleMessage("Street"),
         "subtotal": MessageLookupByLibrary.simpleMessage("Sub-Total:"),
         "supportDetails": MessageLookupByLibrary.simpleMessage(
             "We’re here to help you at every step. Please look Through the options below and select what you’re looking for."),
@@ -165,6 +197,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ticketLeft": MessageLookupByLibrary.simpleMessage("tickets left"),
         "toClearCart":
             MessageLookupByLibrary.simpleMessage("to clear your cart?"),
+        "toClearNotify":
+            MessageLookupByLibrary.simpleMessage("to clear all notification"),
         "toRemoveItem": MessageLookupByLibrary.simpleMessage(
             "to remove this item from the cart?"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),

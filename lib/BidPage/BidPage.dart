@@ -9,6 +9,8 @@ import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'Widget/BidPageDetails.dart';
 import 'Widget/BidPageHead.dart';
 import 'Widget/BidPageImage.dart';
+import 'package:zawiid/generated/l10n.dart';
+
 
 class BidPage extends StatefulWidget {
   const BidPage(
@@ -67,7 +69,7 @@ class _BidPageState extends State<BidPage> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong, check your connection.',
+                 S.of(context).errorConnection,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12.sp,

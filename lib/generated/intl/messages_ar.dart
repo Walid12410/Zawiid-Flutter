@@ -30,9 +30,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("هل أنت متأكد أنك تريد"),
         "area": MessageLookupByLibrary.simpleMessage("المنطقة"),
         "bidEnded": MessageLookupByLibrary.simpleMessage("انتهت المزايدة"),
+        "bidEntry":
+            MessageLookupByLibrary.simpleMessage("تم إضافة المزايدة بنجاح."),
         "bidFor": MessageLookupByLibrary.simpleMessage("عرضك لـ"),
+        "bidNow": MessageLookupByLibrary.simpleMessage("قم بالمزايدة الآن"),
+        "bidPrice": MessageLookupByLibrary.simpleMessage("أدخل سعر مزايدتك"),
         "bidStart": MessageLookupByLibrary.simpleMessage("بدء المزايدة"),
         "birthDate": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
+        "block": MessageLookupByLibrary.simpleMessage("البلوك"),
         "building": MessageLookupByLibrary.simpleMessage("المبنى"),
         "buy": MessageLookupByLibrary.simpleMessage("اشتري"),
         "callUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
@@ -43,7 +48,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("سلة التسوق الخاصة بك فارغة!"),
         "chatNow": MessageLookupByLibrary.simpleMessage("الدردشة الآن"),
         "clearCart": MessageLookupByLibrary.simpleMessage("عربة واضحة"),
+        "clearNotify": MessageLookupByLibrary.simpleMessage("مسح الإشعارات"),
         "confirm": MessageLookupByLibrary.simpleMessage("يتأكد"),
+        "confirmBid": MessageLookupByLibrary.simpleMessage("تأكيد مزايدتك"),
+        "contactNumber": MessageLookupByLibrary.simpleMessage("رقم الاتصال"),
+        "currentBid": MessageLookupByLibrary.simpleMessage("المزايدة الحالية"),
         "customerSupport": MessageLookupByLibrary.simpleMessage("دعم العملاء"),
         "day": MessageLookupByLibrary.simpleMessage("يوم"),
         "defaults": MessageLookupByLibrary.simpleMessage("افتراضي"),
@@ -58,11 +67,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "editProfile":
             MessageLookupByLibrary.simpleMessage("تحديث الملف الشخصي"),
         "emailUs": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "emptyField": MessageLookupByLibrary.simpleMessage("حقل فارغ"),
         "ended": MessageLookupByLibrary.simpleMessage("انتهى"),
+        "enterBidPrice":
+            MessageLookupByLibrary.simpleMessage("أدخل سعر المزايدة"),
         "errorConnection": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ ما، تحقق من اتصالك بالإنترنت."),
+        "errorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
         "exploreProduct":
             MessageLookupByLibrary.simpleMessage("استكشف مجموعة منتجاتنا"),
+        "failedToAddBid": MessageLookupByLibrary.simpleMessage(
+            "فشل في إضافة المزايدة. حاول مرة أخرى لاحقًا."),
         "failedToDelete":
             MessageLookupByLibrary.simpleMessage("فشل في حذف عنصر سلة التسوق"),
         "failedToUpdate":
@@ -72,12 +87,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "featured": MessageLookupByLibrary.simpleMessage("مميز"),
         "female": MessageLookupByLibrary.simpleMessage("أنثى"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
+        "floorDoor": MessageLookupByLibrary.simpleMessage("الطابق / الباب"),
         "gender": MessageLookupByLibrary.simpleMessage("الجنس"),
         "gov": MessageLookupByLibrary.simpleMessage("اختر المحافظة"),
+        "governorate": MessageLookupByLibrary.simpleMessage("المحافظة"),
         "hour": MessageLookupByLibrary.simpleMessage("ساعة"),
         "hurryUpOffer":
             MessageLookupByLibrary.simpleMessage("أسرع! ينتهي العرض في:"),
         "language": MessageLookupByLibrary.simpleMessage("لغة"),
+        "lastBid": MessageLookupByLibrary.simpleMessage("آخر مزايدة لك"),
         "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
         "latestDrop": MessageLookupByLibrary.simpleMessage("أحدث المنتجات"),
         "legalInformation":
@@ -109,6 +127,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "noSubCategories":
             MessageLookupByLibrary.simpleMessage("لا توجد فئات فرعية متاحة"),
         "nothingSold": MessageLookupByLibrary.simpleMessage("لا شيء بيعت بعد"),
+        "nothingToShow":
+            MessageLookupByLibrary.simpleMessage("لا يوجد ما يمكن عرضه"),
+        "notification": MessageLookupByLibrary.simpleMessage("الإشعارات"),
         "notificationCancel":
             MessageLookupByLibrary.simpleMessage("تم إلغاء الإشعار!"),
         "notificationScheduled": MessageLookupByLibrary.simpleMessage(
@@ -119,6 +140,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "perTicket": MessageLookupByLibrary.simpleMessage("لكل تذكرة"),
         "pickAddress": MessageLookupByLibrary.simpleMessage(
             "اختر عنوان الشحن لإكمال طلبك."),
+        "placeBid": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد تقديم مزايدة بقيمة"),
+        "placeHighBid": MessageLookupByLibrary.simpleMessage("قدم مزايدة أعلى"),
+        "placeHighBidMsg": MessageLookupByLibrary.simpleMessage(
+            "مزايدتك الحالية منخفضة جدًا. يرجى رفع سعر مزايدتك أعلى من المزايدة الحالية لتحسين فرصك في الفوز."),
         "pleaseSelectArea": MessageLookupByLibrary.simpleMessage(
             "يرجى اختيار المحافظة والمنطقة"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
@@ -136,6 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "searchTitle": MessageLookupByLibrary.simpleMessage("البحث عن المنتج"),
         "second": MessageLookupByLibrary.simpleMessage("ثواني"),
         "selectAddress": MessageLookupByLibrary.simpleMessage("حدد العنوان"),
+        "selectArea": MessageLookupByLibrary.simpleMessage("اختر المنطقة"),
         "selectBirth":
             MessageLookupByLibrary.simpleMessage("اختر تاريخ الميلاد"),
         "selectDelivery":
@@ -147,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "soldAt": MessageLookupByLibrary.simpleMessage("تباع في:"),
         "startAt": MessageLookupByLibrary.simpleMessage("يبدأ في"),
         "startPrice": MessageLookupByLibrary.simpleMessage("السعر الابتدائي"),
+        "street": MessageLookupByLibrary.simpleMessage("الشارع"),
         "subtotal": MessageLookupByLibrary.simpleMessage("المجموع:"),
         "supportDetails": MessageLookupByLibrary.simpleMessage(
             "نحن هنا لمساعدتك في كل خطوة. يرجى الاطلاع على الخيارات أدناه وتحديد ما تبحث عنه."),
@@ -161,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ticketLeft": MessageLookupByLibrary.simpleMessage("التذاكر متبقية"),
         "toClearCart":
             MessageLookupByLibrary.simpleMessage("لمسح سلة التسوق الخاصة بك؟"),
+        "toClearNotify":
+            MessageLookupByLibrary.simpleMessage("لمسح جميع الإشعارات"),
         "toRemoveItem": MessageLookupByLibrary.simpleMessage(
             "لإزالة هذا العنصر من سلة التسوق؟"),
         "today": MessageLookupByLibrary.simpleMessage("اليوم"),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 
@@ -19,12 +18,19 @@ class _LanguageChangeDialogState extends State<LanguageChangeDialog> {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return AlertDialog(
-      title: Text('Select Language',style: TextStyle(fontSize: 12.sp,color: tdBlack),),
+      title: Text(
+        'Select Language',
+        style: TextStyle(
+            fontSize: 15.sp, color: tdBlack, fontWeight: FontWeight.bold),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: L10n.supportedLocales.map((locale) {
           return ListTile(
-            title: Text(L10n.getLanguageCode(locale)),
+            title: Text(
+              L10n.getLanguageCode(locale),
+              style: TextStyle(fontSize: 12.sp, color: tdBlack),
+            ),
             onTap: () async {
               await localeProvider.setLocale(locale);
               setState(() {
@@ -36,6 +42,4 @@ class _LanguageChangeDialogState extends State<LanguageChangeDialog> {
       ),
     );
   }
-
 }
-

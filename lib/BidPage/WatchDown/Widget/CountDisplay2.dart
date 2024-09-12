@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import 'TimeContainer2.dart';
 
 class CountdownDisplay2 extends StatelessWidget {
@@ -17,10 +17,10 @@ class CountdownDisplay2 extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TimeContainer2(label: 'Days', value: days),
-        TimeContainer2(label: 'Hours', value: hours),
-        TimeContainer2(label: 'Minutes', value: minutes),
-        TimeContainer2(label: 'Seconds', value: seconds),
+        TimeContainer2(label: S.of(context).day, value: days),
+        TimeContainer2(label: S.of(context).hour, value: hours),
+        TimeContainer2(label: S.of(context).minutes, value: minutes),
+        TimeContainer2(label: S.of(context).second, value: seconds),
       ],
     );
   }

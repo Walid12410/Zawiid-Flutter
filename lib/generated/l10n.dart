@@ -480,10 +480,10 @@ class S {
     );
   }
 
-  /// `But`
+  /// `Buy`
   String get buy {
     return Intl.message(
-      'But',
+      'Buy',
       name: 'buy',
       desc: '',
       args: [],
@@ -1225,6 +1225,236 @@ class S {
     return Intl.message(
       'SOLD',
       name: 'sold',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notification`
+  String get notification {
+    return Intl.message(
+      'Notification',
+      name: 'notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear notifications`
+  String get clearNotify {
+    return Intl.message(
+      'Clear notifications',
+      name: 'clearNotify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing to show`
+  String get nothingToShow {
+    return Intl.message(
+      'Nothing to show',
+      name: 'nothingToShow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to clear all notification`
+  String get toClearNotify {
+    return Intl.message(
+      'to clear all notification',
+      name: 'toClearNotify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Your Bid`
+  String get confirmBid {
+    return Intl.message(
+      'Confirm Your Bid',
+      name: 'confirmBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to place a bid of`
+  String get placeBid {
+    return Intl.message(
+      'Are you sure you want to place a bid of',
+      name: 'placeBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bid entry has been successfully added.`
+  String get bidEntry {
+    return Intl.message(
+      'Bid entry has been successfully added.',
+      name: 'bidEntry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to add bid. Try again later.`
+  String get failedToAddBid {
+    return Intl.message(
+      'Failed to add bid. Try again later.',
+      name: 'failedToAddBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty Field`
+  String get emptyField {
+    return Intl.message(
+      'Empty Field',
+      name: 'emptyField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your bid price`
+  String get bidPrice {
+    return Intl.message(
+      'Enter your bid price',
+      name: 'bidPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Place a Higher Bid`
+  String get placeHighBid {
+    return Intl.message(
+      'Place a Higher Bid',
+      name: 'placeHighBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your current bid is too low. Please increase your bid price above the current bid to improve your chances of winning.`
+  String get placeHighBidMsg {
+    return Intl.message(
+      'Your current bid is too low. Please increase your bid price above the current bid to improve your chances of winning.',
+      name: 'placeHighBidMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Bid`
+  String get currentBid {
+    return Intl.message(
+      'Current Bid',
+      name: 'currentBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Last Bid`
+  String get lastBid {
+    return Intl.message(
+      'Your Last Bid',
+      name: 'lastBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Bid Price`
+  String get enterBidPrice {
+    return Intl.message(
+      'Enter Bid Price',
+      name: 'enterBidPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BID NOW`
+  String get bidNow {
+    return Intl.message(
+      'BID NOW',
+      name: 'bidNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Number`
+  String get contactNumber {
+    return Intl.message(
+      'Contact Number',
+      name: 'contactNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Governorate`
+  String get governorate {
+    return Intl.message(
+      'Governorate',
+      name: 'governorate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Area`
+  String get selectArea {
+    return Intl.message(
+      'Select Area',
+      name: 'selectArea',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Block`
+  String get block {
+    return Intl.message(
+      'Block',
+      name: 'block',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Street`
+  String get street {
+    return Intl.message(
+      'Street',
+      name: 'street',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Floor / Door`
+  String get floorDoor {
+    return Intl.message(
+      'Floor / Door',
+      name: 'floorDoor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred`
+  String get errorOccurred {
+    return Intl.message(
+      'An error occurred',
+      name: 'errorOccurred',
       desc: '',
       args: [],
     );

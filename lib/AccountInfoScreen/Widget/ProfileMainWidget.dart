@@ -5,7 +5,6 @@ import 'package:zawiid/Widget/LanguageChange.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'LogOut.dart';
 import 'OptionCard.dart';
-import 'ProfileHeadPage.dart';
 import 'UserProfileCard.dart';
 import 'package:intl/intl.dart';
 
@@ -25,8 +24,6 @@ class ProfileMainWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 5.h),
-        const ProfileHeadPage(),
         SizedBox(
           height: 30.h,
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../Color&Icons/color.dart';
 
 class AddAddressHead extends StatelessWidget {
@@ -31,7 +31,7 @@ class AddAddressHead extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10).w,
-            child: Text('Add Address',
+            child: Text(S.of(context).addAddress,
                 style: TextStyle(
                     color: tdBlack,
                     fontWeight: FontWeight.bold,

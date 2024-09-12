@@ -6,7 +6,7 @@ import 'package:zawiid/ApiService/NotificationService/DeleteAllNotification.dart
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../AccountInfoScreen/Widget/GuestView.dart';
 import '../provider/NotificationProvider.dart';
 import 'Widget/NotificationContainer.dart';
@@ -19,6 +19,8 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+
+
   void _showClearNotificationDialog(BuildContext context, int userID) {
     showDialog(
       context: context,
@@ -37,7 +39,7 @@ class _NotificationPageState extends State<NotificationPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Are you sure you want',
+                S.of(context).areYouSure,
                 style: TextStyle(
                   fontSize: 10.sp,
                   color: Colors.black,
@@ -46,10 +48,10 @@ class _NotificationPageState extends State<NotificationPage> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'to clear all notification',
+                S.of(context).toClearNotify,
                 style: TextStyle(
                   fontSize: 10.sp,
-                  color: Colors.black,
+                  color: tdBlack,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -69,7 +71,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(200),
-                        color: Colors.white,
+                        color: tdWhite,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -79,7 +81,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       child: Center(
                         child: Text(
-                          'YES',
+                          S.of(context).yes,
                           style: TextStyle(
                             fontSize: 9.sp,
                             color: tdBlack,
@@ -109,10 +111,10 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       child: Center(
                         child: Text(
-                          'NO',
+                          S.of(context).no,
                           style: TextStyle(
                             fontSize: 9.sp,
-                            color: Colors.white,
+                            color: tdWhite,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -135,7 +137,6 @@ class _NotificationPageState extends State<NotificationPage> {
     var allNotification = notificationProvider.allNotification;
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    // Convert the list of notifications into a list of widgets
     List<Widget> notificationWidgets = [];
     for (var notification in allNotification) {
       notificationWidgets.add(
@@ -154,7 +155,7 @@ class _NotificationPageState extends State<NotificationPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    PageHeadView(title: 'Notification', onPressed: (){
+                    PageHeadView(title: S.of(context).notification, onPressed: (){
                       GoRouter.of(context).go("/home");
                     }),
                     Padding(
@@ -176,7 +177,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                   }
                                 },
                                 child: Text(
-                                  'Clear notifications',
+                                  S.of(context).clearNotify,
                                   style:
                                       TextStyle(fontSize: 10.sp, color: tdGrey),
                                 ),
@@ -189,7 +190,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 200).w,
                               child: Text(
-                                'Nothing to show',
+                                S.of(context).nothingToShow,
                                 style:
                                     TextStyle(fontSize: 12.sp, color: tdGrey),
                                 textAlign: TextAlign.center,
@@ -212,7 +213,7 @@ class _NotificationPageState extends State<NotificationPage> {
             body: SafeArea(
               child: Column(
                 children: [
-                  PageHeadView(title: 'Notification', onPressed: (){
+                  PageHeadView(title: S.of(context).notification, onPressed: (){
                     GoRouter.of(context).go("/home");
                   }),
                   SizedBox(

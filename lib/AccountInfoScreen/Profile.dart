@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/ChatSupport_Provider.dart';
@@ -93,6 +94,37 @@ class _ProfileMainState extends State<ProfileMain> {
             );
           } else {
             return Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  icon: Padding(
+                    padding: isArabic()?  EdgeInsets.only(right: 10.w,top: 15.w) :
+                    EdgeInsets.only(left: 10.w,top: 15.w),
+                    child: SizedBox(
+                      width: 23.w,
+                      height: 70.h,
+                      child: Image.asset(
+                        'assets/img/pop.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    GoRouter.of(context).go('/home');
+                  },
+                ),
+                title: SizedBox(
+                  width: 100.w,
+                  height: 50.h,
+                  child: Image.asset(
+                    'assets/log/LOGO-icon---Black.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                centerTitle: true,
+                backgroundColor: tdWhite,
+                shadowColor: tdWhite,
+                surfaceTintColor: tdWhite,
+              ),
               backgroundColor: tdWhite,
               body: SafeArea(
                 child: SingleChildScrollView(
