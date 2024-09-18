@@ -7,6 +7,7 @@ import 'Widget/GuestBottom.dart';
 import 'Widget/SignUpButton.dart';
 import 'Widget/SignUpTextfield.dart';
 import 'Widget/Terms&PrivacySignUp.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _SignUpState extends State<SignUp>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Sign Up',
+                      S.of(context).signUps,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 19.sp,
@@ -56,7 +57,7 @@ class _SignUpState extends State<SignUp>{
                         context.push(context.namedLocation('SignIn'));
                       },
                       child:  Text(
-                        'Log In',
+                        S.of(context).logIns,
                         style: TextStyle(fontSize: 19.sp, color: tdGrey),
                       ),
                     ),

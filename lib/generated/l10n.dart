@@ -720,11 +720,31 @@ class S {
     );
   }
 
+  /// `Log In`
+  String get logIns {
+    return Intl.message(
+      'Log In',
+      name: 'logIns',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `SignUp`
   String get signUp {
     return Intl.message(
       'SignUp',
       name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUps {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUps',
       desc: '',
       args: [],
     );
@@ -1455,6 +1475,426 @@ class S {
     return Intl.message(
       'An error occurred',
       name: 'errorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupons`
+  String get coupons {
+    return Intl.message(
+      'Coupons',
+      name: 'coupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CouponsDetails`
+  String get couponsDetails {
+    return Intl.message(
+      'CouponsDetails',
+      name: 'couponsDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No coupons added yet.`
+  String get noCouponsAdded {
+    return Intl.message(
+      'No coupons added yet.',
+      name: 'noCouponsAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon & Promo Codes`
+  String get couponAndPromoCodes {
+    return Intl.message(
+      'Coupon & Promo Codes',
+      name: 'couponAndPromoCodes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More`
+  String get more {
+    return Intl.message(
+      'More',
+      name: 'more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Less`
+  String get less {
+    return Intl.message(
+      'Less',
+      name: 'less',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `People Used`
+  String get peopleUsed {
+    return Intl.message(
+      'People Used',
+      name: 'peopleUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share`
+  String get share {
+    return Intl.message(
+      'Share',
+      name: 'share',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get Coupon`
+  String get getCoupon {
+    return Intl.message(
+      'Get Coupon',
+      name: 'getCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to get this coupon?`
+  String get doYouWantToGetThisCoupon {
+    return Intl.message(
+      'Do you want to get this coupon?',
+      name: 'doYouWantToGetThisCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login please to get this coupon`
+  String get loginPleaseToGetThisCoupon {
+    return Intl.message(
+      'Login please to get this coupon',
+      name: 'loginPleaseToGetThisCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By creating an account, you agree to our`
+  String get byCreatingAccount {
+    return Intl.message(
+      'By creating an account, you agree to our',
+      name: 'byCreatingAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms of Service`
+  String get termsOfService {
+    return Intl.message(
+      'Terms of Service',
+      name: 'termsOfService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `and`
+  String get and {
+    return Intl.message(
+      'and',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy Policy`
+  String get privacyPolicyS {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacyPolicyS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FORGOT PASSWORD?`
+  String get forgotPassword {
+    return Intl.message(
+      'FORGOT PASSWORD?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CONTINUE AS A GUEST`
+  String get continueAsAGuest {
+    return Intl.message(
+      'CONTINUE AS A GUEST',
+      name: 'continueAsAGuest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon code copied`
+  String get couponCodeCopied {
+    return Intl.message(
+      'Coupon code copied',
+      name: 'couponCodeCopied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `COPY`
+  String get copy {
+    return Intl.message(
+      'COPY',
+      name: 'copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GO TO THE STORE`
+  String get goToTheStore {
+    return Intl.message(
+      'GO TO THE STORE',
+      name: 'goToTheStore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discount Code:`
+  String get discountCode {
+    return Intl.message(
+      'Discount Code:',
+      name: 'discountCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expires in`
+  String get expiresIn {
+    return Intl.message(
+      'Expires in',
+      name: 'expiresIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code`
+  String get code {
+    return Intl.message(
+      'Code',
+      name: 'code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving`
+  String get saving {
+    return Intl.message(
+      'Saving',
+      name: 'saving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `% Flat`
+  String get Flat {
+    return Intl.message(
+      '% Flat',
+      name: 'Flat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available for`
+  String get availableFor {
+    return Intl.message(
+      'Available for',
+      name: 'availableFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Customers`
+  String get allCustomers {
+    return Intl.message(
+      'All Customers',
+      name: 'allCustomers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Min. Order Value`
+  String get minOrderValue {
+    return Intl.message(
+      'Min. Order Value',
+      name: 'minOrderValue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Valid for`
+  String get validFor {
+    return Intl.message(
+      'Valid for',
+      name: 'validFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You Have A Promo Code`
+  String get youHaveAPromoCode {
+    return Intl.message(
+      'You Have A Promo Code',
+      name: 'youHaveAPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment`
+  String get payment {
+    return Intl.message(
+      'Payment',
+      name: 'payment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promo code applied successfully`
+  String get promoCodeAppliedSuccessfully {
+    return Intl.message(
+      'Promo code applied successfully',
+      name: 'promoCodeAppliedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promo Code`
+  String get promoCode {
+    return Intl.message(
+      'Promo Code',
+      name: 'promoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Promo Code`
+  String get enterPromoCode {
+    return Intl.message(
+      'Enter Promo Code',
+      name: 'enterPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get apply {
+    return Intl.message(
+      'Apply',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order ID`
+  String get orderID {
+    return Intl.message(
+      'Order ID',
+      name: 'orderID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cart Amount`
+  String get cartAmount {
+    return Intl.message(
+      'Cart Amount',
+      name: 'cartAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discount`
+  String get discount {
+    return Intl.message(
+      'Discount',
+      name: 'discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Final Amount`
+  String get finalAmount {
+    return Intl.message(
+      'Final Amount',
+      name: 'finalAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `*By proceeding, you agree to our`
+  String get byProceeding {
+    return Intl.message(
+      '*By proceeding, you agree to our',
+      name: 'byProceeding',
       desc: '',
       args: [],
     );

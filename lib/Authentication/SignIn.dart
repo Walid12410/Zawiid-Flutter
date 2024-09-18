@@ -7,6 +7,8 @@ import 'package:zawiid/Authentication/Widget/Terms&PrivacySignIn.dart';
 import 'package:zawiid/Color&Icons/color.dart';
 import 'AlertDialog/AlertLogin.dart';
 import 'Widget/ForgetPassword.dart';
+import 'package:zawiid/generated/l10n.dart';
+
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key});
@@ -44,7 +46,7 @@ class _SignInState extends State<SignIn> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Log In',
+                      S.of(context).logIns,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 19.sp,
@@ -56,7 +58,7 @@ class _SignInState extends State<SignIn> {
                         context.push(context.namedLocation('SignUp'));
                       },
                       child:  Text(
-                        'Sign Up',
+                        S.of(context).signUps,
                         style: TextStyle(fontSize: 19.sp, color: tdGrey),
                       ),
                     ),

@@ -13,6 +13,13 @@ import '../../../ApiService/CouponsService/CouponsUsageApi.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../provider/Coupons_Provider.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
+import 'package:intl/intl.dart';
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class CouponsCardDetails extends StatefulWidget {
   const CouponsCardDetails({Key? key}) : super(key: key);
@@ -130,7 +137,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
           padding: const EdgeInsets.all(8.0).w,
           child: Center(
             child: Text(
-              'No coupons added yet.',
+              S.of(context).noCouponsAdded,
               style: TextStyle(
                 fontSize: 12.sp,
                 color: tdGrey,
@@ -152,7 +159,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
           } else if (snapshot.hasError) {
             return Center(
                 child: Text(
-              'something went wrong. check your connection',
+             S.of(context).errorConnection,
               style: TextStyle(
                   fontSize: 12.sp, color: tdGrey, fontWeight: FontWeight.bold),
             ));
@@ -169,7 +176,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                 } else if (statusSnapshot.hasError) {
                   return Center(
                       child: Text(
-                    'something went wrong. check your connection',
+                    S.of(context).errorConnection,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: tdGrey,
@@ -315,8 +322,8 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                       style: TextStyle(
                                           fontSize: 8.sp, color: tdGrey),
                                       colorClickableText: tdBlue,
-                                      trimCollapsedText: 'More',
-                                      trimExpandedText: 'Less',
+                                      trimCollapsedText: S.of(context).more,
+                                      trimExpandedText: S.of(context).less,
                                       moreStyle: TextStyle(
                                         fontSize: 8.sp,
                                         color: tdBlue,
@@ -393,7 +400,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                             color: tdGrey,
                                           ),
                                           Text(
-                                            ' $usageCount People Used',
+                                            ' $usageCount ${S.of(context).peopleUsed}',
                                             style: TextStyle(
                                               fontSize: 8.sp,
                                               color: tdGrey,
@@ -427,7 +434,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                               _sendEmail('Check out this coupons', '${coupon.couponDesc.toString()}\n discount: ${coupon.savings}%');
                                             },
                                             child: Text(
-                                              'Email',
+                                              S.of(context).email,
                                               style: TextStyle(
                                                 color: tdBlue,
                                                 fontSize: 8.sp,
@@ -453,7 +460,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                                               _shareCoupon("${coupon.couponDesc}\ndiscount: ${coupon.savings}%");
                                             },
                                             child: Text(
-                                              'Share',
+                                              S.of(context).share,
                                               style: TextStyle(
                                                 color: tdBlue,
                                                 fontSize: 8.sp,
@@ -535,7 +542,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Get Coupon',
+                  S.of(context).getCoupon,
                   style: TextStyle(
                     fontSize: 10.sp,
                     color: Colors.black,
@@ -544,7 +551,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  'Do you want to get this coupon?',
+                  S.of(context).doYouWantToGetThisCoupon,
                   style: TextStyle(
                     fontSize: 10.sp,
                     color: Colors.black,
@@ -564,7 +571,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                               backgroundColor: tdBlack,
                               duration: const Duration(seconds: 2),
                               content: Text(
-                                'Login please to get this coupon',
+                                S.of(context).loginPleaseToGetThisCoupon,
                                 style: TextStyle(fontSize: 10.sp, color: tdWhite),
                               ),
                             ),
@@ -596,15 +603,16 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                               savings: saving,
                               minOrderValue: minOrder);
                           if (!success) {
-                            _showErrorSnackBar(
-                                'Something went wrong. Check your connection');
+                            setState(() {
+                              _showErrorSnackBar(S.of(context).errorConnection);
+                            });
                           }
                         } catch (e) {
                           setState(() {
                             isConfirming = false;
                             Navigator.of(context).pop();
                             _showErrorSnackBar(
-                                'Something went wrong. Check your connection');
+                                S.of(context).errorConnection);
                           });
                         } finally {
                           setState(() {
@@ -629,7 +637,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                         ),
                         child: Center(
                           child: Text(
-                            'YES',
+                            S.of(context).yes,
                             style: TextStyle(
                               fontSize: 9.sp,
                               color: tdBlack,
@@ -659,7 +667,7 @@ class _CouponsCardDetailsState extends State<CouponsCardDetails> {
                         ),
                         child: Center(
                           child: Text(
-                            'NO',
+                            S.of(context).no,
                             style: TextStyle(
                               fontSize: 9.sp,
                               color: Colors.white,

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 class SignUpButton extends StatelessWidget {
   const SignUpButton({
@@ -29,7 +36,7 @@ class SignUpButton extends StatelessWidget {
               children: [
                 SizedBox(width: 30.w),
                  Text(
-                  'SIGN UP',
+                 S.of(context).signUps,
                   style: TextStyle(
                       fontSize: 9.sp,
                       fontWeight: FontWeight.bold,
@@ -37,7 +44,8 @@ class SignUpButton extends StatelessWidget {
                    textAlign: TextAlign.center,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 8).w,
+                  padding:isArabic() ? const EdgeInsets.only(left: 8).w :
+                  const EdgeInsets.only(right: 8).w,
                   child: Container(
                     width: 22.w,
                     height: 20.h,

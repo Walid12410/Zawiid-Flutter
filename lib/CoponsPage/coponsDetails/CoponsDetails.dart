@@ -9,6 +9,7 @@ import '../../provider/SelectionMarkColor_Provider.dart';
 import 'Widget/CouponsCardDetails.dart';
 import 'Widget/LoadingContainerCouponsDetails.dart';
 import 'Widget/TitleAndDescriptionCoupons.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class CouponsDetails extends StatefulWidget {
   const CouponsDetails({
@@ -54,7 +55,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Something went wrong. Check your connection',
+                  S.of(context).errorConnection,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15.sp,
@@ -79,7 +80,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PageHeadView(
-              title: 'Coupons',
+              title: S.of(context).coupons,
               onPressed: () {
                 GoRouter.of(context).go("/Coupons");
               }),

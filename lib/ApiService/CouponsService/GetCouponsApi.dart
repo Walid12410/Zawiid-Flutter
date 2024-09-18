@@ -15,8 +15,7 @@ Future<bool> getCoupons({
   }) async {
   final url = Uri.parse('${ApiEndpoints.localBaseUrl}/webGetCoupons.php?status=new');
 
-
-  String getDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+  String getDate = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').format(DateTime.now());
 
   final response = await http.post(
     url,

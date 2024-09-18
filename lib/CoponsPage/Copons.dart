@@ -9,6 +9,7 @@ import '../ConnectivityCheck.dart';
 import '../provider/Coupons_Provider.dart';
 import 'Widget/CouponsListMark.dart';
 import 'Widget/LoadingContainerCoupons.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class CouponsMain extends StatefulWidget {
   const CouponsMain({Key? key}) : super(key: key);
@@ -59,7 +60,7 @@ class _CouponsMainState extends State<CouponsMain> {
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
-              'Something went wrong. Check your connection',
+              S.of(context).errorConnection,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp,
@@ -84,7 +85,7 @@ class _CouponsMainState extends State<CouponsMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children:  [
-              PageHeadView(title: 'Coupons', onPressed: (){
+              PageHeadView(title: S.of(context).coupons, onPressed: (){
                 GoRouter.of(context).go("/home");
               }),
               SizedBox(height: 15.h),

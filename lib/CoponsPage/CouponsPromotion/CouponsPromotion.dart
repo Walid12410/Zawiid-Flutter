@@ -7,6 +7,7 @@ import 'package:zawiid/Widget/PageHeadWidget.dart';
 import '../../provider/Coupons_Provider.dart';
 import 'Widget/CouponsPromotionDetails.dart';
 import 'Widget/LoadingContainerCouponsPromotion.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 
 class CouponsPromotion extends StatefulWidget {
@@ -46,7 +47,7 @@ class _CouponsPromotionState extends State<CouponsPromotion> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            PageHeadView(title: 'Coupons', onPressed: (){
+            PageHeadView(title: S.of(context).coupons , onPressed: (){
               context.pop();
             }),
             SizedBox(height: 2.h,),

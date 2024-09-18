@@ -77,8 +77,8 @@ class CartProvider with ChangeNotifier {
       String validFor,
       int deliveryOption) async {
 
-    final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-    final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd', 'en_US');
+    final DateFormat dateTimeFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US');
 
     DateTime startDate;
     DateTime submitDate;

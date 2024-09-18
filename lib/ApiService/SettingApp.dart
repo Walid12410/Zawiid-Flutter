@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 
 class ApiService {
-  final String baseUrl = 'https://yourserver.com/your_php_file.php'; // Replace with your PHP file URL
 
   Future<List<Setting>> fetchSettings() async {
     final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/webTbSettings.php?status=select'));

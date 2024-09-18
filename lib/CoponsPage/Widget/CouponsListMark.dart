@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../ApiEndPoint.dart';
 import '../../provider/Coupons_Provider.dart';
 import 'CouponsCard.dart';
@@ -41,7 +41,7 @@ class CouponsListView extends StatelessWidget {
           ),
           Center(
               child: Text(
-            'No coupons added yet.',
+            S.of(context).noCouponsAdded,
             style: TextStyle(
                 fontSize: 15.sp, color: tdGrey, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,

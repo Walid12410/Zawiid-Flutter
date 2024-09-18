@@ -11,6 +11,14 @@ import 'package:zawiid/provider/Delivery_Provider.dart';
 import '../../ApiService/CartService/DeleteAllCartByUserApi.dart';
 import '../../ApiService/CouponsService/ValidPromoCode.dart';
 import '../../Color&Icons/color.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class PaymentDetails extends StatefulWidget {
   const PaymentDetails({Key? key}) : super(key: key);
@@ -53,7 +61,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text(
-            'Promo Code',
+            S.of(context).promoCode,
             style: TextStyle(
                 fontSize: 12.sp,
                 color: Colors.black,
@@ -90,7 +98,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                   padding: const EdgeInsets.all(5).w,
                   child: Center(
                     child: Text(
-                      'OK',
+                      S.of(context).ok,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -115,7 +123,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           backgroundColor: tdWhite,
           surfaceTintColor: tdWhite,
           title: Text(
-            'Enter Promo Code',
+            S.of(context).enterPromoCode,
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdBlack),
           ),
@@ -123,7 +131,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
             controller: promoCodeController,
             cursorColor: tdBlack,
             decoration: InputDecoration(
-              hintText: 'Promo Code',
+              hintText: S.of(context).promoCode,
               hintStyle: TextStyle(color: tdBlack, fontSize: 10.sp),
               enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: tdBlack),
@@ -161,7 +169,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     ),
                     child: Center(
                       child: Text(
-                        'Apply',
+                        S.of(context).apply,
                         style: TextStyle(
                           fontSize: 9.sp,
                           color: tdBlack,
@@ -191,7 +199,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     ),
                     child: Center(
                       child: Text(
-                        'Cancel',
+                        S.of(context).cancel,
                         style: TextStyle(
                           fontSize: 9.sp,
                           color: Colors.white,
@@ -211,26 +219,38 @@ class _PaymentDetailsState extends State<PaymentDetails> {
 
   void _applyPromoCode(String promoCode, userId) async {
     if (promoCode.isNotEmpty) {
-      Map<String, dynamic> promoResult =
-          await validatePromoCode(userId, promoCode, orderTotal);
-      if (promoResult['valid']) {
-        double savingsPercent = double.parse(promoResult['savings']);
-        double savingsAmount = (savingsPercent / 100) * orderTotal;
-        String validFor = promoResult['validFor'];
+      try {
+        Map<String, dynamic> promoResult =
+        await validatePromoCode(userId, promoCode, orderTotal);
 
-        setState(() {
-          validForCoupons = validFor;
-          savingPercent = double.parse(promoResult['savings']);
-        });
-        _showErrorSnackBar('Promo code applied successfully');
-        setState(() {
-          promoCodeShow = promoCodeController.text;
-          finalPrice = orderTotal - savingsAmount;
-          savePrice = savingsAmount;
-        });
-      } else {
-        String errorMessage = promoResult['message'] ?? 'Invalid promo code.';
-        _promoError(errorMessage);
+        if (promoResult['valid']) {
+          double savingsPercent = double.parse(promoResult['savings']);
+          double savingsAmount = (savingsPercent / 100) * orderTotal;
+          String validFor = promoResult['validFor'];
+          String expiryDateStr = promoResult['ExpiryDate'];
+
+          // Parse the expiry date
+          DateTime expiryDate = DateTime.parse(expiryDateStr);
+          DateTime currentDate = DateTime.now();
+
+          if (currentDate.isBefore(expiryDate)) {
+            setState(() {
+              validForCoupons = validFor;
+              savingPercent = savingsPercent;
+              promoCodeShow = promoCodeController.text;
+              finalPrice = orderTotal - savingsAmount;
+              savePrice = savingsAmount;
+            });
+            _showErrorSnackBar('Promo code applied successfully');
+          } else {
+            _promoError('Promo code has expired.');
+          }
+        } else {
+          String errorMessage = promoResult['message'] ?? 'Invalid promo code.';
+          _promoError(errorMessage);
+        }
+      } catch (e) {
+        _promoError('An error occurred while applying the promo code.');
       }
     } else {
       _promoError('Promo code cannot be empty.');
@@ -334,14 +354,14 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Order ID',
+                        S.of(context).orderID,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontSize: 12.sp),
                       ),
                       Text(
-                        'Cart Amount',
+                        S.of(context).cartAmount,
                         style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.bold,
@@ -419,14 +439,14 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Discount',
+                        S.of(context).discount,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontSize: 12.sp),
                       ),
                       Text(
-                        'Final Amount',
+                        S.of(context).finalAmount,
                         style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.bold,
@@ -562,14 +582,14 @@ class _PaymentDetailsState extends State<PaymentDetails> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '*By proceeding, you agree to our',
+                S.of(context).byProceeding,
                 style: TextStyle(
                     fontSize: 8.sp,
                     color: tdBlack,
                     fontWeight: FontWeight.w500),
               ),
               Text(
-                ' TERMS & CONDITIONS',
+                ' ${S.of(context).termsOfService}',
                 style: TextStyle(
                     fontSize: 9.sp, color: tdBlue, fontWeight: FontWeight.bold),
               )

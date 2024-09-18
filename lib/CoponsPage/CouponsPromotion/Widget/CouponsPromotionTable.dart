@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../../provider/Coupons_Provider.dart';
 
 class CouponsTable extends StatelessWidget {
@@ -29,7 +29,7 @@ class CouponsTable extends StatelessWidget {
             TableCell(
               child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                  child: Text('Code',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp),textAlign: TextAlign.center,)
+                  child: Text(S.of(context).code,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.sp),textAlign: TextAlign.center,)
               ),
             ),
             TableCell(
@@ -45,29 +45,13 @@ class CouponsTable extends StatelessWidget {
             TableCell(
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                child: Text('Saving',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
+                child: Text(S.of(context).saving,style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
               ),
             ),
             TableCell(
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                child: Text('${couponsDetailsTable[0].savings}% Flat',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                child: Text('Available for',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
-              ),
-            ),
-            TableCell(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                child: Text('All Customers',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
+                child: Text('${couponsDetailsTable[0].savings}${S.of(context).Flat}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
               ),
             ),
           ],
@@ -77,7 +61,23 @@ class CouponsTable extends StatelessWidget {
             TableCell(
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                child: Text('Min. Order Value',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
+                child: Text(S.of(context).availableFor,style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
+              ),
+            ),
+            TableCell(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
+                child: Text(S.of(context).allCustomers,style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
+              ),
+            ),
+          ],
+        ),
+        TableRow(
+          children: [
+            TableCell(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
+                child: Text(S.of(context).minOrderValue,style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
               ),
             ),
             TableCell(
@@ -93,7 +93,7 @@ class CouponsTable extends StatelessWidget {
             TableCell(
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 6.0).w,
-                child: Text('Valid for',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
+                child: Text(S.of(context).validFor,style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color: tdBlack),textAlign: TextAlign.center,),
               ),
             ),
             TableCell(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class TermsAndPrivacySignUp extends StatelessWidget {
   const TermsAndPrivacySignUp({
@@ -12,27 +13,28 @@ class TermsAndPrivacySignUp extends StatelessWidget {
 
     return Text.rich(
       TextSpan(
-        text: 'By creating an account, you agree to our ',
+        text: '${S.of(context).byCreatingAccount} ',
         style: TextStyle(
           fontSize: 9.sp,
           color: tdGrey,
             fontWeight: FontWeight.w400
         ),
-        children: const <TextSpan>[
+        children:  <TextSpan>[
           TextSpan(
-            text: 'Terms of Service',
+            text: S.of(context).termsOfService,
             style: TextStyle(
               color: tdGreen,
               fontWeight: FontWeight.w400,
-
+              fontSize: 9.sp
             ),
           ),
-          TextSpan(text: ' and '),
+          TextSpan(text: ' ${S.of(context).and} '),
           TextSpan(
-            text: 'Privacy Policy',
+            text: S.of(context).privacyPolicyS,
             style: TextStyle(
               color: tdGreen,
               fontWeight: FontWeight.w400,
+              fontSize: 9.sp
             ),
           ),
         ],

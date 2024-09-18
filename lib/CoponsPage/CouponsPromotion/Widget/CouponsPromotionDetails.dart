@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import 'package:zawiid/generated/l10n.dart';
 import '../../../ApiEndPoint.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../provider/Coupons_Provider.dart';
@@ -40,7 +40,7 @@ class CouponsPromotionDetails extends StatelessWidget {
       Clipboard.setData(ClipboardData(text: text));
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
-          content: Text('Coupon code copied',style: TextStyle(fontSize: 10.sp,color: tdWhite),),
+          content: Text(S.of(context).couponCodeCopied,style: TextStyle(fontSize: 10.sp,color: tdWhite),),
           duration: const Duration(seconds: 2),
           backgroundColor: tdBlack,
         ),
@@ -76,7 +76,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                     color: tdBlack),
               ),
               Text(
-                ' Coupon & Promo Codes - $formattedStartTime',
+                ' ${S.of(context).couponAndPromoCodes} - $formattedStartTime',
                 style: TextStyle(fontSize: 11.sp, color: tdGrey),
               ),
             ],
@@ -117,7 +117,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                       color: tdBlack),
                   child: Center(
                     child: Text(
-                      'COPY',
+                      S.of(context).copy,
                       style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                   border: Border.all(color: tdBlack)),
               child: Center(
                 child: Text(
-                  'GO TO THE STORE',
+                  S.of(context).goToTheStore,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: tdBlack,
@@ -172,7 +172,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                   height: 10.h,
                 ),
                 Text(
-                  '${markDetails[0].markName} Discount Code:',
+                  '${markDetails[0].markName} ${S.of(context).discountCode}',
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: tdBlack,
@@ -186,7 +186,7 @@ class CouponsPromotionDetails extends StatelessWidget {
                   height: 10.h,
                 ),
                 Text(
-                  'Expires in $formattedEndTime',
+                  '${S.of(context).expiresIn} $formattedEndTime',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.sp,

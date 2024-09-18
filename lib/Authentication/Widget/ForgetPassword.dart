@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class ForgetPasswordWidget extends StatelessWidget {
   const ForgetPasswordWidget({
@@ -20,7 +21,7 @@ class ForgetPasswordWidget extends StatelessWidget {
               context.push(context.namedLocation('ForgetPassword'));
             },
             child:  Text(
-              'FORGOT PASSWORD?',
+              S.of(context).forgotPassword,
               style: TextStyle(
                   fontSize: 9.sp,
                   fontWeight: FontWeight.bold,

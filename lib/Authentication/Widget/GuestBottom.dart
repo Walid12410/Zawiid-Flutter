@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../Color&Icons/color.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class GuestBottom extends StatelessWidget {
   const GuestBottom({
@@ -29,7 +36,7 @@ class GuestBottom extends StatelessWidget {
               children: [
                 SizedBox(width: 35.w),
                 Text(
-                  'CONTINUE AS A GUEST',
+                  S.of(context).continueAsAGuest,
                   style: TextStyle(
                       fontSize: 9.sp,
                       fontWeight: FontWeight.bold,
@@ -37,7 +44,8 @@ class GuestBottom extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 8).w,
+                  padding:isArabic()? const EdgeInsets.only(left: 8).w :
+                  const EdgeInsets.only(right: 8).w,
                   child: Container(
                     width: 22.w,
                     height: 20.h,

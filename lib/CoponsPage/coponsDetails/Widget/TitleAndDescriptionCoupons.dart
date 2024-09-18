@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import '../../../Color&Icons/color.dart';
 import '../../../provider/SelectionMarkColor_Provider.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 class TitleAndDescription extends StatelessWidget {
   const TitleAndDescription({
@@ -55,7 +56,7 @@ class TitleAndDescription extends StatelessWidget {
                     color: tdBlack),
               ),
               Text(
-                ' Coupon & Promo Codes',
+                ' ${S.of(context).couponAndPromoCodes}',
                 style: TextStyle(fontSize: 11.sp, color: tdGrey),
               ),
             ],

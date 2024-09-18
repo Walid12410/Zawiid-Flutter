@@ -8,6 +8,14 @@ import 'package:zawiid/provider/Cart_Provider.dart';
 import '../Widget/PageHeadWidget.dart';
 import '../provider/Auth_Provider.dart';
 import 'Widget/PaymentDetails.dart';
+import 'package:intl/intl.dart';
+import 'package:zawiid/generated/l10n.dart';
+
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
+
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -54,7 +62,7 @@ class _PaymentPageState extends State<PaymentPage> {
             body: SafeArea(
               child: Center(
                 child: Text(
-                  'Something went wrong, check you connection.',
+                  S.of(context).errorConnection,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: tdGrey,
@@ -72,7 +80,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   child: Column(
                     children: [
                       PageHeadView(
-                        title: 'Payment',
+                        title: S.of(context).payment,
                         onPressed: () {
                           GoRouter.of(context).go("/home");
                         },
