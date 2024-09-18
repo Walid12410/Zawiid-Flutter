@@ -11,6 +11,8 @@ import 'Widget/BidPageHead.dart';
 import 'Widget/BidPageImage.dart';
 import 'package:zawiid/generated/l10n.dart';
 
+import 'Widget/LoadingContainerBid.dart';
+
 
 class BidPage extends StatefulWidget {
   const BidPage(
@@ -62,10 +64,7 @@ class _BidPageState extends State<BidPage> {
           future: _loadData(productById, colorById, bidProvider, auth),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                color: tdBlack,
-              ));
+              return const LoadingContainerBid();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -100,3 +99,4 @@ class _BidPageState extends State<BidPage> {
     );
   }
 }
+

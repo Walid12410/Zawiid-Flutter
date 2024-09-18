@@ -9,6 +9,7 @@ import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import '../ConnectivityCheck.dart';
 import '../provider/Auth_Provider.dart';
+import 'Widget/LoadingContainer.dart';
 import 'Widget/ShowDetails.dart';
 import 'Widget/TicketDetailsBottom.dart';
 import 'Widget/TicketDetailsText.dart';
@@ -87,7 +88,7 @@ class _TicketMainState extends State<TicketMain> {
 
 
     if (allTickets.isEmpty) {
-      return _buildLoadingScreen();
+      return const LoadingContainerTicket();
     }
 
     final startedTickets = allTickets
@@ -199,11 +200,6 @@ class _TicketMainState extends State<TicketMain> {
     }
   }
 
-  Widget _buildLoadingScreen() {
-    return const Center(
-      child: CircularProgressIndicator(color: tdBlack),
-    );
-  }
 
   Widget _buildLogo() {
     return Center(
@@ -218,3 +214,4 @@ class _TicketMainState extends State<TicketMain> {
     );
   }
 }
+

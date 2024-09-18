@@ -10,6 +10,8 @@ import 'Widget/ItemViewHead.dart';
 import 'Widget/ItemViewSearchBar.dart';
 import 'package:zawiid/generated/l10n.dart';
 
+import 'Widget/LoadingCategoryItem.dart';
+
 class ItemViewCategories extends StatefulWidget {
   const ItemViewCategories(
       {Key? key, required this.title, required this.categoryId})
@@ -59,10 +61,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
           future: _fetchProductsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                color: tdBlack,
-              ));
+              return const LoadingCategoryItem();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -168,3 +167,4 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     return rows;
   }
 }
+

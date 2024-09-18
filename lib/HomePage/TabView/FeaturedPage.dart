@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/Classes/Featured/Featured.dart';
 import '../../../ApiEndPoint.dart';
 import '../../../provider/Products_Provider.dart';
-import '../TabCard.dart';
+import '../Widget/TabCard.dart';
 
 class FeaturedPageView extends StatelessWidget {
   const FeaturedPageView({Key? key}) : super(key: key);

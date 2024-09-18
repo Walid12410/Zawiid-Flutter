@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import '../Color&Icons/color.dart';
 import '../ConnectivityCheck.dart';
 import '../provider/Coupons_Provider.dart';
 import 'Widget/CouponsListMark.dart';
+import 'Widget/LoadingContainerCoupons.dart';
 
 class CouponsMain extends StatefulWidget {
   const CouponsMain({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _CouponsMainState extends State<CouponsMain> {
       future: _fetchCouponsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: tdBlack));
+          return const LoadingContainerCoupons();
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -96,4 +96,5 @@ class _CouponsMainState extends State<CouponsMain> {
     );
   }
 }
+
 

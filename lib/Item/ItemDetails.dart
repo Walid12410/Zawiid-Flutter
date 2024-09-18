@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/ApiEndPoint.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/Skeleton/Skeleton.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
@@ -17,6 +18,8 @@ import 'Widget/ItemShipping.dart';
 import 'Widget/ItemTitle.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/generated/l10n.dart';
+
+import 'Widget/LoadingContainerItem.dart';
 
 bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
@@ -98,11 +101,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           future: _fetchDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: tdBlack,
-                ),
-              );
+              return const LoadingContainerItem();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -186,3 +185,4 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     );
   }
 }
+

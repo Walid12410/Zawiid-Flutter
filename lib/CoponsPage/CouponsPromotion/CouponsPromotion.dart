@@ -6,6 +6,7 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/Widget/PageHeadWidget.dart';
 import '../../provider/Coupons_Provider.dart';
 import 'Widget/CouponsPromotionDetails.dart';
+import 'Widget/LoadingContainerCouponsPromotion.dart';
 
 
 class CouponsPromotion extends StatefulWidget {
@@ -32,8 +33,10 @@ class _CouponsPromotionState extends State<CouponsPromotion> {
   Widget build(BuildContext context) {
     CouponsProvider couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
     var getCoupons = couponsProvider.oneCoupon;
+
+
     if(getCoupons.isEmpty || getCoupons[0].couponNo != widget.getCouponsID){
-      return const Center(child: CircularProgressIndicator(color: tdBlack,),);
+      return const LoadingContainerCouponsPromotion();
     }
 
     return Scaffold(
@@ -54,6 +57,7 @@ class _CouponsPromotionState extends State<CouponsPromotion> {
     );
   }
 }
+
 
 
 

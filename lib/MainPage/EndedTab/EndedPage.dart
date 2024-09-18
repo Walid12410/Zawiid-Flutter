@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Color&Icons/color.dart';
+import 'package:zawiid/MainPage/LoadingContainerUpcoming.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import '../../ApiEndPoint.dart';
 import 'Widget/SoldDetail.dart';
@@ -37,11 +38,7 @@ class _EndedTabState extends State<EndedTab> {
           future: _bidFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: tdBlack,
-                ),
-              );
+              return const LoadingContainerUpcoming();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(

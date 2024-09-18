@@ -21,13 +21,14 @@ import '../ConnectivityCheck.dart';
 import '../Drawer/DrawerPage.dart';
 import '../provider/Cart_Provider.dart';
 import '../provider/Categories_Provider.dart';
+import 'TabView/FeaturedPage.dart';
+import 'TabView/OnSalePage.dart';
+import 'TabView/TopRatedPage.dart';
 import 'Widget/FeaturedProduct.dart';
+import 'Widget/LoadingContainer.dart';
 import 'Widget/OpeningImage.dart';
 import 'Widget/SearchBar.dart';
 import 'Widget/SecondOpeningImage.dart';
-import 'Widget/TabView/FeaturedPage.dart';
-import 'Widget/TabView/OnSalePage.dart';
-import 'Widget/TabView/TopRatedPage.dart';
 import 'Widget/WeekDealCard.dart';
 import 'ExploreProduct/ProductOfSubCatHomePage.dart';
 import 'package:intl/intl.dart';
@@ -152,11 +153,7 @@ class _HomePageState extends State<HomePage> {
             future: _fetchDataFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: tdBlack,
-                  ),
-                );
+                return const LoadingContainer();
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text(
@@ -204,30 +201,8 @@ class _HomePageState extends State<HomePage> {
                         height: 5.h,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10).w,
-                        child: Container(
-                          height: 1.h,
-                          color: tdGrey,
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 113.w,
-                                height: 2.h,
-                                color: tdBlack,
-                              ),
-                              Container(
-                                width: 113.w,
-                                height: 2.h,
-                                color: tdGrey,
-                              ),
-                              Container(
-                                width: 113.w,
-                                height: 2.h,
-                                color: tdGrey,
-                              )
-                            ],
-                          ),
-                        ),
+                        padding: const EdgeInsets.only(left: 10,right: 10).w,
+                        child: Divider(color: tdGrey,thickness: 1.w,),
                       ),
                       SizedBox(height: 10.h),
                       Column(
@@ -650,6 +625,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+
 
 
 bool isArabic() {

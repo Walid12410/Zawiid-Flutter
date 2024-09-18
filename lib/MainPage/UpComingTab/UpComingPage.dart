@@ -8,6 +8,7 @@ import 'package:zawiid/Color&Icons/color.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import '../../ConnectivityCheck.dart';
 import 'Widget/DetailsCard.dart';
+import '../LoadingContainerUpcoming.dart';
 
 class UpComingTab extends StatefulWidget {
   const UpComingTab({super.key});
@@ -53,11 +54,7 @@ class _UpComingTabState extends State<UpComingTab> {
           future: _bidFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: tdBlack,
-                ),
-              );
+              return const LoadingContainerUpcoming();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -127,3 +124,4 @@ class _UpComingTabState extends State<UpComingTab> {
     );
   }
 }
+

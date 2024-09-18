@@ -7,6 +7,7 @@ import 'package:zawiid/Widget/PageHeadWidget.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import '../../provider/SelectionMarkColor_Provider.dart';
 import 'Widget/CouponsCardDetails.dart';
+import 'Widget/LoadingContainerCouponsDetails.dart';
 import 'Widget/TitleAndDescriptionCoupons.dart';
 
 class CouponsDetails extends StatefulWidget {
@@ -49,10 +50,7 @@ class _CouponsDetailsState extends State<CouponsDetails> {
           future: _fetchDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                color: tdBlack,
-              ));
+              return const LoadingContainerCouponsDetails();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -116,3 +114,4 @@ class _CouponsDetailsState extends State<CouponsDetails> {
     );
   }
 }
+
