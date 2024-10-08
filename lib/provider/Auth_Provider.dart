@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zawiid/ApiService/DeviceTokenService/DeleteDeviceApi.dart';
-
-import '../DeviceName/DeviceName.dart';
+import 'package:zawiid/Api/DeviceTokenService.dart';
+import 'package:zawiid/core/DeviceName/DeviceName.dart';
 
 class AuthProvider with ChangeNotifier {
+  DeviceTokenService deviceService = DeviceTokenService();
 
   bool _isLoggedIn = false;
   int _userId = 0;
@@ -17,7 +17,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  AuthProvider(){
+  AuthProvider() {
     _loadFromPrefs();
   }
 
@@ -29,7 +29,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> logout() async {
     String deviceName = await DeviceInfoHelper.getDeviceInfo();
-    await deleteDeviceToken(userNo: _userId, deviceName: deviceName);
+    await deviceService.deleteDeviceToken(
+        userNo: _userId, deviceName: deviceName);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLogIn', false);
     await prefs.setInt('userID', 0);

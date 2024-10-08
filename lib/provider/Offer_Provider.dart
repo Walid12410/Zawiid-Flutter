@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zawiid/ApiService/OfferService/CheckIfOfferApi.dart';
-import 'package:zawiid/ApiService/OfferService/GetAllOfferApi.dart';
-import 'package:zawiid/Classes/CheckOffer/OfferResponse.dart';
-import 'package:zawiid/Classes/offer/offer.dart';
+import 'package:zawiid/Api/OfferService.dart';
+import 'package:zawiid/model/CheckOffer/OfferResponse.dart';
+import 'package:zawiid/model/offer/offer.dart';
 
 class OfferProvider with ChangeNotifier {
+  OfferService service = OfferService();
 
   List<Offer> _allOffer = [];
   List<Offer> get allOffer => _allOffer;
   getAllOffer() async {
-    final res = await fetchAllOffer();
+    final res = await service.fetchAllOffer();
     _allOffer = res;
     notifyListeners();
   }
-
 
   List<OfferResponse> _offerCheck = [];
 
@@ -24,13 +23,9 @@ class OfferProvider with ChangeNotifier {
     }).toList();
   }
 
-  getOfferCheck(int id) async{
-    final res = await fetchOfferCheck(id);
+  getOfferCheck(int id) async {
+    final res = await service.fetchOfferCheck(id);
     _offerCheck = res.offers;
     notifyListeners();
   }
-
-
-
-
 }

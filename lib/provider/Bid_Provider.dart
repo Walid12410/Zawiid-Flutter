@@ -1,20 +1,18 @@
 import 'package:flutter/foundation.dart';
-import 'package:zawiid/ApiService/BidService//BidApi.dart';
-import 'package:zawiid/ApiService/BidService/BidByIdApi.dart';
-import 'package:zawiid/ApiService/BidService/BidZawidLastAmtApi.dart';
-import 'package:zawiid/Classes/Bid/BIdZawid.dart';
-import 'package:zawiid/Classes/Bid/Bid.dart';
-import 'package:zawiid/Classes/Bid/bidProduct.dart';
-
-import '../ApiService/BidService/UserLatestBid.dart';
+import 'package:zawiid/Api/BidService.dart';
+import 'package:zawiid/model/Bid/BIdZawid.dart';
+import 'package:zawiid/model/Bid/Bid.dart';
+import 'package:zawiid/model/Bid/bidProduct.dart';
 
 
 class BidProvider with ChangeNotifier {
+  BidService bid = BidService();
+
 
   List<BidProduct> _bidView = [];
   List<BidProduct> get bidView => _bidView;
   getAllBid() async {
-    final res = await fetchAllBid();
+    final res = await bid.fetchAllBid();
     _bidView = res;
     notifyListeners();
   }
@@ -22,7 +20,7 @@ class BidProvider with ChangeNotifier {
   List<Bid> _bidById = [];
   List<Bid> get bidById => _bidById;
   getBidById(int id) async {
-    final res = await fetchBidById(id);
+    final res = await bid.fetchBidById(id);
     _bidById = res;
     notifyListeners();
   }
@@ -30,7 +28,7 @@ class BidProvider with ChangeNotifier {
   List<BidZawid> _latestBid = [];
   List<BidZawid> get latestBid => _latestBid;
   getLatestBid(int id) async {
-    final res = await fetchLatestBid(id);
+    final res = await bid.fetchLatestBid(id);
     _latestBid = res ;
     notifyListeners();
   }
@@ -38,7 +36,7 @@ class BidProvider with ChangeNotifier {
   List<BidZawid> _latestUserBid = [];
   List<BidZawid> get latestUserBid => _latestUserBid;
   getLatestUserBid(int userNo , int bidNo) async {
-    final res = await fetchLatestUserBid(userNo,bidNo);
+    final res = await bid.fetchLatestUserBid(userNo,bidNo);
     _latestUserBid = res ;
     notifyListeners();
   }

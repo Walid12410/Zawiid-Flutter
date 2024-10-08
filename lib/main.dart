@@ -6,8 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zawiid/FirebaseApi/firebase_api.dart';
-import 'package:zawiid/FirebaseApi/firebase_options.dart';
+import 'package:zawiid/core/ConnectivityCheck.dart';
+import 'package:zawiid/core/LocalNotification.dart';
+import 'package:zawiid/core/route/GoRouter.dart';
+import 'package:zawiid/firebase/firebase_api.dart';
+import 'package:zawiid/firebase/firebase_options.dart';
+import 'package:zawiid/localization/generated/l10n.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
@@ -26,11 +30,7 @@ import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
-import 'ConnectivityCheck.dart';
-import 'LocalNotification.dart';
-import 'Route/RouteNaviagtor.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

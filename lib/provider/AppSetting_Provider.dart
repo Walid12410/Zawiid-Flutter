@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-
-import '../ApiService/SettingApp.dart';
-import '../Classes/AppSetting.dart';
+import 'package:zawiid/Api/SettingAppService.dart';
+import '../model/AppSetting.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  List<Setting> _settings = [];
+  SettingAppService settingService = SettingAppService();
 
+  List<Setting> _settings = [];
   List<Setting> get settings => _settings;
 
   Future<void> loadSettings() async {
-    ApiService apiService = ApiService();
-    _settings = await apiService.fetchSettings();
+    _settings = await settingService.fetchSettings();
     notifyListeners();
   }
 }

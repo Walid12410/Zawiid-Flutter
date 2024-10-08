@@ -1,23 +1,21 @@
 import 'package:flutter/foundation.dart';
-import 'package:zawiid/ApiService/FeaturedService/FeaturedProductApi.dart';
-import 'package:zawiid/ApiService/ProductService/ProductApi.dart';
-import 'package:zawiid/ApiService/ProductService/ProductByIdApi.dart';
-import 'package:zawiid/ApiService/ProductService/ProductDetails.dart';
-import 'package:zawiid/ApiService/ProductService/ProductOnSaleApi.dart';
-import 'package:zawiid/ApiService/ProductService/ProductTopRated.dart';
-import 'package:zawiid/Classes/Featured/Featured.dart';
-import 'package:zawiid/Classes/Product/ProductCategory.dart';
-import 'package:zawiid/Classes/Product/ProductDetails.dart';
-import 'package:zawiid/Classes/Product/Products.dart';
+import 'package:zawiid/Api/FeatureService.dart';
+import 'package:zawiid/Api/ProductService.dart';
+import 'package:zawiid/model/Featured/Featured.dart';
+import 'package:zawiid/model/Product/ProductCategory.dart';
+import 'package:zawiid/model/Product/ProductDetails.dart';
+import 'package:zawiid/model/Product/Products.dart';
 
 class ProductsProvider with ChangeNotifier {
+  ProductService productService = ProductService();
+  FeatureService featureService = FeatureService();
 
   List<ProductCategory> _categoryProducts = [];
 
   List<ProductCategory> get categoryProduct => _categoryProducts;
 
   getAllCategoryProducts(int id) async {
-    final res = await fetchProductByCategoryNo(id);
+    final res = await productService.fetchProductByCategoryNo(id);
     _categoryProducts = res;
     notifyListeners();
   }
@@ -27,7 +25,7 @@ class ProductsProvider with ChangeNotifier {
   List<ProductCategory> get categoryProductHome => _categoryProductsHome;
 
   getAllCategoryProductsHome(int id) async {
-    final res = await fetchProductByCategoryNo(id);
+    final res = await productService.fetchProductByCategoryNo(id);
     _categoryProductsHome = res;
     notifyListeners();
   }
@@ -37,7 +35,7 @@ class ProductsProvider with ChangeNotifier {
   List<Featured> get featuredProduct => _featuredProduct;
 
   getAllFeaturedProduct() async {
-    final res = await fetchFeaturedProducts();
+    final res = await featureService.fetchFeaturedProducts();
     _featuredProduct = res;
     notifyListeners();
   }
@@ -47,7 +45,7 @@ class ProductsProvider with ChangeNotifier {
   List<Featured> get featuredProductCard => _featuredProductCard;
 
   getAllFeaturedProductCard() async {
-    final res = await fetchFeaturedProducts();
+    final res = await featureService.fetchFeaturedProducts();
     _featuredProductCard = res;
     notifyListeners();
   }
@@ -57,7 +55,7 @@ class ProductsProvider with ChangeNotifier {
   List<Product> get productOnSale => _productOnSale;
 
   getProductsOnSale() async {
-    final res = await fetchProductOnSale();
+    final res = await productService.fetchProductOnSale();
     _productOnSale = res;
     notifyListeners();
   }
@@ -67,7 +65,7 @@ class ProductsProvider with ChangeNotifier {
   List<Product> get productTopRated => _productTopRated;
 
   getProductsTopRated() async {
-    final res = await fetchProductTopRated();
+    final res = await productService.fetchProductTopRated();
     _productTopRated = res;
     notifyListeners();
   }
@@ -77,7 +75,7 @@ class ProductsProvider with ChangeNotifier {
   List<Product> get productById => _productById;
 
   getProductById(int id) async {
-    final res = await fetchProductById(id);
+    final res = await productService.fetchProductById(id);
     _productById = res;
     notifyListeners();
   }
@@ -87,18 +85,17 @@ class ProductsProvider with ChangeNotifier {
   List<Product> get productByIdBid => _productByIdBid;
 
   getProductByIdBid(int id) async {
-    final res = await fetchProductById(id);
+    final res = await productService.fetchProductById(id);
     _productByIdBid = res;
     notifyListeners();
   }
-
 
   List<Product> _productByIdTicket = [];
 
   List<Product> get productByIdTicket => _productByIdTicket;
 
   getProductByIdTicket(int id) async {
-    final res = await fetchProductById(id);
+    final res = await productService.fetchProductById(id);
     _productByIdTicket = res;
     notifyListeners();
   }
@@ -108,10 +105,8 @@ class ProductsProvider with ChangeNotifier {
   List<ProductDetails> get productDetailsById => _productDetailsById;
 
   getProductDetailsById(int id) async {
-    final res = await fetchProductDetailsById(id);
+    final res = await productService.fetchProductDetailsById(id);
     _productDetailsById = res;
     notifyListeners();
   }
-
 }
-

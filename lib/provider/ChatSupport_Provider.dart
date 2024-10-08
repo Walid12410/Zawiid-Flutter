@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:zawiid/ApiService/MessageService/ChatRoomViewApi.dart';
-import 'package:zawiid/Classes/ChatSupport/ChatRoom.dart';
-import '../ApiService/MessageService/MessageServiceApi.dart';
-import '../Classes/ChatSupport/Message.dart';
+import 'package:zawiid/Api/MessageService/ChatRoomViewApi.dart';
+import 'package:zawiid/model/ChatSupport/ChatRoom.dart';
+import '../Api/MessageService/MessageServiceApi.dart';
+import '../model/ChatSupport/Message.dart';
 
 class ChatSupportProvider with ChangeNotifier {
 

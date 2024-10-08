@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zawiid/ApiService/GovArea/AreaApi.dart';
-import 'package:zawiid/ApiService/GovArea/GovApi.dart';
-import 'package:zawiid/Classes/GovArea/Governerate.dart';
-import '../Classes/GovArea/Area.dart';
+import 'package:zawiid/Api/GovAreaService.dart';
+import 'package:zawiid/model/GovArea/Governerate.dart';
+import '../model/GovArea/Area.dart';
 
 class GovAreaProvider with ChangeNotifier {
+  GovAreaService service = GovAreaService();
 
   List<Governorate> _gov = [];
   List<Governorate> get gov => _gov;
   getAllGov() async {
-    final res = await fetchAllGov();
+    final res = await service.fetchAllGov();
     _gov = res;
     notifyListeners();
   }
@@ -17,10 +17,8 @@ class GovAreaProvider with ChangeNotifier {
   List<Area> _area = [];
   List<Area> get area => _area;
   getAllArea() async {
-    final res = await fetchAllArea();
+    final res = await service.fetchAllArea();
     _area = res;
     notifyListeners();
   }
-
-
 }

@@ -1,17 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:zawiid/ApiService/OrderService/OrderByUserApi.dart';
-
-import '../Classes/Order/OrderDetails.dart';
-
+import 'package:zawiid/Api/OrderService.dart';
+import '../model/Order/OrderDetails.dart';
 
 class OrderProvider with ChangeNotifier {
+  OrderService service = OrderService();
 
   List<OrderDetails> _orderUser = [];
   List<OrderDetails> get orderUser => _orderUser;
   getOrderByUser(int id) async {
-    final res = await fetchOrderByUser(id);
+    final res = await service.fetchOrderByUser(id);
     _orderUser = res;
     notifyListeners();
   }
-
 }

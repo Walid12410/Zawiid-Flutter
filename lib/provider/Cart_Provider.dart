@@ -1,33 +1,29 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:zawiid/ApiEndPoint.dart';
-import 'package:zawiid/ApiService/CartService/CartApi.dart';
-import 'package:zawiid/ApiService/CartService/CheckProductApi.dart';
-import 'package:zawiid/ApiService/CartService/GetAllCartDetailsApi.dart';
-import 'package:zawiid/Classes/Cart/Cart.dart';
+import 'package:zawiid/Api/CartService.dart';
+import 'package:zawiid/core/config.dart';
+import 'package:zawiid/model/Cart/Cart.dart';
 import 'package:http/http.dart' as http;
-import 'package:zawiid/Classes/Cart/CartDetails.dart';
-
-import '../ApiService/CartService/DeleteOneCartApi.dart';
-import '../ApiService/CartService/UpdateCartApi.dart';
+import 'package:zawiid/model/Cart/CartDetails.dart';
 
 class CartProvider with ChangeNotifier {
+
+  CartService cartServices = CartService();
 
 
   List<Cart> _cartUser = [];
   List<Cart> get cartUser => _cartUser;
   getAllCartOfUser(int id) async {
-    final res = await fetchCartByUserNo(id);
+    final res = await cartServices.fetchCartByUserNo(id);
     _cartUser = res;
     notifyListeners();
   }
 
   Future<void> updateCartItem(int userNo, int productNo, int quantity, double price) async {
     try {
-      await updateCart(userNo, productNo, quantity);
+      await cartServices.updateCart(userNo, productNo, quantity);
       final index = _cartUser.indexWhere((item) => item.productNo == productNo);
       if (index != -1) {
         _cartUser[index].productCartQty = quantity;
@@ -41,7 +37,7 @@ class CartProvider with ChangeNotifier {
 
   Future<void> deleteCartItem(int userNo, int productNo) async {
     try {
-      final success = await deleteCart(userNo, productNo);
+      final success = await cartServices.deleteCart(userNo, productNo);
       if (success) {
         _cartDetailsUser.removeWhere((cart) => cart.productNo == productNo);
         notifyListeners();
@@ -56,7 +52,7 @@ class CartProvider with ChangeNotifier {
   List<CartDetails> _cartDetailsUser = [];
   List<CartDetails> get cartDetailsUser => _cartDetailsUser;
   getAllCartDetailsOfUser(int id) async {
-    final res = await fetchAllCartDetailsByUser(id);
+    final res = await cartServices.fetchAllCartDetailsByUser(id);
     _cartDetailsUser = res;
     notifyListeners();
   }
@@ -164,7 +160,7 @@ class CartProvider with ChangeNotifier {
   List<Cart> _viewCartFound = [];
   List<Cart> get viewCartFound => _viewCartFound;
   getIfCartIsAdded(int userId, int productNo) async {
-    final res = await fetchProductCartFound(userId, productNo);
+    final res = await cartServices.fetchProductCartFound(userId, productNo);
     _viewCartFound = res;
     notifyListeners();
   }

@@ -1,26 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zawiid/ApiService/AddressService/ViewAddressApi.dart';
-import 'package:zawiid/Classes/Address/Address.dart';
-
-
+import 'package:zawiid/Api/addressService.dart';
+import 'package:zawiid/model/Address/Address.dart';
 
 class AddressProvider with ChangeNotifier {
+  AddressService address = AddressService();
 
   List<Address> _addressView = [];
   List<Address> get addressView => _addressView;
   getAddressByUserId(int id) async {
-    final res = await fetchAddressOfUser(id);
+    final res = await address.fetchAddressOfUser(id);
     _addressView = res;
     notifyListeners();
   }
-
 
   void removeAddress(int id) {
     _addressView.removeWhere((address) => address.addressNo == id);
     notifyListeners();
   }
-
 
   int _defaultAddressNo = 0;
   int get defaultAddressNo => _defaultAddressNo;

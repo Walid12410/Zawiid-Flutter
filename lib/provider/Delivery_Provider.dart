@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zawiid/ApiService/DeliveryService/AllDeliveryOptApi.dart';
-import 'package:zawiid/ApiService/DeliveryService/GetOneDeliveryOptions.dart';
-import 'package:zawiid/Classes/Delivery/Delivery.dart';
+import 'package:zawiid/Api/DeliveryService.dart';
+import 'package:zawiid/model/Delivery/Delivery.dart';
 
 class DeliveryProvider with ChangeNotifier {
+  DeliveryService delivery = DeliveryService();
+
   List<DeliveryOption> _allDeliveryOpt = [];
   List<DeliveryOption> get allDeliveryOpt => _allDeliveryOpt;
 
@@ -19,7 +20,7 @@ class DeliveryProvider with ChangeNotifier {
   }
 
   Future<void> getAllDeliveryOptions() async {
-    final res = await fetchAllDeliveryOptions();
+    final res = await delivery.fetchAllDeliveryOptions();
     _allDeliveryOpt = res;
     notifyListeners();
     _setDefaultOption();
@@ -28,7 +29,7 @@ class DeliveryProvider with ChangeNotifier {
   void _setDefaultOption() {
     if (_allDeliveryOpt.isNotEmpty) {
       final defaultOption = _allDeliveryOpt.firstWhere(
-            (option) => option.isDefault == 1,
+        (option) => option.isDefault == 1,
         orElse: () => _allDeliveryOpt.first, // Fallback if no default
       );
       optionsSelected = defaultOption.shippingOptionID;
@@ -44,14 +45,11 @@ class DeliveryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   List<DeliveryOption> _oneDeliveryOptions = [];
   List<DeliveryOption> get oneDeliveryOptions => _oneDeliveryOptions;
   getOneDeliveryOptions(int id) async {
-    final res = await fetchOneDeliveryOptions(id);
+    final res = await delivery.fetchOneDeliveryOptions(id);
     _oneDeliveryOptions = res;
     notifyListeners();
   }
-
-
 }
