@@ -33,13 +33,20 @@ class LoadingContainer extends StatelessWidget {
           SizedBox(height: 5.h,),
           Skeleton(height: 200.h,width: double.infinity,),
           SizedBox(height: 10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Skeleton(height: 100.h,width: 240.h,),
-              Skeleton(height: 100.h,width: 40.w,),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 5, right: 5).w,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Skeleton(height: 100.h,width: 240.h,),
+                  SizedBox(width : 5.w),
+                  Skeleton(height: 100.h,width: 240.w,),
+                ],
+              ),
+            ),
           ),
           SizedBox(height: 5.h),
           Skeleton(height: 1.h,width: double.infinity,),

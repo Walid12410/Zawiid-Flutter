@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/config.dart';
 import '../../../../provider/Products_Provider.dart';
-import '../TabCard.dart';
+import '../../../../Widget/TabCard.dart';
 
 class OnSalePageView extends StatelessWidget {
   const OnSalePageView({super.key});
