@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/Api/AddressService.dart';
+import 'package:zawiid/Widget/Toast/ToastError.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
-import 'AlertDialog/AlertAddressInsert.dart';
 import 'Details/AddAddressHead.dart';
 
 class AddAddressPage extends StatefulWidget {
@@ -21,7 +23,7 @@ class AddAddressPage extends StatefulWidget {
 class _AddAddressPageState extends State<AddAddressPage> {
   String? selectedGovernorate;
   String? selectedArea;
-  bool _isAddingAddress = false;
+  bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey();
   FocusNode focusNode = FocusNode();
   String _countryCode = '';
@@ -32,8 +34,6 @@ class _AddAddressPageState extends State<AddAddressPage> {
   final TextEditingController _building = TextEditingController();
   final TextEditingController _floor = TextEditingController();
 
-  final AlertUserAddressAdded addingAddress = AlertUserAddressAdded();
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -42,24 +42,40 @@ class _AddAddressPageState extends State<AddAddressPage> {
     super.initState();
   }
 
-
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(fontSize: 10.sp, color: tdWhite),
-        ),
-        backgroundColor: tdBlack,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+  void createAddress(String number, String block, String gov, String area,
+      String street, String building, String floor) async {
+    UserProvider userDetails =
+        Provider.of<UserProvider>(context, listen: false);
+    var userInfo = userDetails.userInfo.first;
+    AddressService service = AddressService();
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool isCreated = await service.insertAddress(
+          number, gov, area, block, street, building, floor, userInfo.userNo);
+      if (isCreated) {
+        if (widget.isCheckOut == 1) {
+          setState(() {
+            context.push(context.namedLocation('shippingAddress'));
+          });
+        } else {
+          setState(() {
+            context.goNamed("AddressView");
+          });
+        }
+      }
+    } catch (e) {
+      showToast('Something went wrong $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
-    UserProvider userDetails = Provider.of<UserProvider>(context, listen: true);
-    var userInfo = userDetails.userInfo;
     final provider = Provider.of<GovAreaProvider>(context);
     return Scaffold(
       backgroundColor: tdWhite,
@@ -102,7 +118,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           ],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5, top: 15).w,
+                          padding:
+                              const EdgeInsets.only(left: 5, right: 5, top: 15)
+                                  .w,
                           child: IntlPhoneField(
                             focusNode: focusNode,
                             languageCode: "en",
@@ -126,21 +144,26 @@ class _AddAddressPageState extends State<AddAddressPage> {
                               color: tdBlack,
                             ),
                             dropdownDecoration: BoxDecoration(
-                              border: Border.all(color: Colors.transparent), // Removes the border
+                              border: Border.all(
+                                  color:
+                                      Colors.transparent), // Removes the border
                               borderRadius: BorderRadius.circular(0),
                             ),
                             cursorColor: tdBlack, // Color of the cursor
                             disableAutoFillHints: true,
                             onChanged: (phone) {
                               setState(() {
-                                _countryCode = phone.countryCode!;
-                                _contactNum.text = phone.number!;
-                                _contactNum.selection = TextSelection.fromPosition(TextPosition(offset: _contactNum.text.length)); // Move cursor to end
+                                _countryCode = phone.countryCode;
+                                _contactNum.text = phone.number;
+                                _contactNum.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: _contactNum.text
+                                            .length)); // Move cursor to end
                               });
                             },
                             onCountryChanged: (country) {
                               setState(() {
-                                _countryCode = country.dialCode!;
+                                _countryCode = country.dialCode;
                               });
                             },
                           ),
@@ -177,7 +200,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                             child: DropdownButton<String>(
                               hint: Text(
                                 S.of(context).governorate,
-                                style: TextStyle(fontSize: 12.sp, color: tdBlack),
+                                style:
+                                    TextStyle(fontSize: 12.sp, color: tdBlack),
                               ),
                               value: selectedGovernorate,
                               items: provider.gov.map((gov) {
@@ -236,7 +260,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                             child: DropdownButton<String>(
                               hint: Text(
                                 S.of(context).area,
-                                style: TextStyle(fontSize: 12.sp, color: tdBlack),
+                                style:
+                                    TextStyle(fontSize: 12.sp, color: tdBlack),
                               ),
                               value: selectedArea,
                               items: provider.area
@@ -270,7 +295,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         height: 10.h,
                       ),
                       Text(
-                       S.of(context).block,
+                        S.of(context).block,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12.sp,
@@ -439,37 +464,26 @@ class _AddAddressPageState extends State<AddAddressPage> {
                       SizedBox(height: 35.h),
                       Center(
                         child: GestureDetector(
-                          onTap: () async {
-                            if (_isAddingAddress) return; // Prevent multiple submissions
-
-                            setState(() {
-                              _isAddingAddress = true; // Indicate that the address is being added
-                            });
-
-                            try {
-                              await addingAddress.userAddress(
-                                context,
-                                _contactNum.text,
-                                selectedGovernorate,
-                                selectedArea,
-                                _block.text,
-                                _street.text,
-                                _building.text,
-                                _floor.text,
-                                userInfo[0].userNo,
-                                _countryCode,
-                                widget.isCheckOut,
-                              );
-                            } catch (e) {
-                              setState(() {
-                                _showErrorSnackBar(S.of(context).errorOccurred);
-                              });
-                            } finally {
-                              setState(() {
-                                _isAddingAddress = false; // Reset the flag
-                              });
-                            }
-                          },
+                          onTap: isLoading
+                              ? null
+                              : () {
+                                  if (_contactNum.text.isEmpty ||
+                                      _block.text.isEmpty ||
+                                      _building.text.isEmpty ||
+                                      _street.text.isEmpty ||
+                                      selectedArea == null ||
+                                      selectedGovernorate == null) {
+                                    return showToast('SomeField is empty');
+                                  }
+                                  createAddress(
+                                      '$_countryCode ${_contactNum.text}',
+                                      _block.text,
+                                      selectedGovernorate!,
+                                      selectedArea!,
+                                      _street.text,
+                                      _building.text,
+                                      _floor.text);
+                                },
                           child: Container(
                             width: 180.w,
                             decoration: BoxDecoration(
@@ -486,7 +500,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(10).w,
                               child: Text(
-                               S.of(context).save,
+                                isLoading
+                                    ? S.of(context).saving
+                                    : S.of(context).save,
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     color: tdBlack,

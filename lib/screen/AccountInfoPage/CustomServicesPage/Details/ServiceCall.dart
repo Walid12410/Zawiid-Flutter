@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
 
 class ServiceCallUs extends StatelessWidget {

@@ -16,6 +16,9 @@ class AddressProvider with ChangeNotifier {
 
   void removeAddress(int id) {
     _addressView.removeWhere((address) => address.addressNo == id);
+    if (id == _defaultAddressNo) {
+      removeDefaultAddress();
+    }
     notifyListeners();
   }
 
@@ -46,11 +49,4 @@ class AddressProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteAddress(int addressNo) {
-    _addressView.removeWhere((address) => address.addressNo == addressNo);
-    if (addressNo == _defaultAddressNo) {
-      removeDefaultAddress();
-    }
-    notifyListeners();
-  }
 }

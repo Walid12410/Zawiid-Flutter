@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 
 bool isArabic() {

@@ -2,13 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Api/addressService.dart';
+import 'package:zawiid/Widget/Toast/ToastError.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/GovArea_Provider.dart';
 
-class AddressDetails extends StatelessWidget {
+class AddressDetails extends StatefulWidget {
   const AddressDetails({super.key});
+
+  @override
+  State<AddressDetails> createState() => _AddressDetailsState();
+}
+
+class _AddressDetailsState extends State<AddressDetails> {
+  bool isLoading = false;
+
+  void deleteButton(id) async {
+    AddressService address = AddressService();
+    setState(() {
+      isLoading = true;
+    });
+    bool isDeleted = await address.deleteOneAddress(id);
+    try {
+      if (isDeleted) {
+        setState(() {
+          Provider.of<AddressProvider>(context, listen: false)
+              .removeAddress(id);
+        });
+      }
+    } catch (e) {
+      setState(() {
+        showToast(S.of(context).errorConnection);
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +62,23 @@ class AddressDetails extends StatelessWidget {
       padding: const EdgeInsets.all(8).w,
       child: addressUser.isEmpty
           ? Column(
-            children: [
-              SizedBox(height: 100.h),
-              Padding(
-                padding: const EdgeInsets.all(20).w,
-                child: Center(
+              children: [
+                SizedBox(height: 100.h),
+                Padding(
+                  padding: const EdgeInsets.all(20).w,
+                  child: Center(
                     child: Text(
-                     S.of(context).noAddressAvailable,
+                      S.of(context).noAddressAvailable,
                       style: TextStyle(
-                        fontSize: 12.sp,
-                        color: tdGrey,
-                        fontWeight: FontWeight.bold
-                      ),
+                          fontSize: 12.sp,
+                          color: tdGrey,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
-              ),
-            ],
-          )
+                ),
+              ],
+            )
           : Column(
               children: [
                 for (var address in addressUser)
@@ -138,14 +169,13 @@ class AddressDetails extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    AddressService service = AddressService();
-                                    service.deleteAddress(context, address.addressNo);
-                                    addressProvider
-                                        .deleteAddress(address.addressNo);
-                                  },
+                                  onTap: isLoading
+                                      ? null
+                                      : () {
+                                          deleteButton(address.addressNo);
+                                        },
                                   child: Text(
-                                   S.of(context).delete,
+                                     S.of(context).delete,
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       color: tdGrey,

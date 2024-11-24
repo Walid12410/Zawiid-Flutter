@@ -12,7 +12,7 @@ import 'package:zawiid/Widget/Drawer.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/ConnectivityCheck.dart';
 import 'package:zawiid/core/config.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/offer/offer.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
@@ -55,19 +55,19 @@ class _HomePageState extends State<HomePage> {
   late StreamSubscription _connectionChangeStream;
   bool isOffline = false;
 
-
   @override
   void initState() {
     super.initState();
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       GoRouter.of(context).goNamed('NotificationPage');
     });
-    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    ConnectionStatusSingleton connectionStatus =
+        ConnectionStatusSingleton.getInstance();
     connectionStatus.initialize();
-    _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
+    _connectionChangeStream =
+        connectionStatus.connectionChange.listen(connectionChanged);
     _fetchDataFuture = _fetchData();
   }
-
 
   void connectionChanged(dynamic hasConnection) {
     setState(() {
@@ -85,11 +85,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchData() async {
-    final categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
+    final categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final productProvider = Provider.of<ProductsProvider>(context, listen: false);
-    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: false);
+    final productProvider =
+        Provider.of<ProductsProvider>(context, listen: false);
+    final notificationProvider =
+        Provider.of<NotificationsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
     final setting = Provider.of<SettingsProvider>(context, listen: false);
@@ -115,30 +118,20 @@ class _HomePageState extends State<HomePage> {
     if (userProvider.userInfo.first.userNo != 0) {
       if (userProvider.userInfo.first.firstName != "" &&
           userProvider.userInfo.first.lastName != "") {
-        checkChatFound(authProvider.userId,"${userProvider.userInfo.first.firstName} ${userProvider.userInfo.first.lastName}");
+        checkChatFound(authProvider.userId,
+            "${userProvider.userInfo.first.firstName} ${userProvider.userInfo.first.lastName}");
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: true);
+    CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: true);
     var categories = categoryProvider.category;
-    OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: true);
-
-    List<Offer> getNewestOfferProducts() {
-      List<Offer> offerProducts = offerProvider.allOffer;
-      offerProducts.sort((a, b) => b.startDate.compareTo(a.startDate));
-      List<Offer> validOfferProducts = offerProducts
-          .where((offer) =>
-              offer.startDate.isBefore(DateTime.now()) &&
-              offer.endDate.isAfter(DateTime.now()))
-          .toList();
-      return validOfferProducts;
-    }
-
-    List<Offer> newestOfferProducts = getNewestOfferProducts();
-
+    OfferProvider offerProvider =
+        Provider.of<OfferProvider>(context, listen: true);
+    List<Offer> offers = offerProvider.allOffer;
 
     return Scaffold(
       key: HomePage.scaffoldKey,
@@ -201,8 +194,11 @@ class _HomePageState extends State<HomePage> {
                         height: 5.h,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10,right: 10).w,
-                        child: Divider(color: tdGrey,thickness: 1.w,),
+                        padding: const EdgeInsets.only(left: 10, right: 10).w,
+                        child: Divider(
+                          color: tdGrey,
+                          thickness: 1.w,
+                        ),
                       ),
                       SizedBox(height: 10.h),
                       Column(
@@ -225,8 +221,9 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: _currentPage1 == 0
                                             ? FontWeight.bold
                                             : FontWeight.normal,
-                                        color:
-                                            _currentPage1 == 0 ? tdBlack : tdGrey,
+                                        color: _currentPage1 == 0
+                                            ? tdBlack
+                                            : tdGrey,
                                       ),
                                     ),
                                   ),
@@ -256,8 +253,9 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: _currentPage1 == 1
                                             ? FontWeight.bold
                                             : FontWeight.normal,
-                                        color:
-                                            _currentPage1 == 1 ? tdBlack : tdGrey,
+                                        color: _currentPage1 == 1
+                                            ? tdBlack
+                                            : tdGrey,
                                       ),
                                     ),
                                   ),
@@ -287,8 +285,9 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: _currentPage1 == 2
                                             ? FontWeight.bold
                                             : FontWeight.normal,
-                                        color:
-                                            _currentPage1 == 2 ? tdBlack : tdGrey,
+                                        color: _currentPage1 == 2
+                                            ? tdBlack
+                                            : tdGrey,
                                       ),
                                     ),
                                   ),
@@ -339,8 +338,8 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(height: 3.h),
                                 Text(
                                   S.of(context).weekDeals,
-                                  style:
-                                      TextStyle(fontSize: 12.sp, color: tdBlack),
+                                  style: TextStyle(
+                                      fontSize: 12.sp, color: tdBlack),
                                 ),
                                 SizedBox(height: 2.h),
                                 LinearProgressBar(
@@ -360,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                                     });
                                   },
                                   children: [
-                                    if (newestOfferProducts.isEmpty)
+                                    if (offers.isEmpty)
                                       SizedBox(
                                         child: Center(
                                           child: Text(
@@ -373,18 +372,15 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       )
                                     else
-                                      for (var offerProduct
-                                          in newestOfferProducts)
+                                      for (var offerProduct in offers)
                                         WeekDealCard(
                                           image:
-                                              '${ApiEndpoints.localBaseUrl}/${offerProduct.products[0].productImage}',
+                                              '${ApiEndpoints.localBaseUrl}/${offerProduct.productImage}',
                                           startDate: offerProduct.startDate,
                                           endDate: offerProduct.endDate,
-                                          productNo:
-                                              offerProduct.products[0].productNo,
-                                          colorNo:
-                                              offerProduct.products[0].colorNo,
-                                          markNo: offerProduct.products[0].markNo,
+                                          productNo: offerProduct.productNo,
+                                          colorNo: offerProduct.colorNo,
+                                          markNo: offerProduct.markNo,
                                           productOfferPrice:
                                               offerProduct.productPrice,
                                         ),
@@ -400,10 +396,16 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: isArabic() ? const EdgeInsets.only(left: 5, right: 10).w:
-                                      const EdgeInsets.only(left: 10, right: 5).w,
+                                  padding: isArabic()
+                                      ? const EdgeInsets.only(
+                                              left: 5, right: 10)
+                                          .w
+                                      : const EdgeInsets.only(
+                                              left: 10, right: 5)
+                                          .w,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         S.of(context).exploreProduct,
@@ -436,7 +438,8 @@ class _HomePageState extends State<HomePage> {
                                             return GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  _selectedCategoryIndex = index;
+                                                  _selectedCategoryIndex =
+                                                      index;
                                                   _selectedSubcategoryIndex = 0;
                                                 });
                                               },
@@ -456,7 +459,8 @@ class _HomePageState extends State<HomePage> {
                                                       ),
                                                     ],
                                                     borderRadius:
-                                                        BorderRadius.circular(200)
+                                                        BorderRadius.circular(
+                                                                200)
                                                             .w,
                                                     border:
                                                         _selectedCategoryIndex ==
@@ -467,7 +471,11 @@ class _HomePageState extends State<HomePage> {
                                                             : null,
                                                   ),
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(left: 10, right: 10).w,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                                left: 10,
+                                                                right: 10)
+                                                            .w,
                                                     child: Center(
                                                       child: Text(
                                                         categories[index]
@@ -509,9 +517,11 @@ class _HomePageState extends State<HomePage> {
                                                         right: 7, bottom: 12)
                                                     .w,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                          left: 12, right: 12)
-                                                      .w,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                              left: 12,
+                                                              right: 12)
+                                                          .w,
                                                   child: Center(
                                                     child: Text(
                                                       categories[

@@ -1,18 +1,26 @@
-import 'package:zawiid/model/Product/Products.dart';
-
 class Offer {
   int offerNo;
   DateTime startDate;
   DateTime endDate;
   String productPrice;
-  List<Product> products;
+  final int productNo;
+  final int colorNo;
+  final int markNo;
+  final String productName;
+  final String productDesc;
+  final String productImage;
 
-  Offer({
-    required this.offerNo,
-    required this.startDate,
-    required this.endDate,
-    required this.productPrice,
-    required this.products,
+  Offer(
+      {required this.offerNo,
+      required this.startDate,
+      required this.endDate,
+      required this.productPrice,
+      required this.productNo,
+      required this.colorNo,
+      required this.markNo,
+      required this.productName,
+      required this.productDesc,
+      required this.productImage
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
@@ -21,7 +29,12 @@ class Offer {
       startDate: DateTime.parse(json['StartDate']['date']),
       endDate: DateTime.parse(json['EndDate']['date']),
       productPrice: json['ProductPrice'] ?? "",
-      products: List<Product>.from(json['Products'].map((product) => Product.fromJson(product))),
+      productNo: json["ProductNo"] ?? 0,
+      productName: json["ProductName"] ?? '',
+      productDesc: json["ProductDesc"] ?? '',
+      markNo: json["MarkNo"] ?? 0,
+      colorNo: json["ColorNo"] ?? 0,
+      productImage: json["ProductImage"] ?? '',
     );
   }
 }

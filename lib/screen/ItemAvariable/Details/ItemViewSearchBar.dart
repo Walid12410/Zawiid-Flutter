@@ -5,7 +5,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 

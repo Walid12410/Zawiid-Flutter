@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/config.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
@@ -71,8 +71,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         colorMarkProvider.getMarkById(markNo),
         cartProvider.getIfCartIsAdded(userId, productNo),
       ];
-      final List<dynamic> results = await Future.wait(fetchers);
-
+      await Future.wait(fetchers);
     } catch (e) {
       throw Exception(e);
     }

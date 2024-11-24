@@ -1899,6 +1899,26 @@ class S {
       args: [],
     );
   }
+
+  /// `checking...`
+  String get check {
+    return Intl.message(
+      'checking...',
+      name: 'check',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deleting...`
+  String get deleting {
+    return Intl.message(
+      'deleting...',
+      name: 'deleting',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

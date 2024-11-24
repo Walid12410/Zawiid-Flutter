@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 
 String getDateCategory(BuildContext context, DateTime date) {
   DateTime now = DateTime.now();

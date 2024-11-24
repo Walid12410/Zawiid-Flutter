@@ -7,7 +7,7 @@ import 'package:zawiid/Widget/Header.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/ConnectivityCheck.dart';
 import 'package:zawiid/core/config.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import 'Details/LoadingContainer.dart';
@@ -122,16 +122,18 @@ class _TicketMainState extends State<TicketMain> {
                   TicketDetailsBottom(onTap: toggleVisibility),
                 if (_showDetails) ...[
                   SizedBox(height: 10.h),
-                  TicketDetailsText(
-                    ticketPrice: latestStartedTicket.ticketPrice,
-                    ticketTitle: latestStartedTicket.ticketTitle,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50,right: 50).w,
+                    child: Text(latestStartedTicket.ticketTitle,style: TextStyle(
+                      fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.w500
+                    ),textAlign: TextAlign.center,),
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 10.h,),
                   TicketPriceDetails(
                     ticketPrice: latestStartedTicket.ticketPrice,
                     numberOfTicketLeft: latestStartedTicket.nbrOfTicketsLeft,
                     withDrawalNo: latestStartedTicket.withdrawalID,
-                  )
+                  ),
                 ],
                 if (!_showDetails)
                   TicketDetails(

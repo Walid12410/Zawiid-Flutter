@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/Api/CartService.dart';
 import 'package:zawiid/Api/CouponsService.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';

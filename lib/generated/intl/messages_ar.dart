@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cartEmpty":
             MessageLookupByLibrary.simpleMessage("سلة التسوق الخاصة بك فارغة!"),
         "chatNow": MessageLookupByLibrary.simpleMessage("الدردشة الآن"),
+        "check": MessageLookupByLibrary.simpleMessage("فحص..."),
         "clearCart": MessageLookupByLibrary.simpleMessage("عربة واضحة"),
         "clearNotify": MessageLookupByLibrary.simpleMessage("مسح الإشعارات"),
         "code": MessageLookupByLibrary.simpleMessage("الرمز"),
@@ -77,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "day": MessageLookupByLibrary.simpleMessage("يوم"),
         "defaults": MessageLookupByLibrary.simpleMessage("افتراضي"),
         "delete": MessageLookupByLibrary.simpleMessage("مسح"),
+        "deleting": MessageLookupByLibrary.simpleMessage("جارٍ الحذف..."),
         "delivery": MessageLookupByLibrary.simpleMessage("توصيل:"),
         "deliveryFree": MessageLookupByLibrary.simpleMessage("التوصيل مجاني."),
         "deliveryInformation":

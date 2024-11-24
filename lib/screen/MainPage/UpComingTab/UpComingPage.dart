@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/ConnectivityCheck.dart';
 import 'package:zawiid/core/config.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'Details/DetailsCard.dart';
 import '../LoadingContainerUpcoming.dart';

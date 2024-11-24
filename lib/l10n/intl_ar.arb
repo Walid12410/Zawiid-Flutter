@@ -183,6 +183,7 @@
   "cartAmount": "مبلغ السلة",
   "discount": "الخصم",
   "finalAmount": "المبلغ النهائي",
-  "byProceeding": "*بمتابعة، فإنك توافق على"
-
+  "byProceeding": "*بمتابعة، فإنك توافق على",
+  "check" : "فحص...",
+  "deleting" : "جارٍ الحذف..."
 }

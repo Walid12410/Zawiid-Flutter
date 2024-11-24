@@ -9,7 +9,7 @@ import 'package:zawiid/Widget/SnackBar.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/LocalNotification.dart';
 import 'package:zawiid/core/TimeMethod/CheckWhatDate.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../WatchDown/WatchCount.dart';
 

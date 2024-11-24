@@ -59,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cartEmpty":
             MessageLookupByLibrary.simpleMessage("Your cart is empty!"),
         "chatNow": MessageLookupByLibrary.simpleMessage("Chat Now"),
+        "check": MessageLookupByLibrary.simpleMessage("checking..."),
         "clearCart": MessageLookupByLibrary.simpleMessage("Clear Cart"),
         "clearNotify":
             MessageLookupByLibrary.simpleMessage("Clear notifications"),
@@ -82,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "day": MessageLookupByLibrary.simpleMessage("Day"),
         "defaults": MessageLookupByLibrary.simpleMessage("default"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleting": MessageLookupByLibrary.simpleMessage("deleting..."),
         "delivery": MessageLookupByLibrary.simpleMessage("Delivery:"),
         "deliveryFree":
             MessageLookupByLibrary.simpleMessage("Delivery is free."),

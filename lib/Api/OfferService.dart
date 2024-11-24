@@ -32,8 +32,11 @@ Future<OffersData> fetchOfferCheck(int id) async {
 }
 
 Future<List<Offer>> fetchAllOffer() async {
+  DateTime now = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd', 'en_US').format(now);
+
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileOffer.php'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileOffer.php?currentTime=$formattedDate'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<Offer> allOffer = jsonData.map((json) => Offer.fromJson(json)).toList();

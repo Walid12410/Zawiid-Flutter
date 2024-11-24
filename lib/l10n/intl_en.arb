@@ -183,6 +183,7 @@
   "cartAmount": "Cart Amount",
   "discount": "Discount",
   "finalAmount": "Final Amount",
-  "byProceeding": "*By proceeding, you agree to our"
-
+  "byProceeding": "*By proceeding, you agree to our",
+  "check" : "checking...",
+  "deleting" : "deleting..."
 }

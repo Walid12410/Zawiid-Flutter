@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 
-class TermsAndPrivacySignIn extends StatelessWidget {
-  const TermsAndPrivacySignIn({
+class TermsAndPrivacySignUp extends StatelessWidget {
+  const TermsAndPrivacySignUp({
     super.key,
   });
 
@@ -16,22 +16,24 @@ class TermsAndPrivacySignIn extends StatelessWidget {
         text: '${S.of(context).byCreatingAccount} ',
         style: TextStyle(
           fontSize: 9.sp,
-          color: tdBlack,
-          fontWeight: FontWeight.w400
+          color: tdGrey,
+            fontWeight: FontWeight.w400
         ),
         children:  <TextSpan>[
           TextSpan(
             text: S.of(context).termsOfService,
             style: TextStyle(
-              color: tdBlack,
+              color: tdGreen,
+              fontWeight: FontWeight.w400,
               fontSize: 9.sp
             ),
           ),
-          TextSpan(text: ' ${S.of(context).and} ' , ),
+          TextSpan(text: ' ${S.of(context).and} '),
           TextSpan(
             text: S.of(context).privacyPolicyS,
             style: TextStyle(
-              color: tdBlack,
+              color: tdGreen,
+              fontWeight: FontWeight.w400,
               fontSize: 9.sp
             ),
           ),

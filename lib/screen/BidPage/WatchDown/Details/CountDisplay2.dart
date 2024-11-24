@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'TimeContainer2.dart';
 
 class CountdownDisplay2 extends StatelessWidget {

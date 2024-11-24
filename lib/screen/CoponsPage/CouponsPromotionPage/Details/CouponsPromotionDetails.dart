@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/config.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import 'package:zawiid/provider/SelectionMarkColor_Provider.dart';
 import 'CouponsPromotionTable.dart';

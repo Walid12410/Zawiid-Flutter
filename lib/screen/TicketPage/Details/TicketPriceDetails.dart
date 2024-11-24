@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Api/WithDrawalService.dart';
+import 'package:zawiid/Widget/Toast/ToastError.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
 
@@ -217,16 +218,20 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
                                               ticketsCount,
                                     );
                                     if (!status2) {
-                                      _showErrorSnackBar(
-                                          S.of(context).errorConnection);
+                                      setState(() {
+                                        showToast(
+                                            S.of(context).errorConnection);
+                                      });
                                     }
                                   } else {
-                                    _showErrorSnackBar(
-                                        S.of(context).errorConnection);
+                                    setState(() {
+                                      showToast(S.of(context).errorConnection);
+                                    });
                                   }
                                 } catch (e) {
-                                  _showErrorSnackBar(
-                                      S.of(context).failedToWithDrawl);
+                                  setState(() {
+                                    showToast(S.of(context).failedToWithDrawl);
+                                  });
                                 } finally {
                                   setState(() {
                                     Navigator.pop(context);
@@ -304,19 +309,6 @@ class _TicketPriceDetailsState extends State<TicketPriceDetails> {
           ),
         );
       },
-    );
-  }
-
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(fontSize: 10.sp, color: tdWhite),
-        ),
-        backgroundColor: tdBlack,
-        duration: const Duration(seconds: 2),
-      ),
     );
   }
 

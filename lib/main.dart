@@ -11,7 +11,7 @@ import 'package:zawiid/core/LocalNotification.dart';
 import 'package:zawiid/core/route/GoRouter.dart';
 import 'package:zawiid/firebase/firebase_api.dart';
 import 'package:zawiid/firebase/firebase_options.dart';
-import 'package:zawiid/localization/generated/l10n.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';

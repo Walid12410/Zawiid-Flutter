@@ -1,108 +1,57 @@
 import 'dart:convert';
-import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/Widget/Toast/ToastError.dart';
+import 'package:zawiid/Widget/Toast/ToastSuccess.dart';
 import 'package:zawiid/core/config.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
 import 'package:zawiid/model/Address/Address.dart';
-import 'package:zawiid/provider/Address_Provider.dart';
 
 class AddressService {
-  Future<Map<String, dynamic>> insertAddress(
+  Future<bool> insertAddress(
       String contactPhoneNum,
-      String? gov,
-      String? area,
+      String gov,
+      String area,
       String block,
       String street,
       String building,
       String floor,
       int userNo) async {
-    const url = '${ApiEndpoints.localBaseUrl}/webAddress.php?status=new';
-
-    final Map<String, String> body = {
-      'AddressType': 1.toString(),
+    const url = '${ApiEndpoints.localBaseUrl}/MobileApi/mobileAddAddress.php';
+      final body = jsonEncode({
+      'AddressType': 1,
       'ContactPhoneNumber': contactPhoneNum,
-      'Governerate': gov.toString(),
-      'Area': area.toString(),
+      'Governerate': int.parse(gov),
+      'Area':int.parse(area),
       'Block': block,
       'Street': street,
       'Building': building,
       'Floor_Door': floor,
-      'UserNo': userNo.toString(),
-    };
-
-    if (contactPhoneNum.isEmpty) {
-      return {
-        'success': false,
-        'message': 'Phone Number is required',
-      };
-    }
-    if (block.isEmpty) {
-      return {
-        'success': false,
-        'message': 'Block field is required',
-      };
-    }
-    if (street.isEmpty) {
-      return {
-        'success': false,
-        'message': 'Street field is required',
-      };
-    }
-
-    if (building.isEmpty) {
-      return {
-        'success': false,
-        'message': 'Building field is required',
-      };
-    }
-    if (floor.isEmpty) {
-      return {
-        'success': false,
-        'message': 'Floor/Door field is required',
-      };
-    }
-    if (gov == null || gov == 0) {
-      return {
-        'success': false,
-        'message': 'Governorate field is required',
-      };
-    }
-    if (area == null || area == 0) {
-      return {
-        'success': false,
-        'message': 'Area field is required',
-      };
-    }
-
+      'UserNo': userNo
+    });
+    print('hello');
     try {
       final response = await http.post(
         Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
         body: body,
       );
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        return {
-          'success': true,
-          'message': responseData['message'],
-        };
+      final responseData = json.decode(response.body);
+      if (response.statusCode == 201) {
+        showToast(responseData['message']);
+        return true;
+      } else if (response.statusCode == 400) {
+        showToast(responseData['message']);
+        return false;
       } else {
-        return {
-          'success': false,
-          'message': 'Something went wrong please try again later',
-        };
+        showToast('Something went wrong');
+        return false;
       }
     } catch (error) {
-      return {
-        'success': false,
-        'message': 'Something went wrong please try again later',
-      };
+      showToast('Something went wrong $error');
+      return false;
     }
   }
 
-  Future<void> deleteAddress(BuildContext context, int id) async {
+  Future<bool> deleteOneAddress(int id) async {
     final url =
         '${ApiEndpoints.localBaseUrl}/webAddress.php?status=delete&id=$id';
 
@@ -110,32 +59,15 @@ class AddressService {
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        Provider.of<AddressProvider>(context, listen: false).removeAddress(id);
-        Provider.of<AddressProvider>(context, listen: false)
-            .removeDefaultAddress();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Address deleted successfully',
-              style: TextStyle(fontSize: 10.sp, color: tdWhite),
-            ),
-            backgroundColor: tdBlack,
-            duration: const Duration(seconds: 1),
-          ),
-        );
+        showSucessToast('Address deleted successfully');
+        return true;
       } else {
-        throw Exception('Failed to delete address');
+        showToast('Failed to delete address');
+        return false;
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-              'Failed to delete address',
-              style: TextStyle(fontSize: 10.sp, color: tdWhite),
-            ),
-            backgroundColor: tdBlack,
-            duration: const Duration(seconds: 1)),
-      );
+      showToast('Failed to delete address');
+      return false;
     }
   }
 
