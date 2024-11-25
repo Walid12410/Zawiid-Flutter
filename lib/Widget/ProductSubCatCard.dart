@@ -5,48 +5,31 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Api/CartService.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 
-class CartItemView extends StatelessWidget {
-  const CartItemView({
-    Key? key,
-    required this.title,
-    required this.mainPrice,
-    required this.salePrice,
-    required this.image,
-    required this.markNo,
-    required this.colorNo,
-    required this.productNo,
-    required this.markName,
-    required this.colorName,
-  }) : super(key: key);
+class SubCategoryProductCard extends StatelessWidget {
+  const SubCategoryProductCard({Key? key, required this.product}) : super(key: key);
 
-  final String title;
-  final String mainPrice;
-  final String salePrice;
-  final String image;
-  final int markNo;
-  final int colorNo;
-  final int productNo;
-  final String markName;
-  final String colorName;
+  final ProductSubCategory product;
 
   @override
   Widget build(BuildContext context) {
-    final salePriceValue = double.tryParse(salePrice) ?? 0.0;
+    final salePriceValue = double.tryParse(product.price) ?? 0.0;
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(product.productNo);
     final auth = Provider.of<AuthProvider>(context, listen: false);
 
     double price =
-        salePriceValue > 0.0 ? salePriceValue : double.parse(mainPrice);
+        salePriceValue > 0.0 ? salePriceValue : double.parse(product.price);
 
     return GestureDetector(
       onTap: () {
         context.push(
-          '/home/itemDetails/$productNo/$colorNo/$markNo',
+          '/home/itemDetails/${product.productNo}/${product.colorNo}/${product.markNo}',
         );
       },
       child: Container(
@@ -71,18 +54,18 @@ class CartItemView extends StatelessWidget {
               width: 120.w,
               height: 110.h,
               child: CachedNetworkImage(
-                imageUrl: image,
+                imageUrl: '${ApiEndpoints.localBaseUrl}/${product.productImag}',
                 placeholder: (context, url) =>
                     Image.asset('assets/log/LOGO-icon---Black.png'),
                 errorWidget: (context, url, error) =>
                     Image.asset('assets/log/LOGO-icon---Black.png'),
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20).w,
               child: Text(
-                markName,
+                product.markName,
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: tdBlack,
@@ -96,7 +79,7 @@ class CartItemView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15).w,
               child: Text(
-                formatDesc('$title $colorName'),
+                formatDesc('${product.productName} ${product.colorName}'),
                 style: TextStyle(
                   fontSize: 8.sp,
                   color: tdBlack,
@@ -109,7 +92,7 @@ class CartItemView extends StatelessWidget {
             SizedBox(height: 5.h),
             if (salePriceValue > 0.0) ...[
               Text(
-                '$salePrice \$',
+                '${product.discountPrice} \$',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp,
@@ -117,7 +100,7 @@ class CartItemView extends StatelessWidget {
                 ),
               ),
               Text(
-                '$mainPrice \$',
+                '${product.price} \$',
                 style: TextStyle(
                   fontSize: 10.sp,
                   color: tdBlack,
@@ -129,7 +112,7 @@ class CartItemView extends StatelessWidget {
               ),
             ] else ...[
               Text(
-                '$mainPrice \$',
+                '${product.price} \$',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp,
@@ -161,18 +144,18 @@ class CartItemView extends StatelessWidget {
                     return;
                   } else if (!isProductInCart) {
                     cartProvider.addToCart(
-                        auth.userId, productNo, 1, price.toString());
+                        auth.userId, product.productNo, 1, price.toString());
                     service.addCartItem(
                       userNo: auth.userId,
-                      productNo: productNo,
+                      productNo: product.productNo,
                       productCartQty: 1,
                       productCartPrice: price,
                     );
                   } else if (isProductInCart) {
-                    cartProvider.removeFromCart(productNo);
+                    cartProvider.removeFromCart(product.productNo);
                     service.deleteCartItem(
                       userNo: auth.userId,
-                      productNo: productNo,
+                      productNo: product.productNo,
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

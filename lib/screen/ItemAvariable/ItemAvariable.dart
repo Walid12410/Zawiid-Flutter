@@ -1,21 +1,22 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
-import 'package:zawiid/model/Product/ProductCategory.dart';
+import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
-import 'Details/CartItemView.dart';
+import '../../Widget/ProductSubCatCard.dart';
 import 'Details/ItemViewHead.dart';
 import 'Details/ItemViewSearchBar.dart';
-
 import 'Details/LoadingCategoryItem.dart';
 
 class ItemViewCategories extends StatefulWidget {
-  const ItemViewCategories(
-      {Key? key, required this.title, required this.categoryId})
-      : super(key: key);
+  const ItemViewCategories({
+    Key? key,
+    required this.title,
+    required this.categoryId,
+  }) : super(key: key);
 
   final String title;
   final int categoryId;
@@ -25,26 +26,45 @@ class ItemViewCategories extends StatefulWidget {
 }
 
 class _ItemViewCategoriesState extends State<ItemViewCategories> {
+  late ScrollController _scrollController;
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
-
-  late Future<void> _fetchProductsFuture;
+  late ProductsProvider productsProvider;
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
-    _fetchProductsFuture = _fetchProducts();
+    _scrollController = ScrollController()..addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      productsProvider.fetchSubCategoryProduct(widget.categoryId);
+    });
   }
 
-
-
-  Future<void> _fetchProducts() async {
-    final provider = Provider.of<ProductsProvider>(context, listen: false);
-    await provider.getAllCategoryProducts(widget.categoryId);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    productsProvider = Provider.of<ProductsProvider>(context, listen: false);
   }
 
-  List<ProductCategory> getFilteredProducts(
-      List<ProductCategory> products, String query) {
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    searchController.dispose();
+    _debounce?.cancel();
+    productsProvider.resetSubCategoryProduct();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.extentAfter < 200 && !productsProvider.isLoading) {
+      productsProvider.fetchSubCategoryProduct(widget.categoryId);
+    }
+  }
+
+  List<ProductSubCategory> getFilteredProducts(
+      List<ProductSubCategory> products, String query) {
+    if (query.isEmpty) return products; // If no search query, return all products
     return products
         .where((product) =>
             product.productName.toLowerCase().contains(query.toLowerCase()) ||
@@ -57,114 +77,95 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
-        child: FutureBuilder(
-          future: _fetchProductsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: Consumer<ProductsProvider>(
+          builder: (context, provider, child) {
+            // Filter products based on the search query
+            final filteredProducts = getFilteredProducts(provider.subCategoryProduct, searchQuery);
+
+            // If still loading and no products, show loading indicator
+            if (provider.isLoading && provider.subCategoryProduct.isEmpty) {
               return const LoadingCategoryItem();
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  S.of(context).errorConnection,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: tdGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            } else {
-              return _buildContent(context);
             }
+
+            return Column(
+              children: [
+                ItemCategoriesHead(title: widget.title),
+                SizedBox(height: 5.h),
+                ItemSearchBar(
+                  controller: searchController,
+                  onSearch: (value) {
+                    if (_debounce?.isActive ?? false) _debounce?.cancel();
+                    _debounce = Timer(const Duration(milliseconds: 300), () {
+                      if (mounted) {
+                        setState(() {
+                          searchQuery = value;
+                        });
+                      }
+                    });
+                  },
+                ),
+                if (filteredProducts.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(20).w,
+                    child: Center(
+                      child: Text(
+                        S.of(context).productNotFound,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: tdGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                SizedBox(height: 20.h),
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: (filteredProducts.length / 2).ceil() + (provider.hasMoreData ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == (filteredProducts.length / 2).ceil()) {
+                        return provider.hasMoreData
+                            ? Padding(
+                                padding: const EdgeInsets.all(4).w,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: tdBlack,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink();
+                      }
+                      return _buildProductRow(filteredProducts, index * 2);
+                    },
+                  ),
+                ),
+              ],
+            );
           },
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
-    final provider = Provider.of<ProductsProvider>(context);
-    var categoryProducts = provider.categoryProduct;
-    var filteredProducts = getFilteredProducts(categoryProducts, searchQuery);
-    return SingleChildScrollView(
-      child: Column(
+  Widget _buildProductRow(List<ProductSubCategory> products, int startIndex) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ItemCategoriesHead(title: widget.title),
-          SizedBox(height: 5.h),
-          ItemSearchBar(
-            controller: searchController,
-            onSearch: (value) {
-              setState(() {
-                searchQuery = value;
-              });
-            },
-          ),
-          SizedBox(height: 20.h),
-          if (filteredProducts.isEmpty)
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Center(
-                child: Text(
-                 S.of(context).noProductFound,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: tdGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          if (filteredProducts.isNotEmpty)
-            ..._buildProductRows(filteredProducts),
-          SizedBox(height: 5.h),
+          Flexible(child: _buildProductCard(products[startIndex])),
+          if (startIndex + 1 < products.length)
+            Flexible(child: _buildProductCard(products[startIndex + 1])),
         ],
       ),
     );
   }
 
-  List<Widget> _buildProductRows(List<ProductCategory> products) {
-    List<Widget> rows = [];
-    for (int i = 0; i < products.length; i += 2) {
-      Widget row = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.all(5.w),
-            child: CartItemView(
-              title: products[i].productName,
-              mainPrice: products[i].price,
-              salePrice: products[i].discountedPrice,
-              image: '${ApiEndpoints.localBaseUrl}/${products[i].productImage}',
-              markNo: products[i].mark!.markNo,
-              colorNo: products[i].color!.colorNo,
-              productNo: products[i].productNo,
-              colorName: products[i].color!.colorName,
-              markName: products[i].mark!.markName,
-            ),
-          ),
-          if (i + 1 < products.length)
-            Padding(
-              padding: EdgeInsets.all(5.w),
-              child: CartItemView(
-                title: products[i + 1].productName,
-                mainPrice: products[i + 1].price,
-                salePrice: products[i + 1].discountedPrice,
-                image:
-                    '${ApiEndpoints.localBaseUrl}/${products[i + 1].productImage}',
-                markNo: products[i + 1].mark!.markNo,
-                colorNo: products[i + 1].color!.colorNo,
-                productNo: products[i + 1].productNo,
-                colorName: products[i + 1].color!.colorName,
-                markName: products[i + 1].mark!.markName,
-              ),
-            ),
-        ],
-      );
-      rows.add(Padding(padding: EdgeInsets.all(2.w), child: row));
-    }
-    return rows;
+  Widget _buildProductCard(ProductSubCategory product) {
+    return Padding(
+      padding: EdgeInsets.all(5.w),
+      child: SubCategoryProductCard(product: product)
+    );
   }
 }
-

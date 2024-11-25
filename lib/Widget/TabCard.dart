@@ -130,6 +130,7 @@ class TabCard extends StatelessWidget {
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
+                          fit: BoxFit.contain,
                     ),
                   ),
                 ),

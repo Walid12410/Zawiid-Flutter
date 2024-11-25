@@ -1,25 +1,36 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
-
-
 import 'package:zawiid/core/config.dart';
-import 'package:zawiid/model/Product/ProductCategory.dart';
 import 'package:zawiid/model/Product/ProductDetails.dart';
+import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/model/Product/Products.dart';
 
 class ProductService {
   
-Future<List<ProductCategory>> fetchProductByCategoryNo(int id) async {
+Future<List<ProductSubCategory>> fetchSubCategoryProduct(int id,int page, int limit) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductSubCategory.php?id=$id'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductCategory.php?status=SubCatProductPagination&SubCatID=$id&page=$page&limit=$limit'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      List<ProductCategory> productsCategory = jsonData.map((json) => ProductCategory.fromJson(json)).toList();
-      return productsCategory;
+      List<ProductSubCategory> productsSubCategory = jsonData.map((json) => ProductSubCategory.fromJson(json)).toList();
+      return productsSubCategory;
     } else {
-      throw Exception('Failed to load products OF Category');
+      throw Exception('Failed to load products of subCategory');
+    }
+  } catch (e) {
+    throw Exception('Server Error');
+  }
+}
+
+Future<List<ProductSubCategory>> fetchTopSubCatProduct(int id) async {
+  try {
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductCategory.php?status=TopProductCat&SubCatID=$id'));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<ProductSubCategory> productsSubCategory = jsonData.map((json) => ProductSubCategory.fromJson(json)).toList();
+      return productsSubCategory;
+    } else {
+      throw Exception('Failed to load products of subCategory');
     }
   } catch (e) {
     throw Exception('Server Error');

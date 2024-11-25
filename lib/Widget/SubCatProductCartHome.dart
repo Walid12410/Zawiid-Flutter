@@ -7,31 +7,19 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/Api/CartService.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 
-class ProductSubCategoriesHomePageCard extends StatelessWidget {
-  const ProductSubCategoriesHomePageCard({
+class SubCategoryProductCard extends StatelessWidget {
+  const SubCategoryProductCard({
     Key? key,
-    required this.title,
-    required this.desc,
-    required this.mainPrice,
-    required this.salePrice,
-    required this.image,
-    required this.productNo,
-    required this.markNo,
-    required this.colorNo,
+    required this.product
   }) : super(key: key);
 
-  final String title;
-  final String desc;
-  final String mainPrice;
-  final String salePrice;
-  final String image;
-  final int productNo;
-  final int markNo;
-  final int colorNo;
+  final ProductSubCategory product;
 
   void _toggleCart(BuildContext context) async {
     CartService service = CartService();
@@ -52,25 +40,25 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
     }
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
-    double price = double.parse(salePrice) > 0.0
-        ? double.parse(salePrice)
-        : double.parse(mainPrice);
+    double price = double.parse(product.discountPrice) > 0.0
+        ? double.parse(product.discountPrice)
+        : double.parse(product.price);
 
     if (!isProductInCart) {
-      cartProvider.addToCart(userID, productNo, 1, price.toString());
+      cartProvider.addToCart(userID, product.productNo, 1, price.toString());
       service.addCartItem(
         userNo: userID,
-        productNo: productNo,
+        productNo: product.productNo,
         productCartQty: 1,
         productCartPrice: price,
       );
     } else {
-      cartProvider.removeFromCart(productNo);
+      cartProvider.removeFromCart(product.productNo);
       service.deleteCartItem(
         userNo: userID,
-        productNo: productNo,
+        productNo: product.productNo,
       );
     }
   }
@@ -78,16 +66,16 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
     return Padding(
       padding: const EdgeInsets.all(5).w,
       child: GestureDetector(
         onTap: () {
           GoRouter.of(context).goNamed('itemDetails', pathParameters: {
-            'itemNo': productNo.toString(),
-            'colorNo': colorNo.toString(),
-            'markNo': markNo.toString(),
+            'itemNo': product.productNo.toString(),
+            'colorNo': product.colorNo.toString(),
+            'markNo': product.markNo.toString(),
           });
         },
         child: Container(
@@ -113,7 +101,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  '$title $desc',
+                  '${product.productName} ${product.productDesc}',
                   style: TextStyle(fontSize: 8.sp, color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -125,11 +113,12 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                     width: 100.w,
                     height: 130.h,
                     child: CachedNetworkImage(
-                      imageUrl: image,
+                      imageUrl: '${ApiEndpoints.localBaseUrl}/${product.productImag}',
                       placeholder: (context, url) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
+                          fit: BoxFit.contain,
                     ),
                   ),
                 ),
@@ -140,7 +129,7 @@ class ProductSubCategoriesHomePageCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$mainPrice \$',
+                      '${product.price} \$',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: tdGrey,

@@ -27,11 +27,9 @@ import 'Details/TabView/OnSalePage.dart';
 import 'Details/TabView/TopRatedPage.dart';
 import 'Details/FeaturedProduct.dart';
 import 'Details/LoadingContainer.dart';
-import 'Details/OpeningImage.dart';
 import 'Details/SearchBar.dart';
-import 'Details/SecondOpeningImage.dart';
 import 'Details/WeekDealCard.dart';
-import 'Details/ExploreProduct/ProductOfSubCatHomePage.dart';
+import 'Details/TopProductSubCategory.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -178,7 +176,13 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: 20.h),
                       const CustomNavigationBar(),
                       SizedBox(height: 5.h),
-                      const OpeningImage(),
+                      SizedBox(
+                          width: double.infinity,
+                          height: 200.h,
+                          child: Image.asset(
+                            'assets/img/watch.png',
+                            fit: BoxFit.fill,
+                          )),
                       SizedBox(height: 10.h),
                       const SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -321,7 +325,18 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      const SecondOpeningImage(),
+                      Padding(
+                        padding: const EdgeInsets.all(10).w,
+                        child: Container(
+                            width: double.infinity,
+                            height: 110.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20).w),
+                            child: Image.asset(
+                              'assets/img/sddefault.png',
+                              fit: BoxFit.fill,
+                            )),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(10).w,
                         child: Container(
@@ -587,8 +602,8 @@ class _HomePageState extends State<HomePage> {
                                           categories[_selectedCategoryIndex]
                                               .subcategories!
                                               .isNotEmpty
-                                      ? ProductsOfSubCategoriesHome(
-                                          subCategoryId:
+                                      ? TopSubCategoryProduct(
+                                          subCatID:
                                               categories[_selectedCategoryIndex]
                                                   .subcategories![
                                                       _selectedSubcategoryIndex]

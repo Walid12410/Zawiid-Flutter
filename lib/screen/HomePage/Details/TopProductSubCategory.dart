@@ -2,43 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/core/config.dart';
+import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
-import 'ProductSubCatCard.dart';
+import 'package:zawiid/Widget/SubCatProductCartHome.dart';
 
-class ProductsOfSubCategoriesHome extends StatefulWidget {
-  final int subCategoryId;
 
-  const ProductsOfSubCategoriesHome({Key? key, required this.subCategoryId})
-      : super(key: key);
+class TopSubCategoryProduct extends StatefulWidget {
+  const TopSubCategoryProduct({super.key,required this.subCatID});
 
+  final int subCatID;
   @override
-  _ProductsOfSubCategoriesHomeState createState() =>
-      _ProductsOfSubCategoriesHomeState();
+  State<TopSubCategoryProduct> createState() => _TopSubCategoryProductState();
 }
 
-class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHome> {
+class _TopSubCategoryProductState extends State<TopSubCategoryProduct> {
   late Future<void> _fetchProductsFuture;
 
   @override
   void initState() {
     super.initState();
-    _fetchProductsFuture = _fetchProducts(widget.subCategoryId);
+    _fetchProductsFuture = _fetchProducts(widget.subCatID);
   }
 
   @override
-  void didUpdateWidget(covariant ProductsOfSubCategoriesHome oldWidget) {
+  void didUpdateWidget(covariant TopSubCategoryProduct oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.subCategoryId != widget.subCategoryId) {
+    if (oldWidget.subCatID != widget.subCatID) {
       setState(() {
-        _fetchProductsFuture = _fetchProducts(widget.subCategoryId);
+        _fetchProductsFuture = _fetchProducts(widget.subCatID);
       });
     }
   }
 
   Future<void> _fetchProducts(int subCategoryId) async {
     final provider = Provider.of<ProductsProvider>(context, listen: false);
-    await provider.getAllCategoryProductsHome(subCategoryId);
+    await provider.getTopSubCategoryProduct(subCategoryId);
   }
 
   @override
@@ -65,13 +63,13 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
         } else {
           return Consumer<ProductsProvider>(
             builder: (context, provider, _) {
-              var categoryProducts = provider.categoryProductHome;
+              var categoryProducts = provider.topSubCategoryProducts;
 
               if (categoryProducts.isEmpty ||
-                  widget.subCategoryId!= categoryProducts[0].subCategoryNo) {
+                  widget.subCatID!= categoryProducts[0].subCarNo) {
                 return Center(
                   child: Text(
-                    'No products added yet',
+                    S.of(context).noProductFound,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
@@ -81,7 +79,6 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
                 );
               }
 
-              categoryProducts = categoryProducts.take(4).toList();
               int rowCount = (categoryProducts.length / 2).ceil();
 
               return ListView.builder(
@@ -97,16 +94,7 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
 
                   List<Widget> rowChildren = List.generate(endIndex - startIndex, (index) {
                     int productIndex = startIndex + index;
-                    return ProductSubCategoriesHomePageCard(
-                      title: categoryProducts[productIndex].productName,
-                      desc: categoryProducts[productIndex].productDesc,
-                      mainPrice: categoryProducts[productIndex].price,
-                      salePrice: categoryProducts[productIndex].discountedPrice,
-                      image: '${ApiEndpoints.localBaseUrl}/${categoryProducts[productIndex].productImage}',
-                      productNo: categoryProducts[productIndex].productNo,
-                      markNo: categoryProducts[productIndex].mark!.markNo,
-                      colorNo: categoryProducts[productIndex].color!.colorNo,
-                    );
+                    return SubCategoryProductCard(product: categoryProducts[productIndex]);
                   });
 
                   if (rowChildren.length == 3) {
@@ -132,3 +120,4 @@ class _ProductsOfSubCategoriesHomeState extends State<ProductsOfSubCategoriesHom
     );
   }
 }
+
