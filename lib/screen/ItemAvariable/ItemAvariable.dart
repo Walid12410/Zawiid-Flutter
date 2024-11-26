@@ -57,14 +57,17 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.extentAfter < 200 && !productsProvider.isLoading) {
+    if (_scrollController.position.extentAfter < 200 &&
+        !productsProvider.isLoading) {
       productsProvider.fetchSubCategoryProduct(widget.categoryId);
     }
   }
 
   List<ProductSubCategory> getFilteredProducts(
       List<ProductSubCategory> products, String query) {
-    if (query.isEmpty) return products; // If no search query, return all products
+    if (query.isEmpty) {
+      return products; // If no search query, return all products
+    }
     return products
         .where((product) =>
             product.productName.toLowerCase().contains(query.toLowerCase()) ||
@@ -80,7 +83,8 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
         child: Consumer<ProductsProvider>(
           builder: (context, provider, child) {
             // Filter products based on the search query
-            final filteredProducts = getFilteredProducts(provider.subCategoryProduct, searchQuery);
+            final filteredProducts =
+                getFilteredProducts(provider.subCategoryProduct, searchQuery);
 
             // If still loading and no products, show loading indicator
             if (provider.isLoading && provider.subCategoryProduct.isEmpty) {
@@ -95,11 +99,17 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                   controller: searchController,
                   onSearch: (value) {
                     if (_debounce?.isActive ?? false) _debounce?.cancel();
-                    _debounce = Timer(const Duration(milliseconds: 300), () {
+                    _debounce =
+                        Timer(const Duration(milliseconds: 300), () async {
                       if (mounted) {
                         setState(() {
                           searchQuery = value;
                         });
+                        // Call fetchSubCategoryProduct whenever search query changes
+                        if (value.isNotEmpty) {
+                          await productsProvider
+                              .fetchSubCategoryProduct(widget.categoryId);
+                        }
                       }
                     });
                   },
@@ -122,7 +132,8 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
                 Expanded(
                   child: ListView.builder(
                     controller: _scrollController,
-                    itemCount: (filteredProducts.length / 2).ceil() + (provider.hasMoreData ? 1 : 0),
+                    itemCount: (filteredProducts.length / 2).ceil() +
+                        (provider.hasMoreData ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == (filteredProducts.length / 2).ceil()) {
                         return provider.hasMoreData
@@ -164,8 +175,7 @@ class _ItemViewCategoriesState extends State<ItemViewCategories> {
 
   Widget _buildProductCard(ProductSubCategory product) {
     return Padding(
-      padding: EdgeInsets.all(5.w),
-      child: SubCategoryProductCard(product: product)
-    );
+        padding: EdgeInsets.all(5.w),
+        child: SubCategoryProductCard(product: product));
   }
 }

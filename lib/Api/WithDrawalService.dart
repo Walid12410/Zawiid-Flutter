@@ -62,7 +62,10 @@ Future<bool> addOrUpdateWithdrawalDetails({
 
 
 Future<List<Ticket>> fetchAllTicket() async {
+  DateTime now = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd', 'en_US').format(now);
   try {
+
     final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTicketVW.php'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);

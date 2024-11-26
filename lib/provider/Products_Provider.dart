@@ -58,7 +58,7 @@ Future<void> fetchSubCategoryProduct(int subCatId) async {
     _subCategoryProduct.clear();
     _currentPage = 1;
     _hasMoreData = true;
-    notifyListeners();
+    //notifyListeners();
   }
 
 

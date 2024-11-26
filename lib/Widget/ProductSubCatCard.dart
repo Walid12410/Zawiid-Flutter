@@ -26,6 +26,10 @@ class SubCategoryProductCard extends StatelessWidget {
     double price =
         salePriceValue > 0.0 ? salePriceValue : double.parse(product.price);
 
+    double salePrice = double.parse(product.discountPrice) > 0.0
+        ? double.parse(product.discountPrice)
+        : double.parse(product.price);
+
     return GestureDetector(
       onTap: () {
         context.push(
@@ -144,12 +148,12 @@ class SubCategoryProductCard extends StatelessWidget {
                     return;
                   } else if (!isProductInCart) {
                     cartProvider.addToCart(
-                        auth.userId, product.productNo, 1, price.toString());
+                        auth.userId, product.productNo, 1, salePrice.toString());
                     service.addCartItem(
                       userNo: auth.userId,
                       productNo: product.productNo,
                       productCartQty: 1,
-                      productCartPrice: price,
+                      productCartPrice: salePrice,
                     );
                   } else if (isProductInCart) {
                     cartProvider.removeFromCart(product.productNo);
