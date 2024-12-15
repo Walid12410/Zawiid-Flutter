@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Api/CartService.dart';
+import 'package:zawiid/Widget/CountTime/CountTimerFeatured.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/offer/offer.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
-import 'CountTime/CountTimerFeatured.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 

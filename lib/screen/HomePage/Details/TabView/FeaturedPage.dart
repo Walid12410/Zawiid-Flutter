@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/Widget/Card/TabCardFeatured.dart';
 import 'package:zawiid/model/Featured/Featured.dart';
 import '../../../../provider/Products_Provider.dart';
-import '../../../../Widget/TabCardFeatured.dart';
 
 class FeaturedPageView extends StatelessWidget {
   const FeaturedPageView({Key? key}) : super(key: key);

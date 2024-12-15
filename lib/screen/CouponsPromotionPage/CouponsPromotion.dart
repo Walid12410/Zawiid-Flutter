@@ -7,7 +7,7 @@ import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
 import 'Details/CouponsPromotionDetails.dart';
-import 'Details/LoadingContainerCouponsPromotion.dart';
+import '../../Widget/LoadingScreen/LoadingContainerCouponsPromotion.dart';
 
 
 class CouponsPromotion extends StatefulWidget {

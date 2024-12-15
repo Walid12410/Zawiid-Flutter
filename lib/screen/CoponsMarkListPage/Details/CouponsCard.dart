@@ -3,22 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/core/config.dart';
+import 'package:zawiid/model/ColorAndMark/markCoupons.dart';
 
-class CouponCard extends StatelessWidget {
-  const CouponCard({
+class CouponMarkCard extends StatelessWidget {
+  const CouponMarkCard({
     super.key,
-    required this.couponsId,
-    required this.couponsImage,
-    required this.markNo,
-    required this.issueDate,
-    required this.expiryDate,
+    required this.mark
   });
 
-  final String couponsImage;
-  final int couponsId;
-  final DateTime issueDate;
-  final DateTime expiryDate;
-  final int markNo;
+  final MarkCoupon mark;
 
 
   @override
@@ -28,8 +22,7 @@ class CouponCard extends StatelessWidget {
       child: GestureDetector(
         onTap: (){
           GoRouter.of(context).goNamed('CouponsDetails',pathParameters: {
-            'markId' : markNo.toString(),
-            'couponsId' : couponsId.toString(),
+            'markId' : mark.markNo.toString(),
           });
         },
         child: Container(
@@ -52,7 +45,7 @@ class CouponCard extends StatelessWidget {
                 width: 130.w,
                 height: 130.h,
                 child:  CachedNetworkImage(
-                  imageUrl: couponsImage,
+                  imageUrl: '${ApiEndpoints.localBaseUrl}/${mark.markImage}',
                   placeholder: (context, url) =>
                       Image.asset('assets/log/LOGO-icon---Black.png'),
                   errorWidget: (context, url, error) =>

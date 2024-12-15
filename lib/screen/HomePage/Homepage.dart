@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/Api/MessageService/CheckChatRoomApi.dart';
+import 'package:zawiid/Widget/Card/WeekDealCard.dart';
 import 'package:zawiid/Widget/Drawer.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/ConnectivityCheck.dart';
@@ -25,9 +26,8 @@ import 'package:zawiid/provider/User_Provider.dart';
 import 'Details/TabView/FeaturedPage.dart';
 import 'Details/TabView/OnSalePage.dart';
 import 'Details/TabView/TopRatedPage.dart';
-import 'Details/LoadingContainer.dart';
+import '../../Widget/LoadingScreen/LoadingContainerHome.dart';
 import 'Details/SearchBar/SearchBar.dart';
-import '../../Widget/WeekDealCard.dart';
 import 'Details/SubCategoryProduct/TopProductSubCategory.dart';
 import 'package:intl/intl.dart';
 
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
             future: _fetchDataFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingContainer();
+                return const LoadingContainerHome();
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text(

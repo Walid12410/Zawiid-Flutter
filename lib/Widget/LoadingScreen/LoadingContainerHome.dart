@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../Skeleton/Skeleton.dart';
+import '../../screen/Skeleton/Skeleton.dart';
 
 
-class LoadingContainer extends StatelessWidget {
-  const LoadingContainer({
+class LoadingContainerHome extends StatelessWidget {
+  const LoadingContainerHome({
     super.key,
   });
 

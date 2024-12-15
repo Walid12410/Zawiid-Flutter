@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../Skeleton/Skeleton.dart';
+import '../../screen/Skeleton/Skeleton.dart';
 
 
 

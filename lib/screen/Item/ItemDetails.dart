@@ -17,7 +17,7 @@ import 'Details/ItemPrice.dart';
 import 'Details/ItemShipping.dart';
 import 'Details/ItemTitle.dart';
 import 'package:intl/intl.dart';
-import 'Details/LoadingContainerItem.dart';
+import '../../Widget/LoadingScreen/LoadingContainerItem.dart';
 
 bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';

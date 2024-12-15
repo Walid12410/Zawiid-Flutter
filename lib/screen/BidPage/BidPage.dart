@@ -11,7 +11,7 @@ import 'Details/BidPageDetails.dart';
 import 'Details/BidPageHead.dart';
 import 'Details/BidPageImage.dart';
 
-import 'Details/LoadingContainerBid.dart';
+import '../../Widget/LoadingScreen/LoadingContainerBid.dart';
 
 
 class BidPage extends StatefulWidget {

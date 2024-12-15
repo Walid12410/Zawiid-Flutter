@@ -8,7 +8,9 @@ class Coupon {
   final String minOrderValue;
   final String couponDesc;
   final String validFor;
-
+  final String markName;
+  final String markDesc;
+  final String markImage; 
 
   Coupon({
     required this.couponNo,
@@ -19,7 +21,10 @@ class Coupon {
     required this.savings,
     required this.minOrderValue,
     required this.couponDesc,
-    required this.validFor
+    required this.validFor,
+    required this.markName,
+    required this.markDesc,
+    required this.markImage
   });
 
   factory Coupon.fromJson(Map<String, dynamic> json) {
@@ -35,7 +40,10 @@ class Coupon {
       savings: json['Savings'] ?? "",
       minOrderValue: json['MinOrderValue'] ?? "",
       couponDesc: json['CouponDesc'] ?? "",
-      validFor: json['ValidFor'] ?? ""
+      validFor: json['ValidFor'] ?? "",
+      markName: json['MarkName'] ?? "" ,
+      markDesc: json['MarkDesc'] ?? "",
+      markImage: json['MarkImage'] ?? ""
     );
   }
 }

@@ -6,10 +6,10 @@ import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
-import '../../Widget/ProductSubCatCard.dart';
+import '../../Widget/Card/ProductSubCatCard.dart';
 import 'Details/ItemViewHead.dart';
 import 'Details/ItemViewSearchBar.dart';
-import 'Details/LoadingCategoryItem.dart';
+import '../../Widget/LoadingScreen/LoadingCategoryItem.dart';
 
 class ItemViewCategories extends StatefulWidget {
   const ItemViewCategories({

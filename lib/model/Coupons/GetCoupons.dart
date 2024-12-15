@@ -23,6 +23,7 @@ class GetCoupon {
     required this.validFor,
     required this.used
   });
+  
   factory GetCoupon.fromJson(Map<String, dynamic> json) {
     DateTime? getDate = json['GetDate'] != null ? DateTime.parse(json['GetDate']['date']) : null;
     DateTime expiryDate = DateTime.parse(json['ExpiryDate']['date']);

@@ -8,7 +8,7 @@ import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'Details/DetailsCard.dart';
-import '../LoadingContainerUpcoming.dart';
+import '../../../Widget/LoadingScreen/LoadingContainerUpcoming.dart';
 
 class UpComingTab extends StatefulWidget {
   const UpComingTab({super.key});

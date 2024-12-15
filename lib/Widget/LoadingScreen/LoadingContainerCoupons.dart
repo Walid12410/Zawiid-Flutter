@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import '../../Skeleton/Skeleton.dart';
+import '../../screen/Skeleton/Skeleton.dart';
 
 
 class LoadingContainerCoupons extends StatelessWidget {
@@ -36,7 +36,6 @@ class LoadingContainerCoupons extends StatelessWidget {
                 Skeleton(height: 150.h,width: double.infinity,),
                 SizedBox(height: 5.h,),
                 Skeleton(height: 150.h,width: double.infinity,)
-
               ],
             ),
           ),

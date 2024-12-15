@@ -7,9 +7,10 @@ import 'package:zawiid/Widget/Header.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/ConnectivityCheck.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Coupons_Provider.dart';
-import 'Details/CouponsListMark.dart';
-import 'Details/LoadingContainerCoupons.dart';
+import 'package:zawiid/screen/CoponsMarkListPage/Details/CouponsCard.dart';
+import '../../Widget/LoadingScreen/LoadingContainerCoupons.dart';
 
 class CouponsMain extends StatefulWidget {
   const CouponsMain({Key? key}) : super(key: key);
@@ -26,11 +27,11 @@ class _CouponsMainState extends State<CouponsMain> {
   @override
   void initState() {
     super.initState();
-    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    ConnectionStatusSingleton connectionStatus =
+        ConnectionStatusSingleton.getInstance();
     connectionStatus.initialize();
     _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
     _fetchCouponsFuture = _fetchCoupons();
-
   }
 
   void connectionChanged(dynamic hasConnection) {
@@ -42,16 +43,17 @@ class _CouponsMainState extends State<CouponsMain> {
     });
   }
 
-
   Future<void> _fetchCoupons() async {
     final couponsProvider = Provider.of<CouponsProvider>(context, listen: false);
-    await couponsProvider.getAllCouponsMark();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    await couponsProvider.getAllMarkCoupons();
+    await couponsProvider.getTotalGetCoupons();
+    await couponsProvider.getUserCoupons(authProvider.userId);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
       future: _fetchCouponsFuture,
       builder: (context, snapshot) {
@@ -77,6 +79,9 @@ class _CouponsMainState extends State<CouponsMain> {
   }
 
   Widget _buildCouponsList() {
+    final couponsProvider = Provider.of<CouponsProvider>(context, listen: true);
+    var markCoupons = couponsProvider.markCoupons;
+
     return Scaffold(
       backgroundColor: tdWhite,
       body: SafeArea(
@@ -84,12 +89,41 @@ class _CouponsMainState extends State<CouponsMain> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children:  [
-              PageHeadView(title: S.of(context).coupons, onPressed: (){
-                GoRouter.of(context).go("/home");
-              }),
+            children: [
+              PageHeadView(
+                  title: S.of(context).coupons,
+                  onPressed: () {
+                    GoRouter.of(context).go("/home");
+                  }),
               SizedBox(height: 15.h),
-              const CouponsListView(),
+              if (markCoupons.isEmpty) ...[
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 150.h,
+                    ),
+                    Center(
+                        child: Text(
+                      S.of(context).noCouponsAdded,
+                      style: TextStyle(
+                          fontSize: 15.sp,
+                          color: tdGrey,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ))
+                  ],
+                )
+              ] else ...[
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: markCoupons.length,
+                  itemBuilder: (context, index) {
+                    var mark = markCoupons[index];
+                    return CouponMarkCard(mark: mark);
+                  },
+                )
+              ]
             ],
           ),
         ),
@@ -97,5 +131,3 @@ class _CouponsMainState extends State<CouponsMain> {
     );
   }
 }
-
-

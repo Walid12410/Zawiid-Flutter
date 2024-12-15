@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import '../../../Skeleton/Skeleton.dart';
+import '../../screen/Skeleton/Skeleton.dart';
 
 class LoadingContainerCouponsPromotion extends StatelessWidget {
   const LoadingContainerCouponsPromotion({

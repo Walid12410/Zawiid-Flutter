@@ -10,7 +10,7 @@ import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/WithDrawal_Provider.dart';
-import 'Details/LoadingContainer.dart';
+import '../../Widget/LoadingScreen/LoadingContainerTicket.dart';
 import 'Details/ShowDetails.dart';
 import 'Details/TicketDetailsBottom.dart';
 import 'Details/TicketDetailsText.dart';

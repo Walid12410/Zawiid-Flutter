@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Widget/NavBar.dart';
 import 'package:zawiid/screen/AccountInfoPage/CustomServicesPage/CustomerServices.dart';
-import 'package:zawiid/screen/AccountInfoPage/PrivacyPolicyPage/privacy.dart';
 import 'package:zawiid/screen/AccountInfoPage/Profile.dart';
-import 'package:zawiid/screen/AccountInfoPage/TermsOfServicePage/TermsOfServices.dart';
 import 'package:zawiid/screen/AddAddress/AddAddress.dart';
 import 'package:zawiid/screen/AddressPage/AdressView.dart';
 import 'package:zawiid/screen/Authentication/LogInPage/LoginPage.dart';
@@ -12,9 +10,9 @@ import 'package:zawiid/screen/Authentication/SignupPage/SignUp.dart';
 import 'package:zawiid/screen/BidPage/BidPage.dart';
 import 'package:zawiid/screen/CartPage/CartPage.dart';
 import 'package:zawiid/screen/ChatServicePages/ChatMessage.dart';
-import 'package:zawiid/screen/CoponsPage/Copons.dart';
-import 'package:zawiid/screen/CoponsPage/CouponsPromotionPage/CouponsPromotion.dart';
-import 'package:zawiid/screen/CoponsPage/coponsDetailsPage/CoponsDetails.dart';
+import 'package:zawiid/screen/CoponsMarkListPage/Copons.dart';
+import 'package:zawiid/screen/CouponsPromotionPage/CouponsPromotion.dart';
+import 'package:zawiid/screen/CoponsListPage/CouponsList.dart';
 import 'package:zawiid/screen/ForgetPassword/CodeReceive/CodeReceivePage.dart';
 import 'package:zawiid/screen/ForgetPassword/ForgetPasswordPage.dart';
 import 'package:zawiid/screen/ForgetPassword/NewPasswordPage/NewPasswordPage.dart';
@@ -26,7 +24,9 @@ import 'package:zawiid/screen/NotificationPage/Notification.dart';
 import 'package:zawiid/screen/OrderView/OrderView.dart';
 import 'package:zawiid/screen/PaymentPage/ThanksPaymentPage/ThanksPaymentPage.dart';
 import 'package:zawiid/screen/PaymentPage/payment.dart';
+import 'package:zawiid/screen/PrivacyPolicyPage/privacy.dart';
 import 'package:zawiid/screen/SearchPage/Search.dart';
+import 'package:zawiid/screen/TermsOfServicePage/TermsOfServices.dart';
 import 'package:zawiid/screen/TicketPage/TicketPage.dart';
 import 'package:zawiid/screen/UpdateProfile/updateProfile.dart';
 
@@ -239,13 +239,12 @@ class AppNavigation {
                     const CouponsMain(),
                 routes: [
                   GoRoute(
-                    path: 'CouponsDetails/:markId/:couponsId',
+                    path: 'CouponsDetails/:markId',
                     name: 'CouponsDetails',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      child: CouponsDetails(
+                      child: CouponsList(
                         markId: int.parse(state.pathParameters['markId']!),
-                        couponId: int.parse(state.pathParameters['couponsId']!),
                       ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
