@@ -22,8 +22,8 @@ class ItemBottoms extends StatelessWidget {
   }) : super(key: key);
 
   final int productNo;
-  final String productPrice;
-  final String productSalePrice;
+  final double productPrice;
+  final double productSalePrice;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,9 @@ class ItemBottoms extends StatelessWidget {
     final auth = Provider.of<AuthProvider>(context, listen: false);
     final isProductInCart = cartView.isProductInCart(productNo);
 
-    double price = double.parse(productSalePrice) > 0.0
-        ? double.parse(productSalePrice)
-        : double.parse(productPrice);
+    double price = productSalePrice > 0.0
+        ? productSalePrice
+        : productPrice;
 
     return Row(
       children: [

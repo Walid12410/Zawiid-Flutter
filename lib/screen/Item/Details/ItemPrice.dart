@@ -3,22 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
-import 'package:zawiid/provider/Products_Provider.dart';
 
 class ItemPrice extends StatelessWidget {
   const ItemPrice({
     super.key,
+    required this.price,
+    required this.discountedPrice
   });
+
+  final double price;
+  final double discountedPrice;
 
   @override
   Widget build(BuildContext context) {
-    ProductsProvider productProvider = Provider.of<ProductsProvider>(context, listen: true);
-    var product = productProvider.productById;
     OfferProvider offerProvider = Provider.of<OfferProvider>(context, listen: true);
     var offerCheck = offerProvider.offerCheck;
-
-    String price = product.isNotEmpty && product[0].price != null ? product[0].price : '0';
-    String discountedPrice = product.isNotEmpty && product[0].discountedPrice != null ? product[0].discountedPrice : '0.0';
 
     String offerPrice = (offerCheck.isNotEmpty && offerCheck[0].productPrice != null)
         ? offerCheck[0].productPrice.toString()
@@ -49,7 +48,7 @@ class ItemPrice extends StatelessWidget {
           ),
         ],
       );
-    } else if (double.parse(discountedPrice) != 0.0 && double.parse(discountedPrice) > 0) {
+    } else if (discountedPrice > 0.0) {
       return Row(
         children: [
           Text(

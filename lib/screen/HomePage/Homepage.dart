@@ -25,11 +25,10 @@ import 'package:zawiid/provider/User_Provider.dart';
 import 'Details/TabView/FeaturedPage.dart';
 import 'Details/TabView/OnSalePage.dart';
 import 'Details/TabView/TopRatedPage.dart';
-import 'Details/FeaturedProduct.dart';
 import 'Details/LoadingContainer.dart';
-import 'Details/SearchBar.dart';
-import 'Details/WeekDealCard.dart';
-import 'Details/TopProductSubCategory.dart';
+import 'Details/SearchBar/SearchBar.dart';
+import '../../Widget/WeekDealCard.dart';
+import 'Details/SubCategoryProduct/TopProductSubCategory.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -104,7 +103,6 @@ class _HomePageState extends State<HomePage> {
         productProvider.getAllFeaturedProduct(),
         productProvider.getProductsOnSale(),
         productProvider.getProductsTopRated(),
-        productProvider.getAllFeaturedProductCard(),
         offerProvider.getAllOffer(),
       ];
       if (mounted) {
@@ -184,13 +182,53 @@ class _HomePageState extends State<HomePage> {
                             fit: BoxFit.fill,
                           )),
                       SizedBox(height: 10.h),
-                      const SingleChildScrollView(
+                      SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            FeaturedProductCard(),
-                            FeaturedProductCard(),
-                            FeaturedProductCard(),
+                            Container(
+                              width: 200.w,
+                              height: 120.h,
+                              margin: const EdgeInsets.only(left: 5,right: 5).w,
+                              decoration: BoxDecoration(
+                                  color: tdWhite,
+                                  border: Border.all(color: tdBlack)),
+                              child: Center(
+                                  child: Text(
+                                'Banner',
+                                style:
+                                    TextStyle(fontSize: 15.sp, color: tdBlack),
+                              )),
+                            ),
+                            Container(
+                              width: 200.w,
+                              height: 120.h,
+                              margin: const EdgeInsets.only(left: 5,right: 5).w,
+                              decoration: BoxDecoration(
+                                  color: tdWhite,
+                              
+                                  border: Border.all(color: tdBlack)),
+                              child: Center(
+                                  child: Text(
+                                'Banner',
+                                style:
+                                    TextStyle(fontSize: 15.sp, color: tdBlack),
+                              )),
+                            ),
+                            Container(
+                              width: 200.w,
+                              height: 120.h,
+                              margin: const EdgeInsets.only(left: 5,right: 5).w,
+                              decoration: BoxDecoration(
+                                  color: tdWhite,
+                                  border: Border.all(color: tdBlack)),
+                              child: Center(
+                                  child: Text(
+                                'Banner',
+                                style:
+                                    TextStyle(fontSize: 15.sp, color: tdBlack),
+                              )),
+                            )
                           ],
                         ),
                       ),
@@ -387,18 +425,9 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       )
                                     else
-                                      for (var offerProduct in offers)
-                                        WeekDealCard(
-                                          image:
-                                              '${ApiEndpoints.localBaseUrl}/${offerProduct.productImage}',
-                                          startDate: offerProduct.startDate,
-                                          endDate: offerProduct.endDate,
-                                          productNo: offerProduct.productNo,
-                                          colorNo: offerProduct.colorNo,
-                                          markNo: offerProduct.markNo,
-                                          productOfferPrice:
-                                              offerProduct.productPrice,
-                                        ),
+                                      for (var offerProduct in offers) ...[
+                                        WeekDealCard(offer: offerProduct),
+                                      ]
                                   ],
                                 ),
                               ],

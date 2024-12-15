@@ -9,39 +9,25 @@ import 'package:zawiid/Widget/SnackBar.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/LocalNotification.dart';
 import 'package:zawiid/core/TimeMethod/CheckWhatDate.dart';
+import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/model/Bid/bidProduct.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import '../../WatchDown/WatchCount.dart';
 
-class DetailsUpComing extends StatefulWidget {
-  const DetailsUpComing({
+class UpComingCard extends StatefulWidget {
+  const UpComingCard({
     Key? key,
-    required this.bidNo,
-    required this.endTime,
-    required this.startTime,
-    required this.productNo,
-    required this.productName,
-    required this.startPrice,
-    required this.productImage,
-    required this.colorName,
-    required this.colorNo
+    required this.bid
   }) : super(key: key);
 
-  final int bidNo;
-  final DateTime endTime;
-  final DateTime startTime;
-  final String productName;
-  final int productNo;
-  final String startPrice;
-  final String productImage;
-  final String colorName;
-  final int colorNo;
+  final BidProduct bid;
 
   @override
-  _DetailsUpComingState createState() => _DetailsUpComingState();
+  _UpComingCardState createState() => _UpComingCardState();
 }
 
-class _DetailsUpComingState extends State<DetailsUpComing> {
+class _UpComingCardState extends State<UpComingCard> {
   late Timer _timer;
   bool _hasStarted = false;
   bool _hasEnded = false;
@@ -65,18 +51,18 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
 
   void _updateTimeConditions() {
     DateTime now = DateTime.now();
-    bool hasStarted = now.isAfter(widget.startTime);
-    bool hasEnded = now.isAfter(widget.endTime);
+    bool hasStarted = now.isAfter(widget.bid.bidStartDate);
+    bool hasEnded = now.isAfter(widget.bid.bidEndDate);
     setState(() {
       _hasStarted = hasStarted;
       _hasEnded = hasEnded;
-      _countdownEndTime = _hasStarted ? widget.endTime : widget.startTime;
+      _countdownEndTime = _hasStarted ? widget.bid.bidEndDate : widget.bid.bidStartDate;
     });
   }
 
   void _checkIfNotified() async {
     final notificationService = Provider.of<NotificationService>(context, listen: false);
-    _isNotified = await notificationService.isNotificationScheduled(widget.bidNo);
+    _isNotified = await notificationService.isNotificationScheduled(widget.bid.bidNo);
     setState(() {});
   }
 
@@ -90,17 +76,17 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
     }
 
     if (_isNotified) {
-      await notificationService.cancelNotification(widget.bidNo);
+      await notificationService.cancelNotification(widget.bid.bidNo);
       setState(() {
         showSnackBar(context,  S.of(context).notificationCancel);
       });
     } else {
       // Schedule the notification
       await notificationService.scheduleNotification(
-        id: widget.bidNo,
+        id: widget.bid.bidNo,
         title: S.of(context).bidStart,
-        body: '${S.of(context).bidFor} ${widget.productName} ${S.of(context).startAt} ${DateFormat('hh:mm a').format(widget.startTime)}',
-        scheduledTime: widget.startTime,
+        body: '${S.of(context).bidFor} ${widget.bid.productName} ${S.of(context).startAt} ${DateFormat('hh:mm a').format(widget.bid.bidStartDate)}',
+        scheduledTime: widget.bid.bidStartDate,
       );
       setState(() {
         showSnackBar(context, S.of(context).notificationScheduled);
@@ -111,8 +97,8 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.startTime);
-    String dateCategory = getDateCategory(context, widget.startTime);
+    String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.bid.bidStartDate);
+    String dateCategory = getDateCategory(context, widget.bid.bidStartDate);
     AuthProvider auth  = Provider.of<AuthProvider>(context, listen: false);
 
     return Padding(
@@ -127,7 +113,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
               width: double.infinity,
               height: 210.h,
               child: CachedNetworkImage(
-                imageUrl: widget.productImage,
+                imageUrl: '${ApiEndpoints.localBaseUrl}/${widget.bid.productImage}',
                 placeholder: (context, url) =>
                     Image.asset('assets/log/LOGO-icon---Black.png'),
                 errorWidget: (context, url, error) =>
@@ -137,7 +123,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
             ),
           ),
           Text(
-            '${widget.productName} / ${widget.colorName}',
+            '${widget.bid.productName} / ${widget.bid.colorName}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12.sp,
@@ -161,7 +147,7 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
             ],
           ),
           Text(
-            '${S.of(context).startPrice} ${widget.startPrice}\$',
+            '${S.of(context).startPrice} ${widget.bid.startPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),
@@ -201,9 +187,9 @@ class _DetailsUpComingState extends State<DetailsUpComing> {
                           return;
                         }
                         GoRouter.of(context).goNamed('BidPage',
-                        pathParameters: {'bidNo' : widget.bidNo.toString(),
-                          'productNo' : widget.productNo.toString(),
-                          'colorNo' : widget.colorNo.toString()
+                        pathParameters: {'bidNo' : widget.bid.bidNo.toString(),
+                          'productNo' : widget.bid.productNo.toString(),
+                          'colorNo' : widget.bid.colorNo.toString()
                         });
                       },
                       child: Container(

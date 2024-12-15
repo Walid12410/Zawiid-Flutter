@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:zawiid/Widget/TabCardProduct.dart';
 import 'package:zawiid/core/config.dart';
 import '../../../../provider/Products_Provider.dart';
-import '../../../../Widget/TabCard.dart';
+import '../../../../Widget/TabCardFeatured.dart';
 
 class OnSalePageView extends StatelessWidget {
   const OnSalePageView({super.key});
@@ -40,17 +41,7 @@ class OnSalePageView extends StatelessWidget {
           children: List.generate(2, (index) {
             int productIndex = startIndex + index;
             if (productIndex < onSaleProduct.length) {
-              return TabCard(
-                productNo: onSaleProduct[productIndex].productNo,
-                productName: onSaleProduct[productIndex].productName,
-                productDesc: onSaleProduct[productIndex].productDesc,
-                productImage:
-                    '${ApiEndpoints.localBaseUrl}/${onSaleProduct[productIndex].productImage}',
-                productPrice: onSaleProduct[productIndex].price,
-                markNo: onSaleProduct[productIndex].markNo,
-                colorNo: onSaleProduct[productIndex].colorNo,
-                productSalePrice: onSaleProduct[productIndex].discountedPrice,
-              );
+              return TabCardProduct(product: onSaleProduct[productIndex]);
             } else {
               return const SizedBox();
             }

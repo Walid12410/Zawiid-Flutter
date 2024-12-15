@@ -5,32 +5,22 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Api/CartService.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/model/offer/offer.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
-import '../CountTime/CountTimerFeatured.dart';
+import 'CountTime/CountTimerFeatured.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class WeekDealCard extends StatelessWidget {
   const WeekDealCard({
     Key? key,
-    required this.startDate,
-    required this.endDate,
-    required this.image,
-    required this.productNo,
-    required this.colorNo,
-    required this.markNo,
-    required this.productOfferPrice,
+    required this.offer
   }) : super(key: key);
 
-  final DateTime startDate;
-  final DateTime endDate;
-  final String image;
-  final int productNo;
-  final int colorNo;
-  final int markNo;
-  final String productOfferPrice;
+  final Offer offer;
 
   void _toggleCart(BuildContext context) async {
     CartService service = CartService();
@@ -50,21 +40,21 @@ class WeekDealCard extends StatelessWidget {
     }
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(offer.productNo);
 
     if (!isProductInCart) {
-      cartProvider.addToCart(userID, productNo, 1, productOfferPrice);
+      cartProvider.addToCart(userID, offer.productNo, 1, offer.productPrice);
       service.addCartItem(
         userNo: userID,
-        productNo: productNo,
+        productNo: offer.productNo,
         productCartQty: 1,
-        productCartPrice: double.parse(productOfferPrice),
+        productCartPrice: double.parse(offer.productPrice),
       );
     } else {
-      cartProvider.removeFromCart(productNo);
+      cartProvider.removeFromCart(offer.productNo);
       service.deleteCartItem(
         userNo: userID,
-        productNo: productNo,
+        productNo: offer.productNo,
       );
     }
   }
@@ -72,7 +62,7 @@ class WeekDealCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(offer.productNo);
 
     return SizedBox(
       child: Column(
@@ -84,16 +74,16 @@ class WeekDealCard extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 GoRouter.of(context).goNamed('itemDetails', pathParameters: {
-                  'itemNo': productNo.toString(),
-                  'colorNo': colorNo.toString(),
-                  'markNo': markNo.toString(),
+                  'itemNo': offer.productNo.toString(),
+                  'colorNo': offer.colorNo.toString(),
+                  'markNo': offer.markNo.toString(),
                 });
               },
               child: SizedBox(
                 width: 250.w,
                 height: 180.h,
                 child: CachedNetworkImage(
-                  imageUrl: image,
+                  imageUrl: '${ApiEndpoints.localBaseUrl}/${offer.productImage}',
                   placeholder: (context, url) =>
                       Image.asset('assets/log/LOGO-icon---Black.png'),
                   errorWidget: (context, url, error) =>
@@ -117,7 +107,7 @@ class WeekDealCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$productOfferPrice \$',
+                        '${offer.productPrice} \$',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,
@@ -172,8 +162,8 @@ class WeekDealCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5.h),
                   CountTimerFeatured(
-                    startTime: startDate,
-                    endTime: endDate,
+                    startTime: offer.startDate,
+                    endTime: offer.endDate,
                   )
                 ],
               )

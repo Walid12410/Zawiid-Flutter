@@ -1,8 +1,8 @@
 class Offer {
-  int offerNo;
-  DateTime startDate;
-  DateTime endDate;
-  String productPrice;
+  final int offerNo;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String productPrice;
   final int productNo;
   final int colorNo;
   final int markNo;
@@ -28,7 +28,7 @@ class Offer {
       offerNo: json['OfferNo'] ?? 0,
       startDate: DateTime.parse(json['StartDate']['date']),
       endDate: DateTime.parse(json['EndDate']['date']),
-      productPrice: json['ProductPrice'] ?? "",
+      productPrice: json['ProductPrice'] ?? "0.0",
       productNo: json["ProductNo"] ?? 0,
       productName: json["ProductName"] ?? '',
       productDesc: json["ProductDesc"] ?? '',

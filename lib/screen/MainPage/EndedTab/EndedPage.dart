@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
-import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'package:zawiid/screen/MainPage/LoadingContainerUpcoming.dart';
@@ -26,7 +25,7 @@ class _EndedTabState extends State<EndedTab> {
 
   Future<void> _fetchBids() async {
     BidProvider bidProvider = Provider.of<BidProvider>(context, listen: false);
-    await bidProvider.getAllBid();
+    await bidProvider.getEndedBid();
   }
 
   @override
@@ -54,7 +53,7 @@ class _EndedTabState extends State<EndedTab> {
             } else {
               BidProvider bidProvider =
                   Provider.of<BidProvider>(context, listen: true);
-              var bidData = bidProvider.bidView;
+              var bidData = bidProvider.endedBid;
 
               if (bidData.isEmpty) {
                 return Center(
@@ -85,19 +84,7 @@ class _EndedTabState extends State<EndedTab> {
                   children: [
                     SizedBox(height: 5.h),
                     for (var bid in filteredBids)
-                      SoldDetails(
-                        bidNo: bid.bidNo,
-                        productNo: bid.productNo,
-                        productName: bid.products.isNotEmpty
-                            ? bid.products[0].productName
-                            : "",
-                        productImage:
-                            '${ApiEndpoints.localBaseUrl}/${bid.products[0].productImage}',
-                        endTime: bid.bidEndDate,
-                        colorNo: bid.products[0].color!.colorNo,
-                        soldPrice: bid.soldAtPrice,
-                        colorName: bid.products[0].color!.colorName,
-                      ),
+                      SolidCard(endedBid: bid),
                     SizedBox(height: 10.h),
                   ],
                 ),

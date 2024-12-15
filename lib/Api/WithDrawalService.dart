@@ -66,7 +66,7 @@ Future<List<Ticket>> fetchAllTicket() async {
   String formattedDate = DateFormat('yyyy-MM-dd', 'en_US').format(now);
   try {
 
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTicketVW.php'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTableVW.php?status=ticket&currentTime=$formattedDate'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<Ticket> allTicket = jsonData.map((json) => Ticket.fromJson(json)).toList();

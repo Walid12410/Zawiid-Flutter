@@ -9,7 +9,7 @@ class ProductService {
   
 Future<List<ProductSubCategory>> fetchSubCategoryProduct(int id,int page, int limit) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductCategory.php?status=SubCatProductPagination&SubCatID=$id&page=$page&limit=$limit'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductCategoryVW.php?status=SubCatProductPagination&SubCatID=$id&page=$page&limit=$limit'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<ProductSubCategory> productsSubCategory = jsonData.map((json) => ProductSubCategory.fromJson(json)).toList();
@@ -24,7 +24,7 @@ Future<List<ProductSubCategory>> fetchSubCategoryProduct(int id,int page, int li
 
 Future<List<ProductSubCategory>> fetchTopSubCatProduct(int id) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductCategory.php?status=TopProductCat&SubCatID=$id'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileProductCategoryVW.php?status=TopProductCat&SubCatID=$id'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<ProductSubCategory> productsSubCategory = jsonData.map((json) => ProductSubCategory.fromJson(json)).toList();

@@ -22,37 +22,36 @@ class ProductsProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get hasMoreData => _hasMoreData;
 
-Future<void> fetchSubCategoryProduct(int subCatId) async {
-  if (_isLoading || !_hasMoreData) return; // Prevent multiple calls
-  _isLoading = true;
-  notifyListeners();
-
-  try {
-    List<ProductSubCategory> newProducts =
-        await productService.fetchSubCategoryProduct(subCatId, _currentPage, _perPage);
-
-    // Check if there are fewer products than the requested page size
-    if (newProducts.isEmpty || newProducts.length < _perPage) {
-      _hasMoreData = false; // No more data available
-    } else {
-      _currentPage++; // Move to the next page
-    }
-
-    // Add only unique products to the list
-    for (var product in newProducts) {
-      if (!_subCategoryProduct.any((existingProduct) =>
-          existingProduct.productNo == product.productNo)) {
-        _subCategoryProduct.add(product);
-      }
-    }
-
-  } catch (e) {
-    throw Exception(e);
-  } finally {
-    _isLoading = false; // Mark loading as completed
+  Future<void> fetchSubCategoryProduct(int subCatId) async {
+    if (_isLoading || !_hasMoreData) return; // Prevent multiple calls
+    _isLoading = true;
     notifyListeners();
+
+    try {
+      List<ProductSubCategory> newProducts = await productService
+          .fetchSubCategoryProduct(subCatId, _currentPage, _perPage);
+
+      // Check if there are fewer products than the requested page size
+      if (newProducts.isEmpty || newProducts.length < _perPage) {
+        _hasMoreData = false; // No more data available
+      } else {
+        _currentPage++; // Move to the next page
+      }
+
+      // Add only unique products to the list
+      for (var product in newProducts) {
+        if (!_subCategoryProduct.any((existingProduct) =>
+            existingProduct.productNo == product.productNo)) {
+          _subCategoryProduct.add(product);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    } finally {
+      _isLoading = false; // Mark loading as completed
+      notifyListeners();
+    }
   }
-}
 
   void resetSubCategoryProduct() {
     _subCategoryProduct.clear();
@@ -61,29 +60,21 @@ Future<void> fetchSubCategoryProduct(int subCatId) async {
     //notifyListeners();
   }
 
-
   // Top sub category product
   List<ProductSubCategory> _topSubCategoryProducts = [];
-  List<ProductSubCategory> get topSubCategoryProducts => _topSubCategoryProducts;
+  List<ProductSubCategory> get topSubCategoryProducts =>
+      _topSubCategoryProducts;
   getTopSubCategoryProduct(int id) async {
     final res = await productService.fetchTopSubCatProduct(id);
     _topSubCategoryProducts = res;
     notifyListeners();
   }
 
-  List<Featured> _featuredProduct = [];
-  List<Featured> get featuredProduct => _featuredProduct;
+  List<FeaturedProduct> _featuredProduct = [];
+  List<FeaturedProduct> get featuredProduct => _featuredProduct;
   getAllFeaturedProduct() async {
     final res = await featureService.fetchFeaturedProducts();
     _featuredProduct = res;
-    notifyListeners();
-  }
-
-  List<Featured> _featuredProductCard = [];
-  List<Featured> get featuredProductCard => _featuredProductCard;
-  getAllFeaturedProductCard() async {
-    final res = await featureService.fetchFeaturedProducts();
-    _featuredProductCard = res;
     notifyListeners();
   }
 

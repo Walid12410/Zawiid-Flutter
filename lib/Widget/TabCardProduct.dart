@@ -7,31 +7,19 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/Api/CartService.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/model/Product/Products.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 
-class TabCard extends StatelessWidget {
-  const TabCard({
+class TabCardProduct extends StatelessWidget {
+  const TabCardProduct({
     Key? key,
-    required this.productNo,
-    required this.productName,
-    required this.productDesc,
-    required this.productImage,
-    required this.productPrice,
-    required this.markNo,
-    required this.colorNo,
-    required this.productSalePrice,
+    required this.product,
   }) : super(key: key);
 
-  final int productNo;
-  final String productName;
-  final String productDesc;
-  final String productImage;
-  final String productPrice;
-  final int markNo;
-  final int colorNo;
-  final String productSalePrice;
+  final Product product;
 
   void _toggleCart(BuildContext context) async {
     CartService service = CartService();
@@ -52,25 +40,25 @@ class TabCard extends StatelessWidget {
     }
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
-    double price = double.parse(productSalePrice) > 0.0
-        ? double.parse(productSalePrice)
-        : double.parse(productPrice);
+    double price = double.parse(product.discountedPrice)  > 0.0
+        ? double.parse(product.discountedPrice)
+        : double.parse(product.price);
 
     if (!isProductInCart) {
-      cartProvider.addToCart(userID, productNo, 1, price.toString());
+      cartProvider.addToCart(userID, product.productNo, 1, price.toString());
       service.addCartItem(
         userNo: userID,
-        productNo: productNo,
+        productNo: product.productNo,
         productCartQty: 1,
         productCartPrice: price,
       );
     } else {
-      cartProvider.removeFromCart(productNo);
+      cartProvider.removeFromCart(product.productNo);
       service.deleteCartItem(
         userNo: userID,
-        productNo: productNo,
+        productNo: product.productNo,
       );
     }
   }
@@ -78,14 +66,14 @@ class TabCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final isProductInCart = cartProvider.isProductInCart(productNo);
+    final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
     return GestureDetector(
       onTap: () {
         GoRouter.of(context).goNamed('itemDetails', pathParameters: {
-          'itemNo': productNo.toString(),
-          'colorNo': colorNo.toString(),
-          'markNo': markNo.toString(),
+          'itemNo': product.productNo.toString(),
+          'colorNo': product.colorNo.toString(),
+          'markNo': product.markNo.toString(),
         });
       },
       child: Padding(
@@ -113,7 +101,7 @@ class TabCard extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  '$productName $productDesc',
+                  '${product.productName} ${product.productDesc}',
                   style: TextStyle(fontSize: 8.sp, color: tdBlack),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -125,7 +113,7 @@ class TabCard extends StatelessWidget {
                     width: 100.w,
                     height: 130.h,
                     child: CachedNetworkImage(
-                      imageUrl: productImage,
+                      imageUrl: '${ApiEndpoints.localBaseUrl}/${product.productImage}',
                       placeholder: (context, url) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
@@ -141,7 +129,7 @@ class TabCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$productPrice \$',
+                      '${product.price} \$',
                       style: TextStyle(
                           fontSize: 15.sp,
                           color: Colors.grey,

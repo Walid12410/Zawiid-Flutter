@@ -23,7 +23,6 @@ bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
 }
 
-
 class ItemDetailsPage extends StatefulWidget {
   const ItemDetailsPage({
     Key? key,
@@ -50,9 +49,11 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   }
 
   Future<void> fetchData() async {
-    final productsProvider = Provider.of<ProductsProvider>(context, listen: false);
+    final productsProvider =
+        Provider.of<ProductsProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
-    final colorMarkProvider = Provider.of<MarkColorProvider>(context, listen: false);
+    final colorMarkProvider =
+        Provider.of<MarkColorProvider>(context, listen: false);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
@@ -60,7 +61,6 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     final colorNo = widget.colorNo;
     final markNo = widget.markNo;
     final userId = authProvider.userId;
-
 
     try {
       final List<Future<dynamic>> fetchers = [
@@ -112,7 +112,8 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 ),
               );
             } else {
-              final productsProvider = Provider.of<ProductsProvider>(context, listen: true);
+              final productsProvider =
+                  Provider.of<ProductsProvider>(context, listen: true);
               var product = productsProvider.productById;
 
               if (product.isEmpty || product[0].productNo != widget.productNo) {
@@ -144,11 +145,13 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                               width: 210.w,
                               height: 250.h,
                               child: CachedNetworkImage(
-                                imageUrl: '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
+                                imageUrl:
+                                    '${ApiEndpoints.localBaseUrl}/${product[0].productImage}',
                                 placeholder: (context, url) => Image.asset(
                                   'assets/log/LOGO-icon---Black.png',
                                 ),
-                                errorWidget: (context, url, error) => Image.asset(
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
                                   'assets/log/LOGO-icon---Black.png',
                                 ),
                               ),
@@ -157,12 +160,16 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           SizedBox(height: 10.h),
                           const ItemTitle(),
                           SizedBox(height: 10.h),
-                          const ItemPrice(),
+                          ItemPrice(
+                              price: double.parse(product[0].price),
+                              discountedPrice:
+                                  double.parse(product[0].discountedPrice)),
                           SizedBox(height: 10.h),
                           ItemBottoms(
                             productNo: product[0].productNo,
-                            productPrice: product[0].price,
-                            productSalePrice: product[0].discountedPrice,
+                            productPrice: double.parse(product[0].price),
+                            productSalePrice:
+                                double.parse(product[0].discountedPrice),
                           ),
                           SizedBox(height: 10.h),
                           const ItemDetail(),
@@ -182,4 +189,3 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     );
   }
 }
-

@@ -15,7 +15,6 @@ class OfferProvider with ChangeNotifier {
   }
 
   List<OfferResponse> _offerCheck = [];
-
   List<OfferResponse> get offerCheck {
     DateTime now = DateTime.now();
     return _offerCheck.where((offer) {

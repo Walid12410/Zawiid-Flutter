@@ -56,7 +56,7 @@ class DatabaseHelper {
         markNo: 0, // default value
         size: '', // default empty string
         colorNo: 0, // default value
-        discountedPrice: '0.0', // default value
+        discountedPrice:"0.0", // default value
         isOpenBox: 0, // default value
         productImage: maps[i]['productImage'],
       );

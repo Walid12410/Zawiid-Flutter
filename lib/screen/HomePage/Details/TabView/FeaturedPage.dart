@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/core/config.dart';
 import 'package:zawiid/model/Featured/Featured.dart';
 import '../../../../provider/Products_Provider.dart';
-import '../../../../Widget/TabCard.dart';
+import '../../../../Widget/TabCardFeatured.dart';
 
 class FeaturedPageView extends StatelessWidget {
   const FeaturedPageView({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class FeaturedPageView extends StatelessWidget {
     DateTime now = DateTime.now();
     ProductsProvider productProvider =
     Provider.of<ProductsProvider>(context, listen: true);
-    List<Featured> featuredProducts = productProvider.featuredProduct;
+    List<FeaturedProduct> featuredProducts = productProvider.featuredProduct;
 
     if (featuredProducts.isEmpty) {
       return Center(
@@ -29,7 +28,7 @@ class FeaturedPageView extends StatelessWidget {
       );
     }
 
-    List<Featured> activeFeaturedProducts = featuredProducts.where((featured) {
+    List<FeaturedProduct> activeFeaturedProducts = featuredProducts.where((featured) {
       DateTime startDate = featured.startDate;
       DateTime endDate = featured.endDate;
       return (now.isAfter(startDate) || now.isAtSameMomentAs(startDate)) &&
@@ -43,21 +42,11 @@ class FeaturedPageView extends StatelessWidget {
 
       for (int j = 0; j < 2; j++) {
         if (i + j < activeFeaturedProducts.take(4).length) {
-          var products = activeFeaturedProducts[i + j].products;
+          var product = activeFeaturedProducts[i + j];
 
           cards.add(
             Expanded(
-              child: TabCard(
-                productNo: products![0].productNo,
-                productName: products[0].productName,
-                productDesc: products[0].productDesc,
-                productImage:
-                '${ApiEndpoints.localBaseUrl}/${products[0].productImage}',
-                productPrice: products[0].price,
-                markNo: products[0].markNo,
-                colorNo: products[0].colorNo,
-                productSalePrice: products[0].discountedPrice,
-              ),
+              child: TabCardFeatured(product: product),
             ),
           );
         } else {

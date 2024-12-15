@@ -3,39 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
+import 'package:zawiid/core/config.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'package:zawiid/model/Bid/bidProduct.dart';
 
-class SoldDetails extends StatefulWidget {
-  const SoldDetails({
+class SolidCard extends StatefulWidget {
+  const SolidCard({
     Key? key,
-    required this.bidNo,
-    required this.productNo,
-    required this.endTime,
-    required this.productName,
-    required this.productImage,
-    required this.colorNo,
-    required this.soldPrice,
-    required this.colorName
+    required this.endedBid
   }) : super(key: key);
 
-  final int bidNo;
-  final int productNo;
-  final DateTime endTime;
-  final String productName;
-  final String productImage;
-  final int colorNo;
-  final String soldPrice;
-  final String colorName;
+  final BidProduct endedBid;
 
   @override
-  _SoldDetailsState createState() => _SoldDetailsState();
+  _SolidCardState createState() => _SolidCardState();
 }
 
-class _SoldDetailsState extends State<SoldDetails> {
+class _SolidCardState extends State<SolidCard> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.endTime);
+    String formattedStartTime = DateFormat('d MMMM, hh:mm a').format(widget.endedBid.bidEndDate);
 
     return Padding(
       padding: const EdgeInsets.all(8.0).w,
@@ -47,7 +35,7 @@ class _SoldDetailsState extends State<SoldDetails> {
               width: double.infinity,
               height: 210.h,
               child: CachedNetworkImage(
-                imageUrl: widget.productImage,
+                imageUrl: '${ApiEndpoints.localBaseUrl}/${widget.endedBid.productImage}',
                 placeholder: (context, url) =>
                     Image.asset('assets/log/LOGO-icon---Black.png'),
                 errorWidget: (context, url, error) =>
@@ -57,7 +45,7 @@ class _SoldDetailsState extends State<SoldDetails> {
             ),
           ),
           Text(
-            '${widget.productName} / ${widget.colorName}',
+            '${widget.endedBid.productName} / ${widget.endedBid.colorName}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12.sp,
@@ -72,7 +60,7 @@ class _SoldDetailsState extends State<SoldDetails> {
           ),
           SizedBox(height: 2.h),
            Text(
-            '${S.of(context).soldAt} ${widget.soldPrice}\$',
+            '${S.of(context).soldAt} ${widget.endedBid.soldAtPrice}\$',
             style: TextStyle(fontSize: 8.sp, color: tdGrey),
           ),
           SizedBox(height: 10.h),

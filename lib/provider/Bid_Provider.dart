@@ -9,11 +9,60 @@ class BidProvider with ChangeNotifier {
   BidService bid = BidService();
 
 
-  List<BidProduct> _bidView = [];
-  List<BidProduct> get bidView => _bidView;
-  getAllBid() async {
-    final res = await bid.fetchAllBid();
-    _bidView = res;
+  // bid pagination upcoming
+  final List<BidProduct> _bidProduct = [];
+  bool _isLoading = false;
+  int _currentPage = 1;
+  final int _perPage = 4;
+  bool _hasMoreData = true;
+
+  List<BidProduct> get bidProduct => _bidProduct;
+  bool get isLoading => _isLoading;
+  bool get hasMoreData => _hasMoreData;
+
+  Future<void> getAllBid() async {
+    if (_isLoading || !_hasMoreData) return; // Prevent multiple calls
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      List<BidProduct> newBid = await bid.fetchAllBid(_currentPage, _perPage);
+
+      // Check if there are fewer products than the requested page size
+      if (newBid.isEmpty || newBid.length < _perPage) {
+        _hasMoreData = false; // No more data available
+      } else {
+        _currentPage++; // Move to the next page
+      }
+
+      // Add only unique products to the list
+      for (var bid in newBid) {
+        if (!_bidProduct.any((existingProduct) =>
+            existingProduct.bidNo == bid.productNo)) {
+          _bidProduct.add(bid);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    } finally {
+      _isLoading = false; // Mark loading as completed
+      notifyListeners();
+    }
+  }
+
+  void resetBid() {
+    _bidProduct.clear();
+    _currentPage = 1;
+    _hasMoreData = true;
+  }
+
+
+  // ended bid
+  List<BidProduct> _endedBid = [];
+  List<BidProduct> get endedBid => _endedBid;
+  getEndedBid() async {
+    final res = await bid.fetchEndedBid();
+    _endedBid = res;
     notifyListeners();
   }
 

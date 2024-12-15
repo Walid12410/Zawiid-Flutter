@@ -10,7 +10,7 @@ class OrderService {
   
 Future<List<OrderDetails>> fetchOrderByUser(int userId) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileOrderUserVW.php?userNo=$userId'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTableVW.php?status=userOrder&UserNo=$userId'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<OrderDetails> orderDetails = jsonData.map((json) => OrderDetails.fromJson(json)).toList();

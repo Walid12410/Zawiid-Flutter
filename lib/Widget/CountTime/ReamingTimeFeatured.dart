@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zawiid/generated/l10n.dart';
-import '../Details/TimeWeekDeal.dart';
+import 'TimeWeekDeal.dart';
 
 
 class CountTimeReamingFeatured extends StatelessWidget {

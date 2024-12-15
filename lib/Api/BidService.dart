@@ -29,15 +29,30 @@ Future<void> updateBidAmt(int bidNo, String amountToAdd) async {
   }
 }
 
-Future<List<BidProduct>> fetchAllBid() async {
+Future<List<BidProduct>> fetchAllBid(int page , int limit) async {
   try {
-    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileBid.php'));
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTableVW.php?status=bid&page=$page&limit=$limit'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
       List<BidProduct> bidData = jsonData.map((json) => BidProduct.fromJson(json)).toList();
       return bidData;
     } else {
       throw Exception('Failed to load bidData');
+    }
+  } catch (e) {
+    throw Exception('Server Error');
+  }
+}
+
+Future<List<BidProduct>> fetchEndedBid() async {
+  try {
+    final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTableVW.php?status=endedBid'));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<BidProduct> endedBid = jsonData.map((json) => BidProduct.fromJson(json)).toList();
+      return endedBid;
+    } else {
+      throw Exception('Failed to load ended bid');
     }
   } catch (e) {
     throw Exception('Server Error');
