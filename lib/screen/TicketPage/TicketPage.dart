@@ -13,7 +13,6 @@ import 'package:zawiid/provider/WithDrawal_Provider.dart';
 import '../../Widget/LoadingScreen/LoadingContainerTicket.dart';
 import 'Details/ShowDetails.dart';
 import 'Details/TicketDetailsBottom.dart';
-import 'Details/TicketDetailsText.dart';
 import 'Details/TicketImage.dart';
 import 'Details/TicketPriceDetails.dart';
 import 'package:intl/intl.dart';
@@ -34,6 +33,7 @@ class _TicketMainState extends State<TicketMain> {
   bool _showDetailsBottom = true;
   late StreamSubscription _connectionChangeStream;
   bool isOffline = false;
+  late Future<void> _futureTickets;
 
   @override
   void initState() {
@@ -41,15 +41,14 @@ class _TicketMainState extends State<TicketMain> {
     ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
     connectionStatus.initialize();
     _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
-    _fetchInitialData();
+    _futureTickets = _fetchInitialData();
   }
-
 
   void connectionChanged(dynamic hasConnection) {
     setState(() {
       isOffline = !hasConnection;
       if (!isOffline) {
-        _fetchInitialData();
+        _futureTickets = _fetchInitialData();
       }
     });
   }
@@ -81,127 +80,138 @@ class _TicketMainState extends State<TicketMain> {
 
   @override
   Widget build(BuildContext context) {
-    final ticketProvider = Provider.of<TicketProvider>(context);
+    return FutureBuilder<void>(
+      future: _futureTickets,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingContainerTicket();
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: tdWhite,
+            body: SafeArea(
+              child: Center(
+                child: Text(S.of(context).errorConnection),
+              ),
+            ),
+          );
+        }
 
-    final allTickets = ticketProvider.allTicket;
-    final now = DateTime.now();
+        final ticketProvider = Provider.of<TicketProvider>(context);
+        final allTickets = ticketProvider.allTicket;
+        final now = DateTime.now();
 
+        final startedTickets = allTickets
+            .where((ticket) => ticket.startDate.isBefore(now) && ticket.endDate.isAfter(now))
+            .toList();
+        final notStartedTickets = allTickets.where((ticket) => ticket.startDate.isAfter(now)).toList();
 
-    if (allTickets.isEmpty) {
-      return const LoadingContainerTicket();
-    }
+        if (startedTickets.isNotEmpty) {
+          startedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
+          final latestStartedTicket = startedTickets.first;
 
-    final startedTickets = allTickets
-        .where((ticket) => ticket.startDate.isBefore(now) && ticket.endDate.isAfter(now))
-        .toList();
-    final notStartedTickets = allTickets.where((ticket) => ticket.startDate.isAfter(now)).toList();
-    final endedTickets = allTickets.where((ticket) => ticket.endDate.isBefore(now)).toList();
-
-    if (startedTickets.isNotEmpty) {
-      startedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
-      final latestStartedTicket = startedTickets.first;
-
-
-      return Scaffold(
-        backgroundColor: tdWhite,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                PageHeadView(
-                  title: S.of(context).ticket,
-                  onPressed: () => GoRouter.of(context).go("/home"),
+          return Scaffold(
+            backgroundColor: tdWhite,
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    PageHeadView(
+                      title: S.of(context).ticket,
+                      onPressed: () => GoRouter.of(context).go("/home"),
+                    ),
+                    TicketImage(
+                      ticketImage: '${ApiEndpoints.localBaseUrl}/${latestStartedTicket.image}',
+                    ),
+                    if (_showDetails) SizedBox(height: 30.h),
+                    if (_showDetailsBottom)
+                      TicketDetailsBottom(onTap: toggleVisibility),
+                    if (_showDetails) ...[
+                      SizedBox(height: 10.h),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 50, right: 50).w,
+                        child: Text(
+                          latestStartedTicket.ticketTitle,
+                          style: TextStyle(fontSize: 12.sp, color: tdGrey, fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      TicketPriceDetails(
+                        ticketPrice: latestStartedTicket.ticketPrice,
+                        numberOfTicketLeft: latestStartedTicket.nbrOfTicketsLeft,
+                        withDrawalNo: latestStartedTicket.withdrawalID,
+                      ),
+                    ],
+                    if (!_showDetails)
+                      TicketDetails(
+                        onTap: toggleVisibility,
+                        color: latestStartedTicket.colorName,
+                        mark: latestStartedTicket.markName,
+                        productName: latestStartedTicket.productName,
+                        size: latestStartedTicket.size,
+                      ),
+                    SizedBox(height: 15.h),
+                  ],
                 ),
-                TicketImage(
-                  ticketImage: '${ApiEndpoints.localBaseUrl}/${latestStartedTicket.image}',
-                ),
-                if (_showDetails) SizedBox(height: 30.h),
-                if (_showDetailsBottom)
-                  TicketDetailsBottom(onTap: toggleVisibility),
-                if (_showDetails) ...[
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50,right: 50).w,
-                    child: Text(latestStartedTicket.ticketTitle,style: TextStyle(
-                      fontSize: 12.sp,color: tdGrey,fontWeight: FontWeight.w500
-                    ),textAlign: TextAlign.center,),
+              ),
+            ),
+          );
+        } else if (notStartedTickets.isNotEmpty) {
+          notStartedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
+          final nextTicket = notStartedTickets.first;
+          final formattedStartTime = DateFormat('dd MMMM yyyy hh:mm a').format(nextTicket.startDate);
+
+          return Scaffold(
+            backgroundColor: tdWhite,
+            body: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildLogo(),
+                  Text(
+                    S.of(context).ticketEnd,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
+                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10.h,),
-                  TicketPriceDetails(
-                    ticketPrice: latestStartedTicket.ticketPrice,
-                    numberOfTicketLeft: latestStartedTicket.nbrOfTicketsLeft,
-                    withDrawalNo: latestStartedTicket.withdrawalID,
+                  Text(
+                    '${S.of(context).nextTicket} $formattedStartTime',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
+                    textAlign: TextAlign.center,
                   ),
                 ],
-                if (!_showDetails)
-                  TicketDetails(
-                    onTap: toggleVisibility,
-                    color: latestStartedTicket.colorName,
-                    mark: latestStartedTicket.markName,
-                    productName: latestStartedTicket.productName,
-                    size: latestStartedTicket.size,
-                  ),
-                SizedBox(height: 15.h),
-              ],
+              ),
             ),
-          ),
-        ),
-      );
-    } else if (notStartedTickets.isNotEmpty) {
-      notStartedTickets.sort((a, b) => a.startDate.compareTo(b.startDate));
-      final nextTicket = notStartedTickets.first;
-      final formattedStartTime = DateFormat('dd MMMM yyyy hh:mm a').format(nextTicket.startDate);
-
-      return Scaffold(
-        backgroundColor: tdWhite,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildLogo(),
-              Text(
-                S.of(context).ticketEnd,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
-                textAlign: TextAlign.center,
+          );
+        } else {
+          return Scaffold(
+            backgroundColor: tdWhite,
+            body: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildLogo(),
+                  Text(
+                    S.of(context).ticketEnd,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    S.of(context).newTicket,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              Text(
-                '${S.of(context).nextTicket} $formattedStartTime',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return Scaffold(
-        backgroundColor: tdWhite,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildLogo(),
-              Text(
-                S.of(context).ticketEnd,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp, color: tdGrey),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-               S.of(context).newTicket,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tdGrey),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+            ),
+          );
+        }
+      },
+    );
   }
-
 
   Widget _buildLogo() {
     return Center(
@@ -216,4 +226,3 @@ class _TicketMainState extends State<TicketMain> {
     );
   }
 }
-

@@ -589,40 +589,40 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5).w,
-                                  child: categories.isNotEmpty &&
-                                          categories[_selectedCategoryIndex]
-                                                  .subcategories !=
-                                              null &&
-                                          categories[_selectedCategoryIndex]
-                                              .subcategories!
-                                              .isNotEmpty &&
-                                          categories[_selectedCategoryIndex]
-                                                  .subcategories!
-                                                  .length >
-                                              _selectedSubcategoryIndex &&
-                                          categories[_selectedCategoryIndex]
-                                                  .subcategories![
-                                                      _selectedSubcategoryIndex]
-                                                  .photo !=
-                                              null
-                                      ? Container(
-                                          height: 500.h,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: tdGreyHome,
-                                            borderRadius:
-                                                BorderRadius.circular(20).w,
-                                            image: DecorationImage(
-                                              image: CachedNetworkImageProvider(
-                                                  '${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo!}'),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(5).w,
+                                //   child: categories.isNotEmpty &&
+                                //           categories[_selectedCategoryIndex]
+                                //                   .subcategories !=
+                                //               null &&
+                                //           categories[_selectedCategoryIndex]
+                                //               .subcategories!
+                                //               .isNotEmpty &&
+                                //           categories[_selectedCategoryIndex]
+                                //                   .subcategories!
+                                //                   .length >
+                                //               _selectedSubcategoryIndex &&
+                                //           categories[_selectedCategoryIndex]
+                                //                   .subcategories![
+                                //                       _selectedSubcategoryIndex]
+                                //                   .photo !=
+                                //               null
+                                //       ? Container(
+                                //           height: 500.h,
+                                //           width: double.infinity,
+                                //           decoration: BoxDecoration(
+                                //             color: tdGreyHome,
+                                //             borderRadius:
+                                //                 BorderRadius.circular(20).w,
+                                //             image: DecorationImage(
+                                //               image: CachedNetworkImageProvider(
+                                //                   '${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo!}'),
+                                //               fit: BoxFit.fill,
+                                //             ),
+                                //           ),
+                                //         )
+                                //       : const SizedBox(),
+                                // ),
                                 SizedBox(
                                   height: 500.h,
                                   child: categories[_selectedCategoryIndex]

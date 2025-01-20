@@ -174,7 +174,7 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                     child: Text(
                       S.of(context).cancel,
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 10.sp,
                         color: tdBlack,
                       ),
                       textAlign: TextAlign.center,
@@ -204,7 +204,7 @@ class _DeliveryOptionDialogState extends State<DeliveryOptionDialog> {
                     child: Text(
                       S.of(context).save,
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 10.sp,
                         color: tdWhite,
                       ),
                       textAlign: TextAlign.center,
