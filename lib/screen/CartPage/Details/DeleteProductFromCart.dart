@@ -10,8 +10,8 @@ bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
 }
 
-
-void showDeleteConfirmationDialog(BuildContext context, int userID, int productId) {
+void showDeleteConfirmationDialog(
+    BuildContext context, int userID, int productId) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -27,7 +27,8 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
             ),
             backgroundColor: tdWhite,
             surfaceTintColor: tdWhite,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -54,23 +55,32 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: isDeleting ? null : () async {
-                        setState(() {
-                          isDeleting = true;
-                        });
+                      onTap: isDeleting
+                          ? null
+                          : () async {
+                              setState(() {
+                                isDeleting = true;
+                              });
 
-                        try {
-                          cartProvider.removeFromCart(productId);
-                          await cartProvider.deleteCartItem(userID, productId);
-                        } catch (error) {
-                          _showErrorSnackBar(context,S.of(context).failedToDelete);
-                        } finally {
-                          setState(() {
-                            Navigator.of(context).pop();
-                            isDeleting = false;
-                          });
-                        }
-                      },
+                              try {
+                                 cartProvider.removeFromCart(productId);
+                                await cartProvider.deleteCartItem(
+                                    userID, productId);
+                                await cartProvider.getAllCartOfUser(userID);
+                                await cartProvider
+                                    .getAllCartDetailsOfUser(userID);
+                              } catch (error) {
+                                setState(() {
+                                  _showErrorSnackBar(
+                                      context, S.of(context).failedToDelete);
+                                });
+                              } finally {
+                                setState(() {
+                                  Navigator.of(context).pop();
+                                  isDeleting = false;
+                                });
+                              }
+                            },
                       child: Container(
                         width: 100.w,
                         padding: EdgeInsets.all(8.w),
@@ -86,7 +96,9 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
                         ),
                         child: Center(
                           child: Text(
-                            isDeleting ? S.of(context).processing : S.of(context).yes,
+                            isDeleting
+                                ? S.of(context).processing
+                                : S.of(context).yes,
                             style: TextStyle(
                               fontSize: 9.sp,
                               color: tdBlack,
@@ -136,6 +148,7 @@ void showDeleteConfirmationDialog(BuildContext context, int userID, int productI
     },
   );
 }
+
 void _showErrorSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

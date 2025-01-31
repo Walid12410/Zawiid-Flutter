@@ -28,6 +28,8 @@ class CartProvider with ChangeNotifier {
       if (index != -1) {
         _cartUser[index].productCartQty = quantity;
         _cartUser[index].productCartPrice = price.toString();
+        _cartDetailsUser[index].productCartQty = quantity;
+        _cartDetailsUser[index].productCartPrice = price.toString();
         notifyListeners();
       }
     } catch (error) {
@@ -40,6 +42,7 @@ class CartProvider with ChangeNotifier {
       final success = await cartServices.deleteCart(userNo, productNo);
       if (success) {
         _cartDetailsUser.removeWhere((cart) => cart.productNo == productNo);
+        _cartUser.removeWhere((cart) => cart.productNo == productNo);
         notifyListeners();
       } else {
         throw Exception('Failed to delete cart item');
@@ -167,6 +170,7 @@ class CartProvider with ChangeNotifier {
 
   void removeFromCart(int id) {
     _cartUser.removeWhere((cart) => cart.productNo == id);
+    _cartDetailsUser.removeWhere((cart)=> cart.productNo == id);
     notifyListeners();
   }
 
@@ -189,8 +193,6 @@ class CartProvider with ChangeNotifier {
     _cartUser.clear();
     notifyListeners();
   }
-
-
 
   bool isProductInCart(int productNo) {
     return _cartUser.any((cartItem) => cartItem.productNo == productNo);

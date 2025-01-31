@@ -10,9 +10,11 @@ import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
+import 'package:zawiid/provider/Offer_Provider.dart';
 
 class SubCategoryProductCard extends StatelessWidget {
-  const SubCategoryProductCard({Key? key, required this.product}) : super(key: key);
+  const SubCategoryProductCard({Key? key, required this.product})
+      : super(key: key);
 
   final ProductSubCategory product;
 
@@ -22,6 +24,7 @@ class SubCategoryProductCard extends StatelessWidget {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
     final isProductInCart = cartProvider.isProductInCart(product.productNo);
     final auth = Provider.of<AuthProvider>(context, listen: false);
+    final offerProvider = Provider.of<OfferProvider>(context, listen: false);
 
     double price =
         salePriceValue > 0.0 ? salePriceValue : double.parse(product.price);
@@ -132,8 +135,9 @@ class SubCategoryProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10).w,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   CartService service = CartService();
+
                   if (auth.userId == 0) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -146,33 +150,34 @@ class SubCategoryProductCard extends StatelessWidget {
                       ),
                     );
                     return;
-                  } else if (!isProductInCart) {
+                  }
+
+                  // 🔥 Check if the product is in an active offer (bool flag)
+                  bool isInOffer = offerProvider.allOffer
+                      .any((o) => o.productNo == product.productNo);
+
+                  // 🔥 Get the price (Offer Price if true, else Discounted Price)
+                  String finalPrice = isInOffer
+                      ? offerProvider.allOffer
+                          .firstWhere((o) => o.productNo == product.productNo)
+                          .productPrice
+                      : salePrice.toString();
+
+                  if (!isProductInCart) {
                     cartProvider.addToCart(
-                        auth.userId, product.productNo, 1, salePrice.toString());
-                    service.addCartItem(
+                        auth.userId, product.productNo, 1, finalPrice);
+                    await service.addCartItem(
                       userNo: auth.userId,
                       productNo: product.productNo,
                       productCartQty: 1,
-                      productCartPrice: salePrice,
+                      productCartPrice: double.parse(finalPrice),
                     );
-                  } else if (isProductInCart) {
+                  } else {
                     cartProvider.removeFromCart(product.productNo);
-                    service.deleteCartItem(
+                    await service.deleteCartItem(
                       userNo: auth.userId,
                       productNo: product.productNo,
                     );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          S.of(context).loginError,
-                          style: TextStyle(fontSize: 10.sp, color: tdWhite),
-                        ),
-                        backgroundColor: tdBlack,
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                    return;
                   }
                 },
                 child: Container(

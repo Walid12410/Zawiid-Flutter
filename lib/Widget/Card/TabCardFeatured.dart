@@ -12,12 +12,10 @@ import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/Featured/Featured.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
+import 'package:zawiid/provider/Offer_Provider.dart';
 
 class TabCardFeatured extends StatelessWidget {
-  const TabCardFeatured({
-    Key? key,
-    required this.product
-  }) : super(key: key);
+  const TabCardFeatured({Key? key, required this.product}) : super(key: key);
 
   final FeaturedProduct product;
 
@@ -27,7 +25,7 @@ class TabCardFeatured extends StatelessWidget {
     final userID = Provider.of<AuthProvider>(context, listen: false).userId;
     if (userID == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           content: Text(
             S.of(context).loginError,
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
@@ -40,15 +38,27 @@ class TabCardFeatured extends StatelessWidget {
     }
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final offerProvider = Provider.of<OfferProvider>(context, listen: false);
+
     final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
-    double price = double.parse(product.discountedPrice) > 0.0
-        ? double.parse(product.discountedPrice)
-        : double.parse(product.price);
+    // Check if the product is in an active offer
+    bool isInOffer =
+        offerProvider.allOffer.any((o) => o.productNo == product.productNo);
+
+    double price = isInOffer
+        ? double.parse(offerProvider.allOffer
+            .firstWhere((o) => o.productNo == product.productNo)
+            .productPrice)
+        : (double.tryParse(product.discountedPrice) != null &&
+                double.parse(product.discountedPrice) > 0
+            ? double.parse(
+                product.discountedPrice) // Use discounted price if available
+            : double.parse(product.price)); // Otherwise, use the normal price
 
     if (!isProductInCart) {
       cartProvider.addToCart(userID, product.productNo, 1, price.toString());
-      service.addCartItem(
+      await service.addCartItem(
         userNo: userID,
         productNo: product.productNo,
         productCartQty: 1,
@@ -56,7 +66,7 @@ class TabCardFeatured extends StatelessWidget {
       );
     } else {
       cartProvider.removeFromCart(product.productNo);
-      service.deleteCartItem(
+      await service.deleteCartItem(
         userNo: userID,
         productNo: product.productNo,
       );
@@ -113,12 +123,13 @@ class TabCardFeatured extends StatelessWidget {
                     width: 100.w,
                     height: 130.h,
                     child: CachedNetworkImage(
-                      imageUrl: '${ApiEndpoints.localBaseUrl}/${product.productImage}',
+                      imageUrl:
+                          '${ApiEndpoints.localBaseUrl}/${product.productImage}',
                       placeholder: (context, url) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
                       errorWidget: (context, url, error) =>
                           Image.asset('assets/log/LOGO-icon---Black.png'),
-                          fit: BoxFit.contain,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
@@ -142,15 +153,15 @@ class TabCardFeatured extends StatelessWidget {
                       onTap: () => _toggleCart(context),
                       child: isProductInCart
                           ? Icon(
-                        Icons.remove_circle,
-                        size: 27.w,
-                        color: tdBlack,
-                      )
+                              Icons.remove_circle,
+                              size: 27.w,
+                              color: tdBlack,
+                            )
                           : SvgPicture.asset(
-                        'assets/svg/buy.svg',
-                        width: 27.w,
-                        fit: BoxFit.fill,
-                      ),
+                              'assets/svg/buy.svg',
+                              width: 27.w,
+                              fit: BoxFit.fill,
+                            ),
                     ),
                     const SizedBox(),
                   ],
@@ -174,6 +185,7 @@ class TabCardFeatured extends StatelessWidget {
     );
   }
 }
+
 bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
 }

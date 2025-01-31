@@ -1,13 +1,13 @@
 class CartDetails {
-  final int userNo;
-  final int productNo;
-  final int productCartQty;
-  final String productCartPrice;
-  final int markNo;
-  final String markName;
-  final String productName;
-  final String productDesc;
-  final String productImage;
+   int userNo;
+   int productNo;
+   int productCartQty;
+   String productCartPrice;
+   int markNo;
+   String markName;
+   String productName;
+   String productDesc;
+   String productImage;
 
   CartDetails({
     required this.userNo,

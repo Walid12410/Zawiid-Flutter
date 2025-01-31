@@ -12,6 +12,7 @@ import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/Product/ProductSubCat.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
+import 'package:zawiid/provider/Offer_Provider.dart';
 
 class SubCategoryProductCard extends StatelessWidget {
   const SubCategoryProductCard({
@@ -23,32 +24,44 @@ class SubCategoryProductCard extends StatelessWidget {
 
   void _toggleCart(BuildContext context) async {
     CartService service = CartService();
-    
+
     final userID = Provider.of<AuthProvider>(context, listen: false).userId;
     if (userID == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           content: Text(
             S.of(context).loginError,
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
           ),
           backgroundColor: tdBlack,
-          duration:const Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
     }
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final offerProvider = Provider.of<OfferProvider>(context, listen: false);
+
     final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
-    double price = double.parse(product.discountPrice) > 0.0
-        ? double.parse(product.discountPrice)
-        : double.parse(product.price);
+    // Check if the product is in an active offer
+    bool isInOffer =
+        offerProvider.allOffer.any((o) => o.productNo == product.productNo);
+
+    double price = isInOffer
+        ? double.parse(offerProvider.allOffer
+            .firstWhere((o) => o.productNo == product.productNo)
+            .productPrice)
+        : (double.tryParse(product.discountPrice) != null &&
+                double.parse(product.discountPrice) > 0
+            ? double.parse(
+                product.discountPrice) // Use discounted price if available
+            : double.parse(product.price)); // Otherwise, use the normal price
 
     if (!isProductInCart) {
       cartProvider.addToCart(userID, product.productNo, 1, price.toString());
-      service.addCartItem(
+      await service.addCartItem(
         userNo: userID,
         productNo: product.productNo,
         productCartQty: 1,
@@ -56,7 +69,7 @@ class SubCategoryProductCard extends StatelessWidget {
       );
     } else {
       cartProvider.removeFromCart(product.productNo);
-      service.deleteCartItem(
+      await service.deleteCartItem(
         userNo: userID,
         productNo: product.productNo,
       );

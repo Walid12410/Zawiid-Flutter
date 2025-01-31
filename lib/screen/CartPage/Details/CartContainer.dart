@@ -38,13 +38,21 @@ class CartContainer extends StatefulWidget {
 
 class _CartContainerState extends State<CartContainer> {
   late int _currentQuantity;
-  late double _currentPrice;
 
   @override
   void initState() {
     super.initState();
     _currentQuantity = widget.cartQuantity;
-    _currentPrice = double.parse(widget.productCartPrice);
+  }
+
+  @override
+  void didUpdateWidget(covariant CartContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.cartQuantity != oldWidget.cartQuantity) {
+      setState(() {
+        _currentQuantity = widget.cartQuantity;
+      });
+    }
   }
 
   Future<void> _updateCart(int newQuantity) async {
@@ -52,8 +60,10 @@ class _CartContainerState extends State<CartContainer> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       final userNo = authProvider.userId;
+      
       await cartProvider.updateCartItem(
-          userNo, widget.productNo, newQuantity, _currentPrice);
+          userNo, widget.productNo, newQuantity, double.parse(widget.productCartPrice));
+      
       setState(() {
         _currentQuantity = newQuantity;
       });
@@ -65,10 +75,10 @@ class _CartContainerState extends State<CartContainer> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    double totalPrice = double.parse(widget.productCartPrice) * _currentQuantity;
 
     return Padding(
-      padding: isArabic()? EdgeInsets.only(left: 10.w) :
-      EdgeInsets.only(right: 10.w),
+      padding: isArabic() ? EdgeInsets.only(left: 10.w) : EdgeInsets.only(right: 10.w),
       child: SizedBox(
         width: double.infinity,
         child: Column(
@@ -85,8 +95,7 @@ class _CartContainerState extends State<CartContainer> {
                         width: 70.w,
                         height: 90.h,
                         child: CachedNetworkImage(
-                          imageUrl:
-                              '${ApiEndpoints.localBaseUrl}/${widget.productImage}',
+                          imageUrl: '${ApiEndpoints.localBaseUrl}/${widget.productImage}',
                           placeholder: (context, url) =>
                               Image.asset('assets/log/LOGO-icon---Black.png'),
                           errorWidget: (context, url, error) =>
@@ -121,7 +130,7 @@ class _CartContainerState extends State<CartContainer> {
                           ),
                           SizedBox(height: 5.h),
                           Text(
-                            '${_currentPrice * _currentQuantity} \$',
+                            '$totalPrice \$',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: tdBlack,
@@ -142,8 +151,7 @@ class _CartContainerState extends State<CartContainer> {
                     borderRadius: BorderRadius.circular(50.w),
                     color: tdWhite,
                     boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5), blurRadius: 5)
+                      BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 5)
                     ],
                   ),
                   child: Center(
@@ -155,8 +163,8 @@ class _CartContainerState extends State<CartContainer> {
                             if (_currentQuantity > 1) {
                               _updateCart(_currentQuantity - 1);
                             } else {
-                              showDeleteConfirmationDialog(context,
-                                  authProvider.userId, widget.productNo);
+                              showDeleteConfirmationDialog(
+                                  context, authProvider.userId, widget.productNo);
                             }
                           },
                           child: Icon(Icons.remove, color: tdGrey, size: 12.w),

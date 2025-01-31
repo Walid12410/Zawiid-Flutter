@@ -12,6 +12,7 @@ import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/Product/Products.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
+import 'package:zawiid/provider/Offer_Provider.dart';
 
 class TabCardProduct extends StatelessWidget {
   const TabCardProduct({
@@ -27,7 +28,7 @@ class TabCardProduct extends StatelessWidget {
     final userID = Provider.of<AuthProvider>(context, listen: false).userId;
     if (userID == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           content: Text(
             S.of(context).loginError,
             style: TextStyle(fontSize: 10.sp, color: tdWhite),
@@ -40,15 +41,27 @@ class TabCardProduct extends StatelessWidget {
     }
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final offerProvider = Provider.of<OfferProvider>(context, listen: false);
+
     final isProductInCart = cartProvider.isProductInCart(product.productNo);
 
-    double price = double.parse(product.discountedPrice)  > 0.0
-        ? double.parse(product.discountedPrice)
-        : double.parse(product.price);
+    // Check if the product is in an active offer
+    bool isInOffer =
+        offerProvider.allOffer.any((o) => o.productNo == product.productNo);
+
+    double price = isInOffer
+        ? double.parse(offerProvider.allOffer
+            .firstWhere((o) => o.productNo == product.productNo)
+            .productPrice)
+        : (double.tryParse(product.discountedPrice) != null &&
+                double.parse(product.discountedPrice) > 0
+            ? double.parse(
+                product.discountedPrice) // Use discounted price if available
+            : double.parse(product.price)); // Otherwise, use the normal price
 
     if (!isProductInCart) {
       cartProvider.addToCart(userID, product.productNo, 1, price.toString());
-      service.addCartItem(
+      await service.addCartItem(
         userNo: userID,
         productNo: product.productNo,
         productCartQty: 1,
@@ -56,7 +69,7 @@ class TabCardProduct extends StatelessWidget {
       );
     } else {
       cartProvider.removeFromCart(product.productNo);
-      service.deleteCartItem(
+      await service.deleteCartItem(
         userNo: userID,
         productNo: product.productNo,
       );
