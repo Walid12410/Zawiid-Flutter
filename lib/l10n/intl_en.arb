@@ -185,5 +185,7 @@
   "finalAmount": "Final Amount",
   "byProceeding": "*By proceeding, you agree to our",
   "check" : "checking...",
-  "deleting" : "deleting..."
+  "deleting" : "deleting...",
+  "deleteAccount" : "Delete Account",
+  "sureDelete" : "Are you sure you want to delete your account? This action cannot be undone."
 }

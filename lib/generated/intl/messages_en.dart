@@ -83,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "day": MessageLookupByLibrary.simpleMessage("Day"),
         "defaults": MessageLookupByLibrary.simpleMessage("default"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleting": MessageLookupByLibrary.simpleMessage("deleting..."),
         "delivery": MessageLookupByLibrary.simpleMessage("Delivery:"),
         "deliveryFree":
@@ -243,6 +244,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "subtotal": MessageLookupByLibrary.simpleMessage("Sub-Total:"),
         "supportDetails": MessageLookupByLibrary.simpleMessage(
             "We’re here to help you at every step. Please look Through the options below and select what you’re looking for."),
+        "sureDelete": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete your account? This action cannot be undone."),
         "tellUsHowToHelp":
             MessageLookupByLibrary.simpleMessage("Tell us how we can help"),
         "termsOfService":

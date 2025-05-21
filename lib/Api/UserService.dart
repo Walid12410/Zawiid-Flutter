@@ -40,6 +40,31 @@ class UserService{
   }
 }
 
+  Future<bool> deActiveAccount(int id) async {
+    final url = Uri.parse(
+      '${ApiEndpoints.localBaseUrl}/webUser.php?status=desactive&id=$id&isActive=0',
+    );
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data['success'] == true) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+
 Future<List<UserInformation>> fetchUserDetailsById(int id) async {
   try {
     final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/webUser.php?status=one&id=$id'));

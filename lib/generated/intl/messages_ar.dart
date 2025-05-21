@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "day": MessageLookupByLibrary.simpleMessage("يوم"),
         "defaults": MessageLookupByLibrary.simpleMessage("افتراضي"),
         "delete": MessageLookupByLibrary.simpleMessage("مسح"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
         "deleting": MessageLookupByLibrary.simpleMessage("جارٍ الحذف..."),
         "delivery": MessageLookupByLibrary.simpleMessage("توصيل:"),
         "deliveryFree": MessageLookupByLibrary.simpleMessage("التوصيل مجاني."),
@@ -233,6 +234,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "subtotal": MessageLookupByLibrary.simpleMessage("المجموع:"),
         "supportDetails": MessageLookupByLibrary.simpleMessage(
             "نحن هنا لمساعدتك في كل خطوة. يرجى الاطلاع على الخيارات أدناه وتحديد ما تبحث عنه."),
+        "sureDelete": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."),
         "tellUsHowToHelp":
             MessageLookupByLibrary.simpleMessage("أخبرنا كيف يمكننا المساعدة"),
         "termsOfService": MessageLookupByLibrary.simpleMessage("شروط الخدمة"),

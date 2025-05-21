@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zawiid/Widget/Language.dart';
 import 'package:zawiid/generated/l10n.dart';
+import 'DeleteCard.dart';
 import 'LogOut.dart';
 import 'OptionCard.dart';
 import 'UserProfileCard.dart';
@@ -73,6 +74,7 @@ class ProfileMainWidget extends StatelessWidget {
           },
           isWhatsapp: false,
         ),
+        const DeleteCard(),
         SizedBox(
           height: 10.h,
         ),
