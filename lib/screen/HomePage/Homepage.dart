@@ -17,12 +17,14 @@ import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/model/offer/offer.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/Banner_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 import 'package:zawiid/provider/Offer_Provider.dart';
 import 'package:zawiid/provider/Products_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
+import '../../model/Banner/Banner.dart';
 import 'Details/TabView/FeaturedPage.dart';
 import 'Details/TabView/OnSalePage.dart';
 import 'Details/TabView/TopRatedPage.dart';
@@ -93,6 +95,7 @@ class _HomePageState extends State<HomePage> {
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
     final setting = Provider.of<SettingsProvider>(context, listen: false);
+    final banner = Provider.of<BannerProvider>(context, listen: false);
     try {
       final List<Future<dynamic>> fetchers = [
         cart.getAllCartOfUser(authProvider.userId),
@@ -104,6 +107,7 @@ class _HomePageState extends State<HomePage> {
         productProvider.getProductsOnSale(),
         productProvider.getProductsTopRated(),
         offerProvider.getAllOffer(),
+        banner.getAllBanner()
       ];
       if (mounted) {
         await Future.wait(fetchers);
@@ -128,6 +132,16 @@ class _HomePageState extends State<HomePage> {
     OfferProvider offerProvider =
         Provider.of<OfferProvider>(context, listen: true);
     List<Offer> offers = offerProvider.allOffer;
+    final banner = Provider.of<BannerProvider>(context, listen: true);
+
+    final firstBanner = banner.banners.firstWhere(
+      (b) => b.bannerPosition == 'first',
+      orElse: () => BannerModel.empty(),
+    );
+    final secondBanner = banner.banners.firstWhere(
+      (b) => b.bannerPosition == 'second',
+      orElse: () => BannerModel.empty(),
+    );
 
     return Scaffold(
       key: HomePage.scaffoldKey,
@@ -174,67 +188,24 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: 20.h),
                       const CustomNavigationBar(),
                       SizedBox(height: 5.h),
-                      SizedBox(
-                          width: double.infinity,
+                      if (firstBanner.bannerId == 0) ...[
+                        const SizedBox(),
+                      ] else ...[
+                        SizedBox(
                           height: 200.h,
-                          child: Image.asset(
-                            'assets/img/watch.png',
-                            fit: BoxFit.fill,
-                          )),
+                          width: double.infinity,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                '${ApiEndpoints.localBaseUrl}/${firstBanner.imageUrl}',
+                            placeholder: (context, url) =>
+                                Image.asset('assets/log/LOGO-icon---Black.png'),
+                            errorWidget: (context, url, error) =>
+                                Image.asset('assets/log/LOGO-icon---Black.png'),
+                            fit: BoxFit.contain,
+                          ),
+                        )
+                      ],
                       SizedBox(height: 10.h),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 200.w,
-                              height: 120.h,
-                              margin: const EdgeInsets.only(left: 5,right: 5).w,
-                              decoration: BoxDecoration(
-                                  color: tdWhite,
-                                  border: Border.all(color: tdBlack)),
-                              child: Center(
-                                  child: Text(
-                                'Banner',
-                                style:
-                                    TextStyle(fontSize: 15.sp, color: tdBlack),
-                              )),
-                            ),
-                            Container(
-                              width: 200.w,
-                              height: 120.h,
-                              margin: const EdgeInsets.only(left: 5,right: 5).w,
-                              decoration: BoxDecoration(
-                                  color: tdWhite,
-                              
-                                  border: Border.all(color: tdBlack)),
-                              child: Center(
-                                  child: Text(
-                                'Banner',
-                                style:
-                                    TextStyle(fontSize: 15.sp, color: tdBlack),
-                              )),
-                            ),
-                            Container(
-                              width: 200.w,
-                              height: 120.h,
-                              margin: const EdgeInsets.only(left: 5,right: 5).w,
-                              decoration: BoxDecoration(
-                                  color: tdWhite,
-                                  border: Border.all(color: tdBlack)),
-                              child: Center(
-                                  child: Text(
-                                'Banner',
-                                style:
-                                    TextStyle(fontSize: 15.sp, color: tdBlack),
-                              )),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10).w,
                         child: Divider(
@@ -363,18 +334,34 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10).w,
-                        child: Container(
-                            width: double.infinity,
+                      if (secondBanner.bannerId == 0) ...[
+                        const SizedBox(),
+                      ] else ...[
+                        Padding(
+                          padding: const EdgeInsets.all(10).w,
+                          child: Container(
                             height: 110.h,
+                            width: double.infinity,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20).w),
-                            child: Image.asset(
-                              'assets/img/sddefault.png',
-                              fit: BoxFit.fill,
-                            )),
-                      ),
+                              color: tdGreyHome,
+                              borderRadius: BorderRadius.circular(10).w,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10).w,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    '${ApiEndpoints.localBaseUrl}/${secondBanner.imageUrl}',
+                                fit: BoxFit.fill,
+                                placeholder: (context, url) => Image.asset(
+                                    'assets/log/LOGO-icon---Black.png'),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                        'assets/log/LOGO-icon---Black.png'),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                       Padding(
                         padding: const EdgeInsets.all(10).w,
                         child: Container(
@@ -614,10 +601,21 @@ class _HomePageState extends State<HomePage> {
                                             color: tdGreyHome,
                                             borderRadius:
                                                 BorderRadius.circular(20).w,
-                                            image: DecorationImage(
-                                              image: CachedNetworkImageProvider(
-                                                  '${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo!}'),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20).w,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  '${ApiEndpoints.localBaseUrl}/${categories[_selectedCategoryIndex].subcategories![_selectedSubcategoryIndex].photo ?? ""}',
                                               fit: BoxFit.fill,
+                                              placeholder: (context, url) =>
+                                                  Image.asset(
+                                                      'assets/log/LOGO-icon---Black.png'),
+                                              errorWidget: (context, url,
+                                                      error) =>
+                                                  Image.asset(
+                                                      'assets/log/LOGO-icon---Black.png'),
                                             ),
                                           ),
                                         )

@@ -15,6 +15,7 @@ import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Address_Provider.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
+import 'package:zawiid/provider/Banner_Provider.dart';
 import 'package:zawiid/provider/Bid_Provider.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/Categories_Provider.dart';
@@ -69,6 +70,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => CouponsProvider()),
       ChangeNotifierProvider(create: (_) => TicketProvider()),
       ChangeNotifierProvider(create: (_) => DeliveryProvider()),
+      ChangeNotifierProvider(create: (_) => BannerProvider()),
       ChangeNotifierProvider(create: (_) => localeProvider),
       Provider<NotificationService>.value(value: notificationService),
     ],
