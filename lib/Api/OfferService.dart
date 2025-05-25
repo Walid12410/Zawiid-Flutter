@@ -12,7 +12,7 @@ class OfferService {
 Future<OffersData> fetchOfferCheck(int id) async {
 
   DateTime now = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd', 'en_US').format(now);
+  String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').format(now);
 
   final url = '${ApiEndpoints.localBaseUrl}/MobileApi/mobileCheckOffer.php?status=checkOffer&ProductNo=$id&currentTime=$formattedDate';
 
@@ -33,7 +33,8 @@ Future<OffersData> fetchOfferCheck(int id) async {
 
 Future<List<Offer>> fetchAllOffer() async {
   DateTime now = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd', 'en_US').format(now);
+  final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US').format(now);
+
 
   try {
     final response = await http.get(Uri.parse('${ApiEndpoints.localBaseUrl}/MobileApi/mobileTableVW.php?status=offer&currentTime=$formattedDate'));
