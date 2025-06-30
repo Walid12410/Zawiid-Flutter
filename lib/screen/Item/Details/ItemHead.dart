@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:provider/provider.dart';
@@ -50,12 +51,12 @@ class ItemDetailsHead extends StatelessWidget {
               position: isArabic()
                   ? badges.BadgePosition.custom(bottom: -7, start: -5)
                   : badges.BadgePosition.custom(bottom: -7, end: -5),
-              child: Image.asset(
-                'assets/svg/cart.png',
-                width: 25.w,
-                fit: BoxFit.fill,
-                color: tdBlack,
-              ),
+              child: SvgPicture.asset(
+              'assets/svg/bag-2-svgrepo-com.svg',
+              width: 25.w,
+              height: 22.h,
+              fit: BoxFit.fill,
+            ),
             ),
           ),
         ],

@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:zawiid/Api/MessageService/CheckChatRoomApi.dart';
 import 'package:zawiid/Widget/Card/WeekDealCard.dart';
 import 'package:zawiid/Widget/Drawer.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
@@ -114,13 +113,6 @@ class _HomePageState extends State<HomePage> {
       }
     } catch (e) {
       throw Exception(e);
-    }
-    if (userProvider.userInfo.first.userNo != 0) {
-      if (userProvider.userInfo.first.firstName != "" &&
-          userProvider.userInfo.first.lastName != "") {
-        checkChatFound(authProvider.userId,
-            "${userProvider.userInfo.first.firstName} ${userProvider.userInfo.first.lastName}");
-      }
     }
   }
 

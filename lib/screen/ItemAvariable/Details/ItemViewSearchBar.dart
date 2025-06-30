@@ -8,6 +8,7 @@ import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
@@ -47,13 +48,12 @@ class ItemSearchBar extends StatelessWidget {
               position: isArabic()
                   ? badges.BadgePosition.custom(bottom: -7, start: -5)
                   : badges.BadgePosition.custom(bottom: -7, end: -5),
-              child: Image.asset(
-                'assets/svg/notification.png',
-                width: 25.w,
-                height: 22.h,
-                fit: BoxFit.fill,
-                color: tdBlack,
-              ),
+              child:  SvgPicture.asset(
+              'assets/svg/inbox-2-svgrepo-com.svg',
+              width: 25.w,
+              height: 22.h,
+              fit: BoxFit.fill,
+            ),
             ),
           ),
           SizedBox(width: 1.w),
@@ -121,13 +121,12 @@ class ItemSearchBar extends StatelessWidget {
               position: isArabic()
                   ? badges.BadgePosition.custom(bottom: -7, start: -5)
                   : badges.BadgePosition.custom(bottom: -7, end: -5),
-              child: Image.asset(
-                'assets/svg/cart.png',
-                width: 25.w,
-                height: 22.h,
-                fit: BoxFit.fill,
-                color: tdBlack,
-              ),
+              child: SvgPicture.asset(
+              'assets/svg/bag-2-svgrepo-com.svg',
+              width: 25.w,
+              height: 22.h,
+              fit: BoxFit.fill,
+            ),
             ),
           ),
         ],

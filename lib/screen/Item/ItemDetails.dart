@@ -14,7 +14,6 @@ import 'Details/ItemBottoms.dart';
 import 'Details/ItemDetail.dart';
 import 'Details/ItemHead.dart';
 import 'Details/ItemPrice.dart';
-import 'Details/ItemShipping.dart';
 import 'Details/ItemTitle.dart';
 import 'package:intl/intl.dart';
 import '../../Widget/LoadingScreen/LoadingContainerItem.dart';
@@ -173,8 +172,6 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           ),
                           SizedBox(height: 10.h),
                           const ItemDetail(),
-                          SizedBox(height: 10.h),
-                          const ItemShipping(),
                           SizedBox(height: 10.h),
                         ],
                       ),

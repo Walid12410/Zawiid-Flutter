@@ -20,18 +20,23 @@ class SubCategoryProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final salePriceValue = double.tryParse(product.price) ?? 0.0;
+    final salePriceValue = double.tryParse(product.discountPrice) ?? 0.0;
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
     final isProductInCart = cartProvider.isProductInCart(product.productNo);
     final auth = Provider.of<AuthProvider>(context, listen: false);
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
 
-    double price =
-        salePriceValue > 0.0 ? salePriceValue : double.parse(product.price);
+    double price = salePriceValue > 0.0 ? salePriceValue : double.parse(product.price);
+    double salePrice = salePriceValue > 0.0 ? salePriceValue : double.parse(product.price);
 
-    double salePrice = double.parse(product.discountPrice) > 0.0
-        ? double.parse(product.discountPrice)
-        : double.parse(product.price);
+    // ✅ NEW: check if the product is in offer list
+    final offerList = offerProvider.allOffer
+        .where((o) => o.productNo == product.productNo)
+        .toList();
+    final hasOffer = offerList.isNotEmpty && offerList.first.productPrice != '0.0';
+    final displayDiscountPrice = hasOffer
+        ? offerList.first.productPrice
+        : (salePriceValue > 0.0 ? product.discountPrice : '');
 
     return GestureDetector(
       onTap: () {
@@ -97,9 +102,11 @@ class SubCategoryProductCard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.h),
-            if (salePriceValue > 0.0) ...[
+
+            // ✅ NEW: Corrected price display
+            if (hasOffer || salePriceValue > 0.0) ...[
               Text(
-                '${product.discountPrice} \$',
+                '$displayDiscountPrice \$',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp,
@@ -131,6 +138,7 @@ class SubCategoryProductCard extends StatelessWidget {
                 style: TextStyle(fontSize: 10.sp),
               ),
             ],
+
             SizedBox(height: 5.h),
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10).w,
@@ -152,15 +160,9 @@ class SubCategoryProductCard extends StatelessWidget {
                     return;
                   }
 
-                  // 🔥 Check if the product is in an active offer (bool flag)
-                  bool isInOffer = offerProvider.allOffer
-                      .any((o) => o.productNo == product.productNo);
-
-                  // 🔥 Get the price (Offer Price if true, else Discounted Price)
-                  String finalPrice = isInOffer
-                      ? offerProvider.allOffer
-                          .firstWhere((o) => o.productNo == product.productNo)
-                          .productPrice
+                  // ✅ Use offer price if available
+                  String finalPrice = hasOffer
+                      ? offerList.first.productPrice
                       : salePrice.toString();
 
                   if (!isProductInCart) {

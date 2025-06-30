@@ -7,7 +7,6 @@ import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/core/ConnectivityCheck.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/Auth_Provider.dart';
-import 'package:zawiid/provider/ChatSupport_Provider.dart';
 import 'package:zawiid/provider/User_Provider.dart';
 import 'Details/GuestView.dart';
 import 'Details/ProfileMainWidget.dart';
@@ -35,11 +34,8 @@ class _ProfileMainState extends State<ProfileMain> {
         connectionStatus.connectionChange.listen(connectionChanged);
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
-    ChatSupportProvider chat =
-        Provider.of<ChatSupportProvider>(context, listen: false);
     UserProvider userDetails =
         Provider.of<UserProvider>(context, listen: false);
-    chat.getChatRoom(authProvider.userId);
     _fetchUserInfoFuture = userDetails.getUserInfo(authProvider.userId);
   }
 

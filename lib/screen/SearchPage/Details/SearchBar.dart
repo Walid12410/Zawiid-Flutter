@@ -35,7 +35,8 @@ class SearchBarText extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
     var cartLength = cart.cartUser;
-    final notificationProvider = Provider.of<NotificationsProvider>(context, listen: true);
+    final notificationProvider =
+        Provider.of<NotificationsProvider>(context, listen: true);
     var notLength = notificationProvider.allNotification;
 
     return Row(
@@ -53,12 +54,11 @@ class SearchBarText extends StatelessWidget {
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
             position: badges.BadgePosition.custom(bottom: -7, end: -5),
-            child: Image.asset(
-              'assets/svg/notification.png',
+            child: SvgPicture.asset(
+              'assets/svg/inbox-2-svgrepo-com.svg',
               width: 25.w,
               height: 22.h,
               fit: BoxFit.fill,
-              color: tdBlack,
             ),
           ),
         ),
@@ -157,12 +157,11 @@ class SearchBarText extends StatelessWidget {
             ),
             badgeStyle: const badges.BadgeStyle(badgeColor: tdBlack),
             position: badges.BadgePosition.custom(bottom: -7, end: -5),
-            child: Image.asset(
-              'assets/svg/cart.png',
+            child: SvgPicture.asset(
+              'assets/svg/bag-2-svgrepo-com.svg',
               width: 25.w,
               height: 22.h,
               fit: BoxFit.fill,
-              color: tdBlack,
             ),
           ),
         ),

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zawiid/Api/EmailService.dart';
+import 'package:zawiid/Widget/Toast/ToastError.dart';
 import 'package:zawiid/core/Color&Icons/color.dart';
 import 'package:zawiid/generated/l10n.dart';
 import 'package:zawiid/provider/AppSetting_Provider.dart';
-import 'package:zawiid/provider/ChatSupport_Provider.dart';
-import 'package:zawiid/provider/User_Provider.dart';
 
 class ServiceOptionCard extends StatelessWidget {
   const ServiceOptionCard({
@@ -16,21 +15,8 @@ class ServiceOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChatSupportProvider chat = Provider.of<ChatSupportProvider>(context, listen: true);
     final setting = Provider.of<SettingsProvider>(context, listen: true);
     var appSetting = setting.settings.first;
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
-    var userDetails = userProvider.userInfo.first;
-
-     void errorMessage(String text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(text,style: TextStyle(fontSize: 10.sp,color: tdWhite),),
-          duration: const Duration(seconds: 2),
-          backgroundColor: tdBlack,
-        ),
-      );
-    }
 
     return Padding(
       padding: const EdgeInsets.all(5.0).w,
@@ -116,21 +102,16 @@ class ServiceOptionCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5.sp),
                   GestureDetector(
-                    onTap: () {
-                      var chatRoom = chat.chatRoom;
-                      if(chatRoom.isNotEmpty){
-                        if(userDetails.firstName != "" && userDetails.lastName != ""){
-                          context.push(context.namedLocation(
-                              'ChatPage',
-                              pathParameters: {
-                                'chatRoomId':
-                                chatRoom[0].chatRoomID.toString()
-                              }));
-                        }else{
-                          errorMessage("Please update your profile with your first and last name.");
-                        }
-                      }else{
-                        errorMessage('Please update your profile with your first and last name.');
+                    onTap: () async {
+                      final String phone = appSetting
+                          .phoneNumber; // Make sure this includes country code
+                      final Uri whatsappUrl = Uri.parse(
+                          "https://wa.me/${phone.replaceAll('+', '')}");
+                      if (await canLaunchUrl(whatsappUrl)) {
+                        await launchUrl(whatsappUrl,
+                            mode: LaunchMode.externalApplication);
+                      } else {
+                        showToast(S.of(context).errorConnection);
                       }
                     },
                     child: Container(

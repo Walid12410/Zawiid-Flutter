@@ -415,11 +415,13 @@ class _CartPageState extends State<CartPage> {
                                     color: tdBlack,
                                   ),
                                   child: Padding(
-                                    padding: isArabic()? const EdgeInsets.only(right: 10, top: 5)
+                                    padding: isArabic()? const EdgeInsets.only(right: 10)
                                         .w:
-                                        const EdgeInsets.only(left: 10, top: 5)
+                                        const EdgeInsets.only(left: 10)
                                             .w,
                                     child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                             width: 25.w,

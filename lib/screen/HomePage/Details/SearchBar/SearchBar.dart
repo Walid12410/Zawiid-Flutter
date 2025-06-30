@@ -10,7 +10,6 @@ import 'package:zawiid/provider/Cart_Provider.dart';
 import 'package:intl/intl.dart';
 import 'package:zawiid/provider/NotificationProvider.dart';
 
-
 class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({
     super.key,
@@ -41,12 +40,11 @@ class CustomNavigationBar extends StatelessWidget {
             position: isArabic()
                 ? badges.BadgePosition.custom(bottom: -5, start: -7)
                 : badges.BadgePosition.custom(bottom: -7, end: -5),
-            child: Image.asset(
-              'assets/svg/notification.png',
+            child: SvgPicture.asset(
+              'assets/svg/inbox-2-svgrepo-com.svg',
               width: 25.w,
               height: 22.h,
               fit: BoxFit.fill,
-              color: tdBlack,
             ),
           ),
         ),
@@ -161,12 +159,11 @@ class CustomNavigationBar extends StatelessWidget {
             position: isArabic()
                 ? badges.BadgePosition.custom(bottom: -5, start: -7)
                 : badges.BadgePosition.custom(bottom: -7, end: -5),
-            child: Image.asset(
-              'assets/svg/cart.png',
+            child: SvgPicture.asset(
+              'assets/svg/bag-2-svgrepo-com.svg',
               width: 25.w,
               height: 22.h,
               fit: BoxFit.fill,
-              color: tdBlack,
             ),
           ),
         ),
