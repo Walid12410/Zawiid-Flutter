@@ -27,6 +27,7 @@ class UserService{
         'Gender': gender,
         'GovNo': govNo,
         'AreaNo': areaNo,
+        'UserName' : "$firstName $lastName",
       },
     );
 
